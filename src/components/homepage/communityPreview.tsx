@@ -4,6 +4,7 @@ import React from "react";
 import { Slider } from "../carousel";
 import { useAtomValue, useSetAtom } from "jotai";
 import { toggleCommunityPreview, userDetails } from "@/store";
+import Link from "next/link";
 
 function CommunityPreview() {
   const showCommunityPreview = useSetAtom(toggleCommunityPreview);
@@ -26,7 +27,9 @@ function CommunityPreview() {
         />
       </div>
       <div className="flex flex-col gap-4">
-        <p className=" font-semibold self-end text-duduzili-violet">View All</p>
+        <Link href="/communities" className="self-end">
+          <p className=" font-semibold text-duduzili-violet">View All</p>
+        </Link>
         <Slider />
       </div>
     </div>

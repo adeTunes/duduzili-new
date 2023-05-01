@@ -7,6 +7,7 @@ import { TextInput } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import { NextPageX } from "../../types/next";
+import MyCommunitiesSlider from "@/components/communities/myCommunitiesSlider";
 
 const Communities: NextPageX = () => {
   return (
@@ -15,8 +16,11 @@ const Communities: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] relative max-w-[1200px] justify-between mt-[50px] w-[80%] mx-auto gap-[50px] flex">
-          <section className="w-[70%] max-w-[700px] flex flex-col gap-[27px]">
+        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1209px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+          <section
+            id="no-scroll"
+            className="w-[70%] overflow-auto max-w-[689px] flex flex-col gap-[27px]"
+          >
             <div className="flex items-center justify-between">
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 Communities
@@ -33,7 +37,10 @@ const Communities: NextPageX = () => {
             </div>
             <CommunityList />
           </section>
-          <aside className="w-[30%] flex flex-col gap-8">
+          <aside
+            id="no-scroll"
+            className="w-[30%] overflow-auto max-w-[440px] flex flex-col gap-8"
+          >
             <TextInput
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
               classNames={{
@@ -51,6 +58,7 @@ const Communities: NextPageX = () => {
               }
             />
             <DiscoverCommunities />
+            <MyCommunitiesSlider />
           </aside>
           <FixedMessagesButton />
         </main>

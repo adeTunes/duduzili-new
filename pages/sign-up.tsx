@@ -18,9 +18,9 @@ const SignUp: NextPageX = () => {
   const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
-      // first_name: "",
-      // last_name: "",
-      fullname: "",
+      first_name: "",
+      last_name: "",
+      // fullname: "",
       username: "",
       email: "",
       password: "",
@@ -65,7 +65,7 @@ const SignUp: NextPageX = () => {
         </p>
         <div className="flex gap-4 flex-col">
           <div className="flex flex-col gap-6">
-            {/* <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-6">
               <TextInput
                 required
                 autoComplete="off"
@@ -86,8 +86,8 @@ const SignUp: NextPageX = () => {
                 placeholder="Last Name"
                 {...form.getInputProps("last_name")}
               />
-            </div> */}
-            <TextInput
+            </div>
+            {/* <TextInput
               required
               autoComplete="off"
               classNames={{
@@ -96,7 +96,7 @@ const SignUp: NextPageX = () => {
               }}
               placeholder="Full name"
               {...form.getInputProps("fullname")}
-            />
+            /> */}
             <TextInput
               required
               autoComplete="off"

@@ -4,9 +4,9 @@ interface LoginUser {
 }
 
 interface RegisterUser {
-  // first_name: string;
-  // last_name: string;
-  fullname: string;
+  first_name: string;
+  last_name: string;
+  // fullname: string;
   email: string;
   username: string;
   password: string;

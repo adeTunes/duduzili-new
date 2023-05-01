@@ -1,10 +1,11 @@
+import { clsx } from "@mantine/core";
 import React from "react";
 
-function PostImage() {
+function PostImage({ height, image }: { height?: string; image?: string }) {
   return (
-    <div className="h-[300px]">
+    <div className={clsx(height ?? "h-[300px]")}>
       <img
-        src="/homePage/post-image.png"
+        src={image ?? "/homePage/post-image.png"}
         className="h-full w-full object-cover rounded-2xl"
         alt="post image"
       />

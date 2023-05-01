@@ -7,9 +7,13 @@ import React from "react";
 
 function Header() {
   const navIcons = [
-    { href: "/", icon: <Home size="20" variant="Outline" />, routeId: "/" },
     {
-      href: "/communities",
+      href: "/home",
+      icon: <Home size="20" variant="Outline" />,
+      routeId: "/home",
+    },
+    {
+      href: "/communities/all",
       icon: <Profile2User size="20" variant="Outline" />,
       routeId: "communities",
     },
@@ -19,12 +23,12 @@ function Header() {
       routeId: "search",
     },
     {
-      href: "/messages",
+      href: "/messages/friends",
       icon: <Sms size="20" variant="Outline" />,
       routeId: "messages",
     },
     {
-      href: "/profile",
+      href: "/my-profile/post",
       icon: (
         <img
           src="/homePage/profile-picture.png"
@@ -34,9 +38,9 @@ function Header() {
       ),
     },
   ];
-  const router = useRouter();
+  const { pathname } = useRouter();
   return (
-    <header className="w-[90%] mx-auto max-w-[1500px] flex justify-between items-center">
+    <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
       <div className="h-[49px]">
         <img src="/logo.png" alt="duduzili logo" className="h-full" />
       </div>
@@ -50,12 +54,9 @@ function Header() {
           <div
             key={idx}
             className={clsx(
-              router.pathname !== "/" &&
-                router.pathname.includes(routeId) &&
-                "border-b-[4px] border-b-[#4534B8]",
-              router.pathname === "/" &&
-                router.pathname === routeId &&
-                "border-b-[4px] border-b-[#4534B8]",
+              pathname.includes(routeId)
+                ? "border-b-[4px] border-b-[#4534B8] text-[#4534B8]"
+                : "border-b-[4px] border-b-[#fff]",
               "h-[60px] flex items-center "
             )}
           >

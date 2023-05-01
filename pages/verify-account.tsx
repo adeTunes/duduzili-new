@@ -56,7 +56,7 @@ const ResetPassword: NextPageX = () => {
         color: "green",
       });
       setLoading(false);
-      push("/");
+      push("/home");
     } catch (e) {
       setLoading(false);
       errorMessageHandler(e);

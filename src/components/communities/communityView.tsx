@@ -5,7 +5,7 @@ import PostWithComments from "./postWithComments";
 function CommunityView() {
   return (
     <>
-      <CommunityViewCard />
+      <CommunityViewCard communityMember={false} />
       <PostWithComments />
     </>
   );

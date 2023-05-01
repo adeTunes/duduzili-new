@@ -26,7 +26,7 @@ function PostText() {
           incididunt ut labore et dolore magna aliqua`.slice(0, 250)}
           ...
           <span
-            className="ml-[5px] font-semibold cursor-pointer"
+            className="ml-[5px] text-duduzili-violet font-semibold cursor-pointer"
             onClick={() => {
               setTruncate(false);
             }}

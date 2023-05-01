@@ -13,7 +13,12 @@ function PostHeader() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <p>John Doe</p>
+          <p className="flex items-center gap-2">
+            <span className="text-[#2A2A2A] font-semibold text-[18px]">
+              John Doe
+            </span>
+            <span className=" text-duduzili-blue">@Johnnyboy</span>
+          </p>
           <span className="flex items-center gap-1">
             <small>Dec 4</small>
             <span className="bg-[#2A2A2A] text-white px-2 rounded-2xl py-1">

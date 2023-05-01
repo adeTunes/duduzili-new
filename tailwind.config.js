@@ -22,6 +22,8 @@ module.exports = {
           "charleston-green": "#2A2A2A",
           "black-olive": "#3A3A3A",
           violet: "#4534B8",
+          blue: "#367EE8",
+          orange: "#E59055",
         },
       },
     },

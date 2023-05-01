@@ -4,6 +4,7 @@ import PostBody from "./posts/postBody";
 import PostWithVideo from "./posts/postWithVideo";
 import PostTextOnly from "./posts/postTextOnly";
 import PostWithAudio from "./posts/postAudioOnly";
+import PostwithRepost from "./postwithRepost";
 
 function PostSection() {
   return (
@@ -11,6 +12,7 @@ function PostSection() {
       <PostSectionTags />
       <div className="flex flex-col gap-8">
         <PostBody />
+        <PostwithRepost />
         <PostWithVideo />
         <PostTextOnly />
         <PostWithAudio />

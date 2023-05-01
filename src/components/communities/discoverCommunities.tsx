@@ -4,11 +4,11 @@ import React from "react";
 import { Slider } from "../carousel";
 import { useAtomValue, useSetAtom } from "jotai";
 import { toggleCommunityPreview, userDetails } from "@/store";
+import Link from "next/link";
 
 function DiscoverCommunities() {
   const showCommunityPreview = useSetAtom(toggleCommunityPreview);
   const user = useAtomValue(userDetails);
-  console.log(user);
   return (
     <div
       className="bg-[#EDF0FB] p-6 pb-[90px] flex flex-col gap-6 rounded-2xl"
@@ -18,9 +18,13 @@ function DiscoverCommunities() {
         <p className="text-[20px] leading-[36px] font-bold">
           Discover Communities
         </p>
-        <p className=" font-semibold self-end text-duduzili-violet">View All</p>
+        <Link href="/communities/discover">
+          <p className=" font-semibold leading-[36px] self-end text-duduzili-violet">
+            View All
+          </p>
+        </Link>
       </div>
-      <Slider />
+      <Slider color="bg-[#EDF0FB]" />
     </div>
   );
 }

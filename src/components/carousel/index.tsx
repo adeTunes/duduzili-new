@@ -1,9 +1,12 @@
 import { Carousel } from "@mantine/carousel";
 
-export function Slider() {
+export function Slider({ color }: { color?: string }) {
   return (
     <Carousel
-      classNames={{ container: "gap-5", viewport: "bg-white" }}
+      classNames={{
+        container: "gap-5",
+        viewport: color ?? "bg-white",
+      }}
       slideSize="60%"
       slideGap="md"
       align="start"

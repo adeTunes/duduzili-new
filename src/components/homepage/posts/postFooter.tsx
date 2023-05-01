@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Heart, MessageText } from "iconsax-react";
+import { Heart, MessageText, TicketStar } from "iconsax-react";
 import React from "react";
 
 function PostFooter() {
@@ -25,7 +25,7 @@ function PostFooter() {
         </div>
       </div>
       <div className="bg-[#367EE8] cursor-pointer rounded-[40px] py-2 px-4 flex items-center gap-2">
-        <Icon icon="ph:gift" color="white" height={24} width={24} />
+        <TicketStar size="24" color="white" />
         <p className="text-white">23</p>
       </div>
     </div>

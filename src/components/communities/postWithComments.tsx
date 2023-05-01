@@ -8,6 +8,7 @@ import CommunityPostTooltip from "./communityPostTooltip";
 import ReplyInput from "./replies/replyInput";
 import ReplyCard from "./replies/replyCard";
 import CommunityPostCreatorProfile from "./CommunityPostCreatorProfile";
+import PostManyImages from "./postManyImages";
 
 function PostWithComments() {
   return (
@@ -18,7 +19,8 @@ function PostWithComments() {
       >
         <CommunityPostCreatorProfile />
         <PostText />
-        <PostImage />
+        {/* <PostImage /> */}
+        <PostManyImages />
         <CommunityPostTooltip />
       </div>
       {/* Reply section */}

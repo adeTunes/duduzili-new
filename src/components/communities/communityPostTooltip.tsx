@@ -15,15 +15,6 @@ function CommunityPostTooltip() {
       </div>
       <div className="flex items-center gap-2">
         <Icon
-          icon="icon-park:play-cycle"
-          height={24}
-          width={24}
-          color="#2a2a2a"
-        />
-        <p className=" text-[14px] text-[#2A2A2A] leading-[17px]">12k</p>
-      </div>
-      <div className="flex items-center gap-2">
-        <Icon
           icon="material-symbols:google-plus-reshare"
           height={24}
           width={24}

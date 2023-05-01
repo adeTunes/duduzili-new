@@ -5,3 +5,4 @@ const storage = createJSONStorage(() => sessionStorage);
 
 export const userDetails = atomWithStorage("duduzili-user", {}, storage);
 export const toggleCommunityPreview = atom(true);
+export const selectedMessage = atom<string | number>("");

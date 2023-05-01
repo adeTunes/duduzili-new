@@ -14,8 +14,11 @@ const Community: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] pb-[50px] relative max-w-[1200px] justify-between mt-[50px] w-[80%] mx-auto gap-[50px] flex">
-          <section className="w-[70%] max-w-[700px] flex flex-col gap-[56px]">
+        <main className="bg-[#FBFBFB] h-full overflow-auto py-[50px] relative max-w-[1131px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+          <section
+            id="no-scroll"
+            className="w-[70%] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
+          >
             <div className="flex flex-col gap-[27px]">
               <div className="flex items-center gap-10">
                 <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
@@ -43,7 +46,7 @@ const Community: NextPageX = () => {
                     View All
                   </p>
                 </div>
-                <Slider />
+                <Slider color="#EDF0FB" />
               </div>
             </div>
           </section>

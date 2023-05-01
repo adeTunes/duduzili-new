@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+div#conversations-container {
+  scrollbar-width: none; /* For Firefox and Edge */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+div#conversations-container::-webkit-scrollbar {
+  display: none;
+}
+div#messages {
+  scrollbar-width: none; /* For Firefox and Edge */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+div#messages::-webkit-scrollbar {
+  display: none;
+}
+#no-scroll {
+  scrollbar-width: none; /* For Firefox and Edge */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+#no-scroll::-webkit-scrollbar {
+  display: none;
+}

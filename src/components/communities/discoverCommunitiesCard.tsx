@@ -1,5 +1,6 @@
 import React from "react";
 import CommunityPicture from "./communityPicture";
+import Link from "next/link";
 
 function DiscoverCommunitiesCard({ joined }) {
   return (
@@ -32,9 +33,11 @@ function DiscoverCommunitiesCard({ joined }) {
           </div>
         </div>
         {joined ? (
-          <p className="text-[#fff] bg-[#4534B8] py-3 px-6 rounded-[32px] cursor-pointer">
-            Select
-          </p>
+          <Link href="/communities/1">
+            <p className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer">
+              Join
+            </p>
+          </Link>
         ) : (
           <p className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer">
             Ask to join

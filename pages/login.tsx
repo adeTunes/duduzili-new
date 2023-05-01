@@ -30,7 +30,7 @@ const Home: NextPageX = () => {
       const response = await loginUser(data);
       setUser(response.data);
       setLoading(false);
-      push("/");
+      push("/home");
     } catch (e) {
       setLoading(false);
       errorMessageHandler(e);
