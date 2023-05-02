@@ -1,16 +1,13 @@
 import React from "react";
 
-function DiscoverPeople() {
+function DiscoverSuggested() {
   return (
     <div
       className="bg-white rounded-2xl p-6 flex flex-col gap-6"
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
-      <p className="text-[18px] leading-[22px] text-[#2A2A2A] font-bold">
-        Discover People
-      </p>
       <div className="flex flex-col gap-[11px]">
-        <p className="pb-[12px] text-[#505050] leading-[19px] border-b border-b-[#EDF0FB]">
+        <p className="text-[18px] leading-[22px] text-[#2A2A2A] font-bold">
           Suggested for you
         </p>
         <div className="flex flex-col gap-6">
@@ -85,4 +82,4 @@ function DiscoverPeople() {
   );
 }
 
-export default DiscoverPeople;
+export default DiscoverSuggested;
