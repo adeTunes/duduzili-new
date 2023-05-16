@@ -8,7 +8,7 @@ export const errorMessageHandler = (obj: ErrorType) => {
   console.log(obj);
   if (obj.response) {
     if (obj.response.status === 401) {
-      return (location.href = "/");
+      return (location.href = "/login");
     }
     if (obj.response.status === 500) {
       return showNotification({

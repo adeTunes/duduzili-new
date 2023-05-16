@@ -4,16 +4,17 @@ import { Icon } from "@iconify/react";
 import PostFooter from "./postFooter";
 import PostHeader from "./postHeader";
 import PostImage from "./postImage";
+import { Post } from "../../../../api/request.types";
 
-function PostBody() {
+function PostBody({ post }: { post: Post }) {
   return (
     <div
       className="rounded-[24px] bg-white p-8 flex flex-col gap-6"
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
       <PostHeader />
-      <PostText />
-      <PostImage />
+      <PostText text={post.text} />
+      <PostImage image={post.photo_url?.substring(62)} />
       <PostFooter />
     </div>
   );

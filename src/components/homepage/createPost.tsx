@@ -1,7 +1,11 @@
 import { Icon } from "@iconify/react";
 import React from "react";
+import CreatePostModal from "../modals/createPostModal";
+import { useDisclosure } from "@mantine/hooks";
 
 function CreatePost() {
+  const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <div className="grid gap-4 grid-cols-[auto_1fr]">
       <img
@@ -10,8 +14,9 @@ function CreatePost() {
         alt=""
       />
       <div
-        className="bg-white pl-6 pr-2 py-4 rounded-[32px] grid grid-cols-[1fr_auto] items-center"
+        className="bg-white pl-6 pr-2 cursor-pointer py-4 rounded-[32px] grid grid-cols-[1fr_auto] items-center"
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
+        onClick={open}
       >
         <p className="text-[#757575]">Create a post</p>
         <div className="flex items-center gap-3">
@@ -24,6 +29,7 @@ function CreatePost() {
           />
         </div>
       </div>
+      <CreatePostModal opened={opened} close={close} />
     </div>
   );
 }

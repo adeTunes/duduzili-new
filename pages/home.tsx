@@ -5,14 +5,25 @@ import CommunityPreview from "@/components/homepage/communityPreview";
 import CreatePost from "@/components/homepage/createPost";
 import PostSection from "@/components/homepage/postSection";
 import Aside from "@/components/homepage/sidebar";
-import { useAtomValue } from "jotai";
-import { toggleCommunityPreview, userDetails } from "@/store";
+import { useAtomValue, useSetAtom } from "jotai";
+import { allPosts, toggleCommunityPreview, userDetails } from "@/store";
 import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
+import useAllPosts from "../hooks/useAllPosts";
+import { useEffect } from "react";
+import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
 
 const HomePage: NextPageX = () => {
   const showCommunityPreview = useAtomValue(toggleCommunityPreview);
   const user: any = useAtomValue(userDetails);
+  const { data, isError, isLoading, error } = useAllPosts();
+  const setAllPosts = useSetAtom(allPosts);
+
+  useEffect(() => {
+    if (data && !isError) {
+      setAllPosts(data);
+    }
+  }, [data]);
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -25,8 +36,8 @@ const HomePage: NextPageX = () => {
             className="w-[70%] overflow-auto max-w-[718px] flex flex-col gap-12"
           >
             {showCommunityPreview && <CommunityPreview />}
-            <CreatePost />
-            <PostSection />
+            {user?.post && <CreatePost />}
+            {isLoading ? <PostSkeleton /> : <PostSection />}
           </section>
           <Aside />
           <FixedMessagesButton />

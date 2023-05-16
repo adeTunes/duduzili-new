@@ -16,10 +16,10 @@ function Aside() {
       className="w-[30%] overflow-auto pb-[50px] max-w-[325px] flex flex-col gap-6"
     >
       <DownloadApp />
-      {user.post && (
+      {user?.post && (
         <>
-          <PendingRequests />
-          <InviteFriends />
+          {/* <PendingRequests />
+          <InviteFriends /> */}
           <TrendingPosts />
           <DiscoverPeople />
         </>

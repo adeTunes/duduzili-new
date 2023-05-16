@@ -1,11 +1,16 @@
+import { userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { TextInput, clsx } from "@mantine/core";
 import { Home, Profile2User, SearchNormal1, Sms } from "iconsax-react";
+import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import UserProfileImageActions from "./userProfileImageActions";
+import { Loading } from "../loading";
 
 function Header() {
+  const user: any = useAtomValue(userDetails);
   const navIcons = [
     {
       href: "/home",
@@ -28,22 +33,24 @@ function Header() {
       routeId: "messages",
     },
     {
-      href: "/my-profile/post",
       icon: (
         <img
-          src="/homePage/profile-picture.png"
-          className="w-10 h-10 rounded-full object-cover"
+          src={user?.user?.photo_url?.substring(62)}
+          className="w-10 h-10 cursor-pointer rounded-full object-cover"
           alt=""
         />
       ),
     },
   ];
   const { pathname } = useRouter();
+  const [loading, setLoading] = useState(false);
   return (
     <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
-      <div className="h-[49px]">
-        <img src="/logo.png" alt="duduzili logo" className="h-full" />
-      </div>
+      <Link href="/home">
+        <div className="h-[49px]">
+          <img src="/logo.png" alt="duduzili logo" className="h-full" />
+        </div>
+      </Link>
       <TextInput
         placeholder="Search Duduzili"
         icon={<Icon icon="mingcute:search-line" />}
@@ -60,10 +67,17 @@ function Header() {
               "h-[60px] flex items-center "
             )}
           >
-            <Link href={href}>{icon}</Link>
+            {routeId ? (
+              <Link href={href}>{icon}</Link>
+            ) : (
+              <UserProfileImageActions setLoading={setLoading}>
+                {icon}
+              </UserProfileImageActions>
+            )}
           </div>
         ))}
       </div>
+      <Loading loading={loading} />
     </header>
   );
 }

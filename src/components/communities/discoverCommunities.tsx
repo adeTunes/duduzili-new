@@ -18,7 +18,7 @@ function DiscoverCommunities() {
         <p className="text-[20px] leading-[36px] font-bold">
           Discover Communities
         </p>
-        <Link href="/communities/discover">
+        <Link href="/communities/all">
           <p className=" font-semibold leading-[36px] self-end text-duduzili-violet">
             View All
           </p>

@@ -1,7 +1,13 @@
 import { Icon } from "@iconify/react";
 import React, { useEffect, useRef, useState } from "react";
 
-function PostAudio() {
+function PostAudio({
+  audioUrl,
+  photoUrl,
+}: {
+  audioUrl: string;
+  photoUrl: string;
+}) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [remainingTime, setRemainingTime] = useState(0);
@@ -9,7 +15,7 @@ function PostAudio() {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    const audio = new Audio("/homePage/audio.mp3");
+    const audio = new Audio(audioUrl);
     audioRef.current = audio;
     audio.addEventListener("loadedmetadata", () => {
       setDuration(audio.duration);
@@ -38,7 +44,7 @@ function PostAudio() {
   return (
     <div
       style={{
-        backgroundImage: "url('/homePage/post-audio.png')",
+        backgroundImage: `url('${photoUrl}')`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "top center",
@@ -52,7 +58,7 @@ function PostAudio() {
         Audio
       </p>
       <img
-        src="/homePage/sound-wave.png"
+        src={audioUrl}
         className="w-[40%] object-cover self-center"
         alt="audio post logo"
       />

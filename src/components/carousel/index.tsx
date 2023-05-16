@@ -1,18 +1,34 @@
 import { Carousel } from "@mantine/carousel";
+import { useRouter } from "next/router";
 
 export function Slider({ color }: { color?: string }) {
+  const { push } = useRouter();
   return (
     <Carousel
       classNames={{
         container: "gap-5",
         viewport: color ?? "bg-white",
+        slide: "cursor-pointer",
+      }}
+      styles={{
+        controls: {
+          bottom: "-225px",
+          justifyContent: "flex-end",
+          gap: "16px",
+        },
+        control: {
+          backgroundColor: "#DFE5FA",
+          color: "#4534B8",
+          height: "40px",
+          width: "40px",
+        },
       }}
       slideSize="60%"
       slideGap="md"
       align="start"
       height={240}
     >
-      <Carousel.Slide size={275}>
+      <Carousel.Slide onClick={() => push("/communities/1")} size={275}>
         <div
           style={{
             background: "url('/homePage/carousel-1.png')",
@@ -22,7 +38,7 @@ export function Slider({ color }: { color?: string }) {
           }}
           className=" h-full rounded-2xl w-full px-3 py-3 flex flex-col justify-between"
         >
-          <div className="bg-[#EDF0FB] rounded-2xl px-3 py-2 self-start">
+          <div className="bg-[#EDF0FB] text-[10px] text-duduzili-violet leading-4 rounded-2xl px-3 py-2 self-start">
             Entertainment
           </div>
           <div
@@ -66,7 +82,7 @@ export function Slider({ color }: { color?: string }) {
           }}
           className=" h-full rounded-2xl w-full px-3 py-3 flex flex-col justify-between"
         >
-          <div className="bg-[#EDF0FB] rounded-2xl px-3 py-2 self-start">
+          <div className="bg-[#EDF0FB] text-[10px] text-duduzili-violet leading-4 rounded-2xl px-3 py-2 self-start">
             Culture
           </div>
           <div
@@ -110,7 +126,7 @@ export function Slider({ color }: { color?: string }) {
           }}
           className=" h-full rounded-2xl w-full px-3 py-3 flex flex-col justify-between"
         >
-          <div className="bg-[#EDF0FB] rounded-2xl px-3 py-2 self-start">
+          <div className="bg-[#EDF0FB] text-[10px] text-duduzili-violet leading-4 rounded-2xl px-3 py-2 self-start">
             Sport
           </div>
           <div

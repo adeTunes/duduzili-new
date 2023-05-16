@@ -13,6 +13,7 @@ import { useForm } from "@mantine/form";
 import { Loading } from "@/components/loading";
 import { useSetAtom } from "jotai";
 import { userDetails } from "@/store";
+import { LoginUser } from "../api/request.types";
 
 const Home: NextPageX = () => {
   const [loading, setLoading] = useState(false);

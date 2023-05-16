@@ -7,7 +7,10 @@ import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import FriendProfileActivities from "@/components/profile/friendProfileActivities";
 import FriendProfileInformation from "@/components/profile/friendProfileInformation";
 import ShowMoreButton from "@/components/showMoreButton";
+import { friendPersonalDetails } from "@/store";
 import { ArrowLeft } from "iconsax-react";
+import { useAtomValue } from "jotai";
+import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
 
 function FriendProfileLayout({
@@ -17,6 +20,8 @@ function FriendProfileLayout({
   children: ReactNode;
   [key: string]: any;
 }) {
+  const friendDetails: any = useAtomValue(friendPersonalDetails);
+  const { back } = useRouter();
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -28,14 +33,18 @@ function FriendProfileLayout({
             id="no-scroll"
             className="w-[70%] overflow-auto max-w-[726px] flex flex-col gap-[34px]"
           >
-            <div className="flex items-center gap-10">
+            <div
+              onClick={back}
+              className="flex cursor-pointer items-center gap-10"
+            >
               <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Frank Muller
+                {friendDetails?.user?.first_name}{" "}
+                {friendDetails?.user?.last_name}
               </p>
             </div>
             <div className="p-2 flex flex-col gap-8">
-              <FriendProfileInformation />
+              <FriendProfileInformation friendDetails={friendDetails} />
               <div className="flex flex-col gap-6">
                 <FriendProfileActivities />
                 <div className="flex flex-col gap-10 pb-[50px]">

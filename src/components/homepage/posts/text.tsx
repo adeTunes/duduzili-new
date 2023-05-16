@@ -1,29 +1,34 @@
+import Link from "next/link";
 import React, { useState } from "react";
 
-function PostText() {
+function PostText({
+  text,
+  postId,
+  usage,
+}: {
+  text: string;
+  postId?: number;
+  usage?: "post" | "comment";
+}) {
   const [truncate, setTruncate] = useState(true);
-  return (
+  return text?.length < 250 ? (
+    <p className="text-[14px] leading-[38px]">
+      {!usage || usage === "post" ? (
+        <Link href={`/posts/${postId}`} className="cursor-ponter">
+          {text}
+        </Link>
+      ) : (
+        text
+      )}
+    </p>
+  ) : (
     <p
       style={{ height: "max-content", transition: "height 2s" }}
       className=" text-[14px] leading-[38px]"
     >
       {truncate ? (
         <span>
-          {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliquaLorem ipsum dolor
-          sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliquaLorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua`.slice(0, 250)}
+          {text?.slice(0, 250)}
           ...
           <span
             className="ml-[5px] text-duduzili-violet font-semibold cursor-pointer"
@@ -36,28 +41,14 @@ function PostText() {
         </span>
       ) : (
         <span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliquaLorem ipsum dolor
-          sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliquaLorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua
+          {text}
           <span
-            className="ml-[5px] font-semibold cursor-pointer"
+            className="ml-[5px] text-duduzili-violet font-semibold cursor-pointer"
             onClick={() => {
               setTruncate(true);
             }}
           >
-            Read less
+            Hide
           </span>
         </span>
       )}

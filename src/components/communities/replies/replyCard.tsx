@@ -2,7 +2,7 @@ import PostText from "@/components/homepage/posts/text";
 import React from "react";
 import CommunityPostTooltip from "../communityPostTooltip";
 
-function ReplyCard() {
+function ReplyCard({ comment }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex self-start gap-[19px] items-center">
@@ -19,7 +19,7 @@ function ReplyCard() {
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
         className="ml-[67px] rounded-2xl p-6 flex flex-col gap-2 bg-white"
       >
-        <PostText />
+        <PostText text="" usage="post" />
         <CommunityPostTooltip />
       </div>
     </div>

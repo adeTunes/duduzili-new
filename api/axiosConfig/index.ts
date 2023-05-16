@@ -12,7 +12,7 @@ API.interceptors.request.use(
       sessionStorage.getItem("duduzili-user") as string
     )?.token;
     if (token) {
-      config.headers.authorization = `Bearer ${token}`;
+      config.headers.authorization = `Token ${token}`;
     }
     return config;
   },

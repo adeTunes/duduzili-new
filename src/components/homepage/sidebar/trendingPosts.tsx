@@ -1,5 +1,6 @@
 import React from "react";
 import PostsList from "./postsList";
+import Link from "next/link";
 
 function TrendingPosts() {
   return (
@@ -11,11 +12,15 @@ function TrendingPosts() {
           </p>
           <p className="text-[#505050] leading-[19px]">Trending Posts</p>
         </div>
-        <PostsList />
+        <div className="flex flex-col gap-2">
+          <PostsList />
+        </div>
       </div>
-      <p className="text-[#367EE8] font-semibold leading-[19px] cursor-pointer">
-        Show more
-      </p>
+      <Link href="/trending">
+        <p className="text-[#367EE8] font-semibold leading-[19px] cursor-pointer">
+          Show more
+        </p>
+      </Link>
     </div>
   );
 }

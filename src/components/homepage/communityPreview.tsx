@@ -9,7 +9,6 @@ import Link from "next/link";
 function CommunityPreview() {
   const showCommunityPreview = useSetAtom(toggleCommunityPreview);
   const user = useAtomValue(userDetails);
-  console.log(user);
   return (
     <div
       className="bg-white p-6 pb-[90px] flex flex-col gap-6 rounded-2xl"
@@ -27,7 +26,7 @@ function CommunityPreview() {
         />
       </div>
       <div className="flex flex-col gap-4">
-        <Link href="/communities" className="self-end">
+        <Link href="/communities/all" className="self-end">
           <p className=" font-semibold text-duduzili-violet">View All</p>
         </Link>
         <Slider />
