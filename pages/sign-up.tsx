@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import Link from "next/link";
 import { NextPageX } from "../types/next";
@@ -7,12 +5,11 @@ import AuthenticationLayout from "@/layout/authentication";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { registerUser } from "../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { showNotification } from "@mantine/notifications";
 import { Loading } from "@/components/loading";
-
-const inter = Inter({ subsets: ["latin"] });
+import { RegisterUser } from "../api/request.types";
+import { registerUser } from "../api/apiRequests";
 
 const SignUp: NextPageX = () => {
   const [loading, setLoading] = useState(false);

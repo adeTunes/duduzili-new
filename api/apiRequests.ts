@@ -2,7 +2,7 @@ import API from "./axiosConfig";
 import {
   LoginUser,
   RegisterUser,
-  verifyAccount as verifyType,
+  verifyAccountType,
 } from "./request.types";
 
 // POST REQUESTS
@@ -12,7 +12,7 @@ export const loginUser = (data: LoginUser) => {
 export const registerUser = (data: RegisterUser) => {
   return API.post("/api/v1/rest-auth/signup/", data);
 };
-export const verifyAccount = (data: verifyType) => {
+export const verifyAccount = (data: verifyAccountType) => {
   return API.post("/api/v1/rest-auth/verify_account/", data);
 };
 

@@ -65,7 +65,7 @@ function PostHeader({ post }) {
           </span>
         </div>
       </div>
-      {loggedInUser?.post && (
+      {loggedInUser?.token && (
         <PostOptions setLoading={setLoading} post={post} />
       )}
       <Loading loading={loading} />

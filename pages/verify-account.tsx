@@ -1,17 +1,14 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { Button, TextInput } from "@mantine/core";
 import Link from "next/link";
 import { NextPageX } from "../types/next";
 import AuthenticationLayout from "@/layout/authentication";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
-import { verifyAccount } from "../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { showNotification } from "@mantine/notifications";
-
-const inter = Inter({ subsets: ["latin"] });
+import { verifyAccountType } from "../api/request.types";
+import { verifyAccount } from "../api/apiRequests";
 
 const ResetPassword: NextPageX = () => {
   const form = useForm({
@@ -46,7 +43,7 @@ const ResetPassword: NextPageX = () => {
 
   const { query, push } = useRouter();
   const [loading, setLoading] = useState(false);
-  const handleVerifyAccount = async (data: verifyAccount) => {
+  const handleVerifyAccount = async (data: verifyAccountType) => {
     setLoading(true);
     try {
       const response = await verifyAccount(data);

@@ -9,7 +9,7 @@ function PostSection() {
   const user: any = useAtomValue(userDetails);
   return (
     <div className="flex flex-col gap-4">
-      {user?.post && <PostSectionTags />}
+      {user?.token && <PostSectionTags />}
       <div className="flex flex-col gap-8">
         {posts?.map((post, idx) => (
           <PostsContainer key={idx} post={post} />

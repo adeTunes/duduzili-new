@@ -6,13 +6,12 @@ export type LoginUser = {
 export type RegisterUser = {
   first_name: string;
   last_name: string;
-  // fullname: string;
   email: string;
   username: string;
   password: string;
 };
 
-export type verifyAccount = {
+export type verifyAccountType = {
   otp: "";
   email: string;
 };
