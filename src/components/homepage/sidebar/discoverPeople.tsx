@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import useDiscoverPeople from "../../../../hooks/useDiscoverPeople";
+import Image from "next/image";
 
 function DiscoverPeople() {
   const { data } = useDiscoverPeople();
@@ -27,7 +28,7 @@ function DiscoverPeople() {
                   >
                     <div className="flex gap-3 items-center">
                       <div className="w-[36px] h-[36px]">
-                        <img
+                        <Image
                           src={item?.photo_url?.substring(62)}
                           className="w-full h-full rounded-full object-cover"
                           alt="profile picture of suggested friend"

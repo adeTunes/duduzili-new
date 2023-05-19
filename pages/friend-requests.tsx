@@ -5,6 +5,7 @@ import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import { ArrowLeft } from "iconsax-react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -42,7 +43,7 @@ function Friends() {
                 <div className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
                   <div className="flex gap-3 items-center">
                     <div className="w-[36px] h-[36px]">
-                      <img
+                      <Image
                         src="/aside/profile-picture.png"
                         className="w-full h-full rounded-full object-cover"
                         alt="profile picture of suggested friend"
@@ -67,7 +68,7 @@ function Friends() {
                 <div className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
                   <div className="flex gap-3 items-center">
                     <div className="w-[36px] h-[36px]">
-                      <img
+                      <Image
                         src="/aside/profile-picture.png"
                         className="w-full h-full rounded-full object-cover"
                         alt="profile picture of suggested friend"
@@ -92,7 +93,7 @@ function Friends() {
                 <div className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
                   <div className="flex gap-3 items-center">
                     <div className="w-[36px] h-[36px]">
-                      <img
+                      <Image
                         src="/aside/profile-picture.png"
                         className="w-full h-full rounded-full object-cover"
                         alt="profile picture of suggested friend"

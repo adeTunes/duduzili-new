@@ -1,5 +1,6 @@
 import React from "react";
 import useDiscoverPeople from "../../../hooks/useDiscoverPeople";
+import Image from "next/image";
 
 function DiscoverSuggested() {
   const { data } = useDiscoverPeople();
@@ -16,10 +17,10 @@ function DiscoverSuggested() {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col">
             {data?.users?.map((item, idx) => (
-              <div className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
+              <div key={idx} className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
                 <div className="flex gap-3 items-center">
                   <div className="w-[36px] h-[36px]">
-                    <img
+                    <Image
                       src={item?.photo_url?.substring(62)}
                       className="w-full h-full rounded-full object-cover"
                       alt="profile picture of suggested friend"

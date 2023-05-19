@@ -7,6 +7,7 @@ import { Loading } from "../loading";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import FriendProfileOptions from "./friendProfileOptions";
+import Image from "next/image";
 
 function FriendProfileInformation({ friendDetails }) {
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ function FriendProfileInformation({ friendDetails }) {
         />
         <div className="flex justify-between items-center pl-8">
           <div className="w-[150px] h-[150px] mt-[-70px]">
-            <img
+            <Image
               src={friendDetails?.user?.photo_url?.substring(62)}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"

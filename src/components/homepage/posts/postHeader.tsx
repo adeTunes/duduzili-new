@@ -6,6 +6,7 @@ import PostOptions from "./postOptions";
 import { Loading } from "@/components/loading";
 import { useRouter } from "next/router";
 import { clsx } from "@mantine/core";
+import Image from "next/image";
 
 /**
  * {
@@ -38,7 +39,7 @@ function PostHeader({ post }) {
             "h-[56px] w-[56px]"
           )}
         >
-          <img
+          <Image
             src={user?.photo_url?.substring(62)}
             className="w-full h-full object-cover rounded-full"
             alt="user profile picture"

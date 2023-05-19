@@ -55,7 +55,7 @@ const MessageLayout = ({
           <aside className="w-[55%] overflow-auto max-w-[557px] flex flex-col gap-8">
             <div className=" justify-between flex">
               {tabs.map((item, idx) => (
-                <Link href={item.href}>
+                <Link key={idx} href={item.href}>
                   <p
                     role="button"
                     className={clsx(

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 type Props = {
@@ -10,7 +11,7 @@ function UserAvatarWithName({ fullName, username, image }: Props) {
   return (
     <div className="flex items-center gap-[19px]">
       <div className="h-[52px] w-[52px]">
-        <img
+        <Image
           src={image ?? "/message/friend-avatar.png"}
           className="h-full w-full object-cover rounded-full"
           alt=""

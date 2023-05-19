@@ -5,6 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import EditProfileModal from "../modals/editProfileModal";
 import { useAtomValue } from "jotai";
 import { userFollowers, userFollowings } from "@/store";
+import Image from "next/image";
 
 function PersonalInformation({ user }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -20,7 +21,7 @@ function PersonalInformation({ user }) {
         />
         <div className="flex justify-between items-center pl-8">
           <div className="w-[150px] h-[150px] mt-[-70px]">
-            <img
+            <Image
               src={
                 user?.photo_url?.substring(62) ??
                 "/profile/default-profile-picture.png"

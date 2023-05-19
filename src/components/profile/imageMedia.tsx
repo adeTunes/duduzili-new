@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import React from "react";
 
 function ImageMedia({ image }) {
@@ -17,7 +18,7 @@ function ImageMedia({ image }) {
           <small className="text-[12px] leading-[15px] text-white">21K</small>
         </div>
       </div>
-      <img src={image} className="w-full h-full object-cover" alt="" />
+      <Image src={image} className="w-full h-full object-cover" alt="" />
     </div>
   );
 }

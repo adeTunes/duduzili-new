@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 function PendingRequests() {
@@ -14,7 +15,7 @@ function PendingRequests() {
           <div className="flex flex-col gap-3">
             <div className="flex gap-3 items-center">
               <div className="w-[36px] h-[36px]">
-                <img
+                <Image
                   src="/aside/profile-picture.png"
                   className="w-full h-full rounded-full object-cover"
                   alt="profile picture of suggested friend"
@@ -41,7 +42,7 @@ function PendingRequests() {
           <div className="flex flex-col gap-3">
             <div className="flex gap-3 items-center">
               <div className="w-[36px] h-[36px]">
-                <img
+                <Image
                   src="/aside/profile-picture.png"
                   className="w-full h-full rounded-full object-cover"
                   alt="profile picture of suggested friend"
@@ -68,7 +69,7 @@ function PendingRequests() {
           <div className="flex flex-col gap-3">
             <div className="flex gap-3 items-center">
               <div className="w-[36px] h-[36px]">
-                <img
+                <Image
                   src="/aside/profile-picture.png"
                   className="w-full h-full rounded-full object-cover"
                   alt="profile picture of suggested friend"

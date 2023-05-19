@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import React from "react";
 
 function AudioMedia({ image }) {
@@ -33,7 +34,7 @@ function AudioMedia({ image }) {
           <small className="text-white">10:24</small>
         </div>
       </div>
-      <img src={image} className="w-full h-full object-cover" alt="" />
+      <Image src={image} className="w-full h-full object-cover" alt="" />
     </div>
   );
 }

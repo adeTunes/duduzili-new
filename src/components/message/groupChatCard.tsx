@@ -1,6 +1,7 @@
 import { selectedMessage } from "@/store";
 import { clsx } from "@mantine/core";
 import { useAtomValue } from "jotai";
+import Image from "next/image";
 import React from "react";
 
 function GroupChatCard({ image, text, name, date, unread, onClick, id }) {
@@ -19,7 +20,7 @@ function GroupChatCard({ image, text, name, date, unread, onClick, id }) {
         <div className="flex">
           {image.map((item, idx) => (
             <div key={idx} className="w-[24px] ml-[-10px] h-[24px]">
-              <img
+              <Image
                 src={item}
                 className="w-full h-full object-cover rounded-full"
                 alt=""

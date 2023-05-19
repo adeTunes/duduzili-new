@@ -1,12 +1,13 @@
 import PostText from "@/components/homepage/posts/text";
 import React from "react";
 import CommunityPostTooltip from "../communityPostTooltip";
+import Image from "next/image";
 
 function ReplyCard({ comment }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex self-start gap-[19px] items-center">
-        <img
+        <Image
           src="/homePage/profile-picture.png"
           className="w-[48px] h-[48px] rounded-full object-cover"
           alt=""

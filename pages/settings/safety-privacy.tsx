@@ -32,7 +32,7 @@ const SafetyAndPrivacy: NextPageX = () => {
         className="flex flex-col gap-[25px] px-4 py-6 rounded-lg bg-white"
       >
         {privacySettings.map(({ text, icon }, idx) => (
-          <div className="flex items-center justify-between">
+          <div key={idx} className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div
                 className={clsx(

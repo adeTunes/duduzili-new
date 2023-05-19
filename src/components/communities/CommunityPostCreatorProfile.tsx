@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 function CommunityPostCreatorProfile() {
@@ -5,7 +6,7 @@ function CommunityPostCreatorProfile() {
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div className="h-[56px] w-[56px]">
-          <img
+          <Image
             src="/homePage/user-image.png"
             className="w-full h-full object-cover rounded-full"
             alt="user profile picture"

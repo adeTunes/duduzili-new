@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useLayoutEffect } from "react";
 
-function index() {
+function Home() {
   const router = useRouter();
   useLayoutEffect(() => {
     router.push("/home");
@@ -9,4 +9,4 @@ function index() {
   return <></>;
 }
 
-export default index;
+export default Home;

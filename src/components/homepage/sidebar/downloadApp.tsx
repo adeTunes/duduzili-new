@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 function DownloadApp() {
@@ -7,12 +8,12 @@ function DownloadApp() {
         Download Duduzili mobile App
       </p>
       <div className="flex justify-between">
-        <img
+        <Image
           className="w-[130px] "
           src="/authentication/play-store.png"
           alt=""
         />
-        <img
+        <Image
           className="w-[130px] "
           src="/authentication/app-store.png"
           alt=""

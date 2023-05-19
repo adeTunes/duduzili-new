@@ -20,6 +20,7 @@ import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { Icon } from "@iconify/react";
 import { displayImage } from "@/helpers/displayImage";
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 
 function EditProfileModal({ opened, close }) {
   const user: any = useAtomValue(userDetails);
@@ -83,7 +84,7 @@ function EditProfileModal({ opened, close }) {
       <div className="flex flex-col gap-5 mt-[60px] overflow-auto">
         <div className="flex flex-col">
           <div className="h-[240px]">
-            <img
+            <Image
               src="/communities/community-picture.png"
               className="h-full w-full object-cover rounded-2xl"
               alt="post image"

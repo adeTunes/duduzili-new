@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import UserProfileImageActions from "./userProfileImageActions";
 import { Loading } from "../loading";
+import Image from "next/image";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
@@ -34,7 +35,7 @@ function Header() {
     },
     {
       icon: (
-        <img
+        <Image
           src={user?.user?.photo_url?.substring(62)}
           className="w-10 h-10 cursor-pointer rounded-full object-cover"
           alt=""
@@ -48,7 +49,7 @@ function Header() {
     <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
       <Link href="/home">
         <div className="h-[49px]">
-          <img src="/logo.png" alt="duduzili logo" className="h-full" />
+          <Image src="/logo.png" alt="duduzili logo" className="h-full" />
         </div>
       </Link>
       <TextInput

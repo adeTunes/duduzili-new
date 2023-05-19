@@ -1,4 +1,5 @@
 import { Carousel } from "@mantine/carousel";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 export function Slider({ color }: { color?: string }) {
@@ -51,17 +52,17 @@ export function Slider({ color }: { color?: string }) {
             <p className="text-white">Socio-economic issues in Africa...</p>
             <div className="flex flex-col gap-2">
               <div className="flex">
-                <img
+                <Image
                   src="/homePage/ellipse-1.png"
                   className="w-[33px] h-[33px] object-cover rounded-full"
                   alt=""
                 />
-                <img
+                <Image
                   src="/homePage/ellipse-2.png"
                   className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
                   alt=""
                 />
-                <img
+                <Image
                   src="/homePage/ellipse-3.png"
                   className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
                   alt=""
@@ -95,17 +96,17 @@ export function Slider({ color }: { color?: string }) {
             <p className="text-white">Socio-economic issues in Africa...</p>
             <div className="flex flex-col gap-2">
               <div className="flex">
-                <img
+                <Image
                   src="/homePage/ellipse-1.png"
                   className="w-[33px] h-[33px] object-cover rounded-full"
                   alt=""
                 />
-                <img
+                <Image
                   src="/homePage/ellipse-2.png"
                   className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
                   alt=""
                 />
-                <img
+                <Image
                   src="/homePage/ellipse-3.png"
                   className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
                   alt=""
@@ -139,17 +140,17 @@ export function Slider({ color }: { color?: string }) {
             <p className="text-white">Socio-economic issues in Africa...</p>
             <div className="flex flex-col gap-2">
               <div className="flex">
-                <img
+                <Image
                   src="/homePage/ellipse-1.png"
                   className="w-[33px] h-[33px] object-cover rounded-full"
                   alt=""
                 />
-                <img
+                <Image
                   src="/homePage/ellipse-2.png"
                   className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
                   alt=""
                 />
-                <img
+                <Image
                   src="/homePage/ellipse-3.png"
                   className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
                   alt=""

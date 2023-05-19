@@ -1,11 +1,12 @@
 import { Icon } from "@iconify/react";
 import { TextInput } from "@mantine/core";
+import Image from "next/image";
 import React from "react";
 
 function ReplyInput() {
   return (
     <div className="grid gap-4 grid-cols-[auto_1fr]">
-      <img
+      <Image
         src="/homePage/profile-picture.png"
         className="w-[56px] h-[56px] rounded-full object-cover"
         alt=""

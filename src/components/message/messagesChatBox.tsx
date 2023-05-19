@@ -6,6 +6,7 @@ import MessageReceived from "./messageReceived";
 import MessageSent from "./messageSent";
 import SendMessage from "./sendMessage";
 import SingleEmojiSent from "./singleEmojiSent";
+import Image from "next/image";
 
 function MessagesChatBox() {
   return (
@@ -13,7 +14,7 @@ function MessagesChatBox() {
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
           <div className="h-[52px] w-[52px]">
-            <img
+            <Image
               src="/message/friend-avatar.png"
               className="h-full w-full object-cover rounded-full"
               alt=""

@@ -13,11 +13,11 @@ function PostFooter({
   iLikeThisPost,
   post,
 }: {
-  totalLikes: number;
-  totalComments: number;
-  totalReposts: number;
-  iLikeThisPost: boolean;
-  post: any;
+  totalLikes?: number;
+  totalComments?: number;
+  totalReposts?: number;
+  iLikeThisPost?: boolean;
+  post?: any;
 }) {
   const [loading, setLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);

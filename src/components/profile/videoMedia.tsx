@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import React from "react";
 
 function VideoMedia({ image }) {
@@ -30,7 +31,7 @@ function VideoMedia({ image }) {
           />
         </div>
       </div>
-      <img src={image} className="w-full h-full object-cover" alt="" />
+      <Image src={image} className="w-full h-full object-cover" alt="" />
     </div>
   );
 }

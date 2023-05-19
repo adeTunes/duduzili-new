@@ -1,14 +1,6 @@
 import React from "react";
-import PostBody from "../homepage/posts/postBody";
-import { Icon } from "@iconify/react";
-import PostText from "../homepage/posts/text";
-import PostImage from "../homepage/posts/postImage";
-import { Heart, MessageText } from "iconsax-react";
-import CommunityPostTooltip from "./communityPostTooltip";
 import ReplyInput from "./replies/replyInput";
 import ReplyCard from "./replies/replyCard";
-import CommunityPostCreatorProfile from "./CommunityPostCreatorProfile";
-import PostManyImages from "./postManyImages";
 import { useRouter } from "next/router";
 import useSinglePost from "../../../hooks/useSinglePost";
 import PostsContainer from "../homepage/posts/postsContainer";
@@ -39,7 +31,7 @@ function PostWithComments() {
       <div className="flex gap-[36px] pl-[90px] flex-col">
         <ReplyInput />
         {data?.comments?.length ? (
-          data?.comments?.map((comment) => <ReplyCard comment={comment} />)
+          data?.comments?.map((comment, idx) => <ReplyCard key={idx} comment={comment} />)
         ) : (
           <p className="text-center">No comments here yet</p>
         )}

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loading } from "@/components/loading";
 import { LoadingOverlay } from "@mantine/core";
+import Image from "next/image";
 
 const MutedUsers: NextPageX = () => {
   const { data, refetch } = useMutedUsers();
@@ -22,7 +23,7 @@ const MutedUsers: NextPageX = () => {
             >
               <div className="flex gap-3 items-center">
                 <div className="w-[36px] h-[36px]">
-                  <img
+                  <Image
                     src={item?.photo_url?.substring(62)}
                     className="w-full h-full rounded-full object-cover"
                     alt="profile picture of suggested friend"
@@ -50,14 +51,14 @@ const MutedUsers: NextPageX = () => {
         <div className="flex h-full items-center justify-center">
           <div className="flex flex-col gap-10">
             <div className="w-[330px] h-[300px]">
-              <img
+              <Image
                 src="/settings/empty-muted-users.png"
                 className="h-full w-full object-cover"
                 alt="empty blocked users picture"
               />
             </div>
             <p className="font-medium text-[#2A2A2A] text-[24px] leading-6">
-              You don't have any muted user.
+              You don&apos;t have any muted user.
             </p>
           </div>
         </div>

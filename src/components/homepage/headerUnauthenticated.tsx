@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -6,7 +7,7 @@ function HeaderUnauthenticated() {
   return (
     <header className="w-[90%] mx-auto max-w-[1500px] py-5 flex justify-between items-center">
       <div className="h-[49px]">
-        <img src="/logo.png" alt="duduzili logo" className="h-full" />
+        <Image src="/logo.png" alt="duduzili logo" className="h-full" />
       </div>
       <div className="flex items-center gap-6">
         <Link href="/login">

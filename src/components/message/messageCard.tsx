@@ -1,6 +1,7 @@
 import { selectedMessage } from "@/store";
 import { clsx } from "@mantine/core";
 import { useAtomValue } from "jotai";
+import Image from "next/image";
 import React from "react";
 
 function MessageCard({ image, text, name, date, unread, onClick, id }) {
@@ -17,7 +18,7 @@ function MessageCard({ image, text, name, date, unread, onClick, id }) {
     >
       <div className="flex items-center gap-[19px]">
         <div className="w-[52px] h-[52px]">
-          <img
+          <Image
             src={image}
             className="w-full h-full object-cover rounded-full"
             alt=""

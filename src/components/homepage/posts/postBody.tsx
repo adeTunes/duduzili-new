@@ -12,7 +12,7 @@ function PostBody({ post }: { post: Post }) {
       className="rounded-[24px] bg-white p-8 flex flex-col gap-6"
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
-      <PostHeader />
+      <PostHeader post={{}} />
       <PostText text={post.text} />
       <PostImage image={post.photo_url?.substring(62)} />
       <PostFooter />

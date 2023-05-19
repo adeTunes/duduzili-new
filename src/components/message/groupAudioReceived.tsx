@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import React from "react";
 
 function GroupAudioReceived() {
@@ -6,7 +7,7 @@ function GroupAudioReceived() {
     <div className="flex flex-col gap-1">
       <div className="flex gap-1">
         <div className="h-[24px] w-[24px] self-end">
-          <img
+          <Image
             src="/message/friend-avatar.png"
             className="w-full h-full object-cover rounded-full"
             alt=""

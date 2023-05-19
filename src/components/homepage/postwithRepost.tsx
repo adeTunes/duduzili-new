@@ -3,6 +3,7 @@ import PostHeader from "./posts/postHeader";
 import PostText from "./posts/text";
 import PostFooter from "./posts/postFooter";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 function PostwithRepost() {
   return (
@@ -10,7 +11,7 @@ function PostwithRepost() {
       className="rounded-[24px] bg-white p-8 flex flex-col gap-6"
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
-      <PostHeader />
+      <PostHeader post={{}} />
       <hr className="w-full bg-[#EDF0FB]" />
       <div className="flex gap-4 items-center">
         <Icon
@@ -21,7 +22,7 @@ function PostwithRepost() {
         />
         <div className="flex items-center gap-2">
           <div className="h-[48px] w-[48px]">
-            <img
+            <Image
               src="/homePage/user-image.png"
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
@@ -40,7 +41,7 @@ function PostwithRepost() {
           </div>
         </div>
       </div>
-      <PostText />
+      <PostText text="" />
       <PostFooter />
     </div>
   );

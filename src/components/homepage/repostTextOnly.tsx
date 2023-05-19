@@ -3,6 +3,7 @@ import PostHeader from "./posts/postHeader";
 import PostText from "./posts/text";
 import PostFooter from "./posts/postFooter";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 function RepostTextOnly({ post }) {
   return (
@@ -18,7 +19,7 @@ function RepostTextOnly({ post }) {
         />
         <div className="flex items-center gap-2">
           <div className="h-[48px] w-[48px]">
-            <img
+            <Image
               src={post?.user?.photo_url.substring(62)}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"

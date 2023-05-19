@@ -4,6 +4,7 @@ import { NextPageX } from "../../types/next";
 import SettingsLayout from "@/layout/settingslayout";
 import { LoadingOverlay } from "@mantine/core";
 import { useState } from "react";
+import Image from "next/image";
 
 const BlockedUsers: NextPageX = () => {
   const { data, refetch } = useBlockedUsers();
@@ -19,7 +20,7 @@ const BlockedUsers: NextPageX = () => {
             >
               <div className="flex gap-3 items-center">
                 <div className="w-[36px] h-[36px]">
-                  <img
+                  <Image
                     src={item?.photo_url?.substring(62)}
                     className="w-full h-full rounded-full object-cover"
                     alt="profile picture of suggested friend"
@@ -47,14 +48,14 @@ const BlockedUsers: NextPageX = () => {
         <div className="flex h-full items-center justify-center">
           <div className="flex flex-col gap-10">
             <div className="w-[330px] h-[300px]">
-              <img
+              <Image
                 src="/settings/empty-blocked-users.png"
                 className="h-full w-full object-cover"
                 alt="empty blocked users picture"
               />
             </div>
             <p className="font-medium text-[#2A2A2A] text-[24px] leading-6">
-              You don't have any blocked user.
+              You don&apos;t have any blocked user.
             </p>
           </div>
         </div>

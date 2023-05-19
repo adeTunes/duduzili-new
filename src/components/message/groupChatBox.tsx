@@ -7,6 +7,7 @@ import { clsx } from "@mantine/core";
 import GroupAudioReceived from "./groupAudioReceived";
 import GroupSingleEmojiReceived from "./groupSingleEmojiReceived";
 import AudioSent from "./audioSent";
+import Image from "next/image";
 
 function GroupChatBox() {
   const images = [
@@ -28,7 +29,7 @@ function GroupChatBox() {
                     "w-[24px] h-[24px]"
                   )}
                 >
-                  <img
+                  <Image
                     src={item}
                     className="w-full h-full object-cover rounded-full"
                     alt=""

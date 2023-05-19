@@ -2,13 +2,14 @@ import { Icon } from "@iconify/react";
 import React from "react";
 import CreatePostModal from "../modals/createPostModal";
 import { useDisclosure } from "@mantine/hooks";
+import Image from "next/image";
 
 function CreatePost() {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <div className="grid gap-4 grid-cols-[auto_1fr]">
-      <img
+      <Image
         src="/homePage/profile-picture.png"
         className="w-[56px] h-[56px] rounded-full object-cover"
         alt=""

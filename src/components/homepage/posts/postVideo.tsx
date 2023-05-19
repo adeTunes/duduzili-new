@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import React, { useState } from "react";
 
 function PostVideo({
@@ -19,7 +20,8 @@ function PostVideo({
         </video>
       ) : (
         <>
-          <img
+          <Image
+          alt=""
             src={photoUrl}
             className="h-full w-full object-cover rounded-2xl"
           />

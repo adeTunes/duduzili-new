@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 function PostAudio({
@@ -57,7 +58,7 @@ function PostAudio({
       >
         Audio
       </p>
-      <img
+      <Image
         src={audioUrl}
         className="w-[40%] object-cover self-center"
         alt="audio post logo"

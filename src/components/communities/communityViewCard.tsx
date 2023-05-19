@@ -1,6 +1,7 @@
 import React from "react";
 import CommunityPicture from "./communityPicture";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 function CommunityViewCard({ communityMember }: { communityMember: boolean }) {
   return (
@@ -35,17 +36,17 @@ function CommunityViewCard({ communityMember }: { communityMember: boolean }) {
         </div>
         <div className="flex items-center gap-[19px]">
           <div className="flex">
-            <img
+            <Image
               src="/homePage/ellipse-1.png"
               className="w-[33px] h-[33px] object-cover rounded-full"
               alt=""
             />
-            <img
+            <Image
               src="/homePage/ellipse-2.png"
               className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
               alt=""
             />
-            <img
+            <Image
               src="/homePage/ellipse-3.png"
               className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
               alt=""

@@ -19,7 +19,7 @@ function FaqAccordion() {
       <Accordion.Item value="item-1">
         <Accordion.Control>Why do account get suspended?</Accordion.Control>
         <Accordion.Panel>
-          We're committed to actively manage the public conversations on our
+          We&apos;re committed to actively manage the public conversations on our
           platform to ensure a safe environment for everyone on Duduzili. Any
           account that violates our terms may or will be suspended. Why might
           your account be suspended? Spam activity: Most of the accounts
