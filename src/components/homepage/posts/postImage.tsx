@@ -5,7 +5,7 @@ import React from "react";
 function PostImage({ height, image }: { height?: string; image: string }) {
   return (
     <div className={clsx(height ?? "h-[300px]")}>
-      <Image
+      <img
         src={image}
         className="h-full w-full object-cover rounded-2xl"
         alt="post image"

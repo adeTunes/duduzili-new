@@ -6,7 +6,7 @@ function CommunityPostCreatorProfile() {
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div className="h-[56px] w-[56px]">
-          <Image
+          <img
             src="/homePage/user-image.png"
             className="w-full h-full object-cover rounded-full"
             alt="user profile picture"

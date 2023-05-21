@@ -7,7 +7,7 @@ function HeaderUnauthenticated() {
   return (
     <header className="w-[90%] mx-auto max-w-[1500px] py-5 flex justify-between items-center">
       <div className="h-[49px]">
-        <Image src="/logo.png" alt="duduzili logo" className="h-full" />
+        <img src="/logo.png" alt="duduzili logo" className="h-full" />
       </div>
       <div className="flex items-center gap-6">
         <Link href="/login">

@@ -5,8 +5,6 @@ import DiscoverPeople from "./discoverPeople";
 import CompanyInfo from "./companyInfo";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
-import PendingRequests from "./pendingRequests";
-import InviteFriends from "./inviteFriends";
 
 function Aside() {
   const user: any = useAtomValue(userDetails);

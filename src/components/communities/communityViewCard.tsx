@@ -36,17 +36,17 @@ function CommunityViewCard({ communityMember }: { communityMember: boolean }) {
         </div>
         <div className="flex items-center gap-[19px]">
           <div className="flex">
-            <Image
+            <img
               src="/homePage/ellipse-1.png"
               className="w-[33px] h-[33px] object-cover rounded-full"
               alt=""
             />
-            <Image
+            <img
               src="/homePage/ellipse-2.png"
               className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
               alt=""
             />
-            <Image
+            <img
               src="/homePage/ellipse-3.png"
               className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
               alt=""

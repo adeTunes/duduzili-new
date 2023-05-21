@@ -11,7 +11,7 @@ function UserAvatarWithName({ fullName, username, image }: Props) {
   return (
     <div className="flex items-center gap-[19px]">
       <div className="h-[52px] w-[52px]">
-        <Image
+        <img
           src={image ?? "/message/friend-avatar.png"}
           className="h-full w-full object-cover rounded-full"
           alt=""

@@ -29,7 +29,7 @@ function GroupChatBox() {
                     "w-[24px] h-[24px]"
                   )}
                 >
-                  <Image
+                  <img
                     src={item}
                     className="w-full h-full object-cover rounded-full"
                     alt=""

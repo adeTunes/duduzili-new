@@ -15,7 +15,7 @@ export default function AuthenticationLayout({
     <main className="flex h-screen">
       <section className="flex-1 flex flex-col h-full py-[100px]">
         <div className="h-[49px] flex justify-center">
-          <Image src="/logo.png" className="h-full" alt="" />
+          <img src="/logo.png" className="h-full" alt="" />
         </div>
         {children}
       </section>
@@ -60,12 +60,12 @@ export default function AuthenticationLayout({
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 w-[52%] mx-auto flex gap-4">
-            <Image
+            <img
               className="w-[130px] "
               src="/authentication/play-store.png"
               alt=""
             />
-            <Image
+            <img
               className="w-[130px] "
               src="/authentication/app-store.png"
               alt=""

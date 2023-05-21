@@ -16,12 +16,12 @@ function PersonalInformation({ user }) {
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
       <div className="flex flex-col">
         <PostImage
-          image="/communities/community-picture.png"
+          image={user?.get_cover_image || "/communities/cover-pic-default.png"}
           height="h-[240px]"
         />
         <div className="flex justify-between items-center pl-8">
           <div className="w-[150px] h-[150px] mt-[-70px]">
-            <Image
+            <img
               src={
                 user?.photo_url?.substring(62) ??
                 "/profile/default-profile-picture.png"

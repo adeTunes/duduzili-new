@@ -7,17 +7,21 @@ function DownloadApp() {
       <p className="text-[#FFFFFF] text-[18px] leading-[22px] text-center">
         Download Duduzili mobile App
       </p>
-      <div className="flex justify-between">
-        <Image
-          className="w-[130px] "
-          src="/authentication/play-store.png"
-          alt=""
-        />
-        <Image
-          className="w-[130px] "
-          src="/authentication/app-store.png"
-          alt=""
-        />
+      <div className="flex justify-between gap-3">
+        <div className="flex-1">
+          <img
+            className="w-full"
+            src="/authentication/play-store.png"
+            alt=""
+          />
+        </div>
+        <div className="flex-1">
+          <img
+            className="w-full"
+            src="/authentication/app-store.png"
+            alt=""
+          />
+        </div>
       </div>
     </div>
   );

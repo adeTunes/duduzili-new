@@ -3,14 +3,17 @@ import React from "react";
 import CreatePostModal from "../modals/createPostModal";
 import { useDisclosure } from "@mantine/hooks";
 import Image from "next/image";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
 
 function CreatePost() {
   const [opened, { open, close }] = useDisclosure(false);
+  const user: any = useAtomValue(userDetails)
 
   return (
     <div className="grid gap-4 grid-cols-[auto_1fr]">
-      <Image
-        src="/homePage/profile-picture.png"
+      <img
+        src={user?.user?.photo_url.substring(62)}
         className="w-[56px] h-[56px] rounded-full object-cover"
         alt=""
       />

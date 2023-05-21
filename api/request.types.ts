@@ -43,7 +43,12 @@ export type Post = {
   title: string;
 };
 
-export type Posts = Post[];
+export type Posts = {
+  count: number;
+  next: string | null;
+  previous: null | string;
+  results: Post[];
+};
 
 interface PostUser {
   id: number;
@@ -142,4 +147,52 @@ export interface Following {
   country: null;
   is_private: boolean;
   is_following: boolean;
+}
+
+export type CommunityCategoryType = {
+  name: string;
+  description: string;
+}[];
+
+export type CommunityListData = {
+  count: number;
+  next: null | string;
+  previous: null | string;
+  results: CommunityList;
+};
+
+export type CommunityList = Community[]
+
+export type Community = {
+  category: any[];
+  code: string;
+  created: Date;
+  description: string;
+  get_logo_url: string;
+  is_approved: boolean;
+  is_private: boolean;
+  members_photo: any[];
+  referral_code: string;
+  status: string;
+  total_members: number;
+  updated: Date;
+  name: string;
+  owner: Owner;
+};
+
+export interface Owner {
+  bio: string;
+  country: null;
+  email: string;
+  first_name: string;
+  get_cover_image: string;
+  id: number;
+  is_following: boolean;
+  is_online: boolean;
+  is_private: boolean;
+  last_name: string;
+  password: string;
+  photo_url: null;
+  town: null;
+  username: string;
 }

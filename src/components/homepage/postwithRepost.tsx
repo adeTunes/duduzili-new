@@ -22,7 +22,7 @@ function PostwithRepost() {
         />
         <div className="flex items-center gap-2">
           <div className="h-[48px] w-[48px]">
-            <Image
+            <img
               src="/homePage/user-image.png"
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"

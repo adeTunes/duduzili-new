@@ -8,19 +8,21 @@ import Image from "next/image";
 
 const BlockedUsers: NextPageX = () => {
   const { data, refetch } = useBlockedUsers();
+  console.log(data);
+  
   const [loading, setLoading] = useState(false);
   return (
     <div className="flex overflow-auto flex-1 flex-col">
-      {data?.blocked?.length ? (
+      {data?.length ? (
         <div className="flex flex-col">
-          {data?.blocked?.map((item, idx) => (
+          {data?.map((item, idx) => (
             <div
               key={idx}
               className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"
             >
               <div className="flex gap-3 items-center">
                 <div className="w-[36px] h-[36px]">
-                  <Image
+                  <img
                     src={item?.photo_url?.substring(62)}
                     className="w-full h-full rounded-full object-cover"
                     alt="profile picture of suggested friend"
@@ -48,7 +50,7 @@ const BlockedUsers: NextPageX = () => {
         <div className="flex h-full items-center justify-center">
           <div className="flex flex-col gap-10">
             <div className="w-[330px] h-[300px]">
-              <Image
+              <img
                 src="/settings/empty-blocked-users.png"
                 className="h-full w-full object-cover"
                 alt="empty blocked users picture"

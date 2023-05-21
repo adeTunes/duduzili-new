@@ -20,7 +20,7 @@ function GroupChatCard({ image, text, name, date, unread, onClick, id }) {
         <div className="flex">
           {image.map((item, idx) => (
             <div key={idx} className="w-[24px] ml-[-10px] h-[24px]">
-              <Image
+              <img
                 src={item}
                 className="w-full h-full object-cover rounded-full"
                 alt=""

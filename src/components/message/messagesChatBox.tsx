@@ -14,7 +14,7 @@ function MessagesChatBox() {
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
           <div className="h-[52px] w-[52px]">
-            <Image
+            <img
               src="/message/friend-avatar.png"
               className="h-full w-full object-cover rounded-full"
               alt=""

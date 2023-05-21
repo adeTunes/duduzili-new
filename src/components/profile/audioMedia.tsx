@@ -34,7 +34,7 @@ function AudioMedia({ image }) {
           <small className="text-white">10:24</small>
         </div>
       </div>
-      <Image src={image} className="w-full h-full object-cover" alt="" />
+      <img src={image} className="w-full h-full object-cover" alt="" />
     </div>
   );
 }

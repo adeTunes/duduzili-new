@@ -7,7 +7,7 @@ function GroupAudioReceived() {
     <div className="flex flex-col gap-1">
       <div className="flex gap-1">
         <div className="h-[24px] w-[24px] self-end">
-          <Image
+          <img
             src="/message/friend-avatar.png"
             className="w-full h-full object-cover rounded-full"
             alt=""

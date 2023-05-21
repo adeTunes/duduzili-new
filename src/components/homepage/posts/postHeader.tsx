@@ -39,7 +39,7 @@ function PostHeader({ post }) {
             "h-[56px] w-[56px]"
           )}
         >
-          <Image
+          <img
             src={user?.photo_url?.substring(62)}
             className="w-full h-full object-cover rounded-full"
             alt="user profile picture"

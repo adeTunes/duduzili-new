@@ -7,7 +7,7 @@ import {
   TextInput,
   Textarea,
 } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import PrimaryButton from "../button/primaryButton";
 import { Camera } from "iconsax-react";
 import { useForm } from "@mantine/form";
@@ -61,6 +61,20 @@ function EditProfileModal({ opened, close }) {
   }, [form.values.photo_url]);
   const queryClient = useQueryClient();
 
+  interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+    image: string;
+    value: string;
+    code: string;
+  }
+  // eslint-disable-next-line react/display-name
+  const SelectItem = forwardRef<HTMLImageElement, ItemProps>(
+    ({ image, value, code, ...others }: ItemProps, ref) => (
+      <div ref={ref} {...others}>
+        <img src={image} alt="country image" className="h-[30px]" />
+      </div>
+    )
+  );
+
   return (
     <Modal
       size="61.483vw"
@@ -84,7 +98,7 @@ function EditProfileModal({ opened, close }) {
       <div className="flex flex-col gap-5 mt-[60px] overflow-auto">
         <div className="flex flex-col">
           <div className="h-[240px]">
-            <Image
+            <img
               src="/communities/community-picture.png"
               className="h-full w-full object-cover rounded-2xl"
               alt="post image"
@@ -150,13 +164,14 @@ function EditProfileModal({ opened, close }) {
             {...form.getInputProps("bio")}
           />
           <div className="flex flex-col">
-            <label htmlFor="number-input">Country</label>
+            <label htmlFor="number-input" className="font-medium text-[#2A2A2A] text-[14px] leading-6">Country</label>
             <div className="grid grid-cols-[80px_1fr] mb-[60px]">
               <Select
                 data={CountryData}
+                itemComponent={SelectItem}
                 classNames={{
                   input:
-                    "h-[50px] border text-[#2A2A2A] text-[30px] border-[#C8C8C8] !rounded-r-none rounded-l-lg",
+                    "h-[50px] border text-[#2A2A2A] border-[#C8C8C8] !rounded-r-none rounded-l-lg",
                   root: "flex flex-col gap-1",
                   label: "font-medium text-base leading-6",
                   item: "text-[30px]",

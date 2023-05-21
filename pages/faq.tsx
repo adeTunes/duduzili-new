@@ -22,7 +22,7 @@ function Faq() {
           <div className="gap-[46px] flex h-full overflow-auto">
             <section id="no-scroll" className="flex-1">
               <div className="h-[378px]">
-                <Image
+                <img
                   src="/faq/faq-icon.png"
                   className="w-full h-full object-cover"
                   alt="FAQ image"

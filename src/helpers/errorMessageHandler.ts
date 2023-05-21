@@ -5,7 +5,6 @@ type ErrorType = {
   message: string;
 };
 export const errorMessageHandler = (obj: ErrorType) => {
-  console.log(obj);
   if (obj.response) {
     if (obj.response.status === 401) {
       return (location.href = "/login");

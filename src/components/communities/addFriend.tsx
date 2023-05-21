@@ -6,7 +6,7 @@ function AddFriend() {
     <div className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
       <div className="flex gap-3 items-center">
         <div className="w-[36px] h-[36px]">
-          <Image
+          <img
             src="/aside/profile-picture.png"
             className="w-full h-full rounded-full object-cover"
             alt="profile picture of suggested friend"

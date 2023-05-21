@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import useSinglePost from "../../../hooks/useSinglePost";
 import PostsContainer from "../homepage/posts/postsContainer";
 
-function PostWithComments() {
+function CommunityPost() {
   const { query } = useRouter();
   const { data } = useSinglePost(+query.id);
 
@@ -33,7 +33,7 @@ function PostWithComments() {
         {data?.comments?.length ? (
           data?.comments?.map((comment, idx) => <ReplyCard key={idx} comment={comment} />).reverse()
         ) : (
-          <p className="text-center">No comments here yet</p>
+          <p className="text-center">No posts here yet</p>
         )}
         {/* <p
           role="button"
@@ -46,4 +46,4 @@ function PostWithComments() {
   );
 }
 
-export default PostWithComments;
+export default CommunityPost;

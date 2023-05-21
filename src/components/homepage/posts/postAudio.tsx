@@ -58,7 +58,7 @@ function PostAudio({
       >
         Audio
       </p>
-      <Image
+      <img
         src={audioUrl}
         className="w-[40%] object-cover self-center"
         alt="audio post logo"

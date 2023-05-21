@@ -1,15 +1,16 @@
-import { LoadingOverlay, Modal, TextInput, Textarea } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import React, { useState } from "react";
+import { LoadingOverlay, Modal, Textarea, FileInput } from "@mantine/core";
+import React, { useState, useEffect } from "react";
 import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Icon } from "@iconify/react";
 import PrimaryButtonOutline from "../button/primaryButtonOutline";
 import PrimaryButton from "../button/primaryButton";
 import { createPost } from "@/actions/createPost";
 import { useForm } from "@mantine/form";
-import { Loading } from "../loading";
 import { useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
+import DisplayMedia from "./displayMedia";
 
 function CreatePostModal({ opened, close }) {
   const form = useForm({
@@ -17,8 +18,44 @@ function CreatePostModal({ opened, close }) {
       text: "",
     },
   });
+
+  const mediaForm = useForm({
+    initialValues: {
+      image: null,
+      video: null,
+      audio: null,
+    },
+  });
+
+  const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    if (mediaForm.values.image) {
+      setSelected(() => {
+        const newArr = selected.filter((item) => !item.type.includes("image"));
+        return [...newArr, mediaForm.values.image];
+      });
+    }
+  }, [mediaForm.values.image]);
+  useEffect(() => {
+    if (mediaForm.values.video) {
+      setSelected(() => {
+        const newArr = selected.filter((item) => !item.type.includes("video"));
+        return [...newArr, mediaForm.values.video];
+      });
+    }
+  }, [mediaForm.values.video]);
+  useEffect(() => {
+    if (mediaForm.values.audio) {
+      setSelected(() => {
+        const newArr = selected.filter((item) => !item.type.includes("audio"));
+        return [...newArr, mediaForm.values.audio];
+      });
+    }
+  }, [mediaForm.values.audio]);
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const user: any = useAtomValue(userDetails);
   return (
     <Modal
       size="lg"
@@ -34,12 +71,20 @@ function CreatePostModal({ opened, close }) {
         },
       }}
       opened={opened}
-      onClose={close}
+      onClose={() => {
+        setSelected([]);
+        form.reset();
+        close();
+      }}
       title="Create New"
       centered
     >
       <div className="flex flex-col gap-5 mt-6">
-        <UserAvatarWithName fullName="Babatunde Adekunle" username="adeTunes" />
+        <UserAvatarWithName
+          image={user?.user?.photo_url.substring(62)}
+          fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
+          username={user?.user?.username}
+        />
         <div className="flex flex-col gap-8 mb-[86px]">
           <Textarea
             placeholder="Create a post. Share a moment. Tell people what's on your mind"
@@ -53,6 +98,7 @@ function CreatePostModal({ opened, close }) {
             maxRows={8}
             {...form.getInputProps("text")}
           />
+          <DisplayMedia selected={selected} />
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
               <Icon
@@ -63,7 +109,10 @@ function CreatePostModal({ opened, close }) {
                 className="cursor-pointer"
               />
             </div>
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
+            <label
+              htmlFor="image-file"
+              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+            >
               <Icon
                 icon="ic:outline-image"
                 color="#2A2A2A"
@@ -71,8 +120,17 @@ function CreatePostModal({ opened, close }) {
                 height={24}
                 className="cursor-pointer"
               />
-            </div>
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
+              <FileInput
+                hidden
+                id="image-file"
+                accept="image/png,image/jpeg"
+                {...mediaForm.getInputProps("image")}
+              />
+            </label>
+            <label
+              htmlFor="video-file"
+              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+            >
               <Icon
                 icon="mdi:video-outline"
                 color="#2A2A2A"
@@ -80,7 +138,13 @@ function CreatePostModal({ opened, close }) {
                 height={24}
                 className="cursor-pointer"
               />
-            </div>
+              <FileInput
+                hidden
+                id="video-file"
+                accept="video/mp4"
+                {...mediaForm.getInputProps("video")}
+              />
+            </label>
             <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
               <Icon
                 icon="ant-design:audio-outlined"
@@ -105,10 +169,19 @@ function CreatePostModal({ opened, close }) {
                 });
               var data = new FormData();
               data.append("text", form.values.text);
+              selected.forEach((item) => {
+                item.type.includes("image")
+                  ? data.append("photo", item, item.name)
+                  : item.type.includes("video")
+                  ? data.append("video", item, item.name)
+                  : null;
+              });
               data.append("is_article", "yes");
               data.append("publish", "save");
               createPost(data, setLoading, () => {
                 queryClient.invalidateQueries(["all-posts"]);
+                setSelected([]);
+                form.reset();
                 close();
               });
             }}

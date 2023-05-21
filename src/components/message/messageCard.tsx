@@ -18,7 +18,7 @@ function MessageCard({ image, text, name, date, unread, onClick, id }) {
     >
       <div className="flex items-center gap-[19px]">
         <div className="w-[52px] h-[52px]">
-          <Image
+          <img
             src={image}
             className="w-full h-full object-cover rounded-full"
             alt=""

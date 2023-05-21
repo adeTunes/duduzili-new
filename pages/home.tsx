@@ -21,9 +21,8 @@ const HomePage: NextPageX = () => {
 
   useEffect(() => {
     if (data && !isError) {
-      setAllPosts(data);
+      setAllPosts(data.results);
     }
-    
   }, [data]);
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -34,9 +33,9 @@ const HomePage: NextPageX = () => {
         <main className="bg-[#FBFBFB] max-w-[1121px] justify-between h-full overflow-auto pt-[50px] w-[80%] mx-auto gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-w-[718px] flex flex-col gap-12"
+            className="w-[70%] pb-[50px] overflow-auto max-w-[718px] flex flex-col gap-12"
           >
-            {showCommunityPreview && <CommunityPreview />}
+            {user?.token && showCommunityPreview && <CommunityPreview />}
             {user?.token && <CreatePost />}
             {isLoading ? <PostSkeleton /> : <PostSection />}
           </section>

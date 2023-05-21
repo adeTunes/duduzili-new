@@ -23,7 +23,7 @@ const MutedUsers: NextPageX = () => {
             >
               <div className="flex gap-3 items-center">
                 <div className="w-[36px] h-[36px]">
-                  <Image
+                  <img
                     src={item?.photo_url?.substring(62)}
                     className="w-full h-full rounded-full object-cover"
                     alt="profile picture of suggested friend"
@@ -51,7 +51,7 @@ const MutedUsers: NextPageX = () => {
         <div className="flex h-full items-center justify-center">
           <div className="flex flex-col gap-10">
             <div className="w-[330px] h-[300px]">
-              <Image
+              <img
                 src="/settings/empty-muted-users.png"
                 className="h-full w-full object-cover"
                 alt="empty blocked users picture"

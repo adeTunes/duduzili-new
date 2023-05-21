@@ -19,7 +19,7 @@ function Header() {
       routeId: "/home",
     },
     {
-      href: "/communities/all",
+      href: "/communities/joined",
       icon: <Profile2User size="20" variant="Outline" />,
       routeId: "communities",
     },
@@ -35,7 +35,7 @@ function Header() {
     },
     {
       icon: (
-        <Image
+        <img
           src={user?.user?.photo_url?.substring(62)}
           className="w-10 h-10 cursor-pointer rounded-full object-cover"
           alt=""
@@ -49,7 +49,7 @@ function Header() {
     <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
       <Link href="/home">
         <div className="h-[49px]">
-          <Image src="/logo.png" alt="duduzili logo" className="h-full" />
+          <img src="/logo.png" alt="duduzili logo" className="h-full" />
         </div>
       </Link>
       <TextInput

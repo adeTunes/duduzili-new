@@ -20,7 +20,7 @@ function PostVideo({
         </video>
       ) : (
         <>
-          <Image
+          <img
           alt=""
             src={photoUrl}
             className="h-full w-full object-cover rounded-2xl"

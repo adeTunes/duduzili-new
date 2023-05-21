@@ -21,7 +21,7 @@ function PostWithAudio({ post }: { post: Post }) {
         post={post}
         totalComments={post.total_comments}
         totalLikes={post.total_likes}
-        totalReposts={post.total_likes}
+        totalReposts={post.total_reposts}
         iLikeThisPost={post.i_like_this_post}
       />
     </div>

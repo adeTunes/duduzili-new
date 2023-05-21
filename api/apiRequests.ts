@@ -27,6 +27,9 @@ export const reportPost = (data) => {
 export const blockUser = (data) => {
   return API.post(`/api/v1/rest-auth/block/`, data);
 };
+export const postAComment = (data) => {
+  return API.post(`/api/v1/rest-auth/comment/`, data);
+};
 
 // PUT REQUESTS
 
@@ -39,7 +42,7 @@ export const getUserDetails = (id) => {
   return API.get(`/api/v1/rest-auth/user/${id}/`);
 };
 export const getAllPosts = () => {
-  return API.get("/api/v1/rest-auth/posts/");
+  return API.get("/api/v1/rest-auth/posts/?limit=20");
 };
 export const getTrendingPosts = () => {
   return API.get("/api/v1/rest-auth/trending/");
@@ -97,4 +100,16 @@ export const switchStatusOnline = () => {
 };
 export const switchStatusOffline = () => {
   return API.get("/api/v1/rest-auth/change_status/No/");
+};
+export const likeUnlikeComment = (id) => {
+  return API.get(`/api/v1/rest-auth/like_comment/${id}/`);
+};
+export const likeUnlikePost = (id) => {
+  return API.get(`/api/v1/rest-auth/like/${id}/`);
+};
+export const getCommunityCategoryList = () => {
+  return API.get(`api/v1/rest-auth/community/community-category-list`);
+};
+export const getCommunityList = (category) => {
+  return API.get(`/api/v1/rest-auth/community/community-list?limit=20${category ? "&category_name=" + category : ""}`);
 };

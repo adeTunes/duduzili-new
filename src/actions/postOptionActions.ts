@@ -2,12 +2,14 @@ import { showNotification } from "@mantine/notifications";
 import {
   blockUser,
   followUser,
+  likeUnlikePost,
   muteUser,
   reportPost,
   savePost,
   unblockUser,
   unmuteUser,
 } from "../../api/apiRequests";
+import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
 export const savePostAction = (loader, id, refetch) => {
   loader(true);
@@ -144,4 +146,20 @@ export const reportPostAction = (data, loader, refetch) => {
       });
       loader(false);
     });
+};
+
+export const likeOrUnlikePost = async (id, loader, onSuccess) => {
+  loader(true);
+  try {
+    const request = await likeUnlikePost(id);
+    showNotification({
+      message: request.data.message,
+      color: "green",
+    });
+    onSuccess();
+    loader(false);
+  } catch (e) {
+    loader(false);
+    errorMessageHandler(e);
+  }
 };

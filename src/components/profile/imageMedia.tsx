@@ -18,7 +18,7 @@ function ImageMedia({ image }) {
           <small className="text-[12px] leading-[15px] text-white">21K</small>
         </div>
       </div>
-      <Image src={image} className="w-full h-full object-cover" alt="" />
+      <img src={image} className="w-full h-full object-cover" alt="" />
     </div>
   );
 }

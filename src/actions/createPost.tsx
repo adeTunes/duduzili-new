@@ -7,7 +7,6 @@ export const createPost = async (data, loader, onSuccess) => {
   try {
     const request = await createPostRequest(data);
     showNotification({
-      title: "Success",
       message: "Post created successfully",
       color: "green",
     });

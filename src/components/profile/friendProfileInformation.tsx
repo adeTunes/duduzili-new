@@ -22,7 +22,7 @@ function FriendProfileInformation({ friendDetails }) {
         />
         <div className="flex justify-between items-center pl-8">
           <div className="w-[150px] h-[150px] mt-[-70px]">
-            <Image
+            <img
               src={friendDetails?.user?.photo_url?.substring(62)}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
