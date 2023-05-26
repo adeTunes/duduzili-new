@@ -6,9 +6,11 @@ import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import { Icon } from "@iconify/react";
 import { ArrowLeft } from "iconsax-react";
+import { useRouter } from "next/router";
 import React from "react";
 
 function AboutUs() {
+  const {back} = useRouter()
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -21,7 +23,7 @@ function AboutUs() {
             className="w-[70%] overflow-auto max-w-[726px] flex flex-col gap-[54px]"
           >
             <div className="flex items-center gap-10">
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
+              <ArrowLeft className="cursor-pointer" onClick={back} size="32" color="#2A2A2A" variant="Outline" />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 About Duduzili
               </p>

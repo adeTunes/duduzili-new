@@ -1,33 +1,26 @@
 import { Icon } from "@iconify/react";
-import Image from "next/image";
+import {clsx} from "@mantine/core"
 import React from "react";
 
-function CommunityHeader() {
+function CommunityHeader({ membersPhoto, name, totalMembers }) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-col gap-[9px]">
         <p className="font-bold text-[18px] leading-[24px] text-[#2A2A2A]">
-          Socio-economic issues in Africa
+          {name}
         </p>
         <div className="flex items-center gap-[19px]">
           <div className="flex">
-            <img
-              src="/homePage/ellipse-1.png"
-              className="w-[33px] h-[33px] object-cover rounded-full"
-              alt=""
-            />
-            <img
-              src="/homePage/ellipse-2.png"
-              className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
-              alt=""
-            />
-            <img
-              src="/homePage/ellipse-3.png"
-              className="w-[33px] h-[33px] object-cover rounded-full ml-[-20px]"
-              alt=""
-            />
+            {membersPhoto?.map((item, index) => (
+              index < 3 &&
+              <img key={index}
+                src={item}
+                className={clsx(index !== 0 && "ml-[-20px]", "w-[33px] h-[33px] object-cover rounded-full")}
+                alt=""
+              />
+            ))}
           </div>
-          <p className="leading-[24px] text-[#2A2A2A]">43 members</p>
+          <p className="leading-[24px] text-[#2A2A2A]">{totalMembers} members</p>
         </div>
       </div>
       <Icon

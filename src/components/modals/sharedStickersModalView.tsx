@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PrimaryButton from "../button/primaryButton";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
+import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 
 function SharedStickersModalView({ setActive }) {
+  const user: any = useAtomValue(userDetails);
   const stickers = [
     {
       name: "Crocs",
@@ -32,6 +36,7 @@ function SharedStickersModalView({ setActive }) {
       count: 2,
     },
   ];
+  const [openAuth, setOpenAuth] = useState(false);
   return (
     <>
       <div className="overflow-auto">
@@ -51,8 +56,12 @@ function SharedStickersModalView({ setActive }) {
       </div>
       <PrimaryButton
         text="Gift Sticker"
-        onClick={() => setActive((v) => v + 1)}
+        onClick={() => {
+          if (!user?.token) return setOpenAuth(true)
+          setActive((v) => v + 1);
+        }}
       />
+      <UnAuthenticaticatedUserModal opened={openAuth} setOpened={setOpenAuth} />
     </>
   );
 }

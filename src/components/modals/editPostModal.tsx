@@ -12,27 +12,62 @@ import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
 import { AudioSquare } from "iconsax-react";
+import { useRouter } from "next/router";
+import { postComment } from "@/actions/commentActions";
+import useSinglePost from "../../../hooks/useSinglePost";
 
-function CreatePostModal({ opened, close }) {
+function EditPostModal({ opened, close, id }) {
+  const { data } = useSinglePost(id);
+
+  const post_id = id;
   const form = useForm({
     initialValues: {
       text: "",
+      post_id,
     },
   });
-
   const [selected, setSelected] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
+
+  useEffect(() => {
+    if (data) {
+      if (data?.post?.text) form.setFieldValue("text", data?.post?.text);
+      if (data?.post?.audio) {
+        setSelected((prev) => {
+          const filtered = prev.filter(
+            (item) => item.value !== data?.post?.audio
+          );
+          return [...filtered, { type: "audio", value: data?.post?.audio }];
+        });
+      }
+      if (data?.post?.video) {
+        setSelected((prev) => {
+          const filtered = prev.filter(
+            (item) => item.value !== data?.post?.video
+          );
+          return [...filtered, { type: "video", value: data?.post?.video }];
+        });
+      }
+      if (data?.post?.photo) {
+        setSelected((prev) => {
+          const filtered = prev.filter(item => item.value !== data?.post?.photo)
+          return [...filtered, { type: "image", value: data?.post?.photo }];
+        });
+      }
+    }
+  }, [data]);
+
   return (
     <Modal
       size="lg"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 rounded-[24px]",
+        content: "py-6 px-8 flex flex-col overflow-auto rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
+        body: "overflow-auto",
       }}
       styles={{
         content: {
@@ -45,16 +80,16 @@ function CreatePostModal({ opened, close }) {
         form.reset();
         close();
       }}
-      title="Create New"
+      title="Edit Post"
       centered
     >
-      <div className="flex flex-col gap-5 mt-6">
+      <div className="grid h-full overflow-auto grid-rows-[auto_1fr_auto] gap-5 mt-6">
         <UserAvatarWithName
           image={user?.user?.photo_url.substring(62)}
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
-        <div className="flex flex-col gap-8 mb-[86px]">
+        <div className="flex flex-col gap-8 flex-1 overflow-auto pb-[86px]">
           <Textarea
             placeholder="Create a post. Share a moment. Tell people what's on your mind"
             classNames={{
@@ -67,7 +102,7 @@ function CreatePostModal({ opened, close }) {
             maxRows={8}
             {...form.getInputProps("text")}
           />
-          <DisplayMedia setSelected={setSelected} selected={selected} />
+          <DisplayMedia selected={selected} setSelected={setSelected} />
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
               <Icon
@@ -136,17 +171,17 @@ function CreatePostModal({ opened, close }) {
                 });
               var data = new FormData();
               data.append("text", form.values.text);
-              selected.forEach((item) => {
-                item.type === "image"
-                  ? data.append("photo", item.value, item.value.name)
-                  : item.type === "video"
-                  ? data.append("video", item.value, item.value.name)
-                  : null;
-              });
-              data.append("is_article", "yes");
-              data.append("publish", "save");
-              createPost(data, setLoading, () => {
-                queryClient.invalidateQueries(["all-posts"]);
+              data.append("post_id", form.values.post_id as string);
+              selected.length &&
+                selected.forEach((item) => {
+                  item.type.includes("image")
+                    ? data.append("photo", item, item.name)
+                    : item.type.includes("video")
+                    ? data.append("video", item, item.name)
+                    : null;
+                });
+              postComment(data, setLoading, () => {
+                queryClient.invalidateQueries(["single-posts", post_id]);
                 setSelected([]);
                 form.reset();
                 close();
@@ -160,4 +195,4 @@ function CreatePostModal({ opened, close }) {
   );
 }
 
-export default CreatePostModal;
+export default EditPostModal;

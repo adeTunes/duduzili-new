@@ -1,10 +1,15 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import useDiscoverPeople from "../../../../hooks/useDiscoverPeople";
-import Image from "next/image";
+import { followUserAction } from "@/actions/postOptionActions";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader } from "@mantine/core";
 
 function DiscoverPeople() {
   const { data } = useDiscoverPeople();
+  const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState(false);
   return (
     <div
       className="bg-white rounded-2xl p-6 flex flex-col gap-6"
@@ -29,7 +34,7 @@ function DiscoverPeople() {
                     <div className="flex gap-3 items-center">
                       <div className="w-[36px] h-[36px]">
                         <img
-                          src={item?.photo_url?.substring(62)}
+                          src={item?.photo_url?.substring(62) || "/profile-pic-default.png"}
                           className="w-full h-full rounded-full object-cover"
                           alt="profile picture of suggested friend"
                         />
@@ -43,15 +48,23 @@ function DiscoverPeople() {
                         </p>
                       </div>
                     </div>
-                    {item?.is_following ? (
-                      <p className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]">
-                        Unfollow
-                      </p>
-                    ) : (
-                      <p className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]">
-                        Follow
-                      </p>
-                    )}
+                    <p
+                      onClick={() => {
+                        setSelected(item?.id);
+                        followUserAction(setLoading, item?.id, () =>
+                          queryClient.invalidateQueries(["discover-people"])
+                        );
+                      }}
+                      className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
+                    >
+                      {loading && selected === item?.id ? (
+                        <Loader size="xs" />
+                      ) : item?.is_following ? (
+                        "Unfollow"
+                      ) : (
+                        "Follow"
+                      )}
+                    </p>
                   </div>
                 )
             )}

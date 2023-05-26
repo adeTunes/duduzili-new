@@ -7,13 +7,14 @@ import AuthenticationLayout from "@/layout/authentication";
 import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { loginUser } from "../api/apiRequests";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import { Loading } from "@/components/loading";
 import { useSetAtom } from "jotai";
 import { userDetails } from "@/store";
 import { LoginUser } from "../api/request.types";
+import AudioPlayer from "@/components/audioPlayer";
 
 const Home: NextPageX = () => {
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,7 @@ const Home: NextPageX = () => {
       errorMessageHandler(e);
     }
   };
+
   return (
     <div className="flex-1 flex items-center justify-center">
       <form
@@ -55,7 +57,7 @@ const Home: NextPageX = () => {
               autoComplete="off"
               classNames={{
                 input:
-                  "border border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Email address/ username"
               required
@@ -64,7 +66,7 @@ const Home: NextPageX = () => {
             <PasswordInput
               classNames={{
                 input:
-                  "border border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Password"
               required
@@ -79,7 +81,7 @@ const Home: NextPageX = () => {
         </div>
         <Button
           type="submit"
-          className="bg-duduzili-violet text-lg font-semibold h-[54px] rounded-lg"
+          className="bg-duduzili-violet text-lg font-semibold h-[5.8vh] rounded-lg"
         >
           Log In
         </Button>

@@ -3,8 +3,10 @@ import { clsx } from "@mantine/core";
 import React from "react";
 import { savePostAction } from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
+import EditPostModal from "@/components/modals/editPostModal";
+import { useDisclosure } from "@mantine/hooks";
 
-function PersonalPostOptions({ setLoading, post }) {
+function PersonalPostOptions({ setLoading, open, post }) {
   const queryClient = useQueryClient();
   const personalPostOptions = [
     {
@@ -32,19 +34,7 @@ function PersonalPostOptions({ setLoading, post }) {
           width={24}
         />
       ),
-      action: () => {},
-    },
-    {
-      name: "Pin post",
-      icon: (
-        <Icon
-          color="#2A2A2A"
-          icon="ph:push-pin-simple"
-          height={24}
-          width={24}
-        />
-      ),
-      action: () => {},
+      action: open,
     },
     {
       name: "Delete Post",

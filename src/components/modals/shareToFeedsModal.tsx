@@ -13,7 +13,7 @@ function ShareToFeedsModal({ opened, close, post }) {
       size="61.483vw"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 rounded-[24px] flex flex-col overflow-auto",
+        content: "py-6 px-8 max-w-[580px] rounded-[24px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto grid grid-rows-[1fr_auto] !p-0 !pt-6",

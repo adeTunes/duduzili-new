@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllPosts, getTrendingPosts } from "../api/apiRequests";
-import { Posts } from "../api/request.types";
+import { getTrendingPosts } from "../api/apiRequests";
+import { Post } from "../api/request.types";
 
 function UseTrendingPosts() {
-  return useQuery<Posts>({
+  return useQuery<Array<Post>>({
     queryKey: ["trending-posts"],
     queryFn: async () => {
       try {
         const { data } = await getTrendingPosts();
-        return data;
+        return data.trending.post;
       } catch (e) {
         // return e;
       }

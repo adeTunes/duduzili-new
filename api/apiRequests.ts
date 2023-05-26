@@ -1,9 +1,5 @@
 import API from "./axiosConfig";
-import {
-  LoginUser,
-  RegisterUser,
-  verifyAccountType,
-} from "./request.types";
+import { LoginUser, RegisterUser, verifyAccountType } from "./request.types";
 
 // POST REQUESTS
 export const loginUser = (data: LoginUser) => {
@@ -22,6 +18,9 @@ export const createPostRequest = (data) => {
 
 export const reportPost = (data) => {
   return API.post("/api/v1/rest-auth/report_post/", data);
+};
+export const reportUser = (data) => {
+  return API.post("/api/v1/rest-auth/report_user/", data);
 };
 
 export const blockUser = (data) => {
@@ -111,5 +110,15 @@ export const getCommunityCategoryList = () => {
   return API.get(`api/v1/rest-auth/community/community-category-list`);
 };
 export const getCommunityList = (category) => {
-  return API.get(`/api/v1/rest-auth/community/community-list?limit=20${category ? "&category_name=" + category : ""}`);
+  return API.get(
+    `/api/v1/rest-auth/community/community-list?limit=20${
+      category ? "&category_name=" + category : ""
+    }`
+  );
 };
+export const getCommunityJoined = () => {
+  return API.get(
+    `/api/v1/rest-auth/community/community-list?limit=20&active_user=1`
+  );
+};
+

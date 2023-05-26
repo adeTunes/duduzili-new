@@ -32,7 +32,7 @@ const ForgotPassword: NextPageX = () => {
             autoComplete="off"
             classNames={{
               input:
-                "border border-solid border-duduzili-chinese-white rounded-lg",
+                "border h-[48px] border-solid border-duduzili-chinese-white rounded-lg",
             }}
             placeholder="Email address"
           />

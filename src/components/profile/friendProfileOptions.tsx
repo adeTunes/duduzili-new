@@ -8,10 +8,13 @@ import {
   reportPostAction,
 } from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
+import ReportUserModal from "../modals/reportUserModal";
+import { useDisclosure } from "@mantine/hooks";
 
 function FriendProfileOptions({ post, setLoading }) {
   const fullName = `${post?.user?.first_name} ${post?.user?.last_name}`;
   const queryClient = useQueryClient();
+  const [opened, {open, close}] = useDisclosure(false)
   const personalPostOptions = [
     {
       name: `Mute ${fullName}`,
@@ -22,12 +25,9 @@ function FriendProfileOptions({ post, setLoading }) {
         ),
     },
     {
-      name: `Report Post`,
+      name: `Report ${fullName}`,
       icon: <Flag size="24" color="#2A2A2A" />,
-      action: () =>
-        reportPostAction({ id: post?.id }, setLoading, () =>
-          queryClient.invalidateQueries(["all-posts"])
-        ),
+      action: open
     },
     {
       name: `Block ${fullName}`,
@@ -40,7 +40,6 @@ function FriendProfileOptions({ post, setLoading }) {
   ];
   return (
     <Menu
-      closeOnItemClick={false}
       shadow="md"
       width={200}
       classNames={{
@@ -96,6 +95,7 @@ function FriendProfileOptions({ post, setLoading }) {
           </div>
         </Menu.Item>
       </Menu.Dropdown>
+      <ReportUserModal id={post?.user?.id} close={close} opened={opened} />
     </Menu>
   );
 }

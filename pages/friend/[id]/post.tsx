@@ -6,10 +6,11 @@ import PostsContainer from "@/components/homepage/posts/postsContainer";
 import { useEffect } from "react";
 import { useSetAtom } from "jotai";
 import { friendPersonalDetails } from "@/store";
+import {base64decode} from "nodejs-base64"
 
 const FriendProfilePost: NextPageX = () => {
   const { query } = useRouter();
-  const { data } = useUserActivities(+query.id);
+  const { data } = useUserActivities(base64decode(query.id as string));
   const setFriendDetails = useSetAtom(friendPersonalDetails);
 
   useEffect(() => {

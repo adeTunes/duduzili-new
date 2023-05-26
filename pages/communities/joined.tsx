@@ -8,8 +8,13 @@ import { Icon } from "@iconify/react";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import { NextPageX } from "../../types/next";
 import MyCommunitiesSlider from "@/components/communities/myCommunitiesSlider";
+import useCommunityJoined from "../../hooks/useCommunitiesJoined";
+import { useDisclosure } from "@mantine/hooks";
+import CreateCommunityModal from "@/components/modals/createCommunityModal";
 
 const Communities: NextPageX = () => {
+  const { data } = useCommunityJoined();
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -28,6 +33,7 @@ const Communities: NextPageX = () => {
               <p
                 role="button"
                 className="py-4 bg-duduzili-violet rounded-[32px] px-6 flex items-center gap-1"
+                onClick={open}
               >
                 <Add size="24" color="#FFFFFF" variant="Outline" />
                 <span className="font-medium leading-[19px] text-white">
@@ -35,7 +41,7 @@ const Communities: NextPageX = () => {
                 </span>
               </p>
             </div>
-            <CommunityList />
+            <CommunityList communities={data?.results} />
           </section>
           <aside
             id="no-scroll"
@@ -63,6 +69,7 @@ const Communities: NextPageX = () => {
           <FixedMessagesButton />
         </main>
       </div>
+      <CreateCommunityModal opened={opened} close={close} />
     </div>
   );
 };

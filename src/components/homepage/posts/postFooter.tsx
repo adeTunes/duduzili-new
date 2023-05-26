@@ -10,6 +10,10 @@ import { useRouter } from "next/router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import Link from "next/link";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
+import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
+import { base64encode } from 'nodejs-base64';
 
 function PostFooter({
   totalLikes,
@@ -29,17 +33,21 @@ function PostFooter({
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { pathname, query } = useRouter();
+  const user: any = useAtomValue(userDetails);
+  const router = useRouter();
+  const [openAuthModal, setOpenAuth] = useState(false)
   return (
     <div className="flex items-center justify-between">
       <div className="flex w-[241px] items-center py-3 px-4 gap-10 bg-[#F4F4F4] rounded-[40px]">
         <div
-          onClick={() =>
+          onClick={() => {
+            if (!user?.token) return setOpenAuth(true)
             likeOrUnlikePost(post?.id, setLoadActions, () => {
               if (pathname.includes("home")) {
                 queryClient.invalidateQueries(["all-posts"]);
-              } else queryClient.invalidateQueries(["single-posts", +query.id]);
-            })
-          }
+              } else queryClient.invalidateQueries(["single-posts", query.id]);
+            });
+          }}
           className="flex items-center gap-2"
         >
           {loadActions ? (
@@ -58,7 +66,13 @@ function PostFooter({
             </>
           )}
         </div>
-        <Link href={`/posts/${post?.id}`} className="cursor-ponter flex items-center gap-2">
+        <div
+          onClick={() => {
+            if (!user?.token) return setOpenAuth(true)
+            router.push(`/posts/${base64encode(String(post?.id))}`);
+          }}
+          className="cursor-ponter flex items-center gap-2"
+        >
           <MessageText
             className="cursor-pointer"
             size="24"
@@ -68,12 +82,8 @@ function PostFooter({
           <p className=" text-[14px] text-[#2A2A2A] leading-[17px]">
             {totalComments}
           </p>
-        </Link>
-        <ShareOptions
-          setLoading={setLoading}
-          post={post}
-          totalReposts={totalReposts}
-        />
+        </div>
+        <ShareOptions post={post} totalReposts={totalReposts} />
       </div>
       <div
         onClick={open}
@@ -84,6 +94,7 @@ function PostFooter({
       </div>
       <Loading loading={loading} />
       <SharedStickersModal opened={opened} close={close} />
+      <UnAuthenticaticatedUserModal opened={openAuthModal} setOpened={setOpenAuth} />
     </div>
   );
 }

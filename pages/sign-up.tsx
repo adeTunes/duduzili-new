@@ -68,7 +68,7 @@ const SignUp: NextPageX = () => {
                 autoComplete="off"
                 classNames={{
                   input:
-                    "border border-solid border-duduzili-chinese-white rounded-lg",
+                    "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
                 }}
                 placeholder="First Name"
                 {...form.getInputProps("first_name")}
@@ -78,7 +78,7 @@ const SignUp: NextPageX = () => {
                 autoComplete="off"
                 classNames={{
                   input:
-                    "border border-solid border-duduzili-chinese-white rounded-lg",
+                    "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
                 }}
                 placeholder="Last Name"
                 {...form.getInputProps("last_name")}
@@ -99,7 +99,7 @@ const SignUp: NextPageX = () => {
               autoComplete="off"
               classNames={{
                 input:
-                  "border border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               type="email"
               placeholder="Email address"
@@ -110,7 +110,7 @@ const SignUp: NextPageX = () => {
               autoComplete="off"
               classNames={{
                 input:
-                  "border border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Username"
               {...form.getInputProps("username")}
@@ -119,7 +119,7 @@ const SignUp: NextPageX = () => {
               required
               classNames={{
                 input:
-                  "border border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Password"
               {...form.getInputProps("password")}
@@ -128,7 +128,7 @@ const SignUp: NextPageX = () => {
               required
               classNames={{
                 input:
-                  "border border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Confirm Password"
               {...form.getInputProps("confirm_password")}
@@ -137,7 +137,7 @@ const SignUp: NextPageX = () => {
         </div>
         <Button
           type="submit"
-          className="bg-duduzili-violet text-lg font-semibold h-[54px] rounded-lg"
+          className="bg-duduzili-violet text-lg font-semibold h-[5.8vh] rounded-lg"
         >
           Sign Up
         </Button>

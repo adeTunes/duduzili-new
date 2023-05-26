@@ -2,6 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #B1ADA9 #EFEFEF;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #EFEFEF;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #EFEFEF;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #EFEFEF;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #B1ADA9;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #B1ADA9;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #B1ADA9;
+}
+
 div#conversations-container {
   scrollbar-width: none; /* For Firefox and Edge */
   -ms-overflow-style: none; /* For Internet Explorer and Edge */
@@ -23,3 +60,58 @@ div#messages::-webkit-scrollbar {
 #no-scroll::-webkit-scrollbar {
   display: none;
 }
+
+/* AUDIO PLAYER */
+.voice-note {
+  background-color: #e5efff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.sender-info {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.controls button {
+  background-color: #e5efff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.controls button:hover {
+  background-color: #d5e5ff;
+}
+
+.upload input[type='file'] {
+  display: none;
+}
+
+.upload label {
+  background-color: #e5efff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.upload label:hover {
+  background-color: #d5e5ff;
+}
+
+
+
+
+

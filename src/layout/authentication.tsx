@@ -13,14 +13,14 @@ export default function AuthenticationLayout({
   const tags2 = ["Text", "Chat"];
   return (
     <main className="flex h-screen">
-      <section className="flex-1 flex flex-col h-full py-[100px]">
+      <section className="flex-1 flex flex-col h-full py-[7vh]">
         <div className="h-[49px] flex justify-center">
           <img src="/logo.png" className="h-full" alt="" />
         </div>
         {children}
       </section>
       <section
-        className="h-full flex-1 py-[100px] relative"
+        className="h-full flex-1 py-[10vh] relative"
         style={{
           backgroundImage: 'url("/authentication/login-bg.png")',
           backgroundSize: "cover",
@@ -28,7 +28,7 @@ export default function AuthenticationLayout({
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="h-full w-full top-0 absolute bg-[#7060CF] opacity-50"></div>
+        <div style={{background: "radial-gradient(44.43% 84.94% at 52.99% 50%, #7556F4 0%, #4534B8 100%)"}} className="h-full w-full top-0 absolute opacity-80"></div>
         <div className="h-full relative flex items-center">
           <div className="w-[52%] z-[9] mx-auto flex flex-col gap-6">
             <h1 className=" text-[48px] leading-[53px] text-white font-bold">

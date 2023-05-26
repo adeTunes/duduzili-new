@@ -19,7 +19,7 @@ function DiscoverCommunitiesCard({ community }: {community: Community}) {
                   index < 3 &&
                   <img key={index}
                     src="/homePage/ellipse-2.png"
-                    className={clsx(index !== 0 && "ml-[-20px]", "w-[33px] h-[33px] object-cover rounded-full")}
+                    className={clsx(index !== 0 && "ml-[-20px]", "w-[33px] border-[2px] border-white h-[33px] object-cover rounded-full")}
                     alt=""
                   />
                 ))

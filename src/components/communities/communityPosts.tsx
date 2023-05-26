@@ -4,10 +4,11 @@ import ReplyCard from "./replies/replyCard";
 import { useRouter } from "next/router";
 import useSinglePost from "../../../hooks/useSinglePost";
 import PostsContainer from "../homepage/posts/postsContainer";
+import {base64decode} from "nodejs-base64"
 
 function CommunityPost() {
   const { query } = useRouter();
-  const { data } = useSinglePost(+query.id);
+  const { data } = useSinglePost(base64decode(query.id as string));
 
   return (
     <>

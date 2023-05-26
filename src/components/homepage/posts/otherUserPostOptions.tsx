@@ -2,7 +2,6 @@ import {
   blockUserAction,
   followUserAction,
   muteUserAction,
-  reportPostAction,
   savePostAction,
 } from "@/actions/postOptionActions";
 import { Icon } from "@iconify/react";
@@ -11,7 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Flag, MicrophoneSlash, TicketStar, UserAdd } from "iconsax-react";
 import React from "react";
 
-function OtherUserPostOptions({ setLoading, post }) {
+function OtherUserPostOptions({ setLoading, open, post }) {
   const fullName = `${post?.user?.first_name} ${post?.user?.last_name}`;
   const queryClient = useQueryClient();
   const personalPostOptions = [
@@ -62,10 +61,7 @@ function OtherUserPostOptions({ setLoading, post }) {
     {
       name: `Report Post`,
       icon: <Flag size="24" color="#2A2A2A" />,
-      action: () =>
-        reportPostAction({ id: post?.id }, setLoading, () =>
-          queryClient.invalidateQueries(["all-posts"])
-        ),
+      action: open,
     },
   ];
   return (

@@ -6,19 +6,7 @@ import PostOptions from "./postOptions";
 import { Loading } from "@/components/loading";
 import { useRouter } from "next/router";
 import { clsx } from "@mantine/core";
-import Image from "next/image";
-
-/**
- * {
-  date: Date;
-  day: string;
-  user: {
-    username: string;
-    first_name: string;
-    last_name: string;
-    photo_url: string;
-  };
- */
+import {base64encode} from "nodejs-base64"
 
 function PostHeader({ post }) {
   // user={post.user} day={post.date} date={post.date_added}
@@ -32,7 +20,7 @@ function PostHeader({ post }) {
         <div
           onClick={() =>
             post?.user?.id !== loggedInUser?.user?.id &&
-            push(`/friend/${post?.user?.id}/post`)
+            push(`/friend/${base64encode(String(post?.user?.id))}/post`)
           }
           className={clsx(
             post?.user?.id !== loggedInUser?.user?.id && "cursor-pointer",

@@ -3,7 +3,7 @@ import { getUserPosts } from "../api/apiRequests";
 import { Media } from "../api/request.types";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
-function useUserActivities(id: number) {
+function useUserActivities(id) {
   return useQuery({
     queryKey: ["user-activities", id],
     queryFn: async () => {

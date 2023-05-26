@@ -5,6 +5,7 @@ import {
   likeUnlikePost,
   muteUser,
   reportPost,
+  reportUser,
   savePost,
   unblockUser,
   unmuteUser,
@@ -23,6 +24,13 @@ export const savePostAction = (loader, id, refetch) => {
       loader(false);
     })
     .catch((e) => {
+      if (e?.response?.status === 304) {
+        loader(false)
+        return showNotification({
+          message: "Post already saved",
+          color: "red"
+        })
+      } 
       showNotification({
         message: "Something went wrong",
         color: "red",
@@ -131,6 +139,25 @@ export const unblockUserAction = (loader, id, refetch) => {
 export const reportPostAction = (data, loader, refetch) => {
   loader(true);
   reportPost(data)
+    .then(({ data }) => {
+      showNotification({
+        message: data?.message,
+        color: "green",
+      });
+      refetch();
+      loader(false);
+    })
+    .catch((e) => {
+      showNotification({
+        message: "Something went wrong",
+        color: "red",
+      });
+      loader(false);
+    });
+};
+export const reportUserAction = (data, loader, refetch) => {
+  loader(true);
+  reportUser(data)
     .then(({ data }) => {
       showNotification({
         message: data?.message,

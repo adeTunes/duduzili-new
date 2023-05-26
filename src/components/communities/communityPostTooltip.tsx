@@ -15,7 +15,7 @@ function CommunityPostTooltip({ comment }) {
       <div
         onClick={() =>
           likeOrUnlikeComment(comment?.id, setLoading, () => {
-            queryClient.invalidateQueries(["single-posts", +query.id]);
+            queryClient.invalidateQueries(["single-posts", query.id]);
           })
         }
         className="flex items-center cursor-pointer gap-2"
