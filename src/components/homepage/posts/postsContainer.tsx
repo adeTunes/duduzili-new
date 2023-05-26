@@ -14,6 +14,12 @@ function PostsContainer({ post }: { post: Post }) {
     !post?.photo &&
     post?.text ? (
     <PostTextOnly post={post} />
+  ) : !post?.audio &&
+    !post?.youtube_url &&
+    !post?.video &&
+    post?.photo &&
+    post?.text ? (
+    <PostBody post={post} />
   ) : post?.audio && post?.text ? (
     <PostWithAudio post={post} />
   ) : post?.video_url && post?.text && !post?.photo ? (
