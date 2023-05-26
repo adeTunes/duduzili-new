@@ -8,7 +8,7 @@ import {base64decode} from "nodejs-base64"
 
 function PostWithComments() {
   const { query } = useRouter();
-  const { data } = useSinglePost(base64decode(query.id as string));
+  const { data } = useSinglePost(base64decode(String(query.id)));
 
   return (
     <>

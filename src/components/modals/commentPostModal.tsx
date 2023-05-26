@@ -18,7 +18,7 @@ import {base64decode} from "nodejs-base64"
 
 function CommentPostModal({ opened, close }) {
     const { query } = useRouter();
-  const post_id = base64decode(query.id as string);
+  const post_id = base64decode(String(query.id));
   const form = useForm({
     initialValues: {
       text: "",
