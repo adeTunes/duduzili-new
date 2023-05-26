@@ -47,7 +47,7 @@ function TrendingPostsContainer({
               <span className="text-[#2A2A2A] font-semibold text-[12px]">
                 {user?.first_name} {user?.last_name}
               </span>
-              <span className=" text-duduzili-blue text-[12px]">@john_doe</span>
+              <span className=" text-duduzili-blue text-[12px]">@{post?.user?.username}</span>
             </p>
             <span className="flex items-center gap-[10px]">
               <small className="text-[10px] leading-3 text-[#757575]">

@@ -9,7 +9,7 @@ export const API = axios.create({
 API.interceptors.request.use(
   async (config) => {
     const token = await JSON.parse(
-      sessionStorage.getItem("duduzili-user") as string
+      localStorage.getItem("duduzili-user") as string
     )?.token;
     if (token) {
       config.headers.authorization = `Token ${token}`;

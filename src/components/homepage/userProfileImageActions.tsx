@@ -44,7 +44,7 @@ function UserProfileImageActions({ children, setLoading }) {
       color: "#D40000",
       icon: <LogoutCurve className=" rotate-180" color="#D40000" />,
       action: () => {
-        sessionStorage.removeItem("duduzili-user")
+        localStorage.removeItem("duduzili-user")
         router.push("/login");
       },
     },

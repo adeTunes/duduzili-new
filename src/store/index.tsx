@@ -1,9 +1,7 @@
 import { atom } from "jotai";
-import { createJSONStorage, atomWithStorage } from "jotai/utils";
+import { atomWithStorage } from "jotai/utils";
 
-const storage = createJSONStorage(() => sessionStorage);
-
-export const userDetails = atomWithStorage("duduzili-user", {}, storage);
+export const userDetails = atomWithStorage("duduzili-user", {});
 export const toggleCommunityPreview = atom(true);
 export const selectedMessage = atom<string | number>("");
 export const numberofMessages = atom(0);
