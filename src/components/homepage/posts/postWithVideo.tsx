@@ -15,8 +15,8 @@ function PostWithVideo({ post }: { post: Post }) {
       <PostHeader post={post} />
       <PostText text={post.text} postId={post.id} />
       <PostVideo
-        photoUrl={post.photo_url?.substring(62)}
-        videoUrl={post.video_url?.substring(62)}
+        photoUrl={post?.media?.photo?.[0] }
+        videoUrl={post?.media?.video }
       />
       <PostFooter
         post={post}

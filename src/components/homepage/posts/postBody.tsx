@@ -14,7 +14,7 @@ function PostBody({ post }: { post: Post }) {
     >
       <PostHeader post={post} />
       <PostText text={post.text} postId={post.id} />
-      <PostImage image={post.photo_url?.substring(62)} />
+      <PostImage image={post?.media?.photo?.[0]  } />
       <PostFooter />
     </div>
   );

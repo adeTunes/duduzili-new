@@ -8,7 +8,7 @@ import {base64decode} from "nodejs-base64"
 
 function CommunityPost() {
   const { query } = useRouter();
-  const { data } = useSinglePost(base64decode(String(query.id)));
+  const { data } = useSinglePost(+base64decode(String(query.id))/1000000);
 
   return (
     <>
@@ -18,7 +18,7 @@ function CommunityPost() {
       >
         <CommunityPostCreatorProfile />
         <PostText postId={data?.post?.id} text={data?.post?.text} />
-        <PostImage image={data?.post?.photo?.substring(62)} />
+        <PostImage image={data?.post?.photo } />
          <PostManyImages />
         <CommunityPostTooltip
           totalComments={data?.post?.total_comments}

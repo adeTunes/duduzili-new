@@ -20,7 +20,7 @@ function PostHeader({ post }) {
         <div
           onClick={() =>
             post?.user?.id !== loggedInUser?.user?.id &&
-            push(`/friend/${base64encode(String(post?.user?.id))}/post`)
+            push(`/friend/${base64encode(String(1000000 * +post?.user?.id))}/post`)
           }
           className={clsx(
             post?.user?.id !== loggedInUser?.user?.id && "cursor-pointer",
@@ -28,7 +28,7 @@ function PostHeader({ post }) {
           )}
         >
           <img
-            src={user?.photo_url?.substring(62)}
+            src={  user?.photo_url?.substring(62) }
             className="w-full h-full object-cover rounded-full"
             alt="user profile picture"
           />
@@ -49,7 +49,7 @@ function PostHeader({ post }) {
                 ?.join(" ")}
             </small>
             <span className="bg-[#2A2A2A] text-[14px] text-white px-2 rounded-2xl py-1">
-              {day} ago
+              {day.includes("now") ? day : (day.includes("days") || day.includes("min") || day.includes("sec") || day.includes("hr")) ? `${day} ago` : day}
             </span>
           </span>
         </div>

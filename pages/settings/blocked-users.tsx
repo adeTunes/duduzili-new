@@ -23,7 +23,7 @@ const BlockedUsers: NextPageX = () => {
               <div className="flex gap-3 items-center">
                 <div className="w-[36px] h-[36px]">
                   <img
-                    src={item?.photo_url?.substring(62)}
+                    src={item?.photo_url }
                     className="w-full h-full rounded-full object-cover"
                     alt="profile picture of suggested friend"
                   />

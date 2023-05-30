@@ -37,7 +37,7 @@ function TrendingPostsContainer({
         <div className="flex items-center gap-4">
           <div className="h-[40px] w-[40px]">
             <img
-              src={user?.photo_url?.substring(62) || "/profile-pic-default.png"}
+              src={  user?.photo_url?.substring(62)  || "/profile-pic-default.png"}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />
@@ -106,7 +106,7 @@ function TrendingPostsContainer({
           )}
         </div>
         <div onClick={() => {
-          router.push(`/posts/${base64encode(String(post?.id))}`)
+          router.push(`/posts/${base64encode(String(1000000 * +post?.id))}`)
         }} className="cursor-ponter flex items-center gap-[5px]">
           <MessageText
             className="cursor-pointer"

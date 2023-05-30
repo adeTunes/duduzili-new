@@ -18,7 +18,7 @@ import {base64decode} from "nodejs-base64"
 
 function CommentPostModal({ opened, close }) {
     const { query } = useRouter();
-  const post_id = base64decode(String(query.id));
+  const post_id = +base64decode(String(query.id))/1000000;
   const form = useForm({
     initialValues: {
       text: "",
@@ -89,7 +89,7 @@ function CommentPostModal({ opened, close }) {
     >
       <div className="grid h-full overflow-auto grid-rows-[auto_1fr_auto] gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.user?.photo_url.substring(62)}
+          image={user?.  user?.photo_url?.substring(62)  }
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
@@ -171,7 +171,7 @@ function CommentPostModal({ opened, close }) {
                 });
               var data = new FormData();
               data.append("text", form.values.text);
-              data.append("post_id", form.values.post_id as string);
+              data.append("post_id", String(form.values.post_id));
               selected.length && selected.forEach((item) => {
                 item.type.includes("image")
                   ? data.append("photo", item, item.name)

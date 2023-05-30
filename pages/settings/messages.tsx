@@ -2,14 +2,16 @@ import { Sms } from "iconsax-react";
 import { NextPageX } from "../../types/next";
 import SettingsLayout from "@/layout/settingslayout";
 import SettingsOutlineButton from "@/components/settings/settingsOutlineButton";
-import { clsx } from "@mantine/core";
+import { LoadingOverlay, clsx } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import AccountSettingsView from "@/components/settings/accountSettingsView";
 import SearchIcon from "@/components/settings/searchIcon";
 import SwithIcon from "@/components/settings/swithIcon";
 import ActivityIcon from "@/components/settings/activityIcon";
+import UseMessageSettings from "../../hooks/useMessageSettings";
 
 const Messages: NextPageX = () => {
+  const {data, isLoading} = UseMessageSettings()
   return (
     <div className="flex overflow-auto flex-1 flex-col gap-[22px]">
       <div
@@ -46,9 +48,10 @@ const Messages: NextPageX = () => {
               </p>
             </div>
           </div>
-          <SwithIcon />
+          <SwithIcon active={data?.chat_settings?.allow_chat_request} onClick={() => {}} />
         </div>
       </div>
+      <LoadingOverlay visible={isLoading} />
     </div>
   );
 };

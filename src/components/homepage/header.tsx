@@ -19,7 +19,7 @@ function Header() {
       routeId: "/home",
     },
     {
-      href: "/communities/joined",
+      href: "/communities/posts",
       icon: <Profile2User size="20" variant="Outline" />,
       routeId: "communities",
     },
@@ -36,7 +36,7 @@ function Header() {
     {
       icon: (
         <img
-          src={user?.user?.photo_url?.substring(62)}
+          src={user?.user?.photo_url?.substring(62) }
           className="w-10 h-10 cursor-pointer rounded-full object-cover"
           alt=""
         />

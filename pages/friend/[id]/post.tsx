@@ -10,7 +10,7 @@ import {base64decode} from "nodejs-base64"
 
 const FriendProfilePost: NextPageX = () => {
   const { query } = useRouter();
-  const { data } = useUserActivities(base64decode(String(query.id)));
+  const { data } = useUserActivities(+base64decode(String(query.id))/1000000);
   const setFriendDetails = useSetAtom(friendPersonalDetails);
 
   useEffect(() => {

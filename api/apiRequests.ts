@@ -29,19 +29,60 @@ export const blockUser = (data) => {
 export const postAComment = (data) => {
   return API.post(`/api/v1/rest-auth/comment/`, data);
 };
+export const connectAccount = (data) => {
+  return API.post("/api/v1/rest-auth/add_account/", data);
+};
+export const repostPost = (data) => {
+  return API.post(`/api/v1/rest-auth/repost/`, data);
+};
+export const sendOTP = (data) => {
+  return API.post(`/api/v1/rest-auth/resend_otp/`, data);
+};
+export const verifyOTP = (data) => {
+  return API.post(`/api/v1/rest-auth/verify_otp/`, data);
+};
+export const changeEmail = (data: { old_email: string; new_email: string }) => {
+  return API.post(`/api/v1/rest-auth/email/change/`, data);
+};
+export const changePassword = (data: {
+  old_password: string;
+  new_password: string;
+}) => {
+  return API.post(`/api/v1/rest-auth/password/change/`, data);
+};
+export const deactivateAccount = () => {
+  return API.post("/api/v1/rest-auth/deactivate_account/");
+};
+export const joinCommunity = (data) => {
+  return API.post("/api/v1/rest-auth/community/join-or-leave", data);
+};
+export const createCommunity = (data) => {
+  return API.post("/api/v1/rest-auth/community/create", data);
+};
 
 // PUT REQUESTS
 
 export const editProfile = (id: string | number, data: any) => {
   return API.put(`/api/v1/rest-auth/user/${id}/`, data);
 };
+export const editPost = (id: string | number, data: any) => {
+  return API.put(`/api/v1/rest-auth/posts/${id}/`, data);
+};
 
+// DELETE REQUESTS
+
+export const deletePost = (id: string | number) => {
+  return API.delete(`/api/v1/rest-auth/posts/${id}/`);
+};
+export const deleteAccount = (id: string | number) => {
+  return API.delete(`/api/v1/rest-auth/user/${id}/`);
+};
 // GET REQUESTS
 export const getUserDetails = (id) => {
   return API.get(`/api/v1/rest-auth/user/${id}/`);
 };
-export const getAllPosts = () => {
-  return API.get("/api/v1/rest-auth/posts/?limit=20");
+export const getAllPosts = (limit) => {
+  return API.get(`/api/v1/rest-auth/posts/?limit=${limit}`);
 };
 export const getTrendingPosts = () => {
   return API.get("/api/v1/rest-auth/trending/");
@@ -122,3 +163,40 @@ export const getCommunityJoined = () => {
   );
 };
 
+export const getAccountSettings = () => {
+  return API.get("/api/v1/rest-auth/accounts_settings_page/");
+};
+export const signOutOnAllBrowsers = () => {
+  return API.get("/api/v1/rest-auth/signout_on_all_browsers/");
+};
+export const getSafetySettings = () => {
+  return API.get("/api/v1/rest-auth/safety_settings_page/");
+};
+export const getFeedSettings = () => {
+  return API.get("/api/v1/rest-auth/feeds_settings_page/");
+};
+export const getNotificationSettings = () => {
+  return API.get("/api/v1/rest-auth/notification_settings_page/");
+};
+export const getMessageSettings = () => {
+  return API.get("/api/v1/rest-auth/message_settings_page/");
+};
+export const togglePrivacy = () => {
+  return API.get("/api/v1/rest-auth/toggle_is_private/");
+};
+export const toggleSearch = () => {
+  return API.get("/api/v1/rest-auth/toggle_allow_search/");
+};
+export const toggleRecommendation = () => {
+  return API.get("/api/v1/rest-auth/toggle_recommend/");
+};
+export const allowDiscoveryByEmail = () => {
+  return API.get("/api/v1/rest-auth/toggle_allow_profile/");
+};
+export const randomCommunitiesPosts = () => {
+  return API.get("/api/v1/rest-auth/community/post-user-communities");
+};
+
+export const getUserBySearch = (search) => {
+  return API.get(`/api/v1/rest-auth/user/chat_list?query_type=users&search=${search}`)
+}

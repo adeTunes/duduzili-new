@@ -14,8 +14,8 @@ function PostWithAudio({ post }: { post: Post }) {
       <PostHeader post={post} />
       <PostText text={post.text} postId={post.id} />
       <PostAudio
-        audioUrl={post.audio_url}
-        photoUrl={post.photo_url?.substring(62)}
+        audioUrl={post?.media?.audio}
+        photoUrl="/cover-image.png"
       />
       <PostFooter
         post={post}

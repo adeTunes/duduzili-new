@@ -11,12 +11,11 @@ import React, {
 } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
-function DropPictureZone() {
+function DropPictureZone({image, setImage}) {
   const openRef = useRef<() => void>(null);
   const theme = useMantineTheme();
   const imageRef = useRef(null);
 
-  const [image, setImage] = useState(null);
   function displayImage(file) {
     if (file) {
       var reader = new FileReader();

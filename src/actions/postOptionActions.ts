@@ -1,11 +1,14 @@
 import { showNotification } from "@mantine/notifications";
 import {
   blockUser,
+  deletePost,
+  editPost,
   followUser,
   likeUnlikePost,
   muteUser,
   reportPost,
   reportUser,
+  repostPost,
   savePost,
   unblockUser,
   unmuteUser,
@@ -155,6 +158,25 @@ export const reportPostAction = (data, loader, refetch) => {
       loader(false);
     });
 };
+export const repostPostAction = (data, loader, refetch) => {
+  loader(true);
+  repostPost(data)
+    .then(({ data }) => {
+      showNotification({
+        message: data?.message,
+        color: "green",
+      });
+      refetch();
+      loader(false);
+    })
+    .catch((e) => {
+      showNotification({
+        message: "Something went wrong",
+        color: "red",
+      });
+      loader(false);
+    });
+};
 export const reportUserAction = (data, loader, refetch) => {
   loader(true);
   reportUser(data)
@@ -181,6 +203,36 @@ export const likeOrUnlikePost = async (id, loader, onSuccess) => {
     const request = await likeUnlikePost(id);
     showNotification({
       message: request.data.message,
+      color: "green",
+    });
+    onSuccess();
+    loader(false);
+  } catch (e) {
+    loader(false);
+    errorMessageHandler(e);
+  }
+};
+export const editParticularPost = async (id, data, loader, onSuccess) => {
+  loader(true);
+  try {
+    const request = await editPost(id, data);
+    showNotification({
+      message: "Post edited successfully",
+      color: "green",
+    });
+    onSuccess();
+    loader(false);
+  } catch (e) {
+    loader(false);
+    errorMessageHandler(e);
+  }
+};
+export const deleteParticularPost = async (id, loader, onSuccess) => {
+  loader(true);
+  try {
+    const {data} = await deletePost(id);
+    showNotification({
+      message: data?.message || "Post deleted successfully",
       color: "green",
     });
     onSuccess();

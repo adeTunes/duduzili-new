@@ -5,18 +5,21 @@ import CommunityPreview from "@/components/homepage/communityPreview";
 import CreatePost from "@/components/homepage/createPost";
 import PostSection from "@/components/homepage/postSection";
 import Aside from "@/components/homepage/sidebar";
-import { useAtomValue, useSetAtom } from "jotai";
-import { allPosts, toggleCommunityPreview, userDetails } from "@/store";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { allPosts, postLimit, toggleCommunityPreview, userDetails } from "@/store";
 import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import useAllPosts from "../hooks/useAllPosts";
 import { useEffect } from "react";
 import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
+import ShowMoreButton from "@/components/showMoreButton";
+import { Loader } from "@mantine/core";
 
 const HomePage: NextPageX = () => {
   const showCommunityPreview = useAtomValue(toggleCommunityPreview);
+  const [limit, setLimit] = useAtom(postLimit)
   const user: any = useAtomValue(userDetails);
-  const { data, isError, isLoading } = useAllPosts();
+  const { data, isError, isLoading } = useAllPosts(limit);
   const setAllPosts = useSetAtom(allPosts);
 
   useEffect(() => {
@@ -38,6 +41,7 @@ const HomePage: NextPageX = () => {
             {user?.token && showCommunityPreview && <CommunityPreview />}
             {user?.token && <CreatePost />}
             {isLoading ? <PostSkeleton /> : <PostSection />}
+            {data?.next && (isLoading ? <Loader /> : <ShowMoreButton onClick={() => setLimit(prev => prev + 10)} />)}
           </section>
           <Aside />
           <FixedMessagesButton />

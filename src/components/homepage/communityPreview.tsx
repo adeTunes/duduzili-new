@@ -26,7 +26,7 @@ function CommunityPreview() {
         />
       </div>
       <div className="flex flex-col gap-4">
-        <Link href="/communities/all" className="self-end">
+        <Link href="/communities/discover" className="self-end">
           <p className=" font-semibold text-duduzili-violet">View All</p>
         </Link>
         <Slider />

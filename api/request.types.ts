@@ -22,20 +22,37 @@ export type Post = {
   total_comments: number;
   total_reposts: number;
   i_like_this_post: boolean;
+  repost_time: Date;
   user: PostUser;
   parent: null;
   topic: string;
   date: string;
-  photo_url: string;
-  audio_url: string;
-  video_url: string;
   post_url: string;
   youtube_url: string;
+  reposter: {
+    bio: string;
+    country: string;
+    email: string;
+    first_name: string;
+    get_cover_image: string;
+    id: number;
+    is_following: false;
+    is_online: true;
+    is_private: false;
+    last_name: string;
+    password: string;
+    photo_url: string;
+    town: string;
+    username: string;
+  };
+  is_repost: boolean;
+  media: {
+    photo: string[];
+    video: string;
+    audio: string;
+  };
   link_url: string;
   text: string;
-  photo: string;
-  audio: string;
-  video: string;
   is_article: boolean;
   date_added: Date;
   last_modified: Date;
@@ -152,6 +169,7 @@ export interface Following {
 export type CommunityCategoryType = {
   name: string;
   description: string;
+  id: number
 }[];
 
 export type CommunityListData = {
@@ -161,7 +179,7 @@ export type CommunityListData = {
   results: CommunityList;
 };
 
-export type CommunityList = Community[]
+export type CommunityList = Community[];
 
 export type Community = {
   category: any[];
@@ -192,7 +210,84 @@ export interface Owner {
   is_private: boolean;
   last_name: string;
   password: string;
-  photo_url: null;
+  photo_url: string;
   town: null;
   username: string;
+}
+
+
+
+
+export interface RandomPostType {
+  community: RandomCommunity;
+  post:      RandomPost;
+}
+
+export interface RandomCommunity {
+  code:          string;
+  referral_code: string;
+  name:          string;
+  description:   string;
+  owner:         Owner;
+  total_members: number;
+  created:       Date;
+  updated:       Date;
+  is_approved:   boolean;
+  is_private:    boolean;
+  category:      Category[];
+  status:        string;
+  get_logo_url:  string;
+  members_photo: string[];
+}
+
+export interface Category {
+  id:          number;
+  name:        string;
+  description: string;
+  logo:        null;
+}
+
+export interface Owner {
+  id:              number;
+  username:        string;
+  password:        string;
+  email:           string;
+  first_name:      string;
+  last_name:       string;
+  photo_url:       string;
+  get_cover_image: string;
+  is_online:       boolean;
+  bio:             string;
+  town:            null;
+  country:         null;
+  is_private:      boolean;
+  is_following:    boolean;
+}
+
+export interface RandomPost {
+  id:               number;
+  total_likes:      number;
+  total_comments:   number;
+  total_reposts:    number;
+  i_like_this_post: boolean;
+  user:             Owner;
+  parent:           null;
+  topic:            null;
+  date:             string;
+  reposter:         null;
+  youtube_url:      string;
+  link_url:         string;
+  text:             string;
+  media:            Media;
+  is_article:       boolean;
+  date_added:       Date;
+  last_modified:    Date;
+  published:        boolean;
+  title:            string;
+  stickers:         RandomPostMedia;
+  is_repost:        boolean;
+  repost_time:      null;
+}
+
+export interface RandomPostMedia {
 }

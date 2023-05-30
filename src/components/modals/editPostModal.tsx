@@ -15,6 +15,7 @@ import { AudioSquare } from "iconsax-react";
 import { useRouter } from "next/router";
 import { postComment } from "@/actions/commentActions";
 import useSinglePost from "../../../hooks/useSinglePost";
+import { editParticularPost } from "@/actions/postOptionActions";
 
 function EditPostModal({ opened, close, id }) {
   const { data } = useSinglePost(id);
@@ -30,30 +31,39 @@ function EditPostModal({ opened, close, id }) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
+  const { pathname } = useRouter();
 
   useEffect(() => {
     if (data) {
       if (data?.post?.text) form.setFieldValue("text", data?.post?.text);
-      if (data?.post?.audio) {
+      if (data?.post?.media?.audio) {
         setSelected((prev) => {
           const filtered = prev.filter(
-            (item) => item.value !== data?.post?.audio
+            (item) => item.value !== data?.post?.media?.audio
           );
-          return [...filtered, { type: "audio", value: data?.post?.audio }];
+          return [
+            ...filtered,
+            { type: "audio", value: data?.post?.media?.audio },
+          ];
         });
       }
-      if (data?.post?.video) {
+      if (data?.post?.media?.video) {
         setSelected((prev) => {
           const filtered = prev.filter(
-            (item) => item.value !== data?.post?.video
+            (item) => item.value !== data?.post?.media?.video
           );
-          return [...filtered, { type: "video", value: data?.post?.video }];
+          return [
+            ...filtered,
+            { type: "video", value: data?.post?.media?.video },
+          ];
         });
       }
-      if (data?.post?.photo) {
-        setSelected((prev) => {
-          const filtered = prev.filter(item => item.value !== data?.post?.photo)
-          return [...filtered, { type: "image", value: data?.post?.photo }];
+      if (data?.post?.media?.photo) {
+        data?.post?.media?.photo?.forEach((el) => {
+          setSelected((prev) => {
+            const filtered = prev.filter((item) => item.value !== el);
+            return [...filtered, { type: "image", value: el }];
+          });
         });
       }
     }
@@ -85,7 +95,7 @@ function EditPostModal({ opened, close, id }) {
     >
       <div className="grid h-full overflow-auto grid-rows-[auto_1fr_auto] gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.user?.photo_url.substring(62)}
+          image={user?.user?.photo_url?.substring(62)}
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
@@ -128,6 +138,7 @@ function EditPostModal({ opened, close, id }) {
                 hidden
                 id="image-file"
                 accept="image/png,image/jpeg"
+                multiple
                 onChange={(value) => {
                   setSelected([...selected, { type: "image", value }]);
                 }}
@@ -148,8 +159,14 @@ function EditPostModal({ opened, close, id }) {
                 hidden
                 id="video-file"
                 accept="video/mp4"
+                multiple
                 onChange={(value) => {
-                  setSelected([...selected, { type: "video", value }]);
+                  value.forEach((item) => {
+                    setSelected((prev) => [
+                      ...prev,
+                      { type: "image", value: item },
+                    ]);
+                  });
                 }}
               />
             </label>
@@ -169,19 +186,35 @@ function EditPostModal({ opened, close, id }) {
                   message: "Please enter post text",
                   color: "red",
                 });
-              var data = new FormData();
-              data.append("text", form.values.text);
-              data.append("post_id", form.values.post_id as string);
+              var formData = new FormData();
+              formData.append("text", form.values.text);
+              formData.append("post_id", form.values.post_id as string);
+              formData.append("is_article", "yes");
+              formData.append("publish", "save");
               selected.length &&
                 selected.forEach((item) => {
-                  item.type.includes("image")
-                    ? data.append("photo", item, item.name)
-                    : item.type.includes("video")
-                    ? data.append("video", item, item.name)
-                    : null;
+                  if (item.type === "image") {
+                    if (typeof item.value === "string") {
+                      formData.append("photo", item.value);
+                    } else
+                      formData.append("photo", item.value, item.value.name);
+                  } else if (item.type === "video") {
+                    if (typeof item.value === "string") {
+                      formData.append("video", item.value);
+                    } else
+                      formData.append("video", item.value, item.value.name);
+                  }
                 });
-              postComment(data, setLoading, () => {
-                queryClient.invalidateQueries(["single-posts", post_id]);
+              editParticularPost(id, formData, setLoading, () => {
+                if (pathname.includes("home"))
+                  queryClient.invalidateQueries(["all-posts"]);
+                else if (pathname.includes("my-profile")) {
+                  queryClient.invalidateQueries([
+                    "user-activities",
+                    user?.user?.id,
+                  ]);
+                } else queryClient.invalidateQueries(["single-posts", id]);
+                queryClient.invalidateQueries(["trending-posts"]);
                 setSelected([]);
                 form.reset();
                 close();

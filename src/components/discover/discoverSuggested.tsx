@@ -28,7 +28,7 @@ function DiscoverSuggested() {
                 <div className="flex gap-3 items-center">
                   <div className="w-[36px] h-[36px]">
                     <img
-                      src={item?.photo_url?.substring(62) || "/profile-pic-default.png"}
+                      src={item?.photo_url  || "/profile-pic-default.png"}
                       className="w-full h-full rounded-full object-cover"
                       alt="profile picture of suggested friend"
                     />

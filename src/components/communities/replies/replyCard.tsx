@@ -16,7 +16,7 @@ function ReplyCard({ comment }) {
     <div className="flex flex-col gap-2">
       <div className="flex self-start gap-[19px] items-center">
         <img
-          src={comment?.user?.photo_url?.substring(62)}
+          src={comment?.  user?.photo_url?.substring(62) }
           className="w-[48px] h-[48px] rounded-full object-cover"
           alt=""
         />

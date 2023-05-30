@@ -23,7 +23,7 @@ function ReturnMedia({ media, selected, setSelected }) {
   useEffect(() => {
     if (typeof media?.value === "object") displayUploaded(media?.value);
     else {
-      setSource(media?.value?.substring(62));
+      setSource(media?.value );
     }
   }, [media?.value]);
   return media?.value ? (

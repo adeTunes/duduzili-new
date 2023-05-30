@@ -4,28 +4,47 @@ import PostWithAudio from "./postAudioOnly";
 import PostWithVideo from "./postWithVideo";
 import PostBody from "./postBody";
 import PostTextOnly from "./postTextOnly";
-import PostVideoAndImage from "./postVideoAndImage";
 import PostVideoAndImageContainer from "./postVideoAndImageContainer";
+import PostVideoAndAudioContainer from "./postVideoAudioContainer";
+import PostManyImagesContainer from "./postManyImagesContainer";
+import PostwithRepost from "../postwithRepost";
 
 function PostsContainer({ post }: { post: Post }) {
-  return !post?.audio &&
+  return post?.is_repost ?
+  <PostwithRepost post={post} />:
+  !post?.media?.audio &&
     !post?.youtube_url &&
-    !post?.video &&
-    !post?.photo &&
+    !post?.media?.video &&
+    !post?.media?.photo?.length &&
     post?.text ? (
     <PostTextOnly post={post} />
-  ) : !post?.audio &&
-    !post?.youtube_url &&
-    !post?.video &&
-    post?.photo &&
+  ) : !post?.youtube_url &&
+    !post?.media?.video &&
+    post?.media?.photo?.length === 1 &&
     post?.text ? (
     <PostBody post={post} />
-  ) : post?.audio && post?.text ? (
+  ) : post?.media?.audio &&
+    post?.text &&
+    !post?.media?.video &&
+    !post?.media?.photo?.length ? (
     <PostWithAudio post={post} />
-  ) : post?.video_url && post?.text && !post?.photo ? (
+  ) : post?.media?.video &&
+    !post?.media?.audio &&
+    post?.text &&
+    !post?.media?.photo?.length ? (
     <PostWithVideo post={post} />
-  ) : post?.video && post?.photo && post?.text ? (
+  ) : post?.media?.video &&
+    post?.media?.photo?.length === 1 &&
+    post?.text &&
+    !post?.media?.audio ? (
     <PostVideoAndImageContainer post={post} />
+  ) : post?.media?.video &&
+    !post?.media?.photo?.length &&
+    post?.text &&
+    post?.media?.audio ? (
+    <PostVideoAndAudioContainer post={post} />
+  ) : post?.media?.photo?.length > 1 ? (
+    <PostManyImagesContainer post={post} />
   ) : post?.youtube_url && post?.text ? (
     <PostWithVideo post={post} />
   ) : null;

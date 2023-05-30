@@ -1,14 +1,31 @@
 import { Icon } from "@iconify/react";
 import { clsx } from "@mantine/core";
 import React from "react";
-import { savePostAction } from "@/actions/postOptionActions";
+import {
+  deleteParticularPost,
+  savePostAction,
+} from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
 import EditPostModal from "@/components/modals/editPostModal";
 import { useDisclosure } from "@mantine/hooks";
+import { useRouter } from "next/router";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
+import { Post } from "../../../../api/request.types";
 
-function PersonalPostOptions({ setLoading, open, post }) {
+function PersonalPostOptions({ setLoading, open, post }: {setLoading: any, open: () => void, post: Post}) {
   const queryClient = useQueryClient();
-  const personalPostOptions = [
+  const user: any = useAtomValue(userDetails)
+  const { pathname } = useRouter();
+  const successAction = () => {
+    if (pathname.includes("home"))
+      queryClient.invalidateQueries(["all-posts"]);
+    else if (pathname.includes("my-profile")) {
+      queryClient.invalidateQueries(["user-activities", user?.user?.id]);
+    } else queryClient.invalidateQueries(["single-posts", post?.id]);
+  }
+  const personalPostOptions = post?.is_repost ?
+  [
     {
       name: "Save post",
       icon: (
@@ -20,9 +37,36 @@ function PersonalPostOptions({ setLoading, open, post }) {
         />
       ),
       action: () =>
-        savePostAction(setLoading, post?.id, () =>
-          queryClient.invalidateQueries(["all-posts"])
-        ),
+        savePostAction(setLoading, post?.id, successAction),
+    },
+    {
+      name: "Delete Post",
+      icon: (
+        <Icon
+          icon="material-symbols:delete-outline"
+          color="#D40000"
+          height={24}
+          width={24}
+        />
+      ),
+      action: () => {
+        deleteParticularPost(post?.id, setLoading, successAction);
+      },
+    },
+  ]
+  : [
+    {
+      name: "Save post",
+      icon: (
+        <Icon
+          color="#2A2A2A"
+          icon="circum:bookmark-minus"
+          height={24}
+          width={24}
+        />
+      ),
+      action: () =>
+        savePostAction(setLoading, post?.id, successAction),
     },
     {
       name: "Edit post",
@@ -46,7 +90,9 @@ function PersonalPostOptions({ setLoading, open, post }) {
           width={24}
         />
       ),
-      action: () => {},
+      action: () => {
+        deleteParticularPost(post?.id, setLoading, successAction);
+      },
     },
   ];
   return (

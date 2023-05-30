@@ -3,13 +3,13 @@ import { getAllPosts } from "../api/apiRequests";
 import { Posts } from "../api/request.types";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
-function useAllPosts() {
+function useAllPosts(limit) {
   return useQuery<Posts>({
-    queryKey: ["all-posts"],
+    queryKey: ["all-posts", limit],
     queryFn: async () => {
       try {
-        const { data } = await getAllPosts();
-        return data;
+        const { data } = await getAllPosts(limit);
+        return data.data;
       } catch (e) {
         errorMessageHandler(e)
         // return e;

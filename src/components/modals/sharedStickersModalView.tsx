@@ -4,51 +4,36 @@ import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 
-function SharedStickersModalView({ setActive }) {
+function SharedStickersModalView({ setActive, sticker }) {
   const user: any = useAtomValue(userDetails);
-  const stickers = [
-    {
-      name: "Crocs",
-      count: 4,
-    },
-    {
-      name: "Butfly",
-      count: 5,
-    },
-    {
-      name: "Dragfly",
-      count: 3,
-    },
-    {
-      name: "Dragfly",
-      count: 2,
-    },
-    {
-      name: "Butfly",
-      count: 5,
-    },
-    {
-      name: "Dragfly",
-      count: 3,
-    },
-    {
-      name: "Dragfly",
-      count: 2,
-    },
-  ];
+  const stickers = {
+    "15000": "Crocs",
+    "200": "Butfly",
+    "500": "Dragfly",
+    "1000": "Turk",
+    "1500": "Pcock",
+    "2500": "Jagr",
+    "3000": "Leop",
+    "5000": "Tigr",
+    "10000": "Pand",
+    "20000": "Drag",
+    "50000": "Lyon",
+    "100000": "Eleph",
+  };
+
   const [openAuth, setOpenAuth] = useState(false);
   return (
     <>
       <div className="overflow-auto">
         <div className="grid grid-cols-4 gap-4">
-          {stickers.map((item, idx) => (
+          {sticker.map((item, idx) => (
             <span
               key={idx}
               className="border border-duduzili-violet px-[10px] py-3 rounded-[32px] text-[10px] text-duduzili-violet leading-3 flex items-center gap-1"
             >
-              <small>{item.name}</small>
+              <small>{stickers[sticker]}</small>
               <span className="px-1 py-[1px] bg-duduzili-violet rounded-[12px] text-white">
-                {item.count}
+                {item}
               </span>
             </span>
           ))}
@@ -57,7 +42,7 @@ function SharedStickersModalView({ setActive }) {
       <PrimaryButton
         text="Gift Sticker"
         onClick={() => {
-          if (!user?.token) return setOpenAuth(true)
+          if (!user?.token) return setOpenAuth(true);
           setActive((v) => v + 1);
         }}
       />

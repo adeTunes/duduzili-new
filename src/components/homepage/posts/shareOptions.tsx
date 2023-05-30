@@ -10,7 +10,7 @@ import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticate
 import { Post } from "../../../../api/request.types";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { showNotification } from "@mantine/notifications";
-import {base64encode} from "nodejs-base64"
+import { base64encode } from "nodejs-base64";
 
 function ShareOptions({
   post,
@@ -23,25 +23,79 @@ function ShareOptions({
 }) {
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
-  const options = [
-    {
-      name: "Copy link",
-      icon: <Copy size="24" color="#2A2A2A" />,
-      action: () => {},
-    },
-    {
-      name: "Share to Feeds",
-      icon: (
-        <Icon
-          color="#2A2A2A"
-          icon="material-symbols:edit-square-outline"
-          height={24}
-          width={24}
-        />
-      ),
-      action: open,
-    },
-  ];
+
+  const options =
+    user?.user?.id === post?.user?.id || post?.is_repost
+      ? [
+          () => <div
+            className={clsx(
+              "text-[#2A2A2A] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+            )}
+          >
+            <CopyToClipboard
+              text={
+                post
+                  ? `${location.host}/post/${base64encode(
+                      String(1000000 * +post?.id)
+                    )}`
+                  : ""
+              }
+              onCopy={() =>
+                showNotification({
+                  message: "Post url copied to clipboard",
+                  color: "green",
+                })
+              }
+            >
+              <>
+                <Copy size="24" color="#2A2A2A" />
+                Copy link
+              </>
+            </CopyToClipboard>
+          </div>,
+        ]
+      : [
+          () => <div
+          className={clsx(
+            "text-[#2A2A2A] border-b border-b-[#DFE5FA] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+          )}
+        >
+          <CopyToClipboard
+            text={
+              post
+                ? `${location.host}/post/${base64encode(
+                    String(1000000 * +post?.id)
+                  )}`
+                : ""
+            }
+            onCopy={() =>
+              showNotification({
+                message: "Post url copied to clipboard",
+                color: "green",
+              })
+            }
+          >
+            <>
+              <Copy size="24" color="#2A2A2A" />
+              Copy link
+            </>
+          </CopyToClipboard>
+        </div>,
+          () => <div
+            onClick={open}
+            className={clsx(
+              "text-[#2A2A2A] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+            )}
+          >
+            <Icon
+              color="#2A2A2A"
+              icon="material-symbols:edit-square-outline"
+              height={24}
+              width={24}
+            />
+            Share to Feeds
+          </div>,
+        ];
   const [menuOpened, setMenuOpened] = useState(false);
   const [opennAuth, setOpenAuth] = useState(false);
 
@@ -87,42 +141,8 @@ function ShareOptions({
       <Menu.Dropdown>
         <Menu.Item>
           <div className="flex flex-col">
-            {options.map((item, idx, arr) => (
-              <div
-                key={idx}
-                onClick={item.action}
-                className={clsx(
-                  idx !== arr.length - 1 && "border-b border-b-[#DFE5FA]",
-                  item.name.toLocaleLowerCase().includes("delete")
-                    ? "text-[#D40000]"
-                    : "text-[#2A2A2A]",
-                  "flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
-                )}
-              >
-                {item.name === "Copy link" ? (
-                  <CopyToClipboard
-                    text={
-                      post ? `${location.host}/post/${base64encode(String(post?.id))}` : ""
-                    }
-                    onCopy={() =>
-                      showNotification({
-                        message: "Post url copied to clipboard",
-                        color: "green",
-                      })
-                    }
-                  >
-                    <>
-                    {item.icon}
-                    {item.name}
-                    </>
-                  </CopyToClipboard>
-                ) : (
-                  <>
-                    {item.icon}
-                    {item.name}
-                  </>
-                )}
-              </div>
+            {options.map((Item, idx, arr) => (
+              <Item key={idx} />
             ))}
           </div>
         </Menu.Item>

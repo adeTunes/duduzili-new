@@ -4,9 +4,15 @@ import RepostsContainer from "../homepage/repostsContainer";
 import PrimaryButtonOutline from "../button/primaryButtonOutline";
 import PrimaryButton from "../button/primaryButton";
 import useUserPost from "../../../hooks/useUserPost";
+import { repostPostAction } from "@/actions/postOptionActions";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
+import { postLimit } from "@/store";
 
 function ShareToFeedsModal({ opened, close, post }) {
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient()
+  const limit = useAtomValue(postLimit)
 
   return (
     <Modal
@@ -31,7 +37,14 @@ function ShareToFeedsModal({ opened, close, post }) {
       <RepostsContainer post={post} />
       <div className="flex gap-3 mt-[50px] justify-end">
         <PrimaryButtonOutline onClick={close} text="Cancel" />
-        <PrimaryButton text="Share" onClick={() => {}} />
+        <PrimaryButton text="Share" onClick={() => {
+          const data = new FormData()
+          data.append("post_id", post?.id)
+          repostPostAction(data, setLoading, () => {
+            queryClient.invalidateQueries(["all-posts", limit])
+            close()
+          })
+        }} />
       </div>
       <LoadingOverlay visible={loading} />
     </Modal>

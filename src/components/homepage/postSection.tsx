@@ -3,6 +3,7 @@ import PostSectionTags from "./postSectionTags";
 import { useAtomValue } from "jotai";
 import { allPosts, userDetails } from "@/store";
 import PostsContainer from "./posts/postsContainer";
+import ShowMoreButton from "../showMoreButton";
 
 function PostSection() {
   const posts = useAtomValue(allPosts);
@@ -14,11 +15,6 @@ function PostSection() {
         {posts?.map((post, idx) => (
           <PostsContainer key={idx} post={post} />
         ))}
-        {/* <PostBody />
-        <PostwithRepost />
-        <PostWithVideo />
-        <PostTextOnly />
-        <PostWithAudio /> */}
       </div>
     </div>
   );

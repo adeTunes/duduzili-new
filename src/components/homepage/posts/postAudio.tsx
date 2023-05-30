@@ -1,13 +1,18 @@
 import { Icon } from "@iconify/react";
+import { clsx } from "@mantine/core";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 function PostAudio({
   audioUrl,
   photoUrl,
+  height,
+  gridSpan
 }: {
   audioUrl: string;
   photoUrl: string;
+  height?: string,
+  gridSpan?: string
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
@@ -49,8 +54,9 @@ function PostAudio({
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "top center",
+        gridColumn: gridSpan
       }}
-      className="h-[300px] p-5 flex justify-between flex-col rounded-2xl"
+      className={clsx(height || "h-[200px]", "p-5 flex justify-between flex-col rounded-2xl")}
     >
       <p
         style={{ background: "rgba(255, 255, 255, 0.2)" }}

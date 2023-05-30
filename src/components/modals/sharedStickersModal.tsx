@@ -5,7 +5,7 @@ import { ArrowLeft, TicketStar } from "iconsax-react";
 import SharedStickersModalView from "./sharedStickersModalView";
 import SelectStickerViewModal from "./selectStickerViewModal";
 
-function SharedStickersModal({ opened, close }) {
+function SharedStickersModal({ opened, sticker, close }) {
   const [loading, setLoading] = useState(false);
 
   const [active, setActive] = useState(1);
@@ -45,7 +45,7 @@ function SharedStickersModal({ opened, close }) {
       centered
     >
       {active === 1 ? (
-        <SharedStickersModalView setActive={setActive} />
+        <SharedStickersModalView sticker={sticker} setActive={setActive} />
       ) : (
         <SelectStickerViewModal />
       )}

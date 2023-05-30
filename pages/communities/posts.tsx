@@ -11,9 +11,11 @@ import MyCommunitiesSlider from "@/components/communities/myCommunitiesSlider";
 import useCommunityJoined from "../../hooks/useCommunitiesJoined";
 import { useDisclosure } from "@mantine/hooks";
 import CreateCommunityModal from "@/components/modals/createCommunityModal";
+import useRandomCommunitiesPosts from "../../hooks/useRandomCommunitiesPosts";
 
 const Communities: NextPageX = () => {
-  const { data } = useCommunityJoined();
+  // const { data } = useCommunityJoined();
+  const { data } = useRandomCommunitiesPosts();
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -41,7 +43,20 @@ const Communities: NextPageX = () => {
                 </span>
               </p>
             </div>
-            <CommunityList communities={data?.results} />
+            {data?.map((item, index) => (
+              <CommunityList
+                key={index}
+                post={item?.post}
+                community={item?.community}
+              />
+            ))}
+            <p
+              role="button"
+              className="py-3 rounded-[32px] border-duduzili-violet border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
+            >
+              Show more
+            </p>
+            {!data?.length && <p className="text-center">No posts yet</p>}
           </section>
           <aside
             id="no-scroll"

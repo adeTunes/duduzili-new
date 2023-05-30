@@ -21,10 +21,16 @@ function CreatePostModal({ opened, close }) {
   });
 
   const [selected, setSelected] = useState([]);
+  const [err, setErr] = useState("");
 
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
+  useEffect(() => {
+    selected.filter((item) => item.type === "image").length > 5
+      ? setErr("You cannot create post with more than 5 photos")
+      : setErr("");
+  }, [selected]);
   return (
     <Modal
       size="lg"
@@ -50,23 +56,26 @@ function CreatePostModal({ opened, close }) {
     >
       <div className="flex flex-col gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.user?.photo_url.substring(62)}
+          image={user?.user?.photo_url?.substring(62)}
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
         <div className="flex flex-col gap-8 mb-[86px]">
-          <Textarea
-            placeholder="Create a post. Share a moment. Tell people what's on your mind"
-            classNames={{
-              input:
-                "!border-none text-[20px] leading-7 text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
-            }}
-            h="auto"
-            autosize
-            minRows={2}
-            maxRows={8}
-            {...form.getInputProps("text")}
-          />
+          <div className="flex flex-col gap-2">
+            <Textarea
+              placeholder="Create a post. Share a moment. Tell people what's on your mind"
+              classNames={{
+                input:
+                  "!border-none text-[20px] leading-7 text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
+              }}
+              h="auto"
+              autosize
+              minRows={2}
+              maxRows={8}
+              {...form.getInputProps("text")}
+            />
+            <p className="text-[14px] text-red-600 font-semibold">{err}</p>
+          </div>
           <DisplayMedia setSelected={setSelected} selected={selected} />
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
@@ -92,9 +101,15 @@ function CreatePostModal({ opened, close }) {
               <FileInput
                 hidden
                 id="image-file"
+                multiple
                 accept="image/png,image/jpeg"
                 onChange={(value) => {
-                  setSelected([...selected, { type: "image", value }]);
+                  value.forEach((item) => {
+                    setSelected((prev) => [
+                      ...prev,
+                      { type: "image", value: item },
+                    ]);
+                  });
                 }}
               />
             </label>
@@ -134,15 +149,26 @@ function CreatePostModal({ opened, close }) {
                   message: "Please enter post text",
                   color: "red",
                 });
+              if(selected.filter((item) => item.type === "image").length > 5)
+              return showNotification({
+                title: "Error",
+                message: "You cannot create post with more than 5 photos",
+                color: "red",
+              });
               var data = new FormData();
               data.append("text", form.values.text);
-              selected.forEach((item) => {
-                item.type === "image"
-                  ? data.append("photo", item.value, item.value.name)
-                  : item.type === "video"
-                  ? data.append("video", item.value, item.value.name)
-                  : null;
-              });
+              selected.length &&
+                selected.forEach((item) => {
+                  if (item.type === "image") {
+                    if (typeof item.value === "string") {
+                      data.append("photo", item.value);
+                    } else data.append("photo", item.value, item.value.name);
+                  } else if (item.type === "video") {
+                    if (typeof item.value === "string") {
+                      data.append("video", item.value);
+                    } else data.append("video", item.value, item.value.name);
+                  }
+                });
               data.append("is_article", "yes");
               data.append("publish", "save");
               createPost(data, setLoading, () => {

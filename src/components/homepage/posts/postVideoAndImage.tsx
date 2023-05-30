@@ -12,8 +12,8 @@ function PostVideoAndImage({
   const [showControls, setShowControls] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   return (
-    <div className="flex flex-col gap-4">
-      <div className="h-[300px] rounded-2xl relative">
+    <div className="grid grid-cols-2 gap-4">
+      <div className="h-[200px] rounded-2xl relative">
         {!showControls && (
           <div className="top-0 absolute right-0 left-0 bottom-0 flex items-center justify-center">
             <div
@@ -33,12 +33,9 @@ function PostVideoAndImage({
             </div>
           </div>
         )}
-        <video ref={videoRef} className="h-full w-full" controls={showControls}>
-          <source src={videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <video ref={videoRef} className="h-full w-full" controls={showControls} src={videoUrl} />
       </div>
-      <div className="h-[300px] rounded-2xl relative">
+      <div className="h-[200px] rounded-2xl relative">
         <img
           alt=""
           src={photoUrl}

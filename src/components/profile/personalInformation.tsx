@@ -23,7 +23,7 @@ function PersonalInformation({ user }) {
           <div className="w-[150px] h-[150px] mt-[-70px]">
             <img
               src={
-                user?.photo_url?.substring(62) ??
+                  user?.photo_url?.substring(62)  ??
                 "/profile/default-profile-picture.png"
               }
               className="w-full h-full object-cover rounded-full"

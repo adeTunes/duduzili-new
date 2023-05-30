@@ -1,23 +1,99 @@
+import PostAudio from "../homepage/posts/postAudio";
+import PostFooter from "../homepage/posts/postFooter";
+import PostImage from "../homepage/posts/postImage";
+import PostVideo from "../homepage/posts/postVideo";
+import PostVideoAndAudio from "../homepage/posts/postVideoAndAudio";
+import PostVideoAndImage from "../homepage/posts/postVideoAndImage";
+import PostText from "../homepage/posts/text";
 import CommunityDescription from "./communityDescription";
 import CommunityHeader from "./communityHeader";
 import CommunityPicture from "./communityPicture";
+import PostManyImages from "./postManyImages";
 
-function CommunityList({ communities }) {
+function CommunityList({ post, community }) {
   return (
     <div className="flex flex-col gap-10">
-      {communities?.map((item, index) => (
+      <CommunityHeader community={community} post={post} />
+      {!post?.media?.audio &&
+      !post?.youtube_url &&
+      !post?.media?.video &&
+      !post?.media?.photo?.length &&
+      post?.text ? (
+        <>
+          <PostText text={post?.text} postId={post?.id} />
+        </>
+      ) : !post?.youtube_url &&
+        !post?.media?.video &&
+        post?.media?.photo?.length === 1 &&
+        post?.text ? (
+        <>
+          <PostText text={post?.text} postId={post?.id} />
+          <PostImage image={post?.media?.photo?.[0]} />
+        </>
+      ) : post?.media?.audio &&
+        post?.text &&
+        !post?.media?.video &&
+        !post?.media?.photo?.length ? (
+        <>
+          <PostText text={post.text} postId={post.id} />
+          <PostAudio
+            audioUrl={post?.media?.audio}
+            photoUrl="/cover-image.png"
+          />
+        </>
+      ) : post?.media?.video &&
+        !post?.media?.audio &&
+        post?.text &&
+        !post?.media?.photo?.length ? (
+        <>
+          <PostText text={post.text} postId={post.id} />
+          <PostVideo
+            photoUrl={post?.media?.photo?.[0]}
+            videoUrl={post?.media?.video}
+          />
+        </>
+      ) : post?.media?.video &&
+        post?.media?.photo?.length === 1 &&
+        post?.text &&
+        !post?.media?.audio ? (
+        <>
+          <PostText text={post.text} postId={post.id} />
+          <PostVideoAndImage
+            photoUrl={post?.media?.photo?.[0]}
+            videoUrl={post?.media?.video}
+          />
+        </>
+      ) : post?.media?.video &&
+        !post?.media?.photo?.length &&
+        post?.text &&
+        post?.media?.audio ? (
+        <>
+          <PostText text={post.text} postId={post.id} />
+          <PostVideoAndAudio
+            audioUrl={post?.media?.audio}
+            videoUrl={post?.media?.video}
+          />
+        </>
+      ) : post?.media?.photo?.length > 1 ? (
+        <>
+          <PostText text={post.text} postId={post.id} />
+          <PostManyImages post={post} />
+        </>
+      ) : null}
+      <PostFooter
+        post={post}
+        totalComments={post.total_comments}
+        totalLikes={post.total_likes}
+        totalReposts={post.total_reposts}
+        iLikeThisPost={post.i_like_this_post}
+      />
+      {/* <CommunityPicture image="/communities/cover-pic-default.png" /> */}
+      {/* {communities?.map((item, index) => (
         <div key={index} className="flex flex-col gap-6">
-          <CommunityHeader membersPhoto={item?.members_photo} name={item?.name} totalMembers={item?.total_members} />
-          <CommunityPicture image={item?.get_logo_url} />
           <CommunityDescription text={item?.description} />
         </div>
-      ))}
-      <p
-        role="button"
-        className="py-3 rounded-[32px] border-duduzili-violet border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
-      >
-        Show more
-      </p>
+      ))} */}
+      
     </div>
   );
 }

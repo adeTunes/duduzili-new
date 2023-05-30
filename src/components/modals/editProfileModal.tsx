@@ -51,7 +51,7 @@ function EditProfileModal({ opened, close }) {
   );
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (user?.user?.photo_url) setSource(user?.user?.photo_url.substring(62));
+    if (user?.  user?.photo_url?.substring(62)) setSource(user?.  user?.photo_url?.substring(62)  );
   }, []);
 
   useEffect(() => {

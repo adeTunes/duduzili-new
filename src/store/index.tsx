@@ -7,6 +7,7 @@ export const selectedMessage = atom<string | number>("");
 export const numberofMessages = atom(0);
 export const numberofNotifications = atom(0);
 export const allPosts = atom([]);
+export const postLimit = atom(20)
 export const userId = atom("");
 export const userFollowings = atom("");
 export const userFollowers = atom("");

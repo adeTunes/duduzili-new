@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Heart, MessageText, TicketStar } from "iconsax-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ShareOptions from "./shareOptions";
 import { Loading } from "@/components/loading";
 import SharedStickersModal from "@/components/modals/sharedStickersModal";
@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
-import { base64encode } from 'nodejs-base64';
+import { base64encode } from "nodejs-base64";
 
 function PostFooter({
   totalLikes,
@@ -35,16 +35,25 @@ function PostFooter({
   const { pathname, query } = useRouter();
   const user: any = useAtomValue(userDetails);
   const router = useRouter();
-  const [openAuthModal, setOpenAuth] = useState(false)
+  const [openAuthModal, setOpenAuth] = useState(false);
+  const [sticker, setSticker] = useState([]);
+
+  useEffect(() => {
+    if (post?.stickers) {
+      setSticker(Object.values(post?.stickers) as number[]);
+    }
+  }, []);
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex w-[241px] items-center py-3 px-4 gap-10 bg-[#F4F4F4] rounded-[40px]">
         <div
           onClick={() => {
-            if (!user?.token) return setOpenAuth(true)
+            if (!user?.token) return setOpenAuth(true);
             likeOrUnlikePost(post?.id, setLoadActions, () => {
               if (pathname.includes("home")) {
                 queryClient.invalidateQueries(["all-posts"]);
+                queryClient.invalidateQueries(["trending-posts"]);
               } else queryClient.invalidateQueries(["single-posts", query.id]);
             });
           }}
@@ -68,8 +77,8 @@ function PostFooter({
         </div>
         <div
           onClick={() => {
-            if (!user?.token) return setOpenAuth(true)
-            router.push(`/posts/${base64encode(String(post?.id))}`);
+            if (!user?.token) return setOpenAuth(true);
+            router.push(`/posts/${base64encode(String(1000000 * +post?.id))}`);
           }}
           className="cursor-ponter flex items-center gap-2"
         >
@@ -85,16 +94,21 @@ function PostFooter({
         </div>
         <ShareOptions post={post} totalReposts={totalReposts} />
       </div>
-      <div
-        onClick={open}
-        className="bg-[#367EE8] cursor-pointer rounded-[40px] py-2 px-4 flex items-center gap-2"
-      >
-        <TicketStar size="24" color="white" />
-        <p className="text-white">23</p>
-      </div>
+      {router.pathname === "/communities/posts" ? null : (
+        <div
+          onClick={open}
+          className="bg-[#367EE8] cursor-pointer rounded-[40px] py-2 px-4 flex items-center gap-2"
+        >
+          <TicketStar size="24" color="white" />
+          <p className="text-white">{sticker.length}</p>
+        </div>
+      )}
       <Loading loading={loading} />
-      <SharedStickersModal opened={opened} close={close} />
-      <UnAuthenticaticatedUserModal opened={openAuthModal} setOpened={setOpenAuth} />
+      <SharedStickersModal sticker={sticker} opened={opened} close={close} />
+      <UnAuthenticaticatedUserModal
+        opened={openAuthModal}
+        setOpened={setOpenAuth}
+      />
     </div>
   );
 }

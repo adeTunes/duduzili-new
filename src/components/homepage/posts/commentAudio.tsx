@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 function CommentAudio({ comment }) {
   const audioUrl = comment?.audio_url;
-  const photoUrl = comment?.photo_url?.substring(62);
+  const photoUrl = comment?.photo_url ;
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [remainingTime, setRemainingTime] = useState(0);

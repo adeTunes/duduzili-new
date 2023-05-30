@@ -42,7 +42,7 @@ function UserProfileImageActions({ children, setLoading }) {
     {
       name: "Logout",
       color: "#D40000",
-      icon: <LogoutCurve className=" rotate-180" color="#D40000" />,
+      icon: <LogoutCurve className="rotate-180" color="#D40000" />,
       action: () => {
         localStorage.removeItem("duduzili-user")
         router.push("/login");
@@ -82,7 +82,7 @@ function UserProfileImageActions({ children, setLoading }) {
                 <Avatar
                   size={45}
                   radius="xl"
-                  src={user?.user?.photo_url?.substring(62)}
+                  src={user?.  user?.photo_url?.substring(62) }
                 />
                 <p className="flex flex-col gap-2">
                   <span>@{user?.user?.username}</span>

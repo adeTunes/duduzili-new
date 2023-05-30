@@ -11,8 +11,8 @@ function NotificationSettingsBox({ settingsArr, boxHeading }) {
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
         className="flex flex-col gap-[25px] px-4 py-6 rounded-lg bg-white"
       >
-        {settingsArr.map(({ heading, icon }, idx) => (
-          <NotificationSettingsCard key={idx} heading={heading} icon={icon} />
+        {settingsArr.map(({ heading, icon, switch: active }, idx) => (
+          <NotificationSettingsCard key={idx} heading={heading} active={active} icon={icon} />
         ))}
       </div>
     </>

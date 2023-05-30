@@ -9,7 +9,7 @@ function ShowMoreButton({
     <p
       onClick={onClick}
       role="button"
-      className="py-3 rounded-[32px] border-duduzili-violet border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
+      className="py-3 rounded-[32px] z-10 border-duduzili-violet border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
     >
       Show more
     </p>

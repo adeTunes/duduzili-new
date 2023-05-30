@@ -11,7 +11,7 @@ import { base64decode } from "nodejs-base64";
 
 function Comments() {
   const { query } = useRouter();
-  const { data } = useSinglePost(base64decode(String(query.id)));
+  const { data } = useSinglePost(+base64decode(String(query.id))/1000000);
   const { back } = useRouter();
   return (
     <div className="flex flex-col overflow-auto h-screen">

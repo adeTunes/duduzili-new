@@ -2,7 +2,7 @@ import { clsx } from "@mantine/core";
 import React from "react";
 import SwithIcon from "./swithIcon";
 
-function NotificationSettingsCard({ icon, heading }) {
+function NotificationSettingsCard({ icon, heading, active }) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -23,7 +23,7 @@ function NotificationSettingsCard({ icon, heading }) {
           {heading}
         </p>
       </div>
-      <SwithIcon />
+      {active}
     </div>
   );
 }

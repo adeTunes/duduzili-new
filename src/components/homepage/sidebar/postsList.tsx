@@ -15,27 +15,27 @@ function PostsList() {
               key={index}
               post={item}
             >
-              {!item?.audio &&
-              !item?.video &&
-              !item?.photo ? null : item?.photo &&
-                !item?.video &&
-                !item?.audio ? (
+              {!item?.media?.audio &&
+              !item?.media?.video &&
+              !item?.media?.photo?.length ? null : item?.media?.photo?.length &&
+                !item?.media?.video &&
+                !item?.media?.audio ? (
                 <Gallery size="16" color="#757575" variant="Outline" />
-              ) : !item?.photo && item?.video && !item?.audio ? (
+              ) : !item?.media?.photo?.length && item?.media?.video && !item?.media?.audio ? (
                 <VideoSquare size="16" color="#757575" variant="Outline" />
-              ) : !item?.photo && !item?.video && item?.audio ? (
+              ) : !item?.media?.photo?.length && !item?.media?.video && item?.media?.audio ? (
                 <AudioSquare size="16" color="#757575" variant="Outline" />
-              ) : item?.photo && item?.video && !item?.audio ? (
+              ) : item?.media?.photo?.length && item?.media?.video && !item?.media?.audio ? (
                 <>
                   <Gallery size="16" color="#757575" variant="Outline" />
                   <VideoSquare size="16" color="#757575" variant="Outline" />
                 </>
-              ) : item?.photo && !item?.video && item?.audio ? (
+              ) : item?.media?.photo?.length && !item?.media?.video && item?.media?.audio ? (
                 <>
                   <Gallery size="16" color="#757575" variant="Outline" />
                   <AudioSquare size="16" color="#757575" variant="Outline" />
                 </>
-              ) : !item?.photo && item?.video && item?.audio ? (
+              ) : !item?.media?.photo?.length && item?.media?.video && item?.media?.audio ? (
                 <>
                   <VideoSquare size="16" color="#757575" variant="Outline" />
                   <AudioSquare size="16" color="#757575" variant="Outline" />

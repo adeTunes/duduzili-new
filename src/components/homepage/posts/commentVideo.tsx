@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 function CommentVideo({ comment }) {
   const videoUrl = comment?.video_url;
-  const photoUrl = comment?.photo_url.substring(62);
+  const photoUrl = comment?.photo_url  ;
   const [videoPlayed, setVideoPlayed] = useState(false);
   const [autoplay, setAutoplay] = useState(false);
   return (
