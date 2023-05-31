@@ -150,6 +150,9 @@ export const likeUnlikePost = (id) => {
 export const getCommunityCategoryList = () => {
   return API.get(`api/v1/rest-auth/community/community-category-list`);
 };
+export const getCommunityDetail = (code) => {
+  return API.get(`/api/v1/rest-auth/community/community-detail/${code}`);
+};
 export const getCommunityList = (category) => {
   return API.get(
     `/api/v1/rest-auth/community/community-list?limit=20${
@@ -157,9 +160,14 @@ export const getCommunityList = (category) => {
     }`
   );
 };
-export const getCommunityJoined = () => {
+export const getCommunityJoined = (limit) => {
   return API.get(
-    `/api/v1/rest-auth/community/community-list?limit=20&active_user=1`
+    `/api/v1/rest-auth/community/community-list?limit=${limit}&active_user=1`
+  );
+};
+export const getCommunityPosts = (limit, code) => {
+  return API.get(
+    `/api/v1/rest-auth/community/community-post?limit=${limit}&code=${code}`
   );
 };
 
@@ -196,7 +204,9 @@ export const allowDiscoveryByEmail = () => {
 export const randomCommunitiesPosts = () => {
   return API.get("/api/v1/rest-auth/community/post-user-communities");
 };
-
 export const getUserBySearch = (search) => {
   return API.get(`/api/v1/rest-auth/user/chat_list?query_type=users&search=${search}`)
 }
+export const getCommunityPost = (limit, code) => {
+  return API.get(`/api/v1/rest-auth/community/community-post?limit=${limit}&code=${code}`);
+};

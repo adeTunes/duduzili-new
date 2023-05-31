@@ -291,3 +291,89 @@ export interface RandomPost {
 
 export interface RandomPostMedia {
 }
+
+
+export interface CommunityDetails {
+  responseCode: string;
+  data:         Data;
+  message:      string;
+}
+
+export interface Data {
+  code:          string;
+  referral_code: string;
+  name:          string;
+  description:   string;
+  owner:         Owner;
+  created:       Date;
+  updated:       Date;
+  is_approved:   boolean;
+  is_private:    boolean;
+  category:      Category[];
+  status:        string;
+  get_logo_url:  string;
+  members_photo: string[];
+  is_owner:      boolean;
+  date_joined:   Date | string;
+  total_members: string
+}
+
+export interface Category {
+  id:          number;
+  name:        string;
+  description: string;
+  logo:        null;
+}
+
+export interface Owner {
+  id:              number;
+  username:        string;
+  password:        string;
+  email:           string;
+  first_name:      string;
+  last_name:       string;
+  photo_url:       string;
+  get_cover_image: string;
+  is_online:       boolean;
+  bio:             string;
+  town:            null;
+  country:         null;
+  is_private:      boolean;
+  is_following:    boolean;
+}
+
+export interface CommunityPostData {
+  success:     boolean;
+  status_code: number;
+  data:        Data;
+  message:     string;
+}
+
+export interface Data {
+  count:    number;
+  next:     string;
+  previous: null;
+  results:  Result[];
+}
+
+export interface Result {
+  community: Community;
+  post:      Post;
+}
+
+export interface Owner {
+  id:              number;
+  username:        string;
+  password:        string;
+  email:           string;
+  first_name:      string;
+  last_name:       string;
+  photo_url:       null | string;
+  get_cover_image: string;
+  is_online:       boolean;
+  bio:             string;
+  town:            null;
+  country:         null;
+  is_private:      boolean;
+  is_following:    boolean;
+}

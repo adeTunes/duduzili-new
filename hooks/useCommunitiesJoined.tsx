@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getCommunityJoined } from "../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
-function useCommunityJoined() {
+function useCommunityJoined(limit) {
   return useQuery({
-    queryKey: ["communities-joined"],
+    queryKey: ["communities-joined", limit],
     queryFn: async () => {
       try {
-        const { data } = await getCommunityJoined();
+        const { data } = await getCommunityJoined(limit);
         return data;
       } catch (e) {
         errorMessageHandler(e)

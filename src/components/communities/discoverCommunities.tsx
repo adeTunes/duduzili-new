@@ -5,10 +5,10 @@ import { Slider } from "../carousel";
 import { useAtomValue, useSetAtom } from "jotai";
 import { toggleCommunityPreview, userDetails } from "@/store";
 import Link from "next/link";
+import useCommunityList from "../../../hooks/useCommunityList";
 
 function DiscoverCommunities() {
-  const showCommunityPreview = useSetAtom(toggleCommunityPreview);
-  const user = useAtomValue(userDetails);
+  const { data, isLoading } = useCommunityList("");
   return (
     <div
       className="bg-[#EDF0FB] p-6 pb-[90px] flex flex-col gap-6 rounded-2xl"
@@ -24,7 +24,7 @@ function DiscoverCommunities() {
           </p>
         </Link>
       </div>
-      <Slider color="bg-[#EDF0FB]" />
+      <Slider community={data?.results} color="bg-[#EDF0FB]" />
     </div>
   );
 }

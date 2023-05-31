@@ -6,8 +6,16 @@ import { NextPageX } from "../../types/next";
 import Aside from "@/components/homepage/sidebar";
 import CommunityView from "@/components/communities/communityView";
 import { Slider } from "@/components/carousel";
+import { useRouter } from "next/router";
+import useCommunityDetails from "../../hooks/useCommunityDetails";
+import { Loading } from "@/components/loading";
+import useCommunityList from "../../hooks/useCommunityList";
 
 const Community: NextPageX = () => {
+  const { query, back } = useRouter();
+  const { data, isLoading } = useCommunityDetails(query.id);
+  const {data: communities} = useCommunityList("")
+
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -20,14 +28,14 @@ const Community: NextPageX = () => {
             className="w-[70%] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
           >
             <div className="flex flex-col gap-[27px]">
-              <div className="flex items-center gap-10">
+              <div onClick={back} className="flex cursor-pointer items-center gap-10">
                 <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
                 <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                  Socio-economic issues in Africa
+                  {data?.data?.name}
                 </p>
               </div>
               <div className="flex flex-col gap-[36px]">
-                <CommunityView />
+                <CommunityView community={data} />
               </div>
             </div>
             <div className=" flex flex-col gap-6">
@@ -46,7 +54,7 @@ const Community: NextPageX = () => {
                     View All
                   </p>
                 </div>
-                <Slider color="#EDF0FB" />
+                <Slider community={communities?.results} color="#EDF0FB" />
               </div>
             </div>
           </section>
@@ -54,6 +62,7 @@ const Community: NextPageX = () => {
           <FixedMessagesButton />
         </main>
       </div>
+      <Loading loading={isLoading} />
     </div>
   );
 };

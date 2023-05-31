@@ -5,8 +5,12 @@ import { Slider } from "../carousel";
 import { useAtomValue, useSetAtom } from "jotai";
 import { toggleCommunityPreview, userDetails } from "@/store";
 import Link from "next/link";
+import useCommunityList from "../../../hooks/useCommunityList";
+import useCommunityJoined from "../../../hooks/useCommunitiesJoined";
 
 function MyCommunitiesSlider() {
+  const { data: joined, isLoading } = useCommunityJoined(4);
+
   return (
     <div
       className="bg-[#EDF0FB] p-6 pb-[90px] flex flex-col gap-6 rounded-2xl"
@@ -14,13 +18,13 @@ function MyCommunitiesSlider() {
     >
       <div className="flex items-center justify-between">
         <p className="text-[20px] leading-[36px] font-bold">My Communities</p>
-        <Link href="/communities/discover">
+        <Link href="/communities/joined">
           <p className=" font-semibold leading-[36px] self-end text-duduzili-violet">
             View All
           </p>
         </Link>
       </div>
-      <Slider color="bg-[#EDF0FB]" />
+      <Slider community={joined?.results} color="bg-[#EDF0FB]" />
     </div>
   );
 }

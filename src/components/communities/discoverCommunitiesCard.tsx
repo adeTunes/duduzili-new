@@ -5,9 +5,29 @@ import { Community } from "../../../api/request.types";
 import { joinCommunity } from "../../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { base64encode } from "nodejs-base64";
+import { useRouter } from "next/router";
 
 function DiscoverCommunitiesCard({ community }: { community: Community }) {
   const [loading, setLoading] = useState(false);
+  const { push } = useRouter();
+  const joinCommunityAction = () => {
+    setLoading(true);
+    const data = new FormData();
+    data.append("community_code", community?.code);
+    data.append("action", "join");
+    joinCommunity(data)
+      .then(({ data }) => {
+        showNotification({
+          message: data?.message || data?.error,
+        });
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        errorMessageHandler(e);
+      });
+  };
   return (
     <>
       <CommunityPicture image={community?.get_logo_url?.substring(62)} />
@@ -39,25 +59,25 @@ function DiscoverCommunitiesCard({ community }: { community: Community }) {
             </p>
           </div>
         </div>
-        {community?.status === "Join" ? (
+        {loading ? (
+          <Loader size="sm" />
+        ) : (
           <p
-            onClick={() => {
-              setLoading(true);
-              const data = new FormData();
-              data.append("community_code", community?.code);
-              data.append("action", "join");
-              joinCommunity(data)
-                .then(({ data }) => {
-                  showNotification({
-                    message: data?.message || data?.error,
-                  });
-                  setLoading(false);
-                })
-                .catch((e) => {
-                  setLoading(false);
-                  errorMessageHandler(e);
-                });
-            }}
+            onClick={
+              community?.status === "Join"
+                ? joinCommunityAction
+                : community?.status === "Select"
+                ? () => push(`/communities/${community?.code}`)
+                : () => {}
+            }
+            className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer"
+          >
+            {community?.status}
+          </p>
+        )}
+        {/* {community?.status === "Join" ? (
+          <p
+            onClick={joinCo}
             className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer"
           >
             {loading ? <Loader size="sm" /> : "Join"}
@@ -66,7 +86,7 @@ function DiscoverCommunitiesCard({ community }: { community: Community }) {
           <p className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer">
             Ask to join
           </p>
-        )}
+        )} */}
       </div>
     </>
   );
