@@ -65,6 +65,7 @@ const Home: NextPageX = () => {
             />
             <PasswordInput
               classNames={{
+                innerInput: "h-[5vh]",
                 input:
                   "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}

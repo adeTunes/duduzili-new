@@ -1,17 +1,25 @@
 import PrimaryButton from "@/components/button/primaryButton";
-import PrimaryButtonOutline from "@/components/button/primaryButtonOutline";
-import SecondaryButton from "@/components/button/secondaryButton";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
-import { Loading } from "@/components/loading";
 import TransactionHistory from "@/components/transactionHistory";
 import { clsx } from "@mantine/core";
 import { ArrowDown, ArrowLeft, ArrowRight2, ArrowUp } from "iconsax-react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import WalletCard from "../../src/components/payments/walletCard";
+import WithdrawModal from "@/components/payments/withdrawModal";
+import { useDisclosure } from "@mantine/hooks";
+import WithdrawSuccessModal from "@/components/payments/withdrawSuccess";
+import DepositModal from "@/components/payments/depositModal";
+import DepositSuccessModal from "@/components/payments/depositModalSuccess";
 
 function Payments() {
   const { back } = useRouter();
+  const [opened, {open, close}] = useDisclosure(false)
+  const [depositOpened, {open: openDeposit, close: closeDeposit}] = useDisclosure(false)
+  const [successOpened, {open: openSuccess, close: closeSuccess}] = useDisclosure(false)
+  const [depositSuccessOpened, {open: openDepositSuccess, close: closeDepositSuccess}] = useDisclosure(false)
   const availableStickers = [
     {
       name: "Butfly",
@@ -91,11 +99,14 @@ function Payments() {
                 Sticker & Payment
               </p>
             </div>
-            <p className="cursor-pointer text-duduzili-violet font-semibold leading-6 flex items-center gap-1">
-              View Withdrawal Accounts <ArrowRight2 size="16" color="#4534B8" />
-            </p>
+            <Link href="/payments/withdrawal-accounts">
+              <p className="cursor-pointer text-duduzili-violet font-semibold leading-6 flex items-center gap-1">
+                View Withdrawal Accounts{" "}
+                <ArrowRight2 size="16" color="#4534B8" />
+              </p>
+            </Link>
           </div>
-          <div className="overflow-auto flex flex-col gap-8">
+          <div id="no-scroll" className="overflow-auto flex flex-col gap-8">
             <div className="grid grid-cols-[41%_1fr] gap-6">
               <div
                 className="bg-white rounded-[20px] px-7 py-5 flex flex-col gap-[22px]"
@@ -111,40 +122,15 @@ function Payments() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-8">
-                  <div
-                    className="w-full h-[184px] flex flex-col justify-between pt-[30px] pl-[26px] pr-[38px] rounded-[20px] pb-6"
-                    style={{
-                      backgroundImage: "url('/payments/wallet-card.png')",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  >
-                    <div className="flex flex-col">
-                      <p className="text-[14px] leading-6 text-white opacity-[0.54]">
-                        Current Balance
-                      </p>
-                      <h3 className="text-white font-bold text-[22px] leading-8">
-                        N5,487.85
-                      </h3>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <p className="text-white text-xs leading-[15px] font-medium opacity-90">
-                        Last Transaction
-                      </p>
-                      <p className="text-xs text-white font-medium leading-[15px] tracking-[0.5] opacity-90">
-                        09/25
-                      </p>
-                    </div>
-                  </div>
+                  <WalletCard />
                   <div className="grid grid-cols-2 gap-4">
                     <PrimaryButton
                       text="Deposit Fund"
                       className="!font-semibold"
-                      onClick={() => {}}
+                      onClick={openDeposit}
                     />
                     <button
-                      onClick={() => {}}
+                      onClick={open}
                       className={`py-4 px-6 bg-transparent border border-[#4534B8] rounded-[32px] text-base font-semibold leading-[19px] text-duduzili-violet`}
                     >
                       Withdraw
@@ -156,9 +142,9 @@ function Payments() {
                 <div className="grid grid-cols-2 gap-[26px]">
                   <div
                     style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-                    className="h-[126px] bg-white rounded-[20px] flex gap-[23px] items-center justify-center"
+                    className="h-[126px] px-4 bg-white rounded-[20px] flex gap-[23px] items-center justify-center"
                   >
-                    <span className="bg-[#367EE8] h-[45px] w-[45px] rounded-[10px] justify-center gap-[23px] flex items-center">
+                    <span className="bg-[#367EE8] p-[10px] rounded-[10px] justify-center gap-[23px] flex items-center">
                       <ArrowDown
                         size={24}
                         className=" rotate-45"
@@ -184,9 +170,9 @@ function Payments() {
                   </div>
                   <div
                     style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-                    className="h-[126px] bg-white rounded-[20px] flex gap-[23px] items-center justify-center"
+                    className="h-[126px] px-4 bg-white rounded-[20px] flex gap-[23px] items-center justify-center"
                   >
-                    <span className="bg-[#4534B8] h-[45px] w-[45px] rounded-[10px] justify-center gap-[23px] flex items-center">
+                    <span className="bg-[#4534B8] p-[10px] rounded-[10px] justify-center gap-[23px] flex items-center">
                       <ArrowUp size={24} className=" rotate-45" color="white" />
                     </span>
                     <span className="flex flex-col">
@@ -260,6 +246,10 @@ function Payments() {
         </main>
       </div>
       {/* <Loading loading={isLoading} /> */}
+      <WithdrawModal opened={opened} close={close} openSuccess={openSuccess} />
+      <DepositModal opened={depositOpened} close={closeDeposit} openSuccess={openDepositSuccess} />
+      <WithdrawSuccessModal opened={successOpened} close={closeSuccess} />
+      <DepositSuccessModal opened={depositSuccessOpened} close={closeDepositSuccess} />
     </div>
   );
 }

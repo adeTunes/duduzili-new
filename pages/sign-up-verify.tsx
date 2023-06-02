@@ -28,7 +28,7 @@ const ResetPassword: NextPageX = () => {
         color: "green",
       });
       setLoading(false);
-      push("/reset-password");
+      push("/login");
     } catch (e) {
       setLoading(false);
       errorMessageHandler(e);
@@ -41,7 +41,7 @@ const ResetPassword: NextPageX = () => {
           e.preventDefault();
           const data = new FormData()
           data.append("otp", otp)
-          data.append("email", email)
+          data.append("email", "babatunde.adekunle1104@gmail.com")
           handleVerifyAccount(data);
         }}
         className="flex flex-col gap-12 w-[45%]"
@@ -72,7 +72,7 @@ const ResetPassword: NextPageX = () => {
           Confirm OTP
         </Button>
         <p className="self-center leading-6 font-medium text-duduzili-charleston-green">
-          Go back to{" "}
+          Go to{" "}
           <Link href="/login">
             <span className=" text-duduzili-violet">Log in</span>
           </Link>

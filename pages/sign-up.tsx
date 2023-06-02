@@ -3,13 +3,15 @@ import Link from "next/link";
 import { NextPageX } from "../types/next";
 import AuthenticationLayout from "@/layout/authentication";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { showNotification } from "@mantine/notifications";
 import { Loading } from "@/components/loading";
 import { RegisterUser } from "../api/request.types";
 import { registerUser } from "../api/apiRequests";
+import { useAtomValue, useSetAtom } from "jotai";
+import { verifyAccountEmail } from "@/store";
 
 const SignUp: NextPageX = () => {
   const [loading, setLoading] = useState(false);
@@ -24,6 +26,10 @@ const SignUp: NextPageX = () => {
       confirm_password: "",
     },
   });
+  const setEmail = useSetAtom(verifyAccountEmail)
+  useEffect(() => {
+    setEmail(form.values.email)
+  }, [form.values.email])
   const { push } = useRouter();
   const handleRegister = async (data: RegisterUser) => {
     setLoading(true);
@@ -35,7 +41,7 @@ const SignUp: NextPageX = () => {
         color: "green",
       });
       setLoading(false);
-      push("/login");
+      push("/sign-up-verify");
     } catch (e) {
       setLoading(false);
       errorMessageHandler(e);
@@ -118,6 +124,7 @@ const SignUp: NextPageX = () => {
             <PasswordInput
               required
               classNames={{
+                innerInput: "h-[5vh]",
                 input:
                   "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
@@ -127,6 +134,7 @@ const SignUp: NextPageX = () => {
             <PasswordInput
               required
               classNames={{
+                innerInput: "h-[5vh]",
                 input:
                   "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}

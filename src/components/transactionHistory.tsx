@@ -5,10 +5,13 @@ import { ArrowDown, ArrowUp } from "iconsax-react";
 import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
 import { usePagination, useRowSelect, useTable } from "react-table";
+import useTransactionHistory from "../../hooks/useTransactionHistory";
 
 const TransactionHistory = () => {
   const [activepage, setActivePage] = useState(1);
   const [selected, setSelected] = useState([]);
+  const {data} = useTransactionHistory()
+  
 
   const CategoryColumn = useMemo(
     () => [
@@ -37,6 +40,31 @@ const TransactionHistory = () => {
     []
   );
   const [CategoryListData, setCategoryListData] = useState([
+    {
+      description: "Ayodele Davies gifted you a Pcock",
+      date: "Sat, 20 Apr 2020",
+      amount: "N1,500.00",
+      transaction_type: "Income",
+      status: "Successful",
+      sticker: "Pcock",
+      action: "gifted sticker",
+    },
+    {
+      description: "You deposited fund",
+      date: "Sat, 20 Apr 2020",
+      amount: "N1,500.00",
+      transaction_type: "Income",
+      status: "Failed",
+      action: "deposited",
+    },
+    {
+      description: "You withdrew fund",
+      date: "Sat, 20 Apr 2020",
+      amount: "N1,500.00",
+      transaction_type: "Income",
+      status: "Successful",
+      action: "withdrew",
+    },
     {
       description: "Ayodele Davies gifted you a Pcock",
       date: "Sat, 20 Apr 2020",

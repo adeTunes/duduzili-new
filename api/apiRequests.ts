@@ -1,9 +1,12 @@
-import API from "./axiosConfig";
+import API, { PAYMENTAPI } from "./axiosConfig";
 import { LoginUser, RegisterUser, verifyAccountType } from "./request.types";
 
 // POST REQUESTS
 export const loginUser = (data: LoginUser) => {
   return API.post("/api/v1/rest-auth/signin/", data);
+};
+export const resetPassword = (data: LoginUser) => {
+  return API.post("/api/v1/rest-auth/password_reset/", data);
 };
 export const registerUser = (data: RegisterUser) => {
   return API.post("/api/v1/rest-auth/signup/", data);
@@ -210,3 +213,19 @@ export const getUserBySearch = (search) => {
 export const getCommunityPost = (limit, code) => {
   return API.get(`/api/v1/rest-auth/community/community-post?limit=${limit}&code=${code}`);
 };
+
+
+
+/**
+ * PAYMENTS REQUESTS
+*/
+
+export const getTransactionHistory = () => {
+  return PAYMENTAPI.get(`/api/payments/fetch-user-wallet-transactions/`);
+};
+export const getUserWallet = () => {
+  return PAYMENTAPI.get(`/api/payments/fetch-user-wallet/`);
+};
+export const getWithdrawalAccounts = () => {
+  return PAYMENTAPI.get("/api/payments/user-withdrawal-account/")
+}
