@@ -1,11 +1,17 @@
-import React, { Fragment } from "react";
+import { amountFormatter } from "@/helpers/amountFormatter";
+import React, { useEffect, useState } from "react";
 
-function ConfirmWithdrawalAccount() {
+function ConfirmWithdrawalAccount({bank, amount}) {
+  const [formattedAmount, setFormatedAmount] = useState("")
+  useEffect(() => {
+    amountFormatter(amount, setFormatedAmount)
+  }, [amount]);
+
   const entries = {
-    "Bank name": "Wema Bank",
-    "Account number": "0243913808",
-    "Account name": "Ayodele Davies",
-    Amount: "N4,000",
+    "Bank name": bank?.bank_name,
+    "Account number": bank?.account_number,
+    "Account name": bank?.account_name,
+    Amount: `N${formattedAmount}`,
   };
   return (
     <div

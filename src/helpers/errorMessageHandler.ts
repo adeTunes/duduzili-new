@@ -24,6 +24,12 @@ export const errorMessageHandler = (obj: ErrorType) => {
       });
     }
     if (obj.response.data.data) {
+      if(typeof obj.response.data.data === "string")
+      return showNotification({
+        title: "Error",
+        message: obj.response.data.data,
+        color: "red",
+      })
       Object.entries(obj.response.data.data).map((item: any[], idx) => {
         if (item[1].length > 1) {
           item[1].forEach((el) =>

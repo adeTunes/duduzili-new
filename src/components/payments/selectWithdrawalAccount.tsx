@@ -1,19 +1,25 @@
-import { Radio, TextInput } from "@mantine/core";
+import { LoadingOverlay, Radio, TextInput } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import React, { useState } from "react";
+import UseWithdrawalAccounts from "../../../hooks/useWithdrawalAccounts";
 interface Prop {
-    form: UseFormReturnType<{
-        amount: string;
-    }, (values: {
-        amount: string;
-    }) => {
-        amount: string;
-    }>
-    bank: string;
-    setBank: React.Dispatch<React.SetStateAction<string>>
+  form: UseFormReturnType<
+    {
+      amount: string;
+      account_id: any;
+    },
+    (values: { amount: string; account_id: any }) => {
+      amount: string;
+      account_id: any;
+    }
+  >;
+  bank: string;
+  setBank: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function SelectWithdrawalAccount({form, bank, setBank}: Prop) {
+function SelectWithdrawalAccount({ form, bank, setBank }: Prop) {
+  const { data, isLoading } = UseWithdrawalAccounts();
+
   return (
     <div className="grid grid-rows-[auto_1fr] overflow-auto gap-6">
       <TextInput
@@ -35,112 +41,40 @@ function SelectWithdrawalAccount({form, bank, setBank}: Prop) {
           className="rounded-[8px] max-h-[300px] py-6 px-4 flex-1 overflow-auto"
           style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
         >
-          <Radio.Group
-            value={bank}
-            onChange={setBank}
-            name="favoriteFramework"
-          >
+          <Radio.Group value={bank} onChange={setBank} name="favoriteFramework">
             <div className="flex flex-col gap-[25px]">
-              <Radio
-                classNames={{
-                  body: "justify-between items-center",
-                }}
-                labelPosition="left"
-                value="wema-bank"
-                label={
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/payments/wema-bank.png"
-                      className="h-[60px] w-[60px] object-cover"
-                      alt=""
-                    />
-                    <div className="flex flex-col gap-1">
-                      <p className="text-[#2a2a2a] font-semibold leading-6">
-                        Wema Bank
-                      </p>
-                      <p className="text-[#757575] text-[15px] leading-6">
-                        0243913808
-                      </p>
+              {data?.data?.map((item, idx) => (
+                <Radio
+                  key={idx}
+                  classNames={{
+                    body: "justify-between items-center",
+                  }}
+                  labelPosition="left"
+                  value={JSON.stringify(item)}
+                  label={
+                    <div className="flex items-center gap-4">
+                      <img
+                        src="/payments/default-bank-logo.png"
+                        className="h-[60px] w-[60px] object-cover"
+                        alt=""
+                      />
+                      <div className="flex flex-col gap-1">
+                        <p className="text-[#2a2a2a] font-semibold leading-6">
+                          {item?.account_name}
+                        </p>
+                        <p className="text-[#757575] text-[15px] leading-6">
+                          {item?.account_number}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                }
-              />
-              <Radio
-                classNames={{
-                  body: "justify-between items-center",
-                }}
-                labelPosition="left"
-                value="fidelity-bank"
-                label={
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/payments/wema-bank.png"
-                      className="h-[60px] w-[60px] object-cover"
-                      alt=""
-                    />
-                    <div className="flex flex-col gap-1">
-                      <p className="text-[#2a2a2a] font-semibold leading-6">
-                        Wema Bank
-                      </p>
-                      <p className="text-[#757575] text-[15px] leading-6">
-                        0243913808
-                      </p>
-                    </div>
-                  </div>
-                }
-              />
-              <Radio
-                classNames={{
-                  body: "justify-between items-center",
-                }}
-                labelPosition="left"
-                value="fcmb"
-                label={
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/payments/wema-bank.png"
-                      className="h-[60px] w-[60px] object-cover"
-                      alt=""
-                    />
-                    <div className="flex flex-col gap-1">
-                      <p className="text-[#2a2a2a] font-semibold leading-6">
-                        Wema Bank
-                      </p>
-                      <p className="text-[#757575] text-[15px] leading-6">
-                        0243913808
-                      </p>
-                    </div>
-                  </div>
-                }
-              />
-              <Radio
-                classNames={{
-                  body: "justify-between items-center",
-                }}
-                labelPosition="left"
-                value="keystone"
-                label={
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/payments/wema-bank.png"
-                      className="h-[60px] w-[60px] object-cover"
-                      alt=""
-                    />
-                    <div className="flex flex-col gap-1">
-                      <p className="text-[#2a2a2a] font-semibold leading-6">
-                        Wema Bank
-                      </p>
-                      <p className="text-[#757575] text-[15px] leading-6">
-                        0243913808
-                      </p>
-                    </div>
-                  </div>
-                }
-              />
+                  }
+                />
+              ))}
             </div>
           </Radio.Group>
         </div>
       </div>
+      <LoadingOverlay visible={isLoading} />
     </div>
   );
 }

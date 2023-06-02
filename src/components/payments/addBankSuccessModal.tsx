@@ -1,18 +1,9 @@
 import { Modal } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PrimaryButton from "../button/primaryButton";
-import { useAtomValue } from "jotai";
-import { depositAmount } from "@/store";
 import { useQueryClient } from "@tanstack/react-query";
 
-function DepositSuccessModal({ opened, close }) {
-  const [deposit, setDeposit] = useState("");
-
-  useEffect(() => {
-    if (opened) {
-      setDeposit(sessionStorage.getItem("deposit-amount"));
-    }
-  }, [opened]);
+function AddBankSuccessModal({ opened, close }) {
   const queryClient = useQueryClient()
   return (
     <Modal
@@ -39,21 +30,18 @@ function DepositSuccessModal({ opened, close }) {
     >
       <div className="flex flex-col items-center gap-4">
         <img
-          src="/payments/withdrawal-success.png"
+          src="/payments/add-account-success.png"
           alt="withrawal successful"
-          className="h-[150px] object-cover"
+          className="h-[109px] object-cover"
         />
         <p className="text-[#2a2a2a] text-center leading-6 font-medium">
-          Your request to deposit{" "}
-          <span className="text-[#4534B8]">N{deposit}</span> is currently being
-          processed
+          You have successfully added a withdrawal account
         </p>
       </div>
       <PrimaryButton
         text="Done"
         onClick={() => {
-          queryClient.invalidateQueries(["user-wallet"])
-          queryClient.invalidateQueries(["transaction-history"])
+          queryClient.invalidateQueries(["withdrawal-accounts"])
           close();
         }}
       />
@@ -61,4 +49,4 @@ function DepositSuccessModal({ opened, close }) {
   );
 }
 
-export default DepositSuccessModal;
+export default AddBankSuccessModal;

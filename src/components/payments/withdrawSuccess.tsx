@@ -1,8 +1,17 @@
 import { Modal } from "@mantine/core";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PrimaryButton from "../button/primaryButton";
+import { useQueryClient } from "@tanstack/react-query";
 
 function WithdrawSuccessModal({ opened, close }) {
+  const queryClient = useQueryClient();
+  const [amount, setAmount] = useState("");
+
+  useEffect(() => {
+    if (opened) {
+      setAmount(sessionStorage.getItem("withdraw-amount"));
+    }
+  }, [opened]);
   return (
     <Modal
       size="25vw"
@@ -22,14 +31,30 @@ function WithdrawSuccessModal({ opened, close }) {
       opened={opened}
       onClose={close}
       withCloseButton={false}
+      closeOnClickOutside={false}
       title="Cheers!"
       centered
     >
-        <div className="flex flex-col items-center gap-4">
-            <img src="/payments/withdrawal-success.png" alt="withrawal successful" className="h-[150px] object-cover" />
-            <p className="text-[#2a2a2a] text-center leading-6 font-medium">Your request to withdraw <span className="text-[#4534B8]">N4,000</span> is currently being processed</p>
-        </div>
-        <PrimaryButton text="Done" onClick={() => {close()}} />
+      <div className="flex flex-col items-center gap-4">
+        <img
+          src="/payments/withdrawal-success.png"
+          alt="withrawal successful"
+          className="h-[150px] object-cover"
+        />
+        <p className="text-[#2a2a2a] text-center leading-6 font-medium">
+          Your request to withdraw{" "}
+          <span className="text-[#4534B8]">N{amount}</span> is currently being
+          processed
+        </p>
+      </div>
+      <PrimaryButton
+        text="Done"
+        onClick={() => {
+          queryClient.invalidateQueries(["user-wallet"]);
+          queryClient.invalidateQueries(["transaction-history"]);
+          close();
+        }}
+      />
     </Modal>
   );
 }

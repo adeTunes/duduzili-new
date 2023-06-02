@@ -2,44 +2,43 @@ import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
 import { Add, ArrowLeft } from "iconsax-react";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DiscoverPeople from "@/components/homepage/sidebar/discoverPeople";
 import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import BankDetailsCard from "@/components/bankDetailsCard";
 import WalletCardAside from "@/components/payments/walletCardAside";
 import UseWithdrawalAccounts from "../../hooks/useWithdrawalAccounts";
+import { useDisclosure } from "@mantine/hooks";
+import AddBankModal from "@/components/payments/addBankModal";
+import AddBankSuccessModal from "@/components/payments/addBankSuccessModal";
+import WithdrawalBankModal from "@/components/payments/withdrawalBankModal";
+import { Skeleton } from "@mantine/core";
 
 function WithdrawalAccounts() {
   const { back } = useRouter();
-  const {data} = UseWithdrawalAccounts()
-  console.log(data)
+  const { data, isLoading } = UseWithdrawalAccounts();
+  const [opened, { open, close }] = useDisclosure(false);
+  const [successOpened, { open: openSuccess, close: closeSuccess }] =
+    useDisclosure(false);
 
-  const details = [
-    {
-      bankLogo: "/payments/wema-bank.png",
-      options: {
-        "Bank Name": "First City Monument bank",
-        "Account Name": "Davies Ayodele",
-        "Account Number": "23142546738",
-      },
-    },
-    {
-      bankLogo: "/payments/first-bank.png",
-      options: {
-        "Bank Name": "First Bank of Nigeria",
-        "Account Name": "Davies Ayodele",
-        "Account Number": "23142546738",
-      },
-    },
-    {
-      bankLogo: "/payments/default-bank-logo.png",
-      options: {
-        "Bank Name": "Opay Digital Bank",
-        "Account Name": "Davies Ayodele",
-        "Account Number": "23142546738",
-      },
-    },
-  ];
+  const [details, setDetails] = useState([]);
+
+  useEffect(() => {
+    setDetails(
+      data?.data?.reduce((acc, item) => {
+        acc.push({
+          bankLogo: "/payments/default-bank-logo.png",
+          options: {
+            "Bank Name": item?.bank_name,
+            "Account Name": item?.account_name,
+            "Account Number": item?.account_number,
+          },
+        });
+        return acc;
+      }, [])
+    );
+  }, [data]);
+
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -63,10 +62,13 @@ function WithdrawalAccounts() {
             <div className="grid grid-cols-2 gap-6">
               <div
                 style={{ boxShadow: "-2px 3px 12px 1px rgba(0, 0, 0, 0.05)" }}
-                className="h-[247px] bg-white rounded-[8px] flex items-center justify-center"
+                className="min-h-[247px] bg-white rounded-[8px] flex items-center justify-center"
               >
                 <div className="flex flex-col gap-[20px] items-center">
-                  <span className="w-[80px] cursor-pointer h-[80px] bg-[#EDF0FB] rounded-[80px] flex items-center justify-center">
+                  <span
+                    onClick={open}
+                    className="w-[80px] cursor-pointer h-[80px] bg-[#EDF0FB] rounded-[80px] flex items-center justify-center"
+                  >
                     <Add color="#4534B8" size={32} />
                   </span>
                   <p className="text-[#757575] font-medium leading-6">
@@ -74,9 +76,23 @@ function WithdrawalAccounts() {
                   </p>
                 </div>
               </div>
-              {details.map((item, index) => (
-                <BankDetailsCard details={item} key={index} />
-              ))}
+              {isLoading
+                ? Array(3)
+                    .fill(0)
+                    .map((item, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          boxShadow: "-2px 3px 12px 1px rgba(0, 0, 0, 0.05)",
+                        }}
+                        className="min-h-[247px] bg-white rounded-[8px] flex items-center justify-center"
+                      >
+                        <Skeleton height="247px" width="100%" />
+                      </div>
+                    ))
+                : details?.map((item, index) => (
+                    <BankDetailsCard details={item} key={index} />
+                  ))}
             </div>
           </section>
           <aside
@@ -90,6 +106,10 @@ function WithdrawalAccounts() {
           <FixedMessagesButton />
         </main>
       </div>
+      {opened ? (
+        <AddBankModal opened={opened} close={close} openSuccess={openSuccess} />
+      ) : null}
+      <AddBankSuccessModal opened={successOpened} close={closeSuccess} />
     </div>
   );
 }

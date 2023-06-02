@@ -229,3 +229,33 @@ export const getUserWallet = () => {
 export const getWithdrawalAccounts = () => {
   return PAYMENTAPI.get("/api/payments/user-withdrawal-account/")
 }
+export const getBankList = () => {
+  return PAYMENTAPI.get("/api/payments/banks-list/")
+}
+export const fetchAccountName = (data) => {
+  return PAYMENTAPI.post("/api/payments/fetch-account-name/", data)
+}
+export const addWithdrawalAccount = (data) => {
+  return PAYMENTAPI.post("/api/payments/user-withdrawal-account/", data)
+}
+export const verifyTokenForAddingAccount = (data) => {
+  return PAYMENTAPI.post("/api/payments/verify-withdrawal-account-token/", data)
+}
+export const initializeDeposit = (data) => {
+  return PAYMENTAPI.post("/api/payments/initialize-transaction/", data)
+}
+export const generateTokenForAddWithdrawalAcc = () => {
+  return PAYMENTAPI.get("/api/payments/generate-token-for-withdrawal-account/")
+}
+export const verifyTokenForAddWithdrawalAcc = (code) => {
+  return PAYMENTAPI.post("/api/payments/verify-withdrawal-account-token/", code)
+}
+export const generateTokenForWithdrawal = () => {
+  return PAYMENTAPI.get("/api/payments/generate-token-for-transfer/")
+}
+export const verifyTokenForWithdrawal = (code) => {
+  return PAYMENTAPI.post("/api/payments/verify-token-for-initiating-transfer/", code)
+}
+export const makeWithdrawal = (data) => {
+  return PAYMENTAPI.post("/api/payments/make-withdrawal/", data)
+}

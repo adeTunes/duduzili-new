@@ -1,27 +1,38 @@
 import { Icon } from "@iconify/react";
-import { Checkbox, clsx } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { clsx } from "@mantine/core";
 import { ArrowDown, ArrowUp } from "iconsax-react";
-import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
 import { usePagination, useRowSelect, useTable } from "react-table";
 import useTransactionHistory from "../../hooks/useTransactionHistory";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat"
 
 const TransactionHistory = () => {
   const [activepage, setActivePage] = useState(1);
   const [selected, setSelected] = useState([]);
-  const {data} = useTransactionHistory()
-  
+  const { data } = useTransactionHistory();
+
+  const [transactions, setTransactions] = useState([])
+
+  useEffect(() => {
+    if(data) {
+      setTransactions(data?.data?.reduce((acc,item) => {
+        dayjs.extend(LocalizedFormat)
+        acc.push({...item, date_of_transaction: dayjs(item?.date_of_transaction).format('ll')})
+        return acc
+      }, []))
+    }
+  }, [data])
 
   const CategoryColumn = useMemo(
     () => [
       {
         Header: "Description",
-        accessor: "description",
+        accessor: " ",
       },
       {
         Header: "Date",
-        accessor: "date",
+        accessor: "date_of_transaction",
       },
       {
         Header: "Amount",
@@ -29,72 +40,20 @@ const TransactionHistory = () => {
       },
       {
         Header: "Transaction type",
-        accessor: "transaction_type",
+        accessor: "mode",
       },
 
       {
         Header: "Status",
-        accessor: "status",
+        accessor: "",
       },
     ],
     []
   );
-  const [CategoryListData, setCategoryListData] = useState([
-    {
-      description: "Ayodele Davies gifted you a Pcock",
-      date: "Sat, 20 Apr 2020",
-      amount: "N1,500.00",
-      transaction_type: "Income",
-      status: "Successful",
-      sticker: "Pcock",
-      action: "gifted sticker",
-    },
-    {
-      description: "You deposited fund",
-      date: "Sat, 20 Apr 2020",
-      amount: "N1,500.00",
-      transaction_type: "Income",
-      status: "Failed",
-      action: "deposited",
-    },
-    {
-      description: "You withdrew fund",
-      date: "Sat, 20 Apr 2020",
-      amount: "N1,500.00",
-      transaction_type: "Income",
-      status: "Successful",
-      action: "withdrew",
-    },
-    {
-      description: "Ayodele Davies gifted you a Pcock",
-      date: "Sat, 20 Apr 2020",
-      amount: "N1,500.00",
-      transaction_type: "Income",
-      status: "Successful",
-      sticker: "Pcock",
-      action: "gifted sticker",
-    },
-    {
-      description: "You deposited fund",
-      date: "Sat, 20 Apr 2020",
-      amount: "N1,500.00",
-      transaction_type: "Income",
-      status: "Failed",
-      action: "deposited",
-    },
-    {
-      description: "You withdrew fund",
-      date: "Sat, 20 Apr 2020",
-      amount: "N1,500.00",
-      transaction_type: "Income",
-      status: "Successful",
-      action: "withdrew",
-    },
-  ]);
 
   const [loading, setLoading] = useState(false);
 
-  const CategoryData = useMemo(() => CategoryListData, [CategoryListData]);
+  const CategoryData = useMemo(() => transactions, [transactions]);
 
   const {
     getTableProps,
@@ -167,14 +126,14 @@ const TransactionHistory = () => {
                       >
                         <span className="flex items-center gap-3">
                           <span className="bg-[#4534b821] rounded-full h-10 w-10 flex items-center justify-center">
-                            {cell.row.original.action === "deposited" ? (
+                            {cell.row.original.mode === "Credit" ? (
                               <Icon
                                 color="#4534B8"
                                 height={20}
                                 width={20}
                                 icon="iconamoon:download-thin"
                               />
-                            ) : cell.row.original.action === "withdrew" ? (
+                            ) : (
                               <Icon
                                 color="#4534B8"
                                 height={20}
@@ -182,15 +141,9 @@ const TransactionHistory = () => {
                                 icon="iconamoon:download-thin"
                                 className="rotate-180"
                               />
-                            ) : (
-                              <img
-                                src="/payments/butfly.png"
-                                className="h-5 w-5 object-cover"
-                                alt=""
-                              />
                             )}
                           </span>
-                          {cell.value}
+                          {cell.row.original.mode}
                         </span>
                       </td>
                     ) : cell.column.Header === "Transaction type" ? (
@@ -200,14 +153,14 @@ const TransactionHistory = () => {
                       >
                         <span
                           className={clsx(
-                            cell.value === "Income"
+                            cell.value === "Credit"
                               ? "text-[#367EE8]"
                               : "text-[#4534B8]",
                             "flex items-center gap-1"
                           )}
                         >
-                          {cell.value}
-                          {cell.value === "Income" ? (
+                          {cell.value === "Credit" ? "Income" : "Outcome"}
+                          {cell.value === "Credit" ? (
                             <ArrowDown
                               className="rotate-45"
                               size={16}
@@ -229,18 +182,12 @@ const TransactionHistory = () => {
                       >
                         <span
                           style={{
-                            background:
-                              cell.value === "Successful"
-                                ? "rgba(2, 177, 90, 0.15)"
-                                : "#F4B9B9",
-                            color:
-                              cell.value === "Successful"
-                                ? "#02B15A"
-                                : "#D40000",
+                            background: "rgba(2, 177, 90, 0.15)",
+                            color: "#02B15A"
                           }}
                           className="w-[81px] text-[12px] leading-[15px] rounded-[32px] flex items-center justify-center h-6"
                         >
-                          {cell.value}
+                          Successful
                         </span>
                       </td>
                     ) : (
@@ -257,6 +204,7 @@ const TransactionHistory = () => {
             })}
           </tbody>
         </table>
+        {!transactions?.length && <p className=" text-center mt-5">No transactions</p>}
       </div>
       {/* <TablePagination
           totalPage={cards?.count / 10}

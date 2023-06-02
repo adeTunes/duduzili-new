@@ -41,7 +41,7 @@ const ResetPassword: NextPageX = () => {
           e.preventDefault();
           const data = new FormData()
           data.append("otp", otp)
-          data.append("email", "babatunde.adekunle1104@gmail.com")
+          data.append("email", email)
           handleVerifyAccount(data);
         }}
         className="flex flex-col gap-12 w-[45%]"

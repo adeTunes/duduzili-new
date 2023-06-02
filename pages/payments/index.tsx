@@ -6,7 +6,7 @@ import { clsx } from "@mantine/core";
 import { ArrowDown, ArrowLeft, ArrowRight2, ArrowUp } from "iconsax-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import WalletCard from "../../src/components/payments/walletCard";
 import WithdrawModal from "@/components/payments/withdrawModal";
 import { useDisclosure } from "@mantine/hooks";
@@ -82,6 +82,15 @@ function Payments() {
       image: "/payments/eleph.png",
     },
   ];
+
+  const {query} = useRouter()
+
+  useEffect(() => {
+    if(query.deposit) {
+      openDepositSuccess()
+    }
+  }, [query.deposit])
+
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -247,7 +256,7 @@ function Payments() {
       </div>
       {/* <Loading loading={isLoading} /> */}
       <WithdrawModal opened={opened} close={close} openSuccess={openSuccess} />
-      <DepositModal opened={depositOpened} close={closeDeposit} openSuccess={openDepositSuccess} />
+      <DepositModal opened={depositOpened} close={closeDeposit} />
       <WithdrawSuccessModal opened={successOpened} close={closeSuccess} />
       <DepositSuccessModal opened={depositSuccessOpened} close={closeDepositSuccess} />
     </div>

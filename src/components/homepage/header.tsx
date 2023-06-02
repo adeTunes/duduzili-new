@@ -36,7 +36,7 @@ function Header() {
     {
       icon: (
         <img
-          src={user?.user?.photo_url?.substring(62) }
+          src={user?.user?.photo_url?.substring(62) || '/profile-pic-default.png'}
           className="w-10 h-10 cursor-pointer rounded-full object-cover"
           alt=""
         />
