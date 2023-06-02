@@ -7,7 +7,7 @@ function PrimaryButton({
   style,
   ...rest
 }: {
-  text: string;
+  text: string | React.ReactNode;
   className?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   style?: React.CSSProperties;

@@ -13,3 +13,4 @@ export const userFollowings = atom("");
 export const userFollowers = atom("");
 export const friendPersonalDetails = atom({});
 export const openEditModal = atom(false)
+export const verifyAccountEmail = atom("")
