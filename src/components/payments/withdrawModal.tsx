@@ -1,18 +1,30 @@
-import { Group, LoadingOverlay, Modal, PinInput, Radio, TextInput } from "@mantine/core";
-import { useState } from "react";
+import {
+  Group,
+  LoadingOverlay,
+  Modal,
+  PinInput,
+  Radio,
+  TextInput,
+} from "@mantine/core";
+import { useEffect, useState } from "react";
 import ModalStepper from "./modalStepper";
 import PrimaryButton from "../button/primaryButton";
 import SelectWithdrawalAccount from "./selectWithdrawalAccount";
 import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import ConfirmWithdrawalAccount from "./confirmWithdrawalAccount";
-import { sendOTP } from "../../../api/apiRequests";
+import {
+  generateTokenForWithdrawal,
+  makeWithdrawal,
+  sendOTP,
+  verifyTokenForWithdrawal,
+} from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
 export default function WithdrawModal({ opened, close, openSuccess }) {
   const [active, setActive] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [course, setCourse] = useState("");
+  const [bank, setBank] = useState("");
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
@@ -21,27 +33,80 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
   const form = useForm({
     initialValues: {
       amount: "",
+      account_id: null,
     },
   });
 
-  const [otp, setOTP] = useState("")
-  const resendOTP = () => {
-    setLoading(true);
+  const [otp, setOTP] = useState("");
+
+  const handleWithdrawal = () => {
     const data = new FormData();
-    // data.append("email", email);
-    sendOTP(data)
+    data.append("amount", form.values.amount);
+    data.append("account_id", JSON.parse(bank)?.id);
+    makeWithdrawal(data)
       .then(({ data }) => {
-        showNotification({
-          message: data?.error ?? data?.message,
-          color: "green",
-        });
         setLoading(false);
+        if (!data?.message?.includes("successful")) {
+          return showNotification({
+            message: data?.data?.non_field_errors || data?.data,
+          });
+        }
+        showNotification({
+          message: data?.data,
+        });
+        close()
+        openSuccess();
       })
       .catch((e) => {
         setLoading(false);
         errorMessageHandler(e);
       });
   };
+
+  const handleVerifyCode = () => {
+    if (!otp)
+      return showNotification({
+        message: "Please enter code",
+        color: "red",
+      });
+    setLoading(true);
+    const data = new FormData();
+    data.append("code", otp);
+    verifyTokenForWithdrawal(data)
+      .then(({ data }) => {
+        if (!data?.message?.includes("successful")) {
+          return showNotification({
+            message: data?.data,
+          });
+        }
+        showNotification({
+          message: data?.data,
+        });
+        handleWithdrawal();
+        setActive((v) => v + 1);
+      })
+      .catch((e) => {
+        setLoading(false);
+        errorMessageHandler(e);
+      });
+  };
+
+  useEffect(() => {
+    if (active === 2) {
+      setLoading(true);
+      generateTokenForWithdrawal()
+        .then(({ data }) => {
+          setLoading(false);
+          showNotification({
+            message: data?.data || data?.error || data?.message,
+          });
+        })
+        .catch((e) => {
+          setLoading(false);
+          errorMessageHandler(e);
+        });
+    }
+  }, [active]);
 
   return (
     <Modal
@@ -62,8 +127,8 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       opened={opened}
       closeOnClickOutside={false}
       onClose={() => {
-        setActive(0)
-        close()
+        setActive(0);
+        close();
       }}
       title="Withdraw Fund"
       centered
@@ -85,13 +150,12 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       </p>
       <ModalStepper active={active} setActive={setActive} />
       {active === 0 ? (
-        <SelectWithdrawalAccount
-          form={form}
-          bank={course}
-          setBank={setCourse}
-        />
+        <SelectWithdrawalAccount form={form} bank={bank} setBank={setBank} />
       ) : active === 1 ? (
-        <ConfirmWithdrawalAccount />
+        <ConfirmWithdrawalAccount
+          bank={JSON.parse(bank)}
+          amount={form.values.amount}
+        />
       ) : (
         <div>
           <Group position="center">
@@ -104,23 +168,20 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
               value={otp}
               onChange={setOTP}
             />
-            <div className="flex items-center w-full justify-between">
-              {/* <p className="text-[#757575] leading-6 font-medium">0:05</p> */}
-              <p
-                className="text-[#3B81E5] leading-6 font-medium ml-auto cursor-pointer"
-                onClick={resendOTP}
-              >
-                Resend code
-              </p>
-            </div>
           </Group>
         </div>
       )}
       <PrimaryButton
-        text={active === 0 ? "Proceed" : active === 1 ? "Confirm Account" : "Verify OTP"}
+        text={
+          active === 0
+            ? "Proceed"
+            : active === 1
+            ? "Confirm Account"
+            : "Verify OTP"
+        }
         onClick={() => {
           if (active === 0) {
-            if (!course)
+            if (!bank)
               return showNotification({
                 message: "Please select a withdrawal account to proceed",
                 color: "red",
@@ -130,12 +191,11 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
                 message: "Please enter withdrawal amount",
                 color: "red",
               });
+              sessionStorage.setItem("withdraw-amount", form.values.amount)
             nextStep();
-          }
-          else if(active === 1) nextStep()
+          } else if (active === 1) nextStep();
           else {
-            close()
-            openSuccess()
+            handleVerifyCode()
           }
         }}
       />
