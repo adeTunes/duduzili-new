@@ -52,7 +52,8 @@ function PostFooter({
   }, [post]);
 
   const handleStickers = () => {
-    if (sticker?.length && post?.user?.id === user?.user?.id) {
+    if (!user?.token) return setOpenAuth(true)
+    if ( sticker?.length && post?.user?.id === user?.user?.id) {
       open()
     } else if (post?.user?.id !== user?.user?.id) {
       setStickerAwardee(post?.user)
