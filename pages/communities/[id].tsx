@@ -10,11 +10,15 @@ import { useRouter } from "next/router";
 import useCommunityDetails from "../../hooks/useCommunityDetails";
 import { Loading } from "@/components/loading";
 import useCommunityList from "../../hooks/useCommunityList";
+import DownloadApp from "@/components/homepage/sidebar/downloadApp";
+import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
+import InviteFriends from "@/components/homepage/sidebar/inviteFriends";
+import PendingRequests from "@/components/homepage/sidebar/pendingRequests";
 
 const Community: NextPageX = () => {
   const { query, back } = useRouter();
   const { data, isLoading } = useCommunityDetails(query.id);
-  const {data: communities} = useCommunityList("")
+  const { data: communities } = useCommunityList("");
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -28,7 +32,10 @@ const Community: NextPageX = () => {
             className="w-[70%] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
           >
             <div className="flex flex-col gap-[27px]">
-              <div onClick={back} className="flex cursor-pointer items-center gap-10">
+              <div
+                onClick={back}
+                className="flex cursor-pointer items-center gap-10"
+              >
                 <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
                 <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                   {data?.data?.name}
@@ -58,7 +65,19 @@ const Community: NextPageX = () => {
               </div>
             </div>
           </section>
-          <Aside />
+          <aside
+            id="no-scroll"
+            className="w-[30%] overflow-auto pb-[80px] max-w-[325px] flex flex-col gap-6"
+          >
+            <DownloadApp />
+            {data?.data?.is_owner ? (
+              <>
+                <PendingRequests />
+                <InviteFriends />
+              </>
+            ) : null}
+            <CompanyInfo />
+          </aside>
           <FixedMessagesButton />
         </main>
       </div>

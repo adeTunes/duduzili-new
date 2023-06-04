@@ -63,6 +63,31 @@ export const createCommunity = (data) => {
   return API.post("/api/v1/rest-auth/community/create", data);
 };
 
+export const joinOrLeaveCommunity = (data) => {
+  return API.post("/api/community/join-or-leave", data)
+}
+export const deleteCommunity = (data) => {
+  return API.post("/api/v1/rest-auth/community/delete-community", data)
+}
+export const communityPost = (data) => {
+  return API.post("/api/v1/rest-auth/community/community-post", data)
+}
+export const addMemberToCommunity = (data) => {
+  return API.post("/api/v1/rest-auth/community/add-user-to-community", data)
+}
+export const editCommunity = (data) => {
+  return API.post("/api/v1/rest-auth/community/create", data)
+}
+export const treatCommunityJoinRequest = (data) => {
+  return API.post("/api/v1/rest-auth/community/treat-request", data)
+}
+export const uploadCoverImage = (data) => {
+  return API.post("/api/v1/rest-auth/upload-cover-image/", data)
+}
+export const uploadCommunityCoverImage = (data) => {
+  return API.post("api/v1/rest-auth/community/upload-community-logo", data)
+}
+
 // PUT REQUESTS
 
 export const editProfile = (id: string | number, data: any) => {
@@ -70,6 +95,9 @@ export const editProfile = (id: string | number, data: any) => {
 };
 export const editPost = (id: string | number, data: any) => {
   return API.put(`/api/v1/rest-auth/posts/${id}/`, data);
+};
+export const readAllNotifications = () => {
+  return API.put(`/api/v1/rest-auth/notifications/`);
 };
 
 // DELETE REQUESTS
@@ -213,6 +241,12 @@ export const getUserBySearch = (search) => {
 export const getCommunityPost = (limit, code) => {
   return API.get(`/api/v1/rest-auth/community/community-post?limit=${limit}&code=${code}`);
 };
+export const getPrivateCommunityRequests = () => {
+  return API.get(`/api/v1/rest-auth/community/list-of-requests`);
+};
+export const fetchNotifications = () => {
+  return API.get(`/api/v1/rest-auth/notifications/`);
+};
 
 
 
@@ -258,4 +292,13 @@ export const verifyTokenForWithdrawal = (code) => {
 }
 export const makeWithdrawal = (data) => {
   return PAYMENTAPI.post("/api/payments/make-withdrawal/", data)
+}
+export const deleteWithdrawalAccount = (data) => {
+  return PAYMENTAPI.post("/api/payments/delete-user-withdrawal-account/", data)
+}
+export const rewardPostWithSticker = (data) => {
+  return PAYMENTAPI.post("/api/payments/rewards-coin/", data)
+}
+export const fetchWalletIncomeAndOutcome = () => {
+  return PAYMENTAPI.get("/api/payments/fetch-income-outcome/")
 }

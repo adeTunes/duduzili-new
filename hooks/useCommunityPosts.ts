@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCommunityPosts, getSinglePost } from "../api/apiRequests";
 import { SinglePost } from "../api/request.types";
+import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
 function useCommunityPosts(limit, code) {
   return useQuery({
@@ -11,6 +12,7 @@ function useCommunityPosts(limit, code) {
         return data.data;
       } catch (e) {
         // return e;
+        errorMessageHandler(e)
       }
     },
     keepPreviousData: true,

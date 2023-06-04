@@ -120,7 +120,7 @@ function Friends() {
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
           >
             <DownloadApp />
             <TrendingPosts />

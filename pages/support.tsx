@@ -8,6 +8,7 @@ import SupportCard from "@/components/support/supportCard";
 import { Icon } from "@iconify/react";
 import { Button, TextInput, Textarea } from "@mantine/core";
 import { ArrowLeft, Location, Sms } from "iconsax-react";
+import { useRouter } from "next/router";
 import React from "react";
 
 function Support() {
@@ -36,6 +37,7 @@ function Support() {
       icon: <Location size="20" color="#4534B8" variant="Bold" />,
     },
   ];
+  const {back} = useRouter()
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -47,13 +49,13 @@ function Support() {
             id="no-scroll"
             className="w-[70%] overflow-auto max-w-[726px] flex flex-col gap-[34px]"
           >
-            <div className="flex items-center gap-10">
+            <div onClick={back} className="flex cursor-pointer items-center gap-10">
               <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 Help & Support
               </p>
             </div>
-            <div className="p-2 flex flex-col gap-10 pb-[50px]">
+            <div className="p-2 flex flex-col gap-10 pb-[80px]">
               <div className="flex flex-col gap-[10px]">
                 <p className="p-[10px] text-[#2A2A2A] font-medium opacity-80 leading-6">
                   Contact Info
@@ -124,7 +126,7 @@ function Support() {
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] pb-[50px] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
           >
             <DownloadApp />
             <TrendingPosts />

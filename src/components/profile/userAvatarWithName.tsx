@@ -5,14 +5,16 @@ type Props = {
   fullName: string;
   username: string;
   image?: string;
+  height?: string
+  width?: string
 };
 
-function UserAvatarWithName({ fullName, username, image }: Props) {
+function UserAvatarWithName({ fullName, height, width, username, image }: Props) {
   return (
     <div className="flex items-center gap-[19px]">
-      <div className="h-[52px] w-[52px]">
+      <div style={{height: height || "52px", width: width || "52px"}}>
         <img
-          src={image ?? "/message/friend-avatar.png"}
+          src={image ?? "/profile-pic-default.png"}
           className="h-full w-full object-cover rounded-full"
           alt=""
         />

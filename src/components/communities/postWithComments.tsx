@@ -4,12 +4,10 @@ import ReplyCard from "./replies/replyCard";
 import { useRouter } from "next/router";
 import useSinglePost from "../../../hooks/useSinglePost";
 import PostsContainer from "../homepage/posts/postsContainer";
-import {base64decode} from "nodejs-base64"
 
 function PostWithComments() {
   const { query } = useRouter();
-  const { data } = useSinglePost(+base64decode(String(query.id))/1000000);
-
+  const { data } = useSinglePost(query.id);
   return (
     <>
       {/* <div

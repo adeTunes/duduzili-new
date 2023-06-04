@@ -11,7 +11,7 @@ function Aside() {
   return (
     <aside
       id="no-scroll"
-      className="w-[30%] overflow-auto pb-[50px] max-w-[325px] flex flex-col gap-6"
+      className="w-[30%] overflow-auto pb-[80px] max-w-[325px] flex flex-col gap-6"
     >
       <DownloadApp />
       {user?.token && (

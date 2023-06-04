@@ -8,9 +8,11 @@ import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import { useRouter } from "next/router";
 import AddFriend from "@/components/communities/addFriend";
 import PendingRequests from "@/components/homepage/sidebar/pendingRequests";
+import useDiscoverPeople from "../hooks/useDiscoverPeople";
 
 const InviteFriend: NextPageX = () => {
   const { back } = useRouter();
+  const { data } = useDiscoverPeople();
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -22,10 +24,10 @@ const InviteFriend: NextPageX = () => {
             id="no-scroll"
             className="w-[70%] overflow-auto max-w-[717px] flex flex-col gap-[34px]"
           >
-            <div className="flex items-center gap-10">
+            <div onClick={back} className="flex cursor-pointer items-center gap-10">
               <ArrowLeft
                 className="cursor-pointer"
-                onClick={back}
+                
                 size="32"
                 color="#2A2A2A"
                 variant="Outline"
@@ -39,28 +41,18 @@ const InviteFriend: NextPageX = () => {
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
               <div className="flex flex-col">
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
-                <AddFriend />
+                {data?.users?.map((item, idx) => (
+                  <AddFriend user={item} key={idx} />
+                ))}
               </div>
-              <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
+              {/* <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
                 Show more
-              </p>
+              </p> */}
             </div>
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
           >
             <DownloadApp />
             <PendingRequests />

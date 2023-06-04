@@ -5,22 +5,25 @@ import { Community } from "../../../api/request.types";
 import { joinCommunity } from "../../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { base64encode } from "nodejs-base64";
 import { useRouter } from "next/router";
+import { useQueryClient } from "@tanstack/react-query";
 
-function DiscoverCommunitiesCard({ community }: { community: Community }) {
+function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCategory?: any; community: Community }) {
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
+  const queryClient = useQueryClient()
   const joinCommunityAction = () => {
     setLoading(true);
     const data = new FormData();
     data.append("community_code", community?.code);
-    data.append("action", "join");
+    data.append("action", "Join");
     joinCommunity(data)
       .then(({ data }) => {
         showNotification({
-          message: data?.message || data?.error,
+          message: data?.message || data?.errors || data?.error,
         });
+        queryClient.invalidateQueries(["all-communities", selectedCategory])
+        push(`/communities/${community?.code}`)
         setLoading(false);
       })
       .catch((e) => {
@@ -43,7 +46,7 @@ function DiscoverCommunitiesCard({ community }: { community: Community }) {
                   index < 3 && (
                     <img
                       key={index}
-                      src="/homePage/ellipse-2.png"
+                      src={item}
                       className={clsx(
                         index !== 0 && "ml-[-20px]",
                         "w-[33px] border-[2px] border-white h-[33px] object-cover rounded-full"
@@ -59,22 +62,16 @@ function DiscoverCommunitiesCard({ community }: { community: Community }) {
             </p>
           </div>
         </div>
-        {loading ? (
-          <Loader size="sm" />
-        ) : (
-          <p
-            onClick={
-              community?.status === "Join"
-                ? joinCommunityAction
-                : community?.status === "Select"
-                ? () => push(`/communities/${community?.code}`)
-                : () => {}
-            }
-            className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer"
-          >
-            {community?.status}
-          </p>
-        )}
+        <p
+          onClick={
+            community?.is_joined
+              ? () => push(`/communities/${community?.code}`) 
+              : joinCommunityAction
+          }
+          className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer"
+        >
+          {loading ? <Loader size="sm" /> : community?.is_joined ? "Select" : community?.is_private ? "Ask to join" : "Join"}
+        </p>
         {/* {community?.status === "Join" ? (
           <p
             onClick={joinCo}

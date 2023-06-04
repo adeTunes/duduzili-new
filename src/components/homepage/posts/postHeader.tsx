@@ -6,7 +6,6 @@ import PostOptions from "./postOptions";
 import { Loading } from "@/components/loading";
 import { useRouter } from "next/router";
 import { clsx } from "@mantine/core";
-import {base64encode} from "nodejs-base64"
 
 function PostHeader({ post }) {
   // user={post.user} day={post.date} date={post.date_added}
@@ -20,7 +19,7 @@ function PostHeader({ post }) {
         <div
           onClick={() =>
             post?.user?.id !== loggedInUser?.user?.id &&
-            push(`/friend/${base64encode(String(1000000 * +post?.user?.id))}/post`)
+            push(`/friend/${post?.user?.id}/post`)
           }
           className={clsx(
             post?.user?.id !== loggedInUser?.user?.id && "cursor-pointer",
@@ -28,7 +27,7 @@ function PostHeader({ post }) {
           )}
         >
           <img
-            src={  user?.photo_url?.substring(62) }
+            src={user?.photo_url?.substring(62) || "/profile-pic-default.png" }
             className="w-full h-full object-cover rounded-full"
             alt="user profile picture"
           />
@@ -49,7 +48,7 @@ function PostHeader({ post }) {
                 ?.join(" ")}
             </small>
             <span className="bg-[#2A2A2A] text-[14px] text-white px-2 rounded-2xl py-1">
-              {day.includes("now") ? day : (day.includes("days") || day.includes("min") || day.includes("sec") || day.includes("hr")) ? `${day} ago` : day}
+              {day.includes("now") ? day : (day.includes("day") || day.includes("min") || day.includes("sec") || day.includes("hr")) ? `${day} ago` : day}
             </span>
           </span>
         </div>

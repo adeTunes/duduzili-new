@@ -14,7 +14,10 @@ import { Lock1 } from "iconsax-react";
 import PrimaryButton from "../button/primaryButton";
 import useCommunityCategoryList from "../../../hooks/useCommunityCategoryList";
 import { useForm } from "@mantine/form";
-import { createCommunity } from "../../../api/apiRequests";
+import {
+  createCommunity,
+  uploadCommunityCoverImage,
+} from "../../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 import { useDebouncedValue } from "@mantine/hooks";
 import UseUserBySearch from "../../../hooks/useUserBySearch";
@@ -52,40 +55,6 @@ function CreateCommunityModal({ opened, close }) {
     // },
   ];
 
-  const categories = [
-    {
-      name: "Business",
-      value: "business",
-      icon: <Icon icon="material-symbols:business-center-outline-sharp" />,
-    },
-
-    {
-      name: "Fashion",
-      value: "fashion",
-      icon: <Icon icon="icon-park-outline:clothes-sweater" />,
-    },
-    {
-      name: "Culture",
-      value: "culture",
-      icon: <Icon icon="icon-park-outline:traditional-chinese-medicine" />,
-    },
-    {
-      name: "Job",
-      value: "job",
-      icon: <Icon icon="bx:hard-hat" />,
-    },
-    {
-      name: "Politics",
-      value: "politics",
-      icon: <Icon icon="ri:government-line" />,
-    },
-    {
-      name: "Others",
-      value: "others",
-      icon: <Icon icon="material-symbols:more-horiz" />,
-    },
-  ];
-
   interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
     label: string;
     value: string;
@@ -95,11 +64,13 @@ function CreateCommunityModal({ opened, close }) {
   // eslint-disable-next-line react/display-name
   const SelectItem = forwardRef<HTMLImageElement, ItemProps>(
     ({ label, description, icon, value, ...others }: ItemProps, ref) => (
-      <div className="flex items-center gap-[18px]" ref={ref} {...others}>
-        {icon}
-        <div className="flex flex-col">
-          <p>{label}</p>
-          <p className="">{description}</p>
+      <div ref={ref} {...others}>
+        <div className="flex items-center gap-[18px]">
+          {icon}
+          <div className="flex flex-col">
+            <p>{label}</p>
+            <p className="">{description}</p>
+          </div>
         </div>
       </div>
     )
@@ -125,9 +96,9 @@ function CreateCommunityModal({ opened, close }) {
   const [members, setMembers] = useState([]);
   const [search, setSearch] = useState("");
   const [searchValue] = useDebouncedValue(search, 400);
-  const { data: friends, isLoading: searchLoading } =
+  const { data: friends, isFetching: searchLoading } =
     UseUserBySearch(searchValue);
-    const {push} = useRouter()
+  const { push } = useRouter();
 
   useEffect(() => {
     if (friends) {
@@ -324,7 +295,7 @@ function CreateCommunityModal({ opened, close }) {
               message: "Please select at least one category",
               color: "red",
             });
-            setLoading(true)
+          setLoading(true);
           const data = new FormData();
           data.append("name", form.values.name);
           data.append("description", form.values.description);
@@ -344,16 +315,37 @@ function CreateCommunityModal({ opened, close }) {
           }
           createCommunity(data)
             .then(({ data }) => {
-              setLoading(false)
-              showNotification({
-                message: data?.message || data?.error || "Success",
-                color: "green",
-              });
-              close()
-              push("/communities/discover")
+              setLoading(false);
+              if (data?.errors && typeof data?.errors === "object") {
+                Object.entries(data?.errors)?.forEach(([key, value]) => {
+                  showNotification({
+                    title: key,
+                    message: String(value),
+                    color: "red",
+                  });
+                });
+                return;
+              } else {
+                const message = data?.error || data?.message;
+                if (image) {
+                  const formData = new FormData();
+                  formData.append("community_code", data?.data?.code);
+                  formData.append("logo", image, image.name);
+                  uploadCommunityCoverImage(formData).then(({ data }) => {
+                    showNotification({
+                      message: data?.data,
+                    });
+                  });
+                }
+                showNotification({
+                  message,
+                });
+                close();
+                push(`/communities/${data?.data?.code}`);
+              }
             })
             .catch((e) => {
-              setLoading(false)
+              setLoading(false);
               errorMessageHandler(e);
             });
         }}

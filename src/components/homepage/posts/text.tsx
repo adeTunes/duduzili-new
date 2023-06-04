@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import {base64encode} from "nodejs-base64"
 
 function PostText({
   text,
@@ -15,7 +14,7 @@ function PostText({
   return text?.length < 250 ? (
     <p className="text-[14px] leading-[38px]">
       {!usage || usage === "post" ? (
-        <Link href={`/posts/${base64encode(String(1000000 * +postId))}`} className="cursor-ponter">
+        <Link href={`/posts/${postId}`} className="cursor-ponter">
           {text}
         </Link>
       ) : (

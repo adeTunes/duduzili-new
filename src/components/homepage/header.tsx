@@ -1,17 +1,25 @@
 import { userDetails } from "@/store";
 import { Icon } from "@iconify/react";
-import { TextInput, clsx } from "@mantine/core";
+import { Indicator, TextInput, clsx } from "@mantine/core";
 import { Home, Profile2User, SearchNormal1, Sms } from "iconsax-react";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserProfileImageActions from "./userProfileImageActions";
 import { Loading } from "../loading";
 import Image from "next/image";
+import UseNotifications from "../../../hooks/useNotifications";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
+  const { data } = UseNotifications();
+  const [unread, setUnread] = useState(null);
+  useEffect(() => {
+    if (data) {
+      setUnread(data?.notifications?.some((item) => item.read === true));
+    }
+  }, [data]);
   const navIcons = [
     {
       href: "/home",
@@ -35,11 +43,19 @@ function Header() {
     },
     {
       icon: (
-        <img
-          src={user?.user?.photo_url?.substring(62) || '/profile-pic-default.png'}
-          className="w-10 h-10 cursor-pointer rounded-full object-cover"
-          alt=""
-        />
+        <Indicator
+          classNames={{ common: "!top-[3px] !right-[6px]" }}
+          color="#E59055"
+          disabled={!!unread}
+        >
+          <img
+            src={
+              user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"
+            }
+            className="w-10 h-10 cursor-pointer rounded-full object-cover"
+            alt=""
+          />
+        </Indicator>
       ),
     },
   ];
@@ -71,7 +87,7 @@ function Header() {
             {routeId ? (
               <Link href={href}>{icon}</Link>
             ) : (
-              <UserProfileImageActions setLoading={setLoading}>
+              <UserProfileImageActions unread={unread} setLoading={setLoading}>
                 {icon}
               </UserProfileImageActions>
             )}

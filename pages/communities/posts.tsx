@@ -16,6 +16,8 @@ import useRandomCommunitiesPosts from "../../hooks/useRandomCommunitiesPosts";
 const Communities: NextPageX = () => {
   // const { data } = useCommunityJoined();
   const { data } = useRandomCommunitiesPosts();
+  const { data: joined, isLoading } = useCommunityJoined(4);
+
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -43,24 +45,28 @@ const Communities: NextPageX = () => {
                 </span>
               </p>
             </div>
-            {data?.map((item, index) => (
-              <CommunityList
-                key={index}
-                post={item?.post}
-                community={item?.community}
-              />
-            ))}
-            <p
-              role="button"
-              className="py-3 rounded-[32px] border-duduzili-violet border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
-            >
-              Show more
-            </p>
-            {!data?.length && <p className="text-center">No posts yet</p>}
+            <div className="flex flex-col gap-[50px]">
+              {data?.map((item, index) => (
+                <CommunityList
+                  key={index}
+                  post={item?.post}
+                  community={item?.community}
+                />
+              ))}
+            </div>
+            {data?.length ? (
+              <p
+                role="button"
+                className="py-3 rounded-[32px] border-duduzili-violet border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
+              >
+                Show more
+              </p>
+            ) : null}
+            {!data?.length ? <p className="text-center">No posts yet</p> : null}
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] overflow-auto max-w-[440px] flex flex-col gap-8"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[440px] flex flex-col gap-8"
           >
             <TextInput
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
@@ -79,7 +85,9 @@ const Communities: NextPageX = () => {
               }
             />
             <DiscoverCommunities />
-            <MyCommunitiesSlider />
+            {joined?.results?.length ? (
+              <MyCommunitiesSlider joined={joined} />
+            ) : null}
           </aside>
           <FixedMessagesButton />
         </main>

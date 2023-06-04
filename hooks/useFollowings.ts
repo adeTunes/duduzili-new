@@ -3,12 +3,12 @@ import { getUserFollowings } from "../api/apiRequests";
 import { FollowingsType } from "../api/request.types";
 
 function useFollowings(id: number) {
-  return useQuery<FollowingsType>({
+  return useQuery({
     queryKey: ["user-followings", id],
     queryFn: async () => {
       try {
         const { data } = await getUserFollowings(id);
-        return data.followings;
+        return data;
       } catch (e) {
         // return e;
       }

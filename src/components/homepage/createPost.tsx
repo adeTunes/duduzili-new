@@ -14,7 +14,7 @@ function CreatePost() {
   return (
     <div className="grid gap-4 grid-cols-[auto_1fr]">
       <img
-        src={user?.  user?.photo_url?.substring(62)  }
+        src={user?.  user?.photo_url?.substring(62) || "/profile-pic-default.png" }
         className="w-[56px] h-[56px] rounded-full object-cover"
         alt=""
       />

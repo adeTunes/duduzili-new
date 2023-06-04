@@ -13,9 +13,15 @@ function PostBody({ post }: { post: Post }) {
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
       <PostHeader post={post} />
-      <PostText text={post.text} postId={post.id} />
-      <PostImage image={post?.media?.photo?.[0]  } />
-      <PostFooter />
+      <PostText text={post?.text} postId={post?.id} />
+      <PostImage image={post?.media?.photo?.[0]} />
+      <PostFooter
+        post={post}
+        totalComments={post?.total_comments}
+        totalLikes={post?.total_likes}
+        totalReposts={post?.total_reposts}
+        iLikeThisPost={post?.i_like_this_post}
+      />
     </div>
   );
 }

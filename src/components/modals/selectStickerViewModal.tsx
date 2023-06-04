@@ -1,90 +1,144 @@
-import { clsx } from "@mantine/core";
+import { LoadingOverlay, clsx } from "@mantine/core";
 import { TicketStar } from "iconsax-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryButtonLarge from "../button/primaryButtonLarge";
+import { rewardPostWithSticker } from "../../../api/apiRequests";
+import StickersList from "./stickersList";
+import { showNotification } from "@mantine/notifications";
+import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
-function SelectStickerViewModal() {
+function SelectStickerViewModal({
+  postId,
+  openSuccess,
+  close,
+}: {
+  postId?: any;
+  openSuccess?: () => void;
+  close?: () => void;
+}) {
   const availableStickers = [
     {
       name: "Butfly",
-      amount: "₦200",
+      amount: "200",
     },
     {
       name: "Dragfly",
-      amount: "₦500",
+      amount: "500",
     },
     {
       name: "Turk",
-      amount: "₦1000",
+      amount: "1000",
     },
     {
       name: "Pcock",
-      amount: "₦1500",
+      amount: "1500",
     },
     {
-      name: "Hyna",
-      amount: "₦2500",
+      name: "Jagr",
+      amount: "2500",
     },
     {
       name: "Leop",
-      amount: "₦3000",
+      amount: "3000",
     },
     {
       name: "Tigr",
-      amount: "₦5000",
+      amount: "5000",
     },
     {
       name: "Pand",
-      amount: "₦1000",
+      amount: "10000",
+    },
+    {
+      name: "Crocs",
+      amount: "15000",
+    },
+    {
+      name: "Drag",
+      amount: "20000",
+    },
+    {
+      name: "Lyon",
+      amount: "50000",
+    },
+    {
+      name: "Eleph",
+      amount: "100000",
     },
   ];
-  const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [amount, setAmount] = useState(null);
+  useEffect(() => {
+    if (selected.length) {
+      setAmount(
+        selected.reduce((acc, item) => {
+          acc += +item;
+          return acc;
+        }, 0)
+      );
+    }
+  }, [selected.length]);
   return (
     <>
       <div className="overflow-auto">
         <div
           style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(50px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(40px, 1fr))",
           }}
           className="grid gap-10"
         >
           {availableStickers.map((item, idx) => (
-            <div
-              key={idx}
-              onClick={() => setSelected(idx)}
-              className="flex cursor-pointer flex-col gap-1 items-center"
-            >
-              <div
-                className={clsx(
-                  selected === idx ? "bg-[#4534B8]" : "bg-[#4534b821]",
-                  "rounded-full h-10 w-10 flex items-center justify-center"
-                )}
-              >
-                <TicketStar
-                  size="20"
-                  color={selected === idx ? "#FFFFFF" : "#4534B8"}
-                />
-              </div>
-              <div className="flex flex-col items-center gap-[5px]">
-                <p className="text-[10px] leading-3 text-[#2A2A2A]">
-                  {item.name}
-                </p>
-                <p className="text-duduzili-violet text-[10px] leading-3 font-bold">
-                  {item.amount}
-                </p>
-              </div>
-            </div>
+            <StickersList
+              selected={selected}
+              setSelected={setSelected}
+              item={item}
+            />
           ))}
         </div>
       </div>
       <PrimaryButtonLarge
         text="Proceed"
         className={clsx(
-          !selected && "opacity-20 pointer-events-none",
+          !selected.length && "opacity-20 pointer-events-none",
           "mt-[30px]"
         )}
-        onClick={() => {}}
+        onClick={() => {
+          if (!amount)
+            return showNotification({
+              message: "Please select a sticker to proceed",
+            });
+            setLoading(true)
+          const data = new FormData();
+          data.append("post_id", postId);
+          data.append("amount", amount);
+          rewardPostWithSticker(data)
+            .then(({ data }) => {
+              setLoading(false)
+              if (data?.message !== "successful") {
+                if (data?.data?.non_field_errors) {
+                  showNotification({
+                    message: String(data?.data?.non_field_errors),
+                    color: "red",
+                  });
+                } else
+                  showNotification({
+                    message: String(data?.data),
+                    color: "red",
+                  });
+              } else {
+                close();
+                openSuccess();
+              }
+            })
+            .catch((e) => {
+              setLoading(false)
+              errorMessageHandler(e);
+            });
+        }}
       />
+      <LoadingOverlay visible={loading} />
+
     </>
   );
 }

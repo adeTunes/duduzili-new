@@ -12,7 +12,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
     <div className="flex flex-col gap-[29px]">
       <CommunityPicture
         tag={community?.data?.category}
-        image={community?.data?.get_logo_url?.substring(62)}
+        image={community?.data?.get_logo_url?.substring(62) || "/cover-image.png"}
       />
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
@@ -27,8 +27,8 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
               </span>
             )}
           </p>
-          {community?.data?.status === "Select" ? (
-            <LeaveCommunity code={community?.data?.code} />
+          {community?.data?.is_joined ? (
+            <LeaveCommunity name={community?.data?.name} isOwner={community?.data?.is_owner} code={community?.data?.code} />
           ) : (
             <p className=" bg-duduzili-violet text-white font-medium px-6 py-4 rounded-[32px] cursor-pointer">
               Join

@@ -8,9 +8,24 @@ import InviteFriends from "@/components/homepage/sidebar/inviteFriends";
 import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import { useRouter } from "next/router";
 import JoinRequest from "@/components/communities/joinRequest";
+import useCommunityPendingRequests from "../hooks/useCommunityPendingRequests";
+import { useEffect, useState } from "react";
 
 const PendingRequestPage: NextPageX = () => {
-  const { back } = useRouter();
+  const { back, query } = useRouter();
+  const { data } = useCommunityPendingRequests();
+  const [requests, setRequests] = useState([]);
+
+  useEffect(() => {
+    if (data && query.community) {
+      setRequests(
+        data?.filter(
+          (item) => item?.community?.code === String(query.community)
+        )
+      );
+    }
+  }, [data, query.community]);
+
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -31,35 +46,29 @@ const PendingRequestPage: NextPageX = () => {
                 variant="Outline"
               />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Pending Requests (20)
+                Pending Requests ({requests.length})
               </p>
             </div>
+            {requests?.length ?
             <div
               className="bg-white rounded-2xl px-[19px] py-[21px] flex flex-col gap-[18px]"
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
               <div className="flex flex-col">
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
-                <JoinRequest />
+                {requests?.map((item, idx) => (
+                  <JoinRequest key={idx} data={item} />
+                ))}
               </div>
-              <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
+              {/* <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
                 Show more
-              </p>
+              </p> */}
             </div>
+            : <p className="text-center">No pending requests</p>
+            }
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
           >
             <DownloadApp />
             <InviteFriends />

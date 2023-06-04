@@ -10,6 +10,7 @@ import JoinRequest from "@/components/communities/joinRequest";
 import { NextPageX } from "../types/next";
 import TrendingCard from "@/components/trendingCard";
 import DiscoverPeople from "@/components/homepage/sidebar/discoverPeople";
+import PostsList from "@/components/homepage/sidebar/postsList";
 
 const Trending: NextPageX = () => {
   const { back } = useRouter();
@@ -30,35 +31,22 @@ const Trending: NextPageX = () => {
                 variant="Outline"
               />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Trending
+                Trending Posts
               </p>
             </div>
             <div
               className="bg-white rounded-2xl px-[19px] py-[21px] flex flex-col gap-[18px]"
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
-              <div className="flex flex-col">
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
-                <TrendingCard />
+              <div className="flex flex-col gap-2">
+                <PostsList footerColor="bg-[#F4F4F4]" textLength="full" />
               </div>
-              <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
+              {/* <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
                 Show more
-              </p>
+              </p> */}
             </div>
           </section>
-          <aside className="w-[30%] max-w-[325px] flex flex-col gap-6">
+          <aside className="w-[30%] pb-[80px] max-w-[325px] flex flex-col gap-6">
             <DownloadApp />
             <DiscoverPeople />
             <CompanyInfo />

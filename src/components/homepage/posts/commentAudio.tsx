@@ -58,7 +58,7 @@ function CommentAudio({ comment }) {
           Audio
         </p>
         <img
-          src={audioUrl}
+          src="/cover-image.png"
           className="w-[40%] object-cover self-center"
           alt="audio post logo"
         />

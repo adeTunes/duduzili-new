@@ -7,17 +7,20 @@ import React, { ReactNode, useState } from "react";
 import { Post } from "../../../../../api/request.types";
 import { likeOrUnlikePost } from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader } from "@mantine/core";
+import { Loader, clsx } from "@mantine/core";
 import { useRouter } from "next/router";
-import {base64encode} from "nodejs-base64"
 import ShareOptions from "../../posts/shareOptions";
 
 function TrendingPostsContainer({
   children,
   post,
+  footerColor,
+  textLength
 }: {
   children: ReactNode;
   post: Post;
+  footerColor?: string;
+  textLength?: string
 }) {
   const {
     date: dayPast,
@@ -37,7 +40,7 @@ function TrendingPostsContainer({
         <div className="flex items-center gap-4">
           <div className="h-[40px] w-[40px]">
             <img
-              src={  user?.photo_url?.substring(62)  || "/profile-pic-default.png"}
+              src={user?.photo_url?.substring(62)  || "/profile-pic-default.png"}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />
@@ -61,7 +64,14 @@ function TrendingPostsContainer({
                   ?.join(" ")}
               </small>
               <span className="bg-[#2A2A2A] text-[8px] leading-[10px] text-white px-2 rounded-2xl py-1">
-                {dayPast} ago
+              {dayPast.includes("now")
+              ? dayPast
+              : dayPast.includes("day") ||
+                dayPast.includes("min") ||
+                dayPast.includes("sec") ||
+                dayPast.includes("hr")
+              ? `${dayPast} ago`
+              : dayPast}
               </span>
             </span>
           </div>
@@ -76,10 +86,10 @@ function TrendingPostsContainer({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-[5px]">{children}</div>
         <p className="text-[#2A2A2A] text-xs leading-[14px]">
-          {text.length > 50 ? text.slice(0, 50) + "..." : text}
+          {(textLength ? text : text.length > 50 ? text.slice(0, 50) + "..." : text)}
         </p>
       </div>
-      <div className="flex w-full items-center py-2 px-3 gap-10 bg-[#DFE5FA] rounded-[40px]">
+      <div className={clsx(footerColor ? footerColor : "bg-[#DFE5FA]", "flex items-center py-2 px-3 gap-10 rounded-[40px]")}>
         <div
           onClick={() => {
             likeOrUnlikePost(post?.id, setLoading, () => {
@@ -106,7 +116,7 @@ function TrendingPostsContainer({
           )}
         </div>
         <div onClick={() => {
-          router.push(`/posts/${base64encode(String(1000000 * +post?.id))}`)
+          router.push(`/posts/${post?.id}`)
         }} className="cursor-ponter flex items-center gap-[5px]">
           <MessageText
             className="cursor-pointer"

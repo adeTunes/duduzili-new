@@ -12,6 +12,7 @@ import { Loading } from "@/components/loading";
 import useCommunityCategoryList from "../../hooks/useCommunityCategoryList";
 import useCommunityList from "../../hooks/useCommunityList";
 import useCommunityJoined from "../../hooks/useCommunitiesJoined";
+import { useRouter } from "next/router";
 
 const Communities: NextPageX = () => {
   const [selected, setSelected] = useState(0);
@@ -23,6 +24,7 @@ const Communities: NextPageX = () => {
 //   useEffect(() => {
 //     if (tags) setAllTags([{ name: "All", description: "" }, ...tags]);
 //   }, [tags]);
+const {back} = useRouter()
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -34,7 +36,7 @@ const Communities: NextPageX = () => {
             id="no-scroll"
             className="w-[70%] overflow-auto max-w-[718px] flex flex-col gap-[27px]"
           >
-            <div className="flex items-center gap-10">
+            <div onClick={back} className="flex cursor-pointer items-center gap-10">
               <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 My Communities

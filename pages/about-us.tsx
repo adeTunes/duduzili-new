@@ -22,8 +22,8 @@ function AboutUs() {
             id="no-scroll"
             className="w-[70%] overflow-auto max-w-[726px] flex flex-col gap-[54px]"
           >
-            <div className="flex items-center gap-10">
-              <ArrowLeft className="cursor-pointer" onClick={back} size="32" color="#2A2A2A" variant="Outline" />
+            <div onClick={back} className="flex cursor-pointer items-center gap-10">
+              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 About Duduzili
               </p>
@@ -97,7 +97,7 @@ function AboutUs() {
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] pb-[50px] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
           >
             <DownloadApp />
             <TrendingPosts />

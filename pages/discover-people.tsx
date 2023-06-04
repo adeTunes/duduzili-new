@@ -6,8 +6,6 @@ import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import { useRouter } from "next/router";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import DiscoverSuggested from "@/components/discover/discoverSuggested";
-import DiscoverFriends from "@/components/discover/discoverFriends";
-import DiscoverFriendRequests from "@/components/discover/discoverFriendRequests";
 
 const DiscoverPeoplePage = () => {
   const { back } = useRouter();
@@ -31,16 +29,14 @@ const DiscoverPeoplePage = () => {
                 variant="Outline"
               />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Discover People
+                Suggested For You
               </p>
             </div>
             <DiscoverSuggested />
-            <DiscoverFriends />
-            <DiscoverFriendRequests />
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
           >
             <DownloadApp />
             <TrendingPosts />

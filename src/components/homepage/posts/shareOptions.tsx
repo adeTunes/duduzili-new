@@ -10,7 +10,6 @@ import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticate
 import { Post } from "../../../../api/request.types";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { showNotification } from "@mantine/notifications";
-import { base64encode } from "nodejs-base64";
 
 function ShareOptions({
   post,
@@ -35,9 +34,7 @@ function ShareOptions({
             <CopyToClipboard
               text={
                 post
-                  ? `${location.host}/post/${base64encode(
-                      String(1000000 * +post?.id)
-                    )}`
+                  ? `${location.host}/post/${post?.id}`
                   : ""
               }
               onCopy={() =>
@@ -63,9 +60,7 @@ function ShareOptions({
           <CopyToClipboard
             text={
               post
-                ? `${location.host}/post/${base64encode(
-                    String(1000000 * +post?.id)
-                  )}`
+                ? `${location.host}/post/${post?.id}`
                 : ""
             }
             onCopy={() =>
