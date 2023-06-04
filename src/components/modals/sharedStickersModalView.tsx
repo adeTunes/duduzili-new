@@ -7,21 +7,6 @@ import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Sticker, TicketStar } from "iconsax-react";
 
 function SharedStickersModalView({ setActive, stickerUsers, sticker }) {
-  const user: any = useAtomValue(userDetails);
-  const stickers = {
-    "15000": "Crocs",
-    "200": "Butfly",
-    "500": "Dragfly",
-    "1000": "Turk",
-    "1500": "Pcock",
-    "2500": "Jagr",
-    "3000": "Leop",
-    "5000": "Tigr",
-    "10000": "Pand",
-    "20000": "Drag",
-    "50000": "Lyon",
-    "100000": "Eleph",
-  };
 
   const [openAuth, setOpenAuth] = useState(false);
   return (
@@ -29,7 +14,7 @@ function SharedStickersModalView({ setActive, stickerUsers, sticker }) {
       <div className="overflow-auto">
         <div className="flex flex-col gap-2">
           {Object.entries(stickerUsers)?.map(([key, value]: any, index) => (
-            <div className="flex items-center justify-between">
+            <div key={index} className="flex items-center justify-between">
               <div className="flex items-center gap-[19px]">
                 <div
                   style={{ height: "32px", width: "32px" }}
