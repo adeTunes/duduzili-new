@@ -6,6 +6,7 @@ import PostOptions from "./postOptions";
 import { Loading } from "@/components/loading";
 import { useRouter } from "next/router";
 import { clsx } from "@mantine/core";
+import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 
 function PostHeader({ post }) {
   // user={post.user} day={post.date} date={post.date_added}
@@ -13,21 +14,24 @@ function PostHeader({ post }) {
   const loggedInUser: any = useAtomValue(userDetails);
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
+  const [openAuthModal, setOpenAuth] = useState(false);
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div
-          onClick={() =>
-            post?.user?.id !== loggedInUser?.user?.id &&
-            push(`/friend/${post?.user?.id}/post`)
-          }
+          onClick={() => {
+            if (!loggedInUser?.token) return setOpenAuth(true);
+              post?.user?.id !== loggedInUser?.user?.id &&
+              push(`/friend/${post?.user?.id}/post`);
+          }}
           className={clsx(
             post?.user?.id !== loggedInUser?.user?.id && "cursor-pointer",
             "h-[56px] w-[56px]"
           )}
         >
           <img
-            src={user?.photo_url?.substring(62) || "/profile-pic-default.png" }
+            src={user?.photo_url?.substring(62) || "/profile-pic-default.png"}
             className="w-full h-full object-cover rounded-full"
             alt="user profile picture"
           />
@@ -48,7 +52,14 @@ function PostHeader({ post }) {
                 ?.join(" ")}
             </small>
             <span className="bg-[#2A2A2A] text-[14px] text-white px-2 rounded-2xl py-1">
-              {day.includes("now") ? day : (day.includes("day") || day.includes("min") || day.includes("sec") || day.includes("hr")) ? `${day} ago` : day}
+              {day.includes("now")
+                ? day
+                : day.includes("day") ||
+                  day.includes("min") ||
+                  day.includes("sec") ||
+                  day.includes("hr")
+                ? `${day} ago`
+                : day}
             </span>
           </span>
         </div>
@@ -57,6 +68,10 @@ function PostHeader({ post }) {
         <PostOptions setLoading={setLoading} post={post} />
       )}
       <Loading loading={loading} />
+      <UnAuthenticaticatedUserModal
+        opened={openAuthModal}
+        setOpened={setOpenAuth}
+      />
     </div>
   );
 }
