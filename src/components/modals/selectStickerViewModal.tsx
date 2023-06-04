@@ -90,6 +90,7 @@ function SelectStickerViewModal({
         >
           {availableStickers.map((item, idx) => (
             <StickersList
+              key={idx}
               selected={selected}
               setSelected={setSelected}
               item={item}
@@ -108,13 +109,13 @@ function SelectStickerViewModal({
             return showNotification({
               message: "Please select a sticker to proceed",
             });
-            setLoading(true)
+          setLoading(true);
           const data = new FormData();
           data.append("post_id", postId);
           data.append("amount", amount);
           rewardPostWithSticker(data)
             .then(({ data }) => {
-              setLoading(false)
+              setLoading(false);
               if (data?.message !== "successful") {
                 if (data?.data?.non_field_errors) {
                   showNotification({
@@ -132,13 +133,12 @@ function SelectStickerViewModal({
               }
             })
             .catch((e) => {
-              setLoading(false)
+              setLoading(false);
               errorMessageHandler(e);
             });
         }}
       />
       <LoadingOverlay visible={loading} />
-
     </>
   );
 }
