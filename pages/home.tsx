@@ -44,7 +44,7 @@ const HomePage: NextPageX = () => {
             {data?.next && (isLoading ? <Loader /> : <ShowMoreButton onClick={() => setLimit(prev => prev + 10)} />)}
           </section>
           <Aside />
-          <FixedMessagesButton />
+          {user?.token ? <FixedMessagesButton /> : null}
         </main>
       </div>
     </div>
