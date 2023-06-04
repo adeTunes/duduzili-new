@@ -185,7 +185,7 @@ function Payments() {
                       </p>
                       <p className="flex items-center gap-[13px]">
                         <span className="text-[#2a2a2a] font-bold text-[22px] leading-8">
-                        ₦{income}
+                        ₦{income || 0}
                         </span>
                         <span
                           style={{ background: "rgba(2, 177, 90, 0.15)" }}
@@ -209,7 +209,7 @@ function Payments() {
                       </p>
                       <p className="flex items-center gap-[13px]">
                         <span className="text-[#2a2a2a] font-bold text-[22px] leading-8">
-                        ₦{outcome}
+                        ₦{outcome || 0}
                         </span>
                         <span
                           style={{ background: "#F4B9B9" }}
