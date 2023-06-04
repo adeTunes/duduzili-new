@@ -15,7 +15,7 @@ import CountryData from "@/helpers/countryData.json";
 import { editProfileRequest } from "@/actions/editProfile";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { userDetails } from "@/store";
-import { getUserDetails } from "../../../api/apiRequests";
+import { getUserDetails, uploadCoverImage } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { Icon } from "@iconify/react";
 import { displayImage } from "@/helpers/displayImage";
@@ -33,6 +33,7 @@ function EditProfileModal({ opened, close }) {
       bio: "",
       country: "",
       photo_url: null,
+      cover_image: null,
     },
   });
   useEffect(() => {
@@ -49,9 +50,18 @@ function EditProfileModal({ opened, close }) {
   const [source, setSource] = useState<string | ArrayBuffer>(
     "/homePage/profile-picture.png"
   );
+  const [coverImage, setCoverImage] = useState("")
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (user?.  user?.photo_url?.substring(62)) setSource(user?.  user?.photo_url?.substring(62)  );
+    if (user?.user?.photo_url?.substring(62))
+      setSource(user?.user?.photo_url?.substring(62));
+    else setSource("/profile-pic-default.png");
+  }, []);
+  
+  useEffect(() => {
+    if (user?.user?.get_cover_image)
+      setCoverImage(user?.user?.get_cover_image);
+    else setCoverImage("/communities/community-picture.png");
   }, []);
 
   useEffect(() => {
@@ -59,9 +69,14 @@ function EditProfileModal({ opened, close }) {
       displayImage(form.values.photo_url, setSource);
     }
   }, [form.values.photo_url]);
+  useEffect(() => {
+    if (typeof form.values.cover_image === "object") {
+      displayImage(form.values.cover_image, setCoverImage);
+    }
+  }, [form.values.cover_image]);
   const queryClient = useQueryClient();
 
-  interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+  interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
     image: string;
     value: string;
     code: string;
@@ -97,9 +112,22 @@ function EditProfileModal({ opened, close }) {
     >
       <div className="flex flex-col gap-5 mt-[60px] overflow-auto">
         <div className="flex flex-col">
-          <div className="h-[240px]">
+          <div className="h-[240px] relative">
+            <div className=" h-full w-full absolute flex items-center justify-center">
+              <label
+                htmlFor="cover-image-input"
+                className="h-[50px] cursor-pointer w-[50px] bg-[#4534B8] rounded-full opacity-50 flex items-center justify-center"
+              >
+                <Camera size="23" color="#F3F3F3" />
+                <FileInput
+                  hidden
+                  id="cover-image-input"
+                  {...form.getInputProps("cover_image")}
+                />
+              </label>
+            </div>
             <img
-              src="/communities/community-picture.png"
+              src={coverImage}
               className="h-full w-full object-cover rounded-2xl"
               alt="post image"
             />
@@ -164,7 +192,12 @@ function EditProfileModal({ opened, close }) {
             {...form.getInputProps("bio")}
           />
           <div className="flex flex-col">
-            <label htmlFor="number-input" className="font-medium text-[#2A2A2A] text-[14px] leading-6">Country</label>
+            <label
+              htmlFor="number-input"
+              className="font-medium text-[#2A2A2A] text-[14px] leading-6"
+            >
+              Country
+            </label>
             <div className="grid grid-cols-[80px_1fr] mb-[60px]">
               <Select
                 data={CountryData}
@@ -199,14 +232,34 @@ function EditProfileModal({ opened, close }) {
       <PrimaryButton
         text="Save Changes"
         onClick={() => {
+          if (form.values.cover_image) {
+            const formData = new FormData();
+            formData.append("cover_image", form.values.cover_image);
+            uploadCoverImage(formData)
+              .then(({ data }) => {
+                setUser((prev) => {
+                  return {
+                    ...prev,
+                    user: { ...prev.user, get_cover_image: data?.data },
+                  };
+                });
+              })
+              .catch((e) => console.log(e));
+          }
           var data = new FormData();
-          data.append("first_name", form.values.first_name);
-          data.append("last_name", form.values.last_name);
-          data.append("username", form.values.username);
-          data.append("bio", form.values.bio);
+          if (form.values.first_name)
+            data.append("first_name", form.values.first_name);
+          if (form.values.last_name)
+            data.append("last_name", form.values.last_name);
+          if (form.values.username)
+            data.append("username", form.values.username);
+          if (form.values.bio) data.append("bio", form.values.bio);
           data.append("town", "");
-          data.append("country", form.values.country);
-          if (typeof form.values.photo_url === "object") {
+          if (form.values.country) data.append("country", form.values.country);
+          if (
+            form.values.photo_url &&
+            typeof form.values.photo_url === "object"
+          ) {
             data.append(
               "photo",
               form.values.photo_url,

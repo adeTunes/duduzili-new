@@ -4,6 +4,7 @@ import {
   deletePost,
   editPost,
   followUser,
+  joinOrLeaveCommunity,
   likeUnlikePost,
   muteUser,
   reportPost,
@@ -104,6 +105,28 @@ export const blockUserAction = (loader, id, refetch) => {
   formData.append("id", String(id));
   formData.append("reason", "Abusive word");
   blockUser(formData)
+    .then(({ data }) => {
+      showNotification({
+        message: data?.message,
+        color: "green",
+      });
+      refetch();
+      loader(false);
+    })
+    .catch((e) => {
+      showNotification({
+        message: "Something went wrong",
+        color: "red",
+      });
+      loader(false);
+    });
+};
+export const LeaveCommunityAction = (code, loader, refetch) => {
+  loader(true);
+  const formData = new FormData();
+  formData.append("community_code", code);
+  formData.append("action", "Reject");
+  joinOrLeaveCommunity(formData)
     .then(({ data }) => {
       showNotification({
         message: data?.message,

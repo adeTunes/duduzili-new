@@ -14,7 +14,7 @@ function UseUserBySearch(search) {
       }
     },
     keepPreviousData: true,
-    enabled: !!search
+    enabled: search ? true : false
   });
 }
 

@@ -8,8 +8,7 @@ import Link from "next/link";
 import useCommunityList from "../../../hooks/useCommunityList";
 import useCommunityJoined from "../../../hooks/useCommunitiesJoined";
 
-function MyCommunitiesSlider() {
-  const { data: joined, isLoading } = useCommunityJoined(4);
+function MyCommunitiesSlider({joined}) {
 
   return (
     <div

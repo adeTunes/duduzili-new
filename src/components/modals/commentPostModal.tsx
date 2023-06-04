@@ -4,25 +4,23 @@ import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Icon } from "@iconify/react";
 import PrimaryButtonOutline from "../button/primaryButtonOutline";
 import PrimaryButton from "../button/primaryButton";
-import { createPost } from "@/actions/createPost";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
-import DisplayMedia from "./displayMedia";
 import { AudioSquare } from "iconsax-react";
 import { useRouter } from "next/router";
 import { postComment } from "@/actions/commentActions";
-import {base64decode} from "nodejs-base64"
+import ReturnMedia from "./returnMedia";
 
 function CommentPostModal({ opened, close }) {
-    const { query } = useRouter();
-  const post_id = +base64decode(String(query.id))/1000000;
+  const { query } = useRouter();
+  const post_id = query.id;
   const form = useForm({
     initialValues: {
       text: "",
-      post_id
+      post_id,
     },
   });
 
@@ -38,26 +36,17 @@ function CommentPostModal({ opened, close }) {
 
   useEffect(() => {
     if (mediaForm.values.image) {
-      setSelected(() => {
-        const newArr = selected.filter((item) => !item.type.includes("image"));
-        return [...newArr, mediaForm.values.image];
-      });
+      setSelected([{ type: "image", value: mediaForm.values.image }]);
     }
   }, [mediaForm.values.image]);
   useEffect(() => {
     if (mediaForm.values.video) {
-      setSelected(() => {
-        const newArr = selected.filter((item) => !item.type.includes("video"));
-        return [...newArr, mediaForm.values.video];
-      });
+      setSelected([{ type: "video", value: mediaForm.values.video }]);
     }
   }, [mediaForm.values.video]);
   useEffect(() => {
     if (mediaForm.values.audio) {
-      setSelected(() => {
-        const newArr = selected.filter((item) => !item.type.includes("audio"));
-        return [...newArr, mediaForm.values.audio];
-      });
+      setSelected([{ type: "audio", value: mediaForm.values.audio }]);
     }
   }, [mediaForm.values.audio]);
   const [loading, setLoading] = useState(false);
@@ -71,7 +60,7 @@ function CommentPostModal({ opened, close }) {
         content: "py-6 px-8 flex flex-col overflow-auto rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "overflow-auto"
+        body: "overflow-auto",
       }}
       styles={{
         content: {
@@ -89,7 +78,9 @@ function CommentPostModal({ opened, close }) {
     >
       <div className="grid h-full overflow-auto grid-rows-[auto_1fr_auto] gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.  user?.photo_url?.substring(62)  }
+          image={
+            user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"
+          }
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
@@ -106,7 +97,21 @@ function CommentPostModal({ opened, close }) {
             maxRows={8}
             {...form.getInputProps("text")}
           />
-          <DisplayMedia setSelected={selected} selected={selected} />
+          <div
+            style={{
+              gridTemplateColumns: "repeat(auto-fill, minmax(90.8px, 1fr))",
+            }}
+            className="grid gap-[9px]"
+          >
+            {selected?.map((item, idx) => (
+              <ReturnMedia
+                media={item}
+                selected={selected}
+                setSelected={setSelected}
+                key={idx}
+              />
+            ))}
+          </div>
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
               <Icon
@@ -172,13 +177,14 @@ function CommentPostModal({ opened, close }) {
               var data = new FormData();
               data.append("text", form.values.text);
               data.append("post_id", String(form.values.post_id));
-              selected.length && selected.forEach((item) => {
-                item.type.includes("image")
-                  ? data.append("photo", item, item.name)
-                  : item.type.includes("video")
-                  ? data.append("video", item, item.name)
-                  : null;
-              });
+              selected.length &&
+                selected.forEach((item) => {
+                  item.type.includes("image")
+                    ? data.append("photo", item, item.name)
+                    : item.type.includes("video")
+                    ? data.append("video", item, item.name)
+                    : null;
+                });
               postComment(data, setLoading, () => {
                 queryClient.invalidateQueries(["single-posts", post_id]);
                 setSelected([]);

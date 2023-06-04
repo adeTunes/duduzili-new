@@ -11,6 +11,7 @@ import { ArrowLeft } from "iconsax-react";
 import { useAtomValue } from "jotai";
 import React, { ReactNode } from "react";
 import { useRouter } from "next/router";
+import WalletCardAside from "@/components/payments/walletCardAside";
 
 function ProfileActivitiesLayout({
   children,
@@ -54,10 +55,12 @@ function ProfileActivitiesLayout({
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] pb-[50px] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
           >
-            <DownloadApp />
-            <TrendingPosts />
+            <div className="flex flex-col gap-4">
+              <p className="text-[#2A2A2A] text-[18px] leading-[22px] font-bold">My Wallet</p>
+              <WalletCardAside />
+            </div>
             <DiscoverPeople />
             <CompanyInfo />
           </aside>

@@ -5,7 +5,7 @@ import { ArrowLeft, TicketStar } from "iconsax-react";
 import SharedStickersModalView from "./sharedStickersModalView";
 import SelectStickerViewModal from "./selectStickerViewModal";
 
-function SharedStickersModal({ opened, sticker, close }) {
+function SharedStickersModal({ opened, stickerUsers, sticker, close }) {
   const [loading, setLoading] = useState(false);
 
   const [active, setActive] = useState(1);
@@ -29,7 +29,7 @@ function SharedStickersModal({ opened, sticker, close }) {
       onClose={close}
       title={
         active === 1 ? (
-          "Shared Stickers"
+          "Available Stickers"
         ) : (
           <p className="flex items-center gap-4">
             <ArrowLeft
@@ -45,7 +45,7 @@ function SharedStickersModal({ opened, sticker, close }) {
       centered
     >
       {active === 1 ? (
-        <SharedStickersModalView sticker={sticker} setActive={setActive} />
+        <SharedStickersModalView stickerUsers={stickerUsers} sticker={sticker} setActive={setActive} />
       ) : (
         <SelectStickerViewModal />
       )}

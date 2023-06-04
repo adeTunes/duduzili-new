@@ -61,7 +61,7 @@ const Communities: NextPageX = () => {
             </div>
             <div className="flex flex-col gap-[50px] pb-[50px]">
               {data?.results?.map((item, index) => (
-                <DiscoverCommunitiesCard key={index} community={item} />
+                <DiscoverCommunitiesCard selectedCategory={selectedCategory} key={index} community={item} />
               ))}
               {!data?.results?.length && <p className="text-center">No communities in this category</p>}
               {/* <DiscoverCommunitiesCard joined={true} />

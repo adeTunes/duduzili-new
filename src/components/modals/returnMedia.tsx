@@ -13,7 +13,6 @@ function ReturnMedia({ media, selected, setSelected }) {
 
       reader.readAsDataURL(file);
     } else if (file && file.type.includes("video")) {
-      console.log("video");
       setSource(URL.createObjectURL(file));
     }
   }

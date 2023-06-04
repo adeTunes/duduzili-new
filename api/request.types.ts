@@ -196,6 +196,7 @@ export type Community = {
   updated: Date;
   name: string;
   owner: Owner;
+  is_joined: boolean
 };
 
 export interface Owner {
@@ -316,6 +317,8 @@ export interface Data {
   is_owner:      boolean;
   date_joined:   Date | string;
   total_members: string
+  is_joined: boolean 
+
 }
 
 export interface Category {

@@ -8,12 +8,14 @@ import { useDisclosure } from "@mantine/hooks";
 import { likeOrUnlikePost } from "@/actions/postOptionActions";
 import { useRouter } from "next/router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader } from "@mantine/core";
+import { Loader, clsx } from "@mantine/core";
 import Link from "next/link";
-import { useAtomValue } from "jotai";
-import { userDetails } from "@/store";
+import { useAtomValue, useSetAtom } from "jotai";
+import { stickerAwardee, userDetails } from "@/store";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
-import { base64encode } from "nodejs-base64";
+
+import RewardStickersModal from "@/components/modals/rewardStickerModal";
+import RewardStickerSuccess from "@/components/modals/rewardStickerSuccess";
 
 function PostFooter({
   totalLikes,
@@ -31,20 +33,34 @@ function PostFooter({
   const [loading, setLoading] = useState(false);
   const [loadActions, setLoadActions] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+  const [rewardOpened, { open: openReward, close: closeReward }] =
+    useDisclosure(false);
+  const [successOpened, { open: openSuccess, close: closeSuccess }] =
+    useDisclosure(false);
   const queryClient = useQueryClient();
   const { pathname, query } = useRouter();
   const user: any = useAtomValue(userDetails);
   const router = useRouter();
   const [openAuthModal, setOpenAuth] = useState(false);
   const [sticker, setSticker] = useState([]);
+  const setStickerAwardee = useSetAtom(stickerAwardee)
 
   useEffect(() => {
     if (post?.stickers) {
       setSticker(Object.values(post?.stickers) as number[]);
     }
-  }, []);
+  }, [post]);
 
-  return (
+  const handleStickers = () => {
+    if (sticker?.length && post?.user?.id === user?.user?.id) {
+      open()
+    } else if (post?.user?.id !== user?.user?.id) {
+      setStickerAwardee(post?.user)
+      openReward()
+    }
+  };
+
+  return ( !router.pathname.includes("/communities/") ?
     <div className="flex items-center justify-between">
       <div className="flex w-[241px] items-center py-3 px-4 gap-10 bg-[#F4F4F4] rounded-[40px]">
         <div
@@ -78,7 +94,7 @@ function PostFooter({
         <div
           onClick={() => {
             if (!user?.token) return setOpenAuth(true);
-            router.push(`/posts/${base64encode(String(1000000 * +post?.id))}`);
+            router.push(`/posts/${post?.id}`);
           }}
           className="cursor-ponter flex items-center gap-2"
         >
@@ -96,20 +112,39 @@ function PostFooter({
       </div>
       {router.pathname === "/communities/posts" ? null : (
         <div
-          onClick={open}
-          className="bg-[#367EE8] cursor-pointer rounded-[40px] py-2 px-4 flex items-center gap-2"
+          onClick={handleStickers}
+          className={clsx(
+            (sticker?.length && post?.user?.id === user?.user?.id) ||
+              post?.user?.id !== user?.user?.id
+              ? "cursor-pointer"
+              : "",
+            "bg-[#367EE8] rounded-[40px] py-2 px-4 flex items-center gap-2"
+          )}
         >
           <TicketStar size="24" color="white" />
           <p className="text-white">{sticker.length}</p>
         </div>
       )}
       <Loading loading={loading} />
-      <SharedStickersModal sticker={sticker} opened={opened} close={close} />
+      <SharedStickersModal
+        stickerUsers={post?.sticker_user}
+        sticker={sticker}
+        opened={opened}
+        close={close}
+      />
+      <RewardStickersModal
+      postId={post?.id}
+        openSuccess={openSuccess}
+        opened={rewardOpened}
+        close={closeReward}
+      />
+      <RewardStickerSuccess opened={successOpened} close={closeSuccess} />
       <UnAuthenticaticatedUserModal
         opened={openAuthModal}
         setOpened={setOpenAuth}
       />
     </div>
+    : null
   );
 }
 

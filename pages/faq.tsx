@@ -3,9 +3,11 @@ import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 
 function Faq() {
+  const {back} = useRouter()
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -13,7 +15,7 @@ function Faq() {
       </div>
       <div className="flex-1 overflow-auto">
         <main className="bg-[#FBFBFB] h-full flex flex-col gap-[51px] overflow-auto relative max-w-[1180px] pt-[50px] w-[80%] mx-auto">
-          <div className="flex items-center gap-10 pl-5">
+          <div onClick={back} className="flex cursor-pointer items-center gap-10 pl-5">
             <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
             <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
               FAQs
@@ -31,7 +33,7 @@ function Faq() {
             </section>
             <aside
               id="no-scroll"
-              className="pb-[50px] flex-1 overflow-auto flex flex-col"
+              className="pb-[80px] flex-1 overflow-auto flex flex-col"
             >
               <p className="text-[#2A2A2A] pb-10 border-b border-b-[#EDF0FB] font-bold text-[32px] leading-[38px]">
                 Frequently Asked Questions

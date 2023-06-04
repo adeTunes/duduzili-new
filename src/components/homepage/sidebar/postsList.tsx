@@ -4,7 +4,7 @@ import TrendingPostsContainer from "./trendingPosts/trendingPostsContainer";
 import { AudioSquare, Gallery, VideoSquare } from "iconsax-react";
 import UseTrendingPosts from "../../../../hooks/useTrendingPosts";
 
-function PostsList() {
+function PostsList({footerColor, textLength}: {footerColor?: string; textLength?: string}) {
   const { data } = UseTrendingPosts();
   return (
     <div className="flex flex-col gap-2">
@@ -14,6 +14,8 @@ function PostsList() {
             <TrendingPostsContainer
               key={index}
               post={item}
+              footerColor={footerColor}
+              textLength={textLength}
             >
               {!item?.media?.audio &&
               !item?.media?.video &&

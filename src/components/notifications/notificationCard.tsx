@@ -1,23 +1,22 @@
+"use client";
 import { Profile, TicketStar } from "iconsax-react";
 import React from "react";
 import CommentIcon from "../settings/commentIcon";
-import { clsx } from "@mantine/core";
+import { Text, clsx } from "@mantine/core";
 
 function NotificationCard({
   title,
   day,
-  time,
   action,
   unread,
 }: {
   title: string;
   day: string;
-  time: string;
-  action: "post-like" | "sticker-reward" | "post-comment" | "friend-request";
+  action: "like" | "sticker-reward" | "post-comment" | "friend-request";
   unread: boolean;
 }) {
   const icons = {
-    "post-like": <Profile size="25" color="#4534B8" variant="TwoTone" />,
+    like: <Profile size="25" color="#4534B8" variant="TwoTone" />,
     "friend-request": <Profile size="25" color="#4534B8" variant="TwoTone" />,
     "sticker-reward": <TicketStar size="25" color="#4534B8" />,
     "post-comment": <CommentIcon height="25" width="25" />,
@@ -29,22 +28,15 @@ function NotificationCard({
           {icons[action]}
         </div>
         <div className="flex flex-col gap-2">
-          <p
-            className={clsx(
+            <Text className={clsx(
               unread
                 ? "text-[#2A2A2A] font-semibold"
                 : "text-[#757575] font-medium",
               "leading-4"
-            )}
-          >
-            {title}
-          </p>
-          <p className="text-[#505050] flex items-center leading-4">
-            <span className="border-r leading-[19px] border-r-[#505050] pr-1">
+            )} lineClamp={1}>{title}</Text>
+            <span className=" leading-[19px] text-[#505050]">
               {day}
             </span>
-            <span className="pl-1 leading-[19px]">{time}</span>
-          </p>
         </div>
       </div>
       {action === "friend-request" && (

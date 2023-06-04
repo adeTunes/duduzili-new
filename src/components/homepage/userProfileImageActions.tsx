@@ -1,7 +1,7 @@
 import { goOffline, goOnline } from "@/actions/userStatusActions";
 import { userDetails } from "@/store";
 import { Icon } from "@iconify/react";
-import { Avatar, Indicator, Menu, Switch, clsx } from "@mantine/core";
+import { Avatar, Indicator, Loader, Menu, Switch, clsx } from "@mantine/core";
 import {
   Copy,
   LogoutCurve,
@@ -14,8 +14,9 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-function UserProfileImageActions({ children, setLoading }) {
+function UserProfileImageActions({ children, unread, setLoading }) {
   const router = useRouter();
+  const [statusLoading, setStatusLoading] = useState(false);
   const options = [
     {
       name: "View Profile",
@@ -28,6 +29,7 @@ function UserProfileImageActions({ children, setLoading }) {
         <Indicator
           classNames={{ common: "!top-[3px] !right-[5px]" }}
           color="#E59055"
+          disabled={!!unread}
         >
           <Notification size="24" color="#2A2A2A" />
         </Indicator>
@@ -44,7 +46,7 @@ function UserProfileImageActions({ children, setLoading }) {
       color: "#D40000",
       icon: <LogoutCurve className="rotate-180" color="#D40000" />,
       action: () => {
-        localStorage.removeItem("duduzili-user")
+        localStorage.removeItem("duduzili-user");
         router.push("/login");
       },
     },
@@ -82,7 +84,7 @@ function UserProfileImageActions({ children, setLoading }) {
                 <Avatar
                   size={45}
                   radius="xl"
-                  src={user?.  user?.photo_url?.substring(62) }
+                  src={user?.user?.photo_url?.substring(62)}
                 />
                 <p className="flex flex-col gap-2">
                   <span>@{user?.user?.username}</span>
@@ -109,25 +111,29 @@ function UserProfileImageActions({ children, setLoading }) {
                   )}
                 </p>
               </div>
-              <Switch
-                classNames={{ track: "cursor-pointer" }}
-                checked={user?.user?.is_online}
-                onClick={() => {
-                  user?.user?.is_online
-                    ? goOffline(setLoading, () =>
-                        setUser({
-                          ...user,
-                          user: { ...user.user, is_online: false },
-                        })
-                      )
-                    : goOnline(setLoading, () =>
-                        setUser({
-                          ...user,
-                          user: { ...user.user, is_online: true },
-                        })
-                      );
-                }}
-              />
+              {statusLoading ? (
+                <Loader size="sm" />
+              ) : (
+                <Switch
+                  classNames={{ track: "cursor-pointer" }}
+                  checked={user?.user?.is_online}
+                  onClick={() => {
+                    user?.user?.is_online
+                      ? goOffline(setStatusLoading, () =>
+                          setUser({
+                            ...user,
+                            user: { ...user.user, is_online: false },
+                          })
+                        )
+                      : goOnline(setStatusLoading, () =>
+                          setUser({
+                            ...user,
+                            user: { ...user.user, is_online: true },
+                          })
+                        );
+                  }}
+                />
+              )}
             </div>
             {options.map((item, idx, arr) => (
               <div

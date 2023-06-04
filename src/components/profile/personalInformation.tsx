@@ -24,7 +24,7 @@ function PersonalInformation({ user }) {
             <img
               src={
                   user?.photo_url?.substring(62)  ??
-                "/profile/default-profile-picture.png"
+                "/profile-pic-default.png"
               }
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"

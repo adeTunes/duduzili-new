@@ -1,10 +1,17 @@
 import { Eye, EyeSlash } from "iconsax-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useUserWallet from "../../../hooks/useUserWallet";
+import { amountFormatter } from "@/helpers/amountFormatter";
 
 function WalletCard() {
   const {data: wallet} = useUserWallet()
   const [visible, setVisible] = useState(false);
+  const [amount, setAmount] = useState(null)
+  useEffect(() => {
+    if(wallet?.data?.available_balance) {
+      amountFormatter(wallet?.data?.available_balance?.split(".00").join(""), setAmount)
+    }
+  }, [wallet])
   return (
     <div
       className="w-full h-[184px] flex flex-col justify-between pt-[30px] pl-[26px] pr-[38px] rounded-[20px] pb-6"
@@ -22,7 +29,7 @@ function WalletCard() {
         <h3 className="text-white flex items-center gap-2 font-bold text-[22px] leading-8">
           {visible ? (
             <>
-              {wallet?.data?.available_balance ? ("N" + wallet?.data?.available_balance) : "N0" }
+              {amount ? ("₦" + amount + ".00") : "₦0" }
               <EyeSlash
                 className="cursor-pointer"
                 onClick={() => setVisible((p) => !p)}
@@ -32,7 +39,7 @@ function WalletCard() {
             </>
           ) : (
             <>
-              N*****
+              ₦*****
               <Eye
                 className="cursor-pointer"
                 onClick={() => setVisible((p) => !p)}

@@ -6,13 +6,15 @@ import { clsx } from "@mantine/core";
 import { ArrowDown, ArrowLeft, ArrowRight2, ArrowUp } from "iconsax-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import WalletCard from "../../src/components/payments/walletCard";
 import WithdrawModal from "@/components/payments/withdrawModal";
 import { useDisclosure } from "@mantine/hooks";
 import WithdrawSuccessModal from "@/components/payments/withdrawSuccess";
 import DepositModal from "@/components/payments/depositModal";
 import DepositSuccessModal from "@/components/payments/depositModalSuccess";
+import useIncomeAndOutcome from "../../hooks/useIncomeAndOutcome";
+import { amountFormatter } from "@/helpers/amountFormatter";
 
 function Payments() {
   const { back } = useRouter();
@@ -82,14 +84,31 @@ function Payments() {
       image: "/payments/eleph.png",
     },
   ];
+  const [income, setIncome] = useState("0")
+  const [outcome, setOutcome] = useState("0")
 
   const {query} = useRouter()
+  const {data} = useIncomeAndOutcome()
+
+
+  useEffect(() => {
+    if(data?.data?.income) {
+      amountFormatter(String(data?.data?.income), setIncome)
+    } else setIncome(String(data?.data?.income))
+  }, [data])
+
+  useEffect(() => {
+    if(data?.data?.outcome) {
+      amountFormatter(String(data?.data?.outcome), setOutcome)
+    } else setOutcome(String(data?.data?.outcome))
+  }, [data])
 
   useEffect(() => {
     if(query.deposit) {
       openDepositSuccess()
     }
   }, [query.deposit])
+  
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -166,7 +185,7 @@ function Payments() {
                       </p>
                       <p className="flex items-center gap-[13px]">
                         <span className="text-[#2a2a2a] font-bold text-[22px] leading-8">
-                          N10,487.00
+                        ₦{income}
                         </span>
                         <span
                           style={{ background: "rgba(2, 177, 90, 0.15)" }}
@@ -190,7 +209,7 @@ function Payments() {
                       </p>
                       <p className="flex items-center gap-[13px]">
                         <span className="text-[#2a2a2a] font-bold text-[22px] leading-8">
-                          N10,487.00
+                        ₦{outcome}
                         </span>
                         <span
                           style={{ background: "#F4B9B9" }}

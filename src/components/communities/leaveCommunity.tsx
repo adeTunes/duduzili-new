@@ -2,14 +2,28 @@ import { Icon } from "@iconify/react";
 import { Menu, clsx } from "@mantine/core";
 import React, { useState } from "react";
 import { Loading } from "../loading";
-import { joinCommunity } from "../../../api/apiRequests";
+import {
+  deleteCommunity,
+  editCommunity,
+  joinCommunity,
+} from "../../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useRouter } from "next/router";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
+import { Edit2, ProfileAdd, Trash } from "iconsax-react";
+import AddCommunityMemberModal from "../modals/addCommunityMemberModal";
+import { useDisclosure } from "@mantine/hooks";
+import EditCommunityModal from "../modals/editCommunityModal";
 
-function LeaveCommunity({ code }) {
+function LeaveCommunity({ code, name, isOwner }) {
   const [loading, setLoading] = useState(false);
-  const {push} = useRouter()
+  const user: any = useAtomValue(userDetails);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [editOpened, { open: openEdit, close: closeEdit }] =
+    useDisclosure(false);
+  const { push } = useRouter();
   const LeaveCommunityAction = () => {
     setLoading(true);
     const data = new FormData();
@@ -20,7 +34,7 @@ function LeaveCommunity({ code }) {
         showNotification({
           message: data?.message || data?.error,
         });
-        push("/communities/joined")
+        push("/communities/joined");
         setLoading(false);
       })
       .catch((e) => {
@@ -28,19 +42,83 @@ function LeaveCommunity({ code }) {
         errorMessageHandler(e);
       });
   };
-  const options = [
-    {
-      icon: <Icon icon="bx:volume-mute" color="#2A2A2A" />,
-      name: "Mute Community",
-      action: () => {},
-    },
-    {
-      icon: <Icon icon="ic:round-exit-to-app" color="#D40000" />,
-      name: "Leave Community",
-      action: LeaveCommunityAction,
-      color: "#D40000",
-    },
-  ];
+  const deleteCommunityAction = () => {
+    setLoading(true);
+    const data = new FormData();
+    data.append("community_code", code);
+    deleteCommunity(data)
+      .then(({ data }) => {
+        showNotification({
+          message: data?.data || data?.message || data?.error,
+        });
+        push("/communities/joined");
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        errorMessageHandler(e);
+      });
+  };
+  const editCommunityAction = () => {
+    setLoading(true);
+    const data = new FormData();
+    data.append("code", code);
+    data.append("name", name);
+    editCommunity(data)
+      .then(({ data }) => {
+        showNotification({
+          message: data?.data || data?.message || data?.error,
+        });
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        errorMessageHandler(e);
+      });
+  };
+  const options = isOwner
+    ? [
+        {
+          icon: <Icon icon="bx:volume-mute" color="#2A2A2A" />,
+          name: "Mute Community",
+          action: () => {},
+        },
+        {
+          icon: <ProfileAdd size="16" color="#2A2A2A" />,
+          name: "Add Member",
+          action: () => push(`/invite-friends?community=${code}`),
+        },
+        {
+          icon: <Edit2 size="16" color="#2A2A2A" />,
+          name: "Edit Community",
+          action: openEdit,
+        },
+        {
+          icon: <Icon icon="ic:round-exit-to-app" color="#D40000" />,
+          name: "Leave Community",
+          action: LeaveCommunityAction,
+          color: "#D40000",
+        },
+        {
+          icon: <Trash color="#D40000" size={16} />,
+          name: "Delete Community",
+          action: deleteCommunityAction,
+          color: "#D40000",
+        },
+      ]
+    : [
+        {
+          icon: <Icon icon="bx:volume-mute" color="#2A2A2A" />,
+          name: "Mute Community",
+          action: () => {},
+        },
+        {
+          icon: <Icon icon="ic:round-exit-to-app" color="#D40000" />,
+          name: "Leave Community",
+          action: LeaveCommunityAction,
+          color: "#D40000",
+        },
+      ];
   return (
     <Menu
       shadow="md"
@@ -83,15 +161,15 @@ function LeaveCommunity({ code }) {
               {options.map((item, idx, arr) => (
                 <div
                   key={idx}
-                  onClick={item.action}
+                  onClick={item?.action}
                   className={clsx(
                     idx !== arr.length - 1 && "border-b border-b-[#DFE5FA]",
                     item.color ? "text-[#D40000]" : "text-[#2A2A2A]",
                     "flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
                   )}
                 >
-                  {item.icon}
-                  {item.name}
+                  {item?.icon}
+                  {item?.name}
                 </div>
               ))}
             </div>
@@ -99,6 +177,8 @@ function LeaveCommunity({ code }) {
         </Menu.Item>
       </Menu.Dropdown>
       <Loading loading={loading} />
+      <AddCommunityMemberModal opened={opened} close={close} />
+      <EditCommunityModal opened={editOpened} close={closeEdit} code={code} />
     </Menu>
   );
 }

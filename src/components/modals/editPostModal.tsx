@@ -18,7 +18,7 @@ import useSinglePost from "../../../hooks/useSinglePost";
 import { editParticularPost } from "@/actions/postOptionActions";
 
 function EditPostModal({ opened, close, id }) {
-  const { data } = useSinglePost(id);
+  const { data, isLoading } = useSinglePost(id);
 
   const post_id = id;
   const form = useForm({
@@ -137,10 +137,15 @@ function EditPostModal({ opened, close, id }) {
               <FileInput
                 hidden
                 id="image-file"
-                accept="image/png,image/jpeg"
                 multiple
+                accept="image/png,image/jpeg"
                 onChange={(value) => {
-                  setSelected([...selected, { type: "image", value }]);
+                  value.forEach((item) => {
+                    setSelected((prev) => [
+                      ...prev,
+                      { type: "image", value: item },
+                    ]);
+                  });
                 }}
               />
             </label>
@@ -159,14 +164,8 @@ function EditPostModal({ opened, close, id }) {
                 hidden
                 id="video-file"
                 accept="video/mp4"
-                multiple
                 onChange={(value) => {
-                  value.forEach((item) => {
-                    setSelected((prev) => [
-                      ...prev,
-                      { type: "image", value: item },
-                    ]);
-                  });
+                  setSelected([...selected, { type: "video", value }]);
                 }}
               />
             </label>
@@ -223,7 +222,7 @@ function EditPostModal({ opened, close, id }) {
           />
         </div>
       </div>
-      <LoadingOverlay visible={loading} />
+      <LoadingOverlay visible={loading || isLoading} />
     </Modal>
   );
 }
