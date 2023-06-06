@@ -63,20 +63,22 @@ function DepositModal({ opened, close }) {
             });
           setLoading(true);
           setAmount(form.values.amount);
-          sessionStorage.setItem("deposit-amount", form.values.amount)
+          sessionStorage.setItem("deposit-amount", form.values.amount);
           const data = new FormData();
           data.append("amount", form.values.amount);
           initializeDeposit(data)
             .then(({ data }) => {
+              console.log(data)
               setLoading(false);
-              location.href = data.url;
+              form.reset();
+              close();
+
+              location.href = data?.data?.url;
             })
             .catch((e) => {
               setLoading(false);
               errorMessageHandler(e);
             });
-          form.reset();
-          close();
         }}
         text={
           loading ? (
