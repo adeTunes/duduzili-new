@@ -2,18 +2,28 @@ import { userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Menu } from "@mantine/core";
 import { useAtomValue } from "jotai";
-import React from "react";
+import React, { useState } from "react";
+import FriendList from "./friendList";
+import AddGroupMembers from "./addGroupMembers";
+import GroupChatView from "./groupChatView";
 
 function MessageMenu() {
-  const user: any = useAtomValue(userDetails)
+  const user: any = useAtomValue(userDetails);
+  const [action, setAction] = useState("friend-list");
   return (
     <Menu
       shadow="md"
       width="auto"
-      transitionProps={{transition: "slide-up", duration: 150}}
+      closeOnItemClick={false}
+      onClose={() => {
+        setAction("friend-list");
+      }}
+      transitionProps={{ transition: "slide-up", duration: 150 }}
       classNames={{
-        item: "!p-0",
-        dropdown: "!pt-6 !rounded-[24px] !max-w-[400px] !left-[unset] !right-0 !w-[auto] !min-w-[270px]",
+        item: "!p-0 !h-full",
+        itemLabel: "!h-full",
+        dropdown:
+          "!pt-6 !rounded-[24px] message-container !h-[623px] !max-w-[400px] !left-[unset] !right-0 !w-[auto] !min-w-[400px]",
       }}
       styles={{
         dropdown: {
@@ -46,7 +56,13 @@ function MessageMenu() {
 
       <Menu.Dropdown>
         <Menu.Item>
-          
+          {action === "friend-list" ? (
+            <FriendList setAction={setAction} user={user} />
+          ) : action === "add-group-members" ? (
+            <AddGroupMembers setAction={setAction} />
+          ) : action === "group-chat-view" ? (
+            <GroupChatView setAction={setAction} />
+          ) : null}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

@@ -13,12 +13,7 @@ export default function AuthenticationLayout({
   const tags2 = ["Text", "Chat"];
   return (
     <main className="flex h-screen">
-      <section className="flex-1 flex flex-col h-full py-[7vh]">
-        <div className="h-[49px] flex justify-center">
-          <img src="/logo.png" className="h-full" alt="" />
-        </div>
-        {children}
-      </section>
+      
       <section
         className="h-full flex-1 py-[10vh] relative"
         style={{
@@ -72,6 +67,12 @@ export default function AuthenticationLayout({
             />
           </div>
         </div>
+      </section>
+      <section className="flex-1 flex flex-col h-full py-[7vh]">
+        <div className="h-[49px] flex justify-center">
+          <img src="/logo.png" className="h-full" alt="" />
+        </div>
+        {children}
       </section>
     </main>
   );

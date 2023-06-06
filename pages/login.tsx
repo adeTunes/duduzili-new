@@ -59,7 +59,7 @@ const Home: NextPageX = () => {
                 input:
                   "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
               }}
-              placeholder="Email address/ username"
+              placeholder="Email address"
               required
               {...form.getInputProps("email")}
             />

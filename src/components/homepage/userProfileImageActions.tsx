@@ -84,7 +84,7 @@ function UserProfileImageActions({ children, unread, setLoading }) {
                 <Avatar
                   size={45}
                   radius="xl"
-                  src={user?.user?.photo_url?.substring(62)}
+                  src={user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"}
                 />
                 <p className="flex flex-col gap-2">
                   <span>@{user?.user?.username}</span>

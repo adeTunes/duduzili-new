@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useSetAtom } from "jotai";
 import { friendPersonalDetails } from "@/store";
 import ShowMoreButton from "@/components/showMoreButton";
+import EmptyComponent from "@/components/emptyComponent";
 
 const FriendProfilePost: NextPageX = () => {
   const { query } = useRouter();
@@ -21,19 +22,10 @@ const FriendProfilePost: NextPageX = () => {
   return (
     <>
       {!data?.user?.is_following && data?.user?.is_private ? (
-        <div className="flex items-center justify-center">
-          <div className="flex items-center flex-col gap-6">
-            <img
-              src="/profile/private-profile.png"
-              className="w-[154px] object-cover"
-              alt="private account profile illustration"
-            />
-            <p className="max-w-[275px] text-black font-medium leading-6 text-center">
-              This is a private account. You will see their content when they
-              accept your follow request
-            </p>
-          </div>
-        </div>
+        <EmptyComponent
+          className="max-w-[275px]"
+          text="This is a private account. You will see their content when they accept your follow request"
+        />
       ) : (
         <div className="flex flex-col gap-10 pb-[50px]">
           {data?.posts?.map((item, idx) => (
