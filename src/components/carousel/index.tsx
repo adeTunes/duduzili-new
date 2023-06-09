@@ -41,7 +41,7 @@ export function Slider({
         <Carousel.Slide key={index} onClick={() => push(`/communities/${item?.code}`)} size={275}>
           <div
             style={{
-              backgroundImage: `url(${item?.get_logo_url?.substring(62) || '/cover-image.png'})`,
+              backgroundImage: `url(${item?.get_logo_url || '/cover-image.png'})`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center",
