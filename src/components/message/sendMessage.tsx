@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import { Textarea } from "@mantine/core";
 import React from "react";
 
-function SendMessage() {
+function SendMessage({friendUsename}: {friendUsename: string}) {
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="flex pl-6 items-center gap-4 flex-1 bg-[#EDF0FB] rounded-[40px]">

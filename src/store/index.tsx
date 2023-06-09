@@ -3,7 +3,7 @@ import { atomWithStorage } from "jotai/utils";
 
 export const userDetails = atomWithStorage("duduzili-user", {});
 export const toggleCommunityPreview = atom(true);
-export const selectedMessage = atom<string | number>("");
+export const selectedMessage = atom<string>("");
 export const numberofMessages = atom(0);
 export const numberofNotifications = atom(0);
 export const allPosts = atom([]);
@@ -17,3 +17,4 @@ export const verifyAccountEmail = atom("")
 export const withdrawalDetails = atom({})
 export const depositAmount = atom("")
 export const stickerAwardee = atom("")
+export const selectedFriendToChat = atom([])

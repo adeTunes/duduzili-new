@@ -55,12 +55,12 @@ function GroupChatBox() {
         </div>
         <div id="messages" className="flex flex-1 overflow-auto flex-col gap-5">
           <GroupMessageReceived />
-          <MessageSent />
+          <MessageSent text="" time="" />
           <GroupAudioReceived />
           <GroupSingleEmojiReceived />
           <AudioSent />
         </div>
-        <SendMessage />
+        <SendMessage friendUsename="" />
       </div>
     </>
   );

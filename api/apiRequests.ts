@@ -247,6 +247,15 @@ export const getPrivateCommunityRequests = () => {
 export const fetchNotifications = () => {
   return API.get(`/api/v1/rest-auth/notifications/`);
 };
+export const fetchConversations = () => {
+  return API.get(`/api/v1/rest-auth/user_messages/fetch-user-conversations/`);
+};
+export const followersSearch = (user) => {
+  return API.get(`/api/v1/rest-auth/user/chat_list?query_type=followers&search=${user}`);
+};
+export const otherUsersSearch = (username) => {
+  return API.get(`/api/v1/rest-auth/user/chat_list?query_type=users&search=${username}`);
+};
 
 
 

@@ -62,7 +62,7 @@ function GroupChatView({ setAction,setTab }) {
             24/04/2023
           </p>
           <GroupMessageReceived />
-          <MessageSent />
+          <MessageSent text="" time=""/>
           <GroupAudioReceived />
           <GroupSingleEmojiReceived />
           <AudioSent />

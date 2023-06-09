@@ -78,7 +78,7 @@ const GroupChat: NextPageX = () => {
             idx
           ) => (
             <GroupChatCard
-              onClick={() => setSelectedMessage(idx)}
+              onClick={() => setSelectedMessage("")}
               id={idx}
               image={profilePicture}
               text={lastMessage}
