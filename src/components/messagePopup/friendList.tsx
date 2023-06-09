@@ -1,9 +1,11 @@
 import { Icon } from "@iconify/react";
-import { TextInput } from "@mantine/core";
+import { TextInput, clsx } from "@mantine/core";
 import React from "react";
 import EmptyComponent from "../emptyComponent";
+import GroupChatList from "./groupChatList";
+import FriendChatList from "./friendChatList";
 
-function FriendList({ setAction, user }) {
+function FriendList({ tab, setTab, setAction, user }) {
   const tabs = ["Friends", "Others", "Group Chat"];
 
   return (
@@ -29,14 +31,25 @@ function FriendList({ setAction, user }) {
               icon="material-symbols:edit-outline-rounded"
             />
           </div>
-          <Icon icon="material-symbols:keyboard-arrow-down" className="cursor-pointer" width={28} height={28} />
+          <Icon
+            icon="material-symbols:keyboard-arrow-down"
+            className="cursor-pointer"
+            width={28}
+            height={28}
+          />
         </div>
       </div>
       <div className="px-[30px] grid grid-cols-3">
         {tabs?.map((item, idx) => (
           <p
+            onClick={() => setTab(idx)}
             key={idx}
-            className="pb-2 border-b flex justify-center border-b-[#C0D0E8] text-[#828282] font-semibold leading-6"
+            className={clsx(
+              tab === idx
+                ? "border-b-[3px] border-b-duduzili-violet text-duduzili-violet"
+                : "border-b border-b-[#C0D0E8] text-[#828282]",
+              "pb-2 cursor-pointer  flex justify-center font-semibold leading-6"
+            )}
           >
             {item}
           </p>
@@ -51,10 +64,16 @@ function FriendList({ setAction, user }) {
         placeholder="Search Friend"
         icon={<Icon height={24} width={24} icon="ri:search-line" />}
       />
-      <EmptyComponent
-        classNames={{ root: "h-full flex items-center justify-center" }}
-        text="You have no messages"
-      />
+      {tab === 0 ? (
+        <FriendChatList />
+      ) : tab === 2 ? (
+        <GroupChatList />
+      ) : (
+        <EmptyComponent
+          classNames={{ root: "h-full flex items-center justify-center" }}
+          text="You have no messages"
+        />
+      )}
     </div>
   );
 }

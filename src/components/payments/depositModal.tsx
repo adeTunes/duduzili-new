@@ -72,7 +72,6 @@ function DepositModal({ opened, close }) {
               setLoading(false);
               form.reset();
               close();
-
               location.href = data?.data?.url;
             })
             .catch((e) => {

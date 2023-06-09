@@ -10,6 +10,7 @@ import GroupChatView from "./groupChatView";
 function MessageMenu() {
   const user: any = useAtomValue(userDetails);
   const [action, setAction] = useState("friend-list");
+  const [tab, setTab] = useState(0)
   return (
     <Menu
       shadow="md"
@@ -57,11 +58,11 @@ function MessageMenu() {
       <Menu.Dropdown>
         <Menu.Item>
           {action === "friend-list" ? (
-            <FriendList setAction={setAction} user={user} />
+            <FriendList tab={tab} setTab={setTab} setAction={setAction} user={user} />
           ) : action === "add-group-members" ? (
             <AddGroupMembers setAction={setAction} />
           ) : action === "group-chat-view" ? (
-            <GroupChatView setAction={setAction} />
+            <GroupChatView setTab={setTab} setAction={setAction} />
           ) : null}
         </Menu.Item>
       </Menu.Dropdown>
