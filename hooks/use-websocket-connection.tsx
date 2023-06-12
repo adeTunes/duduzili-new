@@ -22,7 +22,7 @@ const useWebsocketConnection: (friend: any) => {ws: WebSocket} = (friend) => {
         // Perform any necessary join or initial setup actions
         const joinRoom = {
           command: "join",
-          username: friend?.username,
+          username: user?.user?.username,
         };
 
         ws.send(JSON.stringify(joinRoom));
@@ -33,11 +33,11 @@ const useWebsocketConnection: (friend: any) => {ws: WebSocket} = (friend) => {
         // Handle any necessary cleanup or reconnection logic
       };
     }
-    return () => {
-      // Clean up the WebSocket connection when the component unmounts
-      if(ws)
-      ws.close();
-    };
+    // return () => {
+    //   // Clean up the WebSocket connection when the component unmounts
+    //   if(ws)
+    //   ws.close();
+    // };
   }, [ws]);
 
   return { ws };

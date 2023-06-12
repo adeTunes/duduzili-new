@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { postComment } from "@/actions/commentActions";
 import useSinglePost from "../../../hooks/useSinglePost";
 import { editParticularPost } from "@/actions/postOptionActions";
+import AudioPlayer from "./audioPlayer";
 
 function EditPostModal({ opened, close, id }) {
   const { data, isLoading } = useSinglePost(id);
@@ -32,20 +33,13 @@ function EditPostModal({ opened, close, id }) {
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
   const { pathname } = useRouter();
+  const [audio, setAudio] = useState(null)
 
   useEffect(() => {
     if (data) {
       if (data?.post?.text) form.setFieldValue("text", data?.post?.text);
       if (data?.post?.media?.audio) {
-        setSelected((prev) => {
-          const filtered = prev.filter(
-            (item) => item.value !== data?.post?.media?.audio
-          );
-          return [
-            ...filtered,
-            { type: "audio", value: data?.post?.media?.audio },
-          ];
-        });
+        setAudio(data?.post?.media?.audio)
       }
       if (data?.post?.media?.video) {
         setSelected((prev) => {
@@ -113,6 +107,10 @@ function EditPostModal({ opened, close, id }) {
             {...form.getInputProps("text")}
           />
           <DisplayMedia selected={selected} setSelected={setSelected} />
+          {audio ?
+          <AudioPlayer audio={audio} setAudio={setAudio} />
+          : null
+        }
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
               <Icon
@@ -169,9 +167,17 @@ function EditPostModal({ opened, close, id }) {
                 }}
               />
             </label>
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
+            <label htmlFor="audio-file" className="px-4 py-2 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
               <AudioSquare size="24" color="#2A2A2A" variant="Outline" />
-            </div>
+              <FileInput
+                hidden
+                id="audio-file"
+                accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
+                onChange={(value) => {
+                  setAudio(value)
+                }}
+              />
+            </label>
           </div>
         </div>
         <div className="flex gap-3 justify-end">
@@ -186,6 +192,9 @@ function EditPostModal({ opened, close, id }) {
                   color: "red",
                 });
               var formData = new FormData();
+              if(audio) {
+                formData.append("audio", audio, audio.name)
+              }
               formData.append("text", form.values.text);
               formData.append("post_id", form.values.post_id as string);
               formData.append("is_article", "yes");

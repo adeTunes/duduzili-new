@@ -3,7 +3,7 @@ import React from "react";
 function MessageReceived({time, text}) {
   return (
     <div className="flex flex-col gap-1">
-      <div className="bg-[#EDF0FB] rounded-r-2xl rounded-bl-2xl w-[60%] py-2 text-[#2A2A2A] px-4">
+      <div className="bg-[#EDF0FB] rounded-r-2xl rounded-bl-2xl !max-w-[60%] !w-fit py-2 text-[#2A2A2A] px-4">
         {text}
       </div>
       <small className="text-[#757575] text-[12px] leading-[15px]">

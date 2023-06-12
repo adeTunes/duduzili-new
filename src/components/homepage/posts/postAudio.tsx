@@ -56,22 +56,23 @@ function PostAudio({
         backgroundPosition: "top center",
         gridColumn: gridSpan
       }}
-      className={clsx(height || "h-[200px]", "p-5 flex justify-between flex-col rounded-2xl")}
+      className={clsx(height || "h-[200px]", "p-5 flex relative justify-between flex-col rounded-2xl")}
     >
+      <div className="absolute bg-black opacity-30 top-0 left-0 right-0 bottom-0" />
       <p
         style={{ background: "rgba(255, 255, 255, 0.2)" }}
-        className="text-[14px] rounded-[32px] self-start py-[3px] text-white px-6"
+        className="text-[14px] z-[9] rounded-[32px] self-start py-[3px] text-white px-6"
       >
         Audio
       </p>
       <img
-        src={audioUrl}
+        src="/homePage/sound-wave.png"
         className="w-[40%] object-cover self-center"
         alt="audio post logo"
       />
       <div
         style={{ background: "rgba(255, 255, 255, 0.2)" }}
-        className="pl-1 pr-4 w-[90px] py-1 flex gap-3 rounded-[32px] items-center self-end"
+        className="pl-1 z-[9] pr-4 w-[90px] py-1 flex gap-3 rounded-[32px] items-center self-end"
       >
         <div className="p-1 cursor-pointer rounded-full bg-white">
           {isPlaying ? (

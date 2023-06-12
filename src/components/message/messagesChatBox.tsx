@@ -34,16 +34,14 @@ function MessagesChatBox() {
   useEffect(() => {
     if (ws) {
       ws.onmessage = (event) => {
-        console.log("Received message:", event.data);
         // Process the incoming message
         const message = JSON.parse(event.data);
-        if(message.msg_type === "ENTER") {
+        console.log("Received message:", message);
+        if (message.msg_type === "ENTER") {
           setMessages(message.messages);
-        }
-        else if(message?.message) {
+        } else if (message?.message) {
           setMessages((prev) => [...prev, message.message]);
         }
-
       };
 
       ws.onclose = () => {
@@ -57,13 +55,12 @@ function MessagesChatBox() {
     const chatMessage = {
       command: "send",
       text: form.values.text,
-      username: friend?.username,
+      username: user?.user?.username,
     };
-
     ws.send(JSON.stringify(chatMessage));
   };
 
-  return (
+  return friend ? (
     <div className="flex overflow-auto flex-1 flex-col gap-6">
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
@@ -93,11 +90,19 @@ function MessagesChatBox() {
         />
       </div>
       <div id="messages" className="flex flex-1 overflow-auto flex-col gap-5">
-        {messages?.map((item, idx) =>
+        {messages?.map((item) =>
           item?.sender?.id === user?.user?.id ? (
-            <MessageSent text={item?.text} time={item?.date_added} key={item?.id} />
+            <MessageSent
+              text={item?.text}
+              time={item?.date_added}
+              key={item?.id}
+            />
           ) : (
-            <MessageReceived text={item?.text} time={item?.date_added} key={item?.id} />
+            <MessageReceived
+              text={item?.text}
+              time={item?.date_added}
+              key={item?.id}
+            />
           )
         )}
         {/* <MessageReceived />
@@ -108,7 +113,14 @@ function MessagesChatBox() {
         <MessageSent />
         <SingleEmojiSent /> */}
       </div>
-      <div className="flex items-center justify-between gap-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          form.reset();
+          handleSendMessage();
+        }}
+        className="flex items-center justify-between gap-4"
+      >
         <div className="flex pl-6 items-center gap-4 flex-1 bg-[#EDF0FB] rounded-[40px]">
           <div className="flex items-center gap-3">
             <Icon
@@ -149,19 +161,19 @@ function MessagesChatBox() {
             {...form.getInputProps("text")}
           />
         </div>
-        <Icon
-          onClick={() => {
-            form.reset()
-            handleSendMessage();
-          }}
-          className="cursor-pointer"
-          icon="carbon:send"
-          color="#4534B8"
-          height={32}
-          width={32}
-        />
-      </div>
+        <button type="submit">
+          <Icon
+            className="cursor-pointer"
+            icon="carbon:send"
+            color="#4534B8"
+            height={32}
+            width={32}
+          />
+        </button>
+      </form>
     </div>
+  ) : (
+    <></>
   );
 }
 

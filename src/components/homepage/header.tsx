@@ -1,7 +1,7 @@
 import { userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Indicator, TextInput, clsx } from "@mantine/core";
-import { Home, Profile2User, SearchNormal1, Sms } from "iconsax-react";
+import { Home, Profile2User, SearchNormal1, Sms, TrendUp } from "iconsax-react";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,9 +32,9 @@ function Header() {
       routeId: "communities",
     },
     {
-      href: "/search",
-      icon: <SearchNormal1 size="20" variant="Outline" />,
-      routeId: "search",
+      href: "/trending",
+      icon: <TrendUp size="20" variant="Outline"/>,
+      routeId: "trending",
     },
     {
       href: "/messages/friends",

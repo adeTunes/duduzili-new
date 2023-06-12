@@ -20,8 +20,8 @@ const Trending: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] pb-[50px] relative max-w-[1131px] justify-between mt-[50px] w-[80%] mx-auto gap-[50px] flex">
-          <section className="w-[70%] max-w-[717px] flex flex-col gap-[34px]">
+        <main className="bg-[#FBFBFB] py-[50px] overflow-auto relative max-w-[1131px] justify-between w-[80%] mx-auto gap-[50px] flex">
+          <section className="w-[70%] overflow-auto max-w-[717px] flex flex-col gap-[34px]">
             <div className="flex items-center gap-10">
               <ArrowLeft
                 className="cursor-pointer"
@@ -46,7 +46,7 @@ const Trending: NextPageX = () => {
               </p> */}
             </div>
           </section>
-          <aside className="w-[30%] pb-[80px] max-w-[325px] flex flex-col gap-6">
+          <aside className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6">
             <DownloadApp />
             <DiscoverPeople />
             <CompanyInfo />
