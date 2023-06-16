@@ -28,9 +28,9 @@ const Communities: NextPageX = () => {
         <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1209px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-w-[689px] flex flex-col gap-[27px]"
+            className="w-[70%] max-[790px]:flex-1 overflow-auto max-w-[689px] flex flex-col gap-[27px]"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex max-[300px]:flex-col max-[300px]:items-start items-center justify-between">
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 Communities
               </p>
@@ -38,10 +38,14 @@ const Communities: NextPageX = () => {
                 role="button"
                 className="py-4 bg-duduzili-violet rounded-[32px] px-6 flex items-center gap-1"
                 onClick={open}
+                style={{paddingInline: "clamp(5px, 1.6vw, 24px)", paddingBlock: "clamp(2px, 1.4vw, 16px)", fontSize: "clamp(12px, 0.98vw, 16px)"}}
               >
                 <Add size="24" color="#FFFFFF" variant="Outline" />
-                <span className="font-medium leading-[19px] text-white">
+                <span className="font-medium max-[860px]:hidden leading-[19px] text-white">
                   Create Community
+                </span>
+                <span className="font-medium hidden max-[860px]:inline-block leading-[19px] text-white">
+                  Create
                 </span>
               </p>
             </div>
@@ -66,7 +70,7 @@ const Communities: NextPageX = () => {
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] pb-[80px] overflow-auto max-w-[440px] flex flex-col gap-8"
+            className="w-[30%] pb-[80px] overflow-auto max-[790px]:hidden min-w-[300px] max-w-[400px] flex flex-col gap-8"
           >
             <TextInput
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}

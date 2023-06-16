@@ -39,7 +39,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
           <p className="font-bold text-[18px] leading-[24px] text-[#2A2A2A]">
             {community?.name}
           </p>
-          <div className="flex items-center gap-[19px]">
+          <div className="flex max-[400px]:flex-col max-[400px]:items-start items-center gap-[19px]">
             <div className="flex">
               {community?.members_photo?.map(
                 (item, index) =>

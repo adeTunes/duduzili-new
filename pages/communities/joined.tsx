@@ -21,11 +21,11 @@ const {back} = useRouter()
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1121px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1121px] justify-between pt-[3vh] gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-w-[718px] flex flex-col gap-[27px]"
+            className="w-[70%] overflow-auto max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[718px] flex flex-col gap-[27px]"
           >
             <div onClick={back} className="flex cursor-pointer items-center gap-10">
               <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />

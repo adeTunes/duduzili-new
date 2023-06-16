@@ -81,7 +81,7 @@ function Header() {
   return (
     <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
       <Link href="/home">
-        <div className="h-[49px]">
+        <div style={{height: "clamp(35px, 2.5vw, 49px)"}}>
           <img src="/logo.png" alt="duduzili logo" className="h-full" />
         </div>
       </Link>
