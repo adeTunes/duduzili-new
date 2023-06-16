@@ -1,3 +1,4 @@
+import { Text } from "@mantine/core";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -15,7 +16,7 @@ function PostText({
     <p className="text-[14px] leading-[38px]">
       {!usage || usage === "post" ? (
         <Link href={`/posts/${postId}`} className="cursor-ponter">
-          {text}
+          <Text lineClamp={6}>{text}</Text>
         </Link>
       ) : (
         text

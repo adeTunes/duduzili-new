@@ -122,10 +122,8 @@ function ShareOptions({
       <Menu.Target>
         <div className="flex items-center gap-2">
           <Icon
-            className="cursor-pointer"
+            className={clsx(size ? "h-4 w-4" : "h-6 w-6", "max:[360px]:w-4 max:[360px]:h-4")}
             icon="material-symbols:google-plus-reshare"
-            height={24 ?? size}
-            width={24 ?? size}
             color="#2a2a2a"
           />
           <p className=" text-[14px] text-[#2A2A2A] leading-[17px]">

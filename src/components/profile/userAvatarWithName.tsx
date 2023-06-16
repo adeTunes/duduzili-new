@@ -20,10 +20,10 @@ function UserAvatarWithName({ fullName, height, width, username, image }: Props)
         />
       </div>
       <div className="flex flex-col gap-[2px]">
-        <p className="text-[18px] font-semibold text-[#222222] leading-[22px]">
+        <p className="text-[18px] max-[390px]:text-[15px] font-semibold text-[#222222] leading-[22px]">
           {fullName}
         </p>
-        <p className="text-[14px] leading-[17px] text-[#2A2A2A]">@{username}</p>
+        <p className="text-[14px] leading-[17px] max-[390px]:text-[12px] text-[#2A2A2A]">@{username}</p>
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ function DiscoverPeople() {
             Suggested for you
           </p>
           <div className="flex flex-col gap-6">
-            <div className="flex flex-col">
+            <div className="flex flex-col max-[1125px]:text-[13px]">
               {data?.users?.map(
                 (item, idx) =>
                   idx < 5 && !item?.is_following && (
@@ -91,7 +91,7 @@ function DiscoverPeople() {
             Friends
           </p>
           <div className="flex flex-col gap-6">
-            <div className="flex flex-col">
+            <div className="flex flex-col max-[1125px]:text-[13px]">
               {friends?.map(
                 (item, idx) =>
                   idx < 5 && (

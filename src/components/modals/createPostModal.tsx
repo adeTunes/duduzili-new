@@ -38,9 +38,10 @@ function CreatePostModal({ opened, close }) {
       size="lg"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 rounded-[24px]",
+        content: "py-6 px-8 max-[390px]:px-3 rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
+        body: "max-[390px]:px-0"
       }}
       styles={{
         content: {
@@ -63,13 +64,13 @@ function CreatePostModal({ opened, close }) {
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
-        <div className="flex flex-col gap-8 mb-[86px]">
+        <div className="flex flex-col gap-8 mb-[86px] max-[390px]:mb-[30px]">
           <div className="flex flex-col gap-2">
             <Textarea
               placeholder="Create a post. Share a moment. Tell people what's on your mind"
               classNames={{
                 input:
-                  "!border-none text-[20px] leading-7 text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
+                  "!border-none text-[20px] leading-7 max-[390px]:placeholder:text-[16px] text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
               }}
               h="auto"
               autosize
@@ -85,25 +86,21 @@ function CreatePostModal({ opened, close }) {
           : null
         }
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
+            <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
               <Icon
                 icon="ph:smiley-bold"
                 color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
+                className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
               />
             </div>
             <label
               htmlFor="image-file"
-              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="ic:outline-image"
                 color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
+                className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
               />
               <FileInput
                 hidden
@@ -122,14 +119,12 @@ function CreatePostModal({ opened, close }) {
             </label>
             <label
               htmlFor="video-file"
-              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="mdi:video-outline"
                 color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
+                className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
               />
               <FileInput
                 hidden
@@ -140,8 +135,8 @@ function CreatePostModal({ opened, close }) {
                 }}
               />
             </label>
-            <label htmlFor="audio-file" className="px-4 py-2 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare size="24" color="#2A2A2A" variant="Outline" />
+            <label htmlFor="audio-file" className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
+              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#2A2A2A" variant="Outline" />
               <FileInput
                 hidden
                 id="audio-file"

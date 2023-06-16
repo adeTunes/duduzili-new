@@ -106,8 +106,9 @@ function PersonalPostOptions({ setLoading, open, post }: {setLoading: any, open:
             item.name.toLocaleLowerCase().includes("delete")
               ? "text-[#D40000]"
               : "text-[#2A2A2A]",
-            "flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+            "flex items-center whitespace-nowrap py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
           )}
+          style={{paddingInline: "clamp(10px, 0.5vw, 20px)"}}
         >
           {item.icon}
           {item.name}

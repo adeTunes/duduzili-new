@@ -24,7 +24,7 @@ function CreatePost() {
         onClick={open}
       >
         <p className="text-[#757575]">Create a post</p>
-        <div className="flex items-center gap-3 ">
+        <div className="flex items-center max-[400px]:hidden gap-3 ">
           <Icon icon="ic:outline-image" height={24} width={24} />
           <Icon icon="ic:outline-videocam" height={24} width={24} />
           <AudioSquare size="24" variant="Outline"/>

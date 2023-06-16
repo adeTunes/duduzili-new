@@ -67,7 +67,7 @@ function PostAudio({
       </p>
       <img
         src="/homePage/sound-wave.png"
-        className="w-[40%] object-cover self-center"
+        className="w-[40%] min-w-[70px] object-cover self-center"
         alt="audio post logo"
       />
       <div

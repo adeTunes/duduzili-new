@@ -1,7 +1,7 @@
 import { pageSearch, userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Indicator, TextInput, clsx } from "@mantine/core";
-import { Home, Profile2User, SearchNormal1, Sms, TrendUp } from "iconsax-react";
+import { HambergerMenu, Home, Profile2User, SearchNormal1, Sms, TrendUp } from "iconsax-react";
 import { useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -66,14 +66,14 @@ function Header() {
   const [search, setSearch] = useState("");
   const [searchValue] = useDebouncedValue(search, 500);
   const setPageSearch = useSetAtom(pageSearch);
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (searchValue) {
-      setPageSearch(searchValue); 
-      if(pathname !== "/search") {
-        queryClient.invalidateQueries(["search-result", searchValue])
-        push(`/search?q=${searchValue}`)
+      setPageSearch(searchValue);
+      if (pathname !== "/search") {
+        queryClient.invalidateQueries(["search-result", searchValue]);
+        push(`/search?q=${searchValue}`);
       }
     }
   }, [searchValue]);
@@ -86,17 +86,19 @@ function Header() {
         </div>
       </Link>
       <TextInput
+      className="max-[580px]:hidden"
         placeholder="Search Duduzili"
         icon={<Icon icon="mingcute:search-line" height={24} width={24} />}
         classNames={{
-          input: "rounded-[32px] h-[47px] w-[320px] border-none bg-[#f4f4f4] pl-[2.6rem]",
+          input:
+            "rounded-[32px] h-[47px] w-[15vw] min-w-[200px] border-none bg-[#f4f4f4] pl-[2.6rem]",
         }}
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
         }}
       />
-      <div className="flex items-center gap-8">
+      <div className="flex max-[790px]:hidden items-center gap-8">
         {navIcons.map(({ href, icon, routeId }, idx) => (
           <div
             key={idx}
@@ -116,6 +118,26 @@ function Header() {
             )}
           </div>
         ))}
+      </div>
+      <div className="hidden max-[790px]:flex h-[75px] items-center gap-5">
+        <HambergerMenu size={24} />
+        <SearchNormal1 size={24} className=" max-[580px]:inline-block" />
+        <UserProfileImageActions unread={unread} setLoading={setLoading}>
+          <Indicator
+            classNames={{ common: "!top-[3px] !right-[6px]" }}
+            color="#E59055"
+            disabled={!!unread}
+          >
+            <img
+              src={
+                user?.user?.photo_url?.substring(62) ||
+                "/profile-pic-default.png"
+              }
+              className="w-10 h-10 cursor-pointer rounded-full object-cover"
+              alt=""
+            />
+          </Indicator>
+        </UserProfileImageActions>
       </div>
       <Loading loading={loading} />
     </header>

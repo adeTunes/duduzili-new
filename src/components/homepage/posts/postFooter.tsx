@@ -63,7 +63,7 @@ function PostFooter({
 
   return ( !router.pathname.includes("/communities/") ?
     <div className="flex items-center justify-between">
-      <div className="flex w-[241px] items-center py-3 px-4 gap-10 bg-[#F4F4F4] rounded-[40px]">
+      <div className="flex w-[241px] max-[480px]:w-fit items-center py-3 px-4 gap-10 max-[480px]:gap-5 max-[292px]:gap-3 bg-[#F4F4F4] rounded-[40px]">
         <div
           onClick={() => {
             if (!user?.token) return setOpenAuth(true);
@@ -74,15 +74,14 @@ function PostFooter({
               } else queryClient.invalidateQueries(["single-posts", query.id]);
             });
           }}
-          className="flex items-center gap-2"
+          className="flex items-center cursor-pointer gap-2"
         >
           {loadActions ? (
             <Loader size="sm" />
           ) : (
             <>
               <Heart
-                className="cursor-pointer"
-                size="24"
+                className="max-[360px]:w-[16px] max-[360px]:h-[16px]"
                 color={iLikeThisPost ? "#F5597F" : "#000000"}
                 variant={iLikeThisPost ? "Bold" : "Outline"}
               />
@@ -100,8 +99,7 @@ function PostFooter({
           className="cursor-ponter flex items-center gap-2"
         >
           <MessageText
-            className="cursor-pointer"
-            size="24"
+            className="max-[360px]:w-[16px] max-[360px]:h-[16px]"
             color="#2A2A2A"
             variant="Outline"
           />
@@ -122,7 +120,7 @@ function PostFooter({
             "bg-[#367EE8] rounded-[40px] py-2 px-4 flex items-center gap-2"
           )}
         >
-          <TicketStar size="24" color="white" />
+          <TicketStar className="max-[360px]:w-[16px] max-[360px]:h-[16px]" color="white" />
           <p className="text-white">{sticker.length}</p>
         </div>
       )}

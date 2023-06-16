@@ -26,11 +26,12 @@ function PostOptions({ post, setLoading }) {
       width={200}
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !min-w-[20vw]",
+        dropdown: "!py-0 !rounded-[24px] !w-[auto] !min-w-[20vw]",
       }}
       styles={{
         dropdown: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
+          paddingInline: "clamp(5px, 1vw, 24px) !important"
         },
         item: {
           "&[data-hovered]": {

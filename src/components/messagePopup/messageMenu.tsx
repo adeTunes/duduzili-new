@@ -41,15 +41,14 @@ function MessageMenu() {
       <Menu.Target>
         <div
           role="button"
-          className=" bg-[#4534B8] z-[400] relative rounded-[32px] px-6 py-3 flex items-center gap-2"
+          className=" bg-[#4534B8] z-[400] relative rounded-[32px] px-6 py-3 max-[500px]:py-[6px] max-[500px]:px-3 flex items-center gap-2"
         >
           <Icon
             icon="ci:chat-conversation"
-            height={36}
-            width={36}
+            className="w-[36px] h-[36px] max-[500px]:w-[20px] max-[500px]:h-[20px]"
             color="white"
           />
-          <p className="py-1 px-3 rounded-full bg-[#E59055] text-[15px] text-white">
+          <p className="py-1 px-3 max-[500px]:py-[2px] max-[500px]:px-[8px] rounded-full bg-[#E59055] text-[15px] text-white">
             {user?.number_of_messages}
           </p>
         </div>

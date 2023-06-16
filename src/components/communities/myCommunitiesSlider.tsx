@@ -1,12 +1,6 @@
-import { Icon } from "@iconify/react";
-import { Profile2User } from "iconsax-react";
 import React from "react";
 import { Slider } from "../carousel";
-import { useAtomValue, useSetAtom } from "jotai";
-import { toggleCommunityPreview, userDetails } from "@/store";
 import Link from "next/link";
-import useCommunityList from "../../../hooks/useCommunityList";
-import useCommunityJoined from "../../../hooks/useCommunitiesJoined";
 
 function MyCommunitiesSlider({joined}) {
 

@@ -17,17 +17,17 @@ function PostHeader({ post }) {
   const [openAuthModal, setOpenAuth] = useState(false);
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-4">
+    <div className="flex items-center max-[440px]:items-start justify-between">
+      <div className="flex items-center max-[440px]:items-start gap-4">
         <div
           onClick={() => {
             if (!loggedInUser?.token) return setOpenAuth(true);
-              post?.user?.id !== loggedInUser?.user?.id &&
+            post?.user?.id !== loggedInUser?.user?.id &&
               push(`/friend/${post?.user?.id}/post`);
           }}
           className={clsx(
             post?.user?.id !== loggedInUser?.user?.id && "cursor-pointer",
-            "h-[56px] w-[56px]"
+            "h-[56px] w-[56px] max-[480px]:h-[45px] max-[480px]:w-[45px]"
           )}
         >
           <img
@@ -37,21 +37,23 @@ function PostHeader({ post }) {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <p className="flex items-center gap-2">
-            <span className="text-[#2A2A2A] font-semibold text-[18px]">
+          <p className="flex items-center max-[440px]:flex-col max-[440px]:items-start gap-2">
+            <span className="text-[#2A2A2A] max-[480px]:text-[14px] font-semibold text-[18px]">
               {`${user?.first_name} ${user?.last_name}`}
             </span>
-            <span className=" text-duduzili-blue">@{user?.username}</span>
+            <span className=" text-duduzili-blue max-[480px]:text-[12px]">
+              @{user?.username}
+            </span>
           </p>
           <span className="flex items-center gap-[10px]">
-            <small>
+            <small className="max-[480px]:text-[70%]">
               {new Date(date)
                 ?.toLocaleDateString("us-EN", { month: "long", day: "numeric" })
                 ?.split(" ")
                 ?.reverse()
                 ?.join(" ")}
             </small>
-            <span className="bg-[#2A2A2A] text-[14px] text-white px-2 rounded-2xl py-1">
+            <span className="bg-[#2A2A2A] text-[14px] max-[480px]:text-[11px] text-white px-2 rounded-2xl py-1">
               {day.includes("now")
                 ? day
                 : day.includes("day") ||
@@ -65,7 +67,9 @@ function PostHeader({ post }) {
         </div>
       </div>
       {loggedInUser?.token && (
-        <PostOptions setLoading={setLoading} post={post} />
+        <div className="relative">
+          <PostOptions setLoading={setLoading} post={post} />
+        </div>
       )}
       <Loading loading={loading} />
       <UnAuthenticaticatedUserModal

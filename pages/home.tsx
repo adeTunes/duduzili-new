@@ -32,11 +32,11 @@ const HomePage: NextPageX = () => {
       <div className="bg-white">
         {user?.token ? <Header /> : <HeaderUnauthenticated />}
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] max-w-[1121px] justify-between h-full overflow-auto pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] max-w-[1121px] justify-between h-full overflow-auto pt-[50px] gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] pb-[50px] overflow-auto max-w-[718px] flex flex-col gap-12"
+            className="w-[70%] pb-[50px] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[718px] flex flex-col gap-12"
           >
             {user?.token && showCommunityPreview && <CommunityPreview />}
             {user?.token && <CreatePost />}
