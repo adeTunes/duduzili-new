@@ -119,7 +119,7 @@ const Messages: NextPageX = () => {
         className="flex flex-1 overflow-auto flex-col py-2 bg-white rounded-2xl"
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
       >
-        {/* {chatList?.map((item, idx) => (
+        {chatList?.map((item, idx) => (
           <MessageCard
             onClick={() => {
               setSelectedMessage(JSON.stringify(item));
@@ -129,11 +129,11 @@ const Messages: NextPageX = () => {
             text={" "}
             date={" "}
             name={`${item?.first_name} ${item?.last_name}`}
-            unread={0}
+            unread={"0"}
             key={idx}
           />
-        ))} */}
-        {messages.map(
+        ))}
+        {/* {messages.map(
           (
             item,
             idx
@@ -149,7 +149,7 @@ const Messages: NextPageX = () => {
               key={idx}
             />
           )
-        )}
+        )} */}
       </div>
       <SearchDrawer opened={opened} close={close} />
     </div>

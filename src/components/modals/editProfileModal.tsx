@@ -50,17 +50,16 @@ function EditProfileModal({ opened, close }) {
   const [source, setSource] = useState<string | ArrayBuffer>(
     "/homePage/profile-picture.png"
   );
-  const [coverImage, setCoverImage] = useState("")
+  const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (user?.user?.photo_url?.substring(62))
       setSource(user?.user?.photo_url?.substring(62));
     else setSource("/profile-pic-default.png");
   }, []);
-  
+
   useEffect(() => {
-    if (user?.user?.get_cover_image)
-      setCoverImage(user?.user?.get_cover_image);
+    if (user?.user?.get_cover_image) setCoverImage(user?.user?.get_cover_image);
     else setCoverImage("/communities/community-picture.png");
   }, []);
 
@@ -92,13 +91,14 @@ function EditProfileModal({ opened, close }) {
 
   return (
     <Modal
-      size="61.483vw"
+      size="lg"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 rounded-[24px] flex flex-col overflow-auto",
+        content:
+          "py-6 px-8 rounded-[24px] max-[390px]:px-3 flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "overflow-auto grid grid-rows-[1fr_auto]",
+        body: "overflow-auto grid max-[390px]:px-0 grid-rows-[1fr_auto]",
       }}
       styles={{
         content: {
@@ -110,7 +110,10 @@ function EditProfileModal({ opened, close }) {
       title="Edit Profile"
       centered
     >
-      <div className="flex flex-col gap-5 mt-[60px] overflow-auto">
+      <div
+        id="no-scroll"
+        className="flex flex-col gap-5 mt-[3vh] overflow-auto"
+      >
         <div className="flex flex-col">
           <div className="h-[240px] relative">
             <div className=" h-full w-full absolute flex items-center justify-center">
@@ -136,6 +139,8 @@ function EditProfileModal({ opened, close }) {
             <div
               className="w-[150px] h-[150px] !bg-cover !bg-no-repeat !bg-[center_top] mt-[-70px] rounded-full flex items-center justify-center relative"
               style={{
+                width: "clamp(80px, 9.8vw, 150px)",
+                height: "clamp(80px, 9.8vw, 150px)",
                 background: `url(${source})`,
                 backgroundPosition: "top center",
                 backgroundRepeat: "no-repeat",
@@ -157,7 +162,7 @@ function EditProfileModal({ opened, close }) {
           </div>
         </div>
         <div className="flex flex-col gap-8">
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 max-[540px]:grid-cols-1 gap-8">
             <TextInput
               classNames={inputStyles}
               label="First Name"

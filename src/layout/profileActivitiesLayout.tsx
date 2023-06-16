@@ -30,22 +30,22 @@ function ProfileActivitiesLayout({
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1139px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1139px] justify-between pt-[3vh] gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-w-[726px] flex flex-col gap-[34px]"
+            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[34px]"
           >
             <div
               onClick={back}
               className="flex cursor-pointer items-center gap-10"
             >
               <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
+              <p className="text-[#2A2A2A] max-[500px]:text-[18px] leading-[29px] text-[24px] font-bold">
                 {`${user?.user?.first_name} ${user?.user?.last_name}`}
               </p>
             </div>
-            <div className="p-2 flex flex-col gap-8">
+            <div className="flex flex-col gap-8">
               <PersonalInformation user={user?.user} />
               <div className="flex flex-col gap-6">
                 <ProfileActivities />
@@ -55,7 +55,7 @@ function ProfileActivitiesLayout({
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] max-[790px]:hidden pb-[80px] overflow-auto min-w-[300px] max-w-[400px] flex flex-col gap-6"
           >
             <div className="flex flex-col gap-4">
               <p className="text-[#2A2A2A] text-[18px] leading-[22px] font-bold">My Wallet</p>

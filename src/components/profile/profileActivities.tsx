@@ -24,7 +24,7 @@ function ProfileActivities() {
   ];
   const { pathname } = useRouter();
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-wrap justify-between">
       {tabs.map((item, idx) => (
         <Link href={item.href} key={idx}>
           <p
