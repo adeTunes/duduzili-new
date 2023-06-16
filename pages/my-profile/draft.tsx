@@ -6,6 +6,7 @@ import PostsContainer from "@/components/homepage/posts/postsContainer";
 import ShowMoreButton from "@/components/showMoreButton";
 import { useEffect } from "react";
 import useUserActivities from "../../hooks/useUserDrafts";
+import EmptyComponent from "@/components/emptyComponent";
 
 const Draft: NextPageX = () => {
   const user: any = useAtomValue(userDetails);
@@ -27,7 +28,10 @@ const Draft: NextPageX = () => {
           <PostsContainer key={idx} post={item} />
         ))}
       </div>
-      {!data?.drafts?.length && <p className="text-center">No Drafts yet</p>}
+      {!data?.drafts?.length && <EmptyComponent
+          className="max-w-[275px]"
+          text="You have no post in draft"
+        />}
       {/* <ShowMoreButton /> */}
     </>
   );

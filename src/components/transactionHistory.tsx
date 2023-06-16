@@ -5,24 +5,29 @@ import { useEffect, useMemo, useState } from "react";
 import { usePagination, useRowSelect, useTable } from "react-table";
 import useTransactionHistory from "../../hooks/useTransactionHistory";
 import dayjs from "dayjs";
-import LocalizedFormat from "dayjs/plugin/localizedFormat"
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
 
 const TransactionHistory = () => {
   const [activepage, setActivePage] = useState(1);
   const [selected, setSelected] = useState([]);
   const { data } = useTransactionHistory();
 
-  const [transactions, setTransactions] = useState([])
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    if(data) {
-      setTransactions(data?.data?.reduce((acc,item) => {
-        dayjs.extend(LocalizedFormat)
-        acc.push({...item, date_of_transaction: dayjs(item?.date_of_transaction).format('ll')})
-        return acc
-      }, []))
+    if (data) {
+      setTransactions(
+        data?.data?.reduce((acc, item) => {
+          dayjs.extend(LocalizedFormat);
+          acc.push({
+            ...item,
+            date_of_transaction: dayjs(item?.date_of_transaction).format("ll"),
+          });
+          return acc;
+        }, [])
+      );
     }
-  }, [data])
+  }, [data]);
 
   const CategoryColumn = useMemo(
     () => [
@@ -92,9 +97,10 @@ const TransactionHistory = () => {
   const { pageIndex, pageSize } = state as any;
 
   return (
-    <div className=" grid grid-rows-[1fr_auto]">
-      <div className="">
-        <table
+    <div className="flex flex-1 flex-col">
+      {transactions?.length ? (
+        <div className="flex-1">
+          <table
           {...getTableProps()}
           className="bg-[white] text-sm font-normal text-[#514747] w-full"
         >
@@ -183,7 +189,7 @@ const TransactionHistory = () => {
                         <span
                           style={{
                             background: "rgba(2, 177, 90, 0.15)",
-                            color: "#02B15A"
+                            color: "#02B15A",
                           }}
                           className="w-[81px] text-[12px] leading-[15px] rounded-[32px] flex items-center justify-center h-6"
                         >
@@ -204,8 +210,21 @@ const TransactionHistory = () => {
             })}
           </tbody>
         </table>
-        {!transactions?.length && <p className=" text-center mt-5">No transactions</p>}
-      </div>
+        </div>
+      ) : (
+        <div className="h-full flex-1 bg-white flex items-center justify-center">
+          <div className="flex flex-col items-center gap-6">
+            <img
+              className="w-[200px]"
+              src="/empty-states/pending-requests.png"
+              alt="community list empty"
+            />
+            <p className="text-[#2a2a2a] text-[20px] leading-7 font-bold">
+              Recent transactions will appear here
+            </p>
+          </div>
+        </div>
+      )}
       {/* <TablePagination
           totalPage={cards?.count / 10}
           setPage={setActivePage}

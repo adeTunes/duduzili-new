@@ -6,6 +6,7 @@ import PostsContainer from "../../src/components/homepage/posts/postsContainer";
 import ShowMoreButton from "@/components/showMoreButton";
 import { useEffect } from "react";
 import useUserActivities from "../../hooks/useUserDrafts";
+import EmptyComponent from "@/components/emptyComponent";
 
 const MyProfilePost: NextPageX = () => {
   const user: any = useAtomValue(userDetails);
@@ -26,7 +27,12 @@ const MyProfilePost: NextPageX = () => {
           <PostsContainer key={idx} post={item} />
         ))}
       </div>
-      {!data?.posts?.length && <p className="text-center">No Posts yet</p>}
+      {!data?.posts?.length && (
+        <EmptyComponent
+          className="max-w-[275px]"
+          text="This is a private account. You will see their content when they accept your follow request"
+        />
+      )}
       {/* <ShowMoreButton /> */}
     </>
   );

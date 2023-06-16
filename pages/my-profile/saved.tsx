@@ -6,6 +6,7 @@ import { userDetails, userFollowers, userFollowings } from "@/store";
 import ShowMoreButton from "@/components/showMoreButton";
 import useUserActivities from "../../hooks/useUserDrafts";
 import { useEffect } from "react";
+import EmptyComponent from "@/components/emptyComponent";
 
 const Saved: NextPageX = () => {
   const user: any = useAtomValue(userDetails);
@@ -27,7 +28,10 @@ const Saved: NextPageX = () => {
         ))}
       </div>
       {!data?.saveds?.length && (
-        <p className="text-center">No saved posts yet</p>
+        <EmptyComponent
+        className="max-w-[275px]"
+        text="Your saved posts will appear here"
+      />
       )}
       {/* <ShowMoreButton /> */}
     </>

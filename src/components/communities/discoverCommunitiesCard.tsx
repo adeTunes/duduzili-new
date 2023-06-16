@@ -33,7 +33,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
   };
   return (
     <>
-      <CommunityPicture image={community?.get_logo_url?.substring(62)} />
+      <CommunityPicture image={community?.get_logo_url || "/cover-image.png"} />
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-[9px]">
           <p className="font-bold text-[18px] leading-[24px] text-[#2A2A2A]">
@@ -46,7 +46,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
                   index < 3 && (
                     <img
                       key={index}
-                      src={item}
+                      src={item?.substring(62)}
                       className={clsx(
                         index !== 0 && "ml-[-20px]",
                         "w-[33px] border-[2px] border-white h-[33px] object-cover rounded-full"

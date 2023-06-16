@@ -2,6 +2,7 @@ import { Carousel } from "@mantine/carousel";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Community } from "../../../api/request.types";
+import { clsx } from "@mantine/core";
 
 export function Slider({
   community,
@@ -69,12 +70,15 @@ export function Slider({
               <div className="flex flex-col gap-2">
                 <div className="flex">
                   {item?.members_photo?.map((item, idx) => (
-                    <img
-                      key={idx}
-                      src={item}
-                      className="w-[33px] h-[33px] border-[0.5px] border-white object-cover rounded-full ml-[-20px]"
-                      alt=""
-                    />
+                    <div key={idx} className={clsx(idx !== 0 && "ml-[-20px]", "w-[33px] h-[33px]")}>
+                      <img
+                        
+                        src={item?.substring(62)}
+                        className="w-full h-full object-cover border-[0.5px] border-white rounded-full"
+                        alt=""
+                      />
+
+                    </div>
                   ))}
                 </div>
                 <p className=" text-sm leading-[26px] text-white">

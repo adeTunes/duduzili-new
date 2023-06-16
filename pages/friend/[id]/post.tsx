@@ -24,7 +24,7 @@ const FriendProfilePost: NextPageX = () => {
       {!data?.user?.is_following && data?.user?.is_private ? (
         <EmptyComponent
           className="max-w-[275px]"
-          text="This is a private account. You will see their content when they accept your follow request"
+          text="Your posts will appear here"
         />
       ) : (
         <div className="flex flex-col gap-10 pb-[50px]">

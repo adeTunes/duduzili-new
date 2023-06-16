@@ -49,22 +49,34 @@ const PendingRequestPage: NextPageX = () => {
                 Pending Requests ({requests.length})
               </p>
             </div>
-            {requests?.length ?
-            <div
-              className="bg-white rounded-2xl px-[19px] py-[21px] flex flex-col gap-[18px]"
-              style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-            >
-              <div className="flex flex-col">
-                {requests?.map((item, idx) => (
-                  <JoinRequest key={idx} data={item} />
-                ))}
-              </div>
-              {/* <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
+            {requests?.length ? (
+              <div
+                className="bg-white rounded-2xl px-[19px] py-[21px] flex flex-col gap-[18px]"
+                style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
+              >
+                <div className="flex flex-col">
+                  {requests?.map((item, idx) => (
+                    <JoinRequest key={idx} data={item} />
+                  ))}
+                </div>
+                {/* <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
                 Show more
               </p> */}
-            </div>
-            : <p className="text-center">No pending requests</p>
-            }
+              </div>
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <div className="flex flex-col items-center gap-6">
+                  <img
+                    className="w-[200px]"
+                    src="/empty-states/pending-requests.png"
+                    alt="community list empty"
+                  />
+                  <p className="text-[#2a2a2a] text-[20px] leading-7 font-bold">
+                  Your have no pending request
+                  </p>
+                </div>
+              </div>
+            )}
           </section>
           <aside
             id="no-scroll"

@@ -19,7 +19,7 @@ const Communities: NextPageX = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const { data, isLoading } = useCommunityList(selectedCategory);
   const [allTags, setAllTags] = useState([]);
-  const {back} = useRouter()
+  const { back } = useRouter();
   useEffect(() => {
     if (tags) setAllTags([{ name: "All", description: "" }, ...tags]);
   }, [tags]);
@@ -34,7 +34,10 @@ const Communities: NextPageX = () => {
             id="no-scroll"
             className="w-[70%] overflow-auto max-w-[718px] flex flex-col gap-[27px]"
           >
-            <div onClick={back} className="flex items-center cursor-pointer gap-10">
+            <div
+              onClick={back}
+              className="flex items-center cursor-pointer gap-10"
+            >
               <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
               <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 Discover Communities
@@ -45,7 +48,7 @@ const Communities: NextPageX = () => {
                 <p
                   key={idx}
                   onClick={() => {
-                    setSelectedCategory(item.name === "All"? "": item.name);
+                    setSelectedCategory(item.name === "All" ? "" : item.name);
                     setSelected(idx);
                   }}
                   className={clsx(
@@ -59,15 +62,29 @@ const Communities: NextPageX = () => {
                 </p>
               ))}
             </div>
-            <div className="flex flex-col gap-[50px] pb-[50px]">
-              {data?.results?.map((item, index) => (
+            {data?.results?.length ? (
+              <div className="flex flex-col gap-[50px] pb-[50px]">
+                {data?.results?.map((item, index) => (
                 <DiscoverCommunitiesCard selectedCategory={selectedCategory} key={index} community={item} />
               ))}
-              {!data?.results?.length && <p className="text-center">No communities in this category</p>}
-              {/* <DiscoverCommunitiesCard joined={true} />
+                {/* <DiscoverCommunitiesCard joined={true} />
               <DiscoverCommunitiesCard joined={false} /> */}
-              {data?.count > 20 && <ShowMoreButton />}
-            </div>
+                {data?.count > 20 && <ShowMoreButton />}
+              </div>
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <div className="flex flex-col items-center gap-6">
+                  <img
+                    className="w-[380px]"
+                    src="/empty-states/community.png"
+                    alt="community list empty"
+                  />
+                  <p className="text-[#2a2a2a] text-[20px] leading-7 font-bold">
+                    Community list is empty
+                  </p>
+                </div>
+              </div>
+            )}
           </section>
           <Aside />
           <FixedMessagesButton />

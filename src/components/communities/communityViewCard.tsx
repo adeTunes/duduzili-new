@@ -12,7 +12,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
     <div className="flex flex-col gap-[29px]">
       <CommunityPicture
         tag={community?.data?.category}
-        image={community?.data?.get_logo_url?.substring(62) || "/cover-image.png"}
+        image={community?.data?.get_logo_url || "/cover-image.png"}
       />
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
@@ -40,7 +40,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
             {community?.data?.members_photo?.map((item, idx) => (
               <img
                 key={idx}
-                src={item}
+                src={item?.substring(62)}
                 className={clsx(
                   idx !== 0 && "ml-[-20px]",
                   "w-[33px] h-[33px] object-cover rounded-full"

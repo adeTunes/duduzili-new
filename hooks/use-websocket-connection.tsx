@@ -9,7 +9,7 @@ const useWebsocketConnection: (friend: any) => {ws: WebSocket} = (friend) => {
     if (friend) {
       setWs(
         new WebSocket(
-          `wss://duduzili-staging-server.com.ng/ws/chat/${friend?.username}?token=${user?.token}`
+          `${process.env.NEXT_PUBLIC_SOCKET_URL}/${friend?.username}?token=${user?.token}`
         )
       );
     }
