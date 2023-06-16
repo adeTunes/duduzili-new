@@ -53,7 +53,7 @@ const ResetPassword: NextPageX = () => {
   }
   return (
     <div className="flex-1 flex items-center justify-center">
-      <form onSubmit={handleResetPassword} className="flex flex-col gap-12 w-[45%]">
+      <form onSubmit={handleResetPassword} className="flex flex-col gap-12 w-fit">
         <div className="flex flex-col gap-4">
           <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">
             Reset password
@@ -66,9 +66,9 @@ const ResetPassword: NextPageX = () => {
           <PasswordInput
             autoComplete="off"
             classNames={{
-              innerInput: "h-12",
+              innerInput: "h-12 min-w-[250px]",
               input:
-                "border h-[48px] border-solid border-duduzili-chinese-white rounded-lg",
+                "border h-[48px] border-solid min-w-[250px] border-duduzili-chinese-white rounded-lg",
             }}
             placeholder="Password"
             {...form.getInputProps("new_password")}
@@ -76,9 +76,9 @@ const ResetPassword: NextPageX = () => {
           <PasswordInput
             autoComplete="off"
             classNames={{
-              innerInput: "h-12",
+              innerInput: "h-12 min-w-[250px]",
               input:
-                "border h-[48px] border-solid border-duduzili-chinese-white rounded-lg",
+                "border h-[48px] min-w-[250px] border-solid border-duduzili-chinese-white rounded-lg",
             }}
             placeholder="Confirm password"
             {...form.getInputProps("confirm_password")}

@@ -44,13 +44,13 @@ const ResetPassword: NextPageX = () => {
           data.append("email", email)
           handleVerifyAccount(data);
         }}
-        className="flex flex-col gap-12 w-[45%]"
+        className="flex flex-col gap-12 w-fit"
       >
         <div className="flex flex-col gap-4">
           <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">
             Verify account
           </p>
-          <small className="font-medium leading-6 text-duduzili-gray(X11) text-center">
+          <small className="font-medium leading-6 max-w-[228px] text-duduzili-gray(X11) text-center">
             Enter the 6-digits OTP (One-Time password) sent to your email
           </small>
         </div>
@@ -59,7 +59,13 @@ const ResetPassword: NextPageX = () => {
         required
           length={6}
           classNames={{
-            input: "w-[53px] h-[48px] border border-[#BDBDBD] bg-transparent rounded-[8px]",
+            input: " border border-[#BDBDBD] bg-transparent rounded-[8px]",
+          }}
+          styles={{
+            input: {
+              width: "clamp(30px, 3vw, 53px)",
+              height: "clamp(35px, 4vw, 48px)",
+            }
           }}
           value={otp}
           onChange={setOTP}

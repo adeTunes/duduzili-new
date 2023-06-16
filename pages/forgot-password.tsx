@@ -51,7 +51,7 @@ const ForgotPassword: NextPageX = () => {
             });
           
         }}
-        className="flex flex-col gap-12 w-[45%]"
+        className="flex flex-col max-w-[274px] gap-12 w-fit"
       >
         <div className="flex flex-col gap-4">
           <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">
@@ -68,7 +68,7 @@ const ForgotPassword: NextPageX = () => {
             autoComplete="off"
             classNames={{
               input:
-                "border h-[48px] border-solid border-duduzili-chinese-white rounded-lg",
+                "border h-[5vh] min-w-[250px] border-solid border-duduzili-chinese-white rounded-lg",
             }}
             placeholder="Email address"
             {...form.getInputProps("email")}

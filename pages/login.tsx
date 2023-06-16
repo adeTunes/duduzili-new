@@ -46,7 +46,7 @@ const Home: NextPageX = () => {
           e.preventDefault();
           handleLogin(form.values);
         }}
-        className="flex flex-col gap-12 w-[45%]"
+        className="flex flex-col gap-12 w-fit"
       >
         <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">
           Log In
@@ -57,7 +57,7 @@ const Home: NextPageX = () => {
               autoComplete="off"
               classNames={{
                 input:
-                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid min-w-[250px] border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Email address"
               required
@@ -65,9 +65,9 @@ const Home: NextPageX = () => {
             />
             <PasswordInput
               classNames={{
-                innerInput: "h-[5vh]",
+                innerInput: "h-[5vh] min-w-[250px]",
                 input:
-                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] border-solid min-w-[250px] border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Password"
               required

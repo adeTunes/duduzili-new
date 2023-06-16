@@ -48,7 +48,7 @@ const SignUp: NextPageX = () => {
     }
   };
   return (
-    <div className="flex-1 flex items-center justify-center">
+    <div className="flex-1 flex items-center justify-center px-5 max-[300px]:px-2">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -61,14 +61,14 @@ const SignUp: NextPageX = () => {
           const { confirm_password, ...data } = form.values;
           handleRegister(data);
         }}
-        className="flex flex-col gap-12 w-[45%]"
+        className="flex flex-col gap-12 w-fit"
       >
         <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">
           Sign Up
         </p>
         <div className="flex gap-4 flex-col">
           <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 max-[400px]:grid-cols-1 min-w-[250px] gap-6">
               <TextInput
                 required
                 autoComplete="off"
@@ -105,7 +105,7 @@ const SignUp: NextPageX = () => {
               autoComplete="off"
               classNames={{
                 input:
-                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] min-w-[250px] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               type="email"
               placeholder="Email address"
@@ -116,7 +116,7 @@ const SignUp: NextPageX = () => {
               autoComplete="off"
               classNames={{
                 input:
-                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] min-w-[250px] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Username"
               {...form.getInputProps("username")}
@@ -124,9 +124,9 @@ const SignUp: NextPageX = () => {
             <PasswordInput
               required
               classNames={{
-                innerInput: "h-[5vh]",
+                innerInput: "h-[5vh] min-w-[250px]",
                 input:
-                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] min-w-[250px] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Password"
               {...form.getInputProps("password")}
@@ -134,9 +134,9 @@ const SignUp: NextPageX = () => {
             <PasswordInput
               required
               classNames={{
-                innerInput: "h-[5vh]",
+                innerInput: "h-[5vh] min-w-[250px]",
                 input:
-                  "border h-[5vh] border-solid border-duduzili-chinese-white rounded-lg",
+                  "border h-[5vh] min-w-[250px] border-solid border-duduzili-chinese-white rounded-lg",
               }}
               placeholder="Confirm Password"
               {...form.getInputProps("confirm_password")}
