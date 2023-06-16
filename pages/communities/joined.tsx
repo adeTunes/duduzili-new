@@ -1,29 +1,20 @@
 import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
-import { clsx } from "@mantine/core";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import { NextPageX } from "../../types/next";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DiscoverCommunitiesCard from "@/components/communities/discoverCommunitiesCard";
 import Aside from "@/components/homepage/sidebar";
 import ShowMoreButton from "@/components/showMoreButton";
 import { Loading } from "@/components/loading";
-import useCommunityCategoryList from "../../hooks/useCommunityCategoryList";
-import useCommunityList from "../../hooks/useCommunityList";
 import useCommunityJoined from "../../hooks/useCommunitiesJoined";
 import { useRouter } from "next/router";
 
 const Communities: NextPageX = () => {
-  const [selected, setSelected] = useState(0);
-//   const { data: tags, isLoading: tagsLoading } = useCommunityCategoryList();
-  const [selectedCategory, setSelectedCategory] = useState("");
   const [limit, setLimit] = useState(20)
   const { data, isLoading } = useCommunityJoined(limit);
-  const [allTags, setAllTags] = useState([]);
-//   useEffect(() => {
-//     if (tags) setAllTags([{ name: "All", description: "" }, ...tags]);
-//   }, [tags]);
+
 const {back} = useRouter()
   return (
     <div className="flex flex-col overflow-auto h-screen">

@@ -157,7 +157,7 @@ export interface Following {
   email: string;
   first_name: string;
   last_name: string;
-  photo_url: null;
+  photo_url: string;
   is_online: boolean;
   bio: string;
   town: null;

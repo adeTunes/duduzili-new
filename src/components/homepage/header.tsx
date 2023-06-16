@@ -1,8 +1,8 @@
-import { userDetails } from "@/store";
+import { pageSearch, userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Indicator, TextInput, clsx } from "@mantine/core";
 import { Home, Profile2User, SearchNormal1, Sms, TrendUp } from "iconsax-react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -10,6 +10,8 @@ import UserProfileImageActions from "./userProfileImageActions";
 import { Loading } from "../loading";
 import Image from "next/image";
 import UseNotifications from "../../../hooks/useNotifications";
+import { useDebouncedValue } from "@mantine/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
@@ -33,7 +35,7 @@ function Header() {
     },
     {
       href: "/trending",
-      icon: <TrendUp size="20" variant="Outline"/>,
+      icon: <TrendUp size="20" variant="Outline" />,
       routeId: "trending",
     },
     {
@@ -59,8 +61,23 @@ function Header() {
       ),
     },
   ];
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchValue] = useDebouncedValue(search, 500);
+  const setPageSearch = useSetAtom(pageSearch);
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    if (searchValue) {
+      setPageSearch(searchValue); 
+      if(pathname !== "/search") {
+        queryClient.invalidateQueries(["search-result", searchValue])
+        push(`/search?q=${searchValue}`)
+      }
+    }
+  }, [searchValue]);
+
   return (
     <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
       <Link href="/home">
@@ -70,8 +87,14 @@ function Header() {
       </Link>
       <TextInput
         placeholder="Search Duduzili"
-        icon={<Icon icon="mingcute:search-line" />}
-        classNames={{ input: "rounded-[32px] border-none bg-[#f4f4f4]" }}
+        icon={<Icon icon="mingcute:search-line" height={24} width={24} />}
+        classNames={{
+          input: "rounded-[32px] h-[47px] w-[320px] border-none bg-[#f4f4f4] pl-[2.6rem]",
+        }}
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
       />
       <div className="flex items-center gap-8">
         {navIcons.map(({ href, icon, routeId }, idx) => (
@@ -81,7 +104,7 @@ function Header() {
               pathname.includes(routeId)
                 ? "border-b-[4px] border-b-[#4534B8] text-[#4534B8]"
                 : "border-b-[4px] border-b-[#fff]",
-              "h-[60px] flex items-center "
+              "h-[75px] flex items-center "
             )}
           >
             {routeId ? (

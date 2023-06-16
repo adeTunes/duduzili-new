@@ -10,7 +10,7 @@ function CompanyInfo() {
             Terms of Services
           </p>
         </Link>
-        <Link href="">
+        <Link href="/privacy-policy">
           <p className="text-[#505050] text-[14px] leading-[17px]">
             Privacy Policy
           </p>

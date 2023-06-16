@@ -6,6 +6,7 @@ import EditProfileModal from "../modals/editProfileModal";
 import { useAtomValue } from "jotai";
 import { userFollowers, userFollowings } from "@/store";
 import Image from "next/image";
+import Link from "next/link";
 
 function PersonalInformation({ user }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -22,10 +23,7 @@ function PersonalInformation({ user }) {
         <div className="flex justify-between items-center pl-8">
           <div className="w-[150px] h-[150px] mt-[-70px]">
             <img
-              src={
-                  user?.photo_url?.substring(62)  ??
-                "/profile-pic-default.png"
-              }
+              src={user?.photo_url?.substring(62) ?? "/profile-pic-default.png"}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />
@@ -54,22 +52,30 @@ function PersonalInformation({ user }) {
             "Hi there! I use Duduzili platform to chat with friends and family, send medias and receive updates!"}
         </p>
         <div className="flex items-center gap-10">
-          <p className="flex items-center gap-2">
-            <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
-              {followers}
-            </span>
-            <span className="text-[12px] leading-[15px] text-[#757575]">
-              Followers
-            </span>
-          </p>
-          <p className="flex items-center gap-2">
-            <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
-              {followings}
-            </span>
-            <span className="text-[12px] leading-[15px] text-[#757575]">
-              Following
-            </span>
-          </p>
+          <Link
+            href={`/followers/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
+          >
+            <p className="flex items-center gap-2">
+              <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
+                {followers}
+              </span>
+              <span className="text-[12px] leading-[15px] text-[#757575]">
+                Followers
+              </span>
+            </p>
+          </Link>
+          <Link
+            href={`/following/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
+          >
+            <p className="flex items-center gap-2">
+              <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
+                {followings}
+              </span>
+              <span className="text-[12px] leading-[15px] text-[#757575]">
+                Following
+              </span>
+            </p>
+          </Link>
         </div>
       </div>
       <EditProfileModal opened={opened} close={close} />

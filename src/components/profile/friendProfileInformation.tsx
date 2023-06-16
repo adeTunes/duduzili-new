@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import FriendProfileOptions from "./friendProfileOptions";
 import Image from "next/image";
+import Link from "next/link";
 
 function FriendProfileInformation({ friendDetails }) {
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,10 @@ function FriendProfileInformation({ friendDetails }) {
         <div className="flex justify-between items-center pl-8">
           <div className="w-[150px] h-[150px] mt-[-70px]">
             <img
-              src={friendDetails?.user?.photo_url?.substring(62) || "/profile-pic-default.png"}
+              src={
+                friendDetails?.user?.photo_url?.substring(62) ||
+                "/profile-pic-default.png"
+              }
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />
@@ -86,22 +90,30 @@ function FriendProfileInformation({ friendDetails }) {
           {friendDetails?.user?.bio}
         </p>
         <div className="flex items-center gap-10">
-          <p className="flex items-center gap-2">
-            <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
-              {friendDetails?.followers}
-            </span>
-            <span className="text-[12px] leading-[15px] text-[#757575]">
-              Followers
-            </span>
-          </p>
-          <p className="flex items-center gap-2">
-            <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
-              {friendDetails?.followings}
-            </span>
-            <span className="text-[12px] leading-[15px] text-[#757575]">
-              Following
-            </span>
-          </p>
+          <Link
+            href={`/followers/${friendDetails?.user?.id}?user=${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
+          >
+            <p className="flex items-center gap-2">
+              <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
+                {friendDetails?.followers}
+              </span>
+              <span className="text-[12px] leading-[15px] text-[#757575]">
+                Followers
+              </span>
+            </p>
+          </Link>
+          <Link
+            href={`/followers/${friendDetails?.user?.id}?user=${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
+          >
+            <p className="flex items-center gap-2">
+              <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
+                {friendDetails?.followings}
+              </span>
+              <span className="text-[12px] leading-[15px] text-[#757575]">
+                Following
+              </span>
+            </p>
+          </Link>
         </div>
       </div>
     </div>

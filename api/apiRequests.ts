@@ -87,6 +87,11 @@ export const uploadCoverImage = (data) => {
 export const uploadCommunityCoverImage = (data) => {
   return API.post("api/v1/rest-auth/community/upload-community-logo", data)
 }
+export const searchEndpoint = (data) => {
+  const formData = new FormData()
+  formData.append("querystring", data)
+  return API.post("/api/v1/rest-auth/make_search/", formData)
+}
 
 // PUT REQUESTS
 

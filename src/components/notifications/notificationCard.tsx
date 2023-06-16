@@ -12,12 +12,13 @@ function NotificationCard({
 }: {
   title: string;
   day: string;
-  action: "like" | "sticker-reward" | "post-comment" | "friend-request";
+  action: "like" | "sticker-reward" | "post-comment" | "friend-request" | "follow";
   unread: boolean;
 }) {
   const icons = {
     like: <Profile size="25" color="#4534B8" variant="TwoTone" />,
     "friend-request": <Profile size="25" color="#4534B8" variant="TwoTone" />,
+    "follow": <Profile size="25" color="#4534B8" variant="TwoTone" />,
     "sticker-reward": <TicketStar size="25" color="#4534B8" />,
     "post-comment": <CommentIcon height="25" width="25" />,
   };
@@ -32,7 +33,7 @@ function NotificationCard({
               unread
                 ? "text-[#2A2A2A] font-semibold"
                 : "text-[#757575] font-medium",
-              "leading-4"
+              "leading-7"
             )} lineClamp={1}>{title}</Text>
             <span className=" leading-[19px] text-[#505050]">
               {day}

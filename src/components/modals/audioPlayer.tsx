@@ -9,6 +9,12 @@ function AudioPlayer({ audio, setAudio }) {
   const [duration, setDuration] = useState(0);
   const [remainingTime, setRemainingTime] = useState(0);
   const [play, setPlay] = useState(false);
+  const [barHeights, setBarHeights] = useState<number[]>([]);
+
+  function mapRange(value, inMin, inMax, outMin, outMax) {
+    return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+  }
+
   useEffect(() => {
     let fileURL;
     if (typeof audio === "object") {
@@ -26,34 +32,48 @@ function AudioPlayer({ audio, setAudio }) {
     };
     newAudio.addEventListener("timeupdate", timeUpdate);
 
+    const audioContext = new AudioContext();
+    const analyserNode = audioContext.createAnalyser();
+    const sourceNode = audioContext.createMediaElementSource(newAudio);
+    sourceNode.connect(analyserNode);
+    analyserNode.connect(audioContext.destination);
+
+    const bufferLength = analyserNode.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    const updateProgress = () => {
+      const currentTime = newAudio.currentTime;
+      const duration = newAudio.duration;
+
+      setProgress(currentTime / duration);
+
+      analyserNode.getByteFrequencyData(dataArray);
+      const barHeights = Array.from(dataArray).map((value) =>
+        mapRange(value, 0, 255, 6, 20)
+      );
+      setBarHeights(barHeights);
+    };
+
+    newAudio.addEventListener("timeupdate", updateProgress);
+
     return () => {
       URL.revokeObjectURL(fileURL);
       audioRef.current?.pause();
       audioRef.current = null;
       newAudio.removeEventListener("loadedmetadata", loadedMetaFn);
       newAudio.removeEventListener("timeupdate", timeUpdate);
+      newAudio.removeEventListener("timeupdate", updateProgress);
+      audioContext.close();
     };
   }, [audio]);
-  useEffect(() => {
-    const audioElement = audioRef.current;
 
-    const updateProgress = () => {
-      const currentTime = audioElement.currentTime;
-      const duration = audioElement.duration;
-
-      setProgress(currentTime / duration);
-    };
-
-    audioElement.addEventListener("timeupdate", updateProgress);
-
-    return () => {
-      audioElement.removeEventListener("timeupdate", updateProgress);
-    };
-  }, []);
   const barsCount = 60; // Adjust this value to control the number of bars
   const bars = Array.from(Array(barsCount)).map((_, index) => {
     const isBlue = index / barsCount <= progress;
-    return <ProgressBar key={index} id={index} isBlue={isBlue} />;
+    const height = barHeights[index] || 6;
+    return (
+      <ProgressBar key={index} id={index} isBlue={isBlue} height={height} />
+    );
   });
   function handleClick() {
     const audio = audioRef.current;

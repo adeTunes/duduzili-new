@@ -51,7 +51,7 @@ function Friends() {
       setNotifications(
         data?.notifications?.reduce((acc, item) => {
           acc.push({
-            title: `${item?.sender?.first_name} ${item?.sender?.first_name} ${item?.notice}: ${item?.post?.text}`,
+            title: `${item?.sender?.first_name} ${item?.sender?.last_name} ${item?.notice}${item?.post?.text ? `: ${item?.post?.text}` : ""}`,
             day: item?.date?.includes("now")
               ? item?.date
               : item?.date?.includes("day") ||
