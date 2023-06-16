@@ -13,8 +13,8 @@ function SettingsOutlineButton({
     <div
       role="button"
       onClick={action}
-      style={{ color, border: `1px solid ${color}` }}
-      className="px-4 py-2 rounded-[32px] text-[12px] leading-[15px]"
+      style={{ color, paddingInline: "clamp(10px, 1vw, 16px)", border: `1px solid ${color}` }}
+      className="whitespace-nowrap max-[400px]:ml-[56px] py-2 rounded-[32px] text-[12px] leading-[15px]"
     >
       {text}
     </div>

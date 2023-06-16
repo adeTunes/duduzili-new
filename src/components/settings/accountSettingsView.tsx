@@ -14,12 +14,12 @@ function AccountSettingsView(props) {
     bg,
   } = props;
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3 max-[402px]:flex-col max-[402px]:items-start justify-between">
+      <div className="flex gap-4">
         <div
           className={clsx(
             bg ?? "bg-[#F6F5FB]",
-            "h-10  flex items-center justify-center w-10 rounded-full"
+            "h-10 min-h-[40px] min-w-[40px] flex items-center justify-center w-10 rounded-full"
           )}
         >
           {icon}

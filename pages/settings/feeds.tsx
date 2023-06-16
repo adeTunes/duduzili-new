@@ -68,12 +68,12 @@ const Feeds: NextPageX = () => {
         className="flex flex-col gap-[25px] px-4 py-6 rounded-lg bg-white"
       >
         {feedsSettings.map((item, idx) => (
-          <div key={idx} className="flex items-center justify-between">
+          <div key={idx} className="flex items-center gap-3 justify-between">
             <div className="flex items-center gap-4">
               <div
                 className={clsx(
                   "bg-[#F6F5FB]",
-                  "h-10  flex items-center justify-center w-10 rounded-full"
+                  "h-10 min-w-[40px] min-h-[40px] flex items-center justify-center w-10 rounded-full"
                 )}
               >
                 {item.icon}

@@ -79,7 +79,7 @@ const Notifications: NextPageX = () => {
   ];
 
   return (
-    <div className="flex overflow-auto flex-1 flex-col gap-[22px]">
+    <div id="no-scroll" className="flex overflow-auto flex-1 flex-col gap-[22px]">
       <div className="flex flex-col gap-[10px]">
         <NotificationSettingsBox
           settingsArr={notificationsMessageSettings}

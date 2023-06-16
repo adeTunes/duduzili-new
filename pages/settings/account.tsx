@@ -128,7 +128,7 @@ const Messages: NextPageX = () => {
 
 
   return (
-    <div className="flex overflow-auto flex-1 flex-col gap-[22px]">
+    <div id="no-scroll" className="flex overflow-auto flex-1 flex-col gap-[22px]">
       <div
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
         className="flex flex-col gap-[25px] px-4 py-6 rounded-lg bg-white"

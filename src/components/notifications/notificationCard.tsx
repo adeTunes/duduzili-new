@@ -25,7 +25,7 @@ function NotificationCard({
   return (
     <div className="flex items-center justify-between py-4 border-b border-b-[#DFDFDF]">
       <div className="flex items-center gap-4">
-        <div className="bg-[#F6F5FB] h-[50px]  flex items-center justify-center w-[50px] rounded-full">
+        <div className="bg-[#F6F5FB] h-[50px] min-w-[50px] min-h-[50px] flex items-center justify-center w-[50px] rounded-full">
           {icons[action]}
         </div>
         <div className="flex flex-col gap-2">
@@ -34,7 +34,7 @@ function NotificationCard({
                 ? "text-[#2A2A2A] font-semibold"
                 : "text-[#757575] font-medium",
               "leading-7"
-            )} lineClamp={1}>{title}</Text>
+            )} lineClamp={4}>{title}</Text>
             <span className=" leading-[19px] text-[#505050]">
               {day}
             </span>
