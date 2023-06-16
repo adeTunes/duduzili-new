@@ -125,11 +125,12 @@ function LeaveCommunity({ code, name, isOwner }) {
       width={200}
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !min-w-[20vw]",
+        dropdown: "!py-6 !rounded-[24px] !w-[auto] !min-w-[20vw]",
       }}
       styles={{
         dropdown: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
+          paddingInline: "clamp(5px, 1vw, 24px) !important"
         },
         item: {
           "&[data-hovered]": {
@@ -140,7 +141,7 @@ function LeaveCommunity({ code, name, isOwner }) {
       }}
     >
       <Menu.Target>
-        <p className=" bg-duduzili-orange h-[56px] pl-8 pr-6 flex items-center rounded-[32px] cursor-pointer">
+        <p style={{paddingInline: "clamp(6px, 1.5vw, 32px)", height: "clamp(40px, 3.6vw, 56px)"}} className=" bg-duduzili-orange flex items-center rounded-[32px] cursor-pointer">
           <span className="border-r border-r-[#fff] text-white font-medium pr-[7px] py-4">
             Leave
           </span>

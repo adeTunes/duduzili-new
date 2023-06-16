@@ -3,11 +3,13 @@ import React from "react";
 import MessageSent from "./messageSent";
 import SendMessage from "./sendMessage";
 import GroupMessageReceived from "./groupMessageReceived";
-import { clsx } from "@mantine/core";
+import { Text, Textarea, clsx } from "@mantine/core";
 import GroupAudioReceived from "./groupAudioReceived";
 import GroupSingleEmojiReceived from "./groupSingleEmojiReceived";
 import AudioSent from "./audioSent";
 import Image from "next/image";
+import AttachMedia from "./attach-media";
+import { useForm } from "@mantine/form";
 
 function GroupChatBox() {
   const images = [
@@ -15,6 +17,13 @@ function GroupChatBox() {
     "/message/friend-avatar-3.png",
     "/message/friend-avatar-2.png",
   ];
+
+  const form = useForm({
+    initialValues: {
+      text: "",
+    },
+  });
+
   return (
     <>
       <div className="flex overflow-auto flex-1 flex-col gap-6">
@@ -38,12 +47,12 @@ function GroupChatBox() {
               ))}
             </div>
             <div className="flex flex-col gap-[2px]">
-              <p className="text-[18px] font-semibold text-[#222222] leading-[22px]">
+              <Text lineClamp={1} className="text-[18px] font-semibold text-[#222222] leading-[22px]">
                 You, Jane Doe and Frank Muller
-              </p>
-              <p className="text-[14px] leading-[17px] text-[#2A2A2A]">
+              </Text>
+              <Text lineClamp={1} className="text-[14px] leading-[17px] text-[#2A2A2A]">
                 @frank_dmuller, @janedoe, @jamesbruce
-              </p>
+              </Text>
             </div>
           </div>
           <Icon
@@ -55,12 +64,80 @@ function GroupChatBox() {
         </div>
         <div id="messages" className="flex flex-1 overflow-auto flex-col gap-5">
           <GroupMessageReceived />
-          <MessageSent text="" time="" />
+          <MessageSent text="gjuguy yfy yfujf" time="" />
           <GroupAudioReceived />
           <GroupSingleEmojiReceived />
           <AudioSent />
         </div>
-        <SendMessage friendUsename="" />
+        <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.reset();
+          // handleSendMessage();
+        }}
+        className="flex items-center justify-between gap-4"
+      >
+        <div className="flex pl-6 items-center gap-4 flex-1 bg-[#EDF0FB] rounded-[40px]">
+          <div className="flex items-center max-[590px]:hidden gap-3">
+            <Icon
+              icon="ph:smiley-bold"
+              color="#4534b8"
+              width={24}
+              height={24}
+              className="cursor-pointer"
+            />
+            <Icon
+              icon="ic:outline-image"
+              color="#4534b8"
+              width={24}
+              height={24}
+              className="cursor-pointer"
+            />
+            <Icon
+              icon="mdi:video-outline"
+              color="#4534b8"
+              width={24}
+              height={24}
+              className="cursor-pointer"
+            />
+            <Icon
+              icon="ant-design:audio-outlined"
+              color="#4534b8"
+              width={24}
+              height={24}
+              className="cursor-pointer"
+            />
+          </div>
+          <div className="max-[590px]:flex items-center hidden gap-2">
+            <Icon
+              icon="ph:smiley-bold"
+              color="#4534b8"
+              width={20}
+              height={20}
+              className="cursor-pointer"
+            />
+            <AttachMedia />
+          </div>
+          <Textarea
+          id="no-scroll"
+            classNames={{
+              input: "h-[64px] placeholder:text-[12px] !pt-[20px] bg-transparent border-0",
+              root: "flex-1",
+            }}
+            placeholder="Enter your message"
+            {...form.getInputProps("text")}
+          />
+        </div>
+        <button type="submit">
+          <Icon
+            className="cursor-pointer"
+            icon="carbon:send"
+            color="#4534B8"
+            height={32}
+            width={32}
+          />
+        </button>
+      </form>
       </div>
     </>
   );

@@ -12,7 +12,7 @@ function GroupMessageReceived() {
             alt=""
           />
         </div>
-        <div className="bg-[#EDF0FB] rounded-r-2xl rounded-bl-2xl w-[60%] py-2 text-[#2A2A2A] px-4">
+        <div className="bg-[#EDF0FB] rounded-r-2xl rounded-bl-2xl max-[580px]:max-w-[80%] w-fit max-w-[60%] py-2 text-[#2A2A2A] px-4">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua
         </div>

@@ -1,10 +1,27 @@
 import { selectedMessage } from "@/store";
-import { clsx } from "@mantine/core";
+import { Text, clsx } from "@mantine/core";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
 import React from "react";
 
-function GroupChatCard({ image, text, name, date, unread, onClick, id }) {
+function GroupChatCard({
+  image,
+  text,
+  name,
+  date,
+  unread,
+  onClick,
+  id,
+}: {
+  image: string[];
+  text: string;
+  name: string;
+  date: string;
+  unread: string;
+  onClick: () => void;
+  id: string;
+  usage?: string;
+}) {
   const selected = useAtomValue(selectedMessage);
   return (
     <div
@@ -29,12 +46,12 @@ function GroupChatCard({ image, text, name, date, unread, onClick, id }) {
           ))}
         </div>
         <div className="gap-1 flex flex-col">
-          <p className="text-[#222222] font-semibold leading-6">{name}</p>
+          <Text lineClamp={1} className="text-[#222222] font-semibold leading-6">{name}</Text>
           <p className="text-[#2A2A2A] text-xs">{text.slice(0, 30)}...</p>
         </div>
       </div>
       <div className="flex flex-col gap-2 items-center">
-        <p className="text-[#828282] text-[10px] leading-3">{date}</p>
+        <p className="text-[#828282] text-[10px] leading-3 whitespace-nowrap">{date}</p>
         <span
           className={clsx(
             !unread ? "bg-transparent" : "bg-duduzili-orange",

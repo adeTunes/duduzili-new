@@ -19,9 +19,9 @@ const Trending: NextPageX = () => {
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] py-[50px] overflow-auto relative max-w-[1131px] justify-between w-[80%] mx-auto gap-[50px] flex">
-          <section className="w-[70%] overflow-auto max-w-[717px] flex flex-col gap-[34px]">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] max-[790px]:min-w-[98%] py-[50px] overflow-auto relative max-w-[1121px] justify-between pt-[3vh] gap-[50px] flex">
+          <section id="no-scroll" className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[718px] flex flex-col gap-[34px]">
             <div className="flex items-center gap-10">
               <ArrowLeft
                 className="cursor-pointer"
@@ -46,7 +46,7 @@ const Trending: NextPageX = () => {
               </p> */}
             </div>
           </section>
-          <aside className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6">
+          <aside id="no-scroll" className="w-[30%] max-[790px]:hidden pb-[80px] overflow-auto min-w-[300px] max-w-[400px] flex flex-col gap-6">
             <DownloadApp />
             <DiscoverPeople />
             <CompanyInfo />

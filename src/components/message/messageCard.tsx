@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 import Image from "next/image";
 import React from "react";
 
-function MessageCard({ image, text, name, date, unread, onClick, id }) {
+function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { image: string, text: string, name: string, date: string, unread: string, onClick: () => void, id: string, usage?: string }) {
   const selected = useAtomValue(selectedMessage);
   return (
     <div
@@ -13,11 +13,11 @@ function MessageCard({ image, text, name, date, unread, onClick, id }) {
         selected === id
           ? "bg-[#F4F4F4] border-r-[4px] border-r-duduzili-violet"
           : "bg-[#FFFFFF] border-r-[4px] border-r-transparent",
-        "py-2 hover:bg-[#F4F4F4] cursor-pointer px-6 gap-12 flex justify-between"
+        "py-2 hover:bg-[#F4F4F4] cursor-pointer px-6 gap-[3vw] flex justify-between"
       )}
     >
       <div className="flex items-center gap-[19px]">
-        <div className="w-[52px] h-[52px]">
+        <div className={clsx(usage ? "min-w-[40px] w-[40px] h-[40px] min-h-[40px]" : "min-w-[52px] w-[52px] h-[52px] min-h-[52px]")}>
           <img
             src={image}
             className="w-full h-full object-cover rounded-full"
@@ -25,7 +25,7 @@ function MessageCard({ image, text, name, date, unread, onClick, id }) {
           />
         </div>
         <div className="gap-1 flex flex-col">
-          <p className="text-[#222222] font-semibold leading-6">{name}</p>
+          <p className={clsx(usage ? "text-[14px]" : "leading-6", "text-[#222222] font-semibold ")}>{name}</p>
           <Text lineClamp={1} className="text-[#2A2A2A] text-xs">{text}</Text>
         </div>
       </div>

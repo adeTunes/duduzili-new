@@ -119,7 +119,7 @@ const Messages: NextPageX = () => {
         className="flex flex-1 overflow-auto flex-col py-2 bg-white rounded-2xl"
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
       >
-        {chatList?.map((item, idx) => (
+        {/* {chatList?.map((item, idx) => (
           <MessageCard
             onClick={() => {
               setSelectedMessage(JSON.stringify(item));
@@ -132,30 +132,24 @@ const Messages: NextPageX = () => {
             unread={0}
             key={idx}
           />
-        ))}
-        {/* {messages.map(
+        ))} */}
+        {messages.map(
           (
-            {
-              profilePicture,
-              lastMessage,
-              lastMessageDate,
-              name,
-              unreadMessage,
-            },
+            item,
             idx
           ) => (
             <MessageCard
-              onClick={() => setSelectedMessage(idx)}
-              id={idx}
-              image={profilePicture}
-              text={lastMessage}
-              date={lastMessageDate}
-              name={name}
-              unread={unreadMessage}
+              onClick={() => setSelectedMessage(JSON.stringify(item))}
+              id={JSON.stringify(item)}
+              image={item.profilePicture}
+              text={item.lastMessage}
+              date={item.lastMessageDate}
+              name={item.name}
+              unread={item.unreadMessage}
               key={idx}
             />
           )
-        )} */}
+        )}
       </div>
       <SearchDrawer opened={opened} close={close} />
     </div>

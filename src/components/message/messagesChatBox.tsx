@@ -11,6 +11,8 @@ import { selectedMessage, userDetails } from "@/store";
 import WebSocket from "isomorphic-ws";
 import { useForm } from "@mantine/form";
 import useWebsocketConnection from "../../../hooks/use-websocket-connection";
+import { AttachSquare } from "iconsax-react";
+import AttachMedia from "./attach-media";
 
 function MessagesChatBox() {
   const messageFriend = useAtomValue(selectedMessage);
@@ -61,7 +63,7 @@ function MessagesChatBox() {
   };
 
   return friend ? (
-    <div className="flex overflow-auto flex-1 flex-col gap-6">
+    <div id="no-scroll" className="flex overflow-auto flex-1 flex-col gap-6">
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
           <div className="h-[52px] w-[52px]">
@@ -89,7 +91,7 @@ function MessagesChatBox() {
           icon="carbon:overflow-menu-vertical"
         />
       </div>
-      <div id="messages" className="flex flex-1 overflow-auto flex-col gap-5">
+      <div id="messages no-scroll" className="flex flex-1 flex-col gap-5">
         {messages?.map((item) =>
           item?.sender?.id === user?.user?.id ? (
             <MessageSent
@@ -105,24 +107,33 @@ function MessagesChatBox() {
             />
           )
         )}
-        {/* <MessageReceived />
-        <MessageSent />
-        <MessageReceived />
-        <MessageSent />
-        <MessageReceived />
-        <MessageSent />
+        {/* <MessageReceived time={new Date()} text="hello people" />
+        <MessageSent
+          time={new Date()}
+          text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia dicta, veritatis dolore, perspiciatis aliquam quos dolorum hic eveniet dolores odio libero laborum ab quod illum! Facilis voluptas deleniti enim alias dolor nihil quos, dolorem doloribus. Nesciunt nam recusandae eligendi quaerat, molestias accusamus ipsam culpa cupiditate itaque minima labore amet id?"
+        />
+        <MessageReceived time={new Date()} text="hello people" />
+        <MessageSent
+          time={new Date()}
+          text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia dicta, veritatis dolore, perspiciatis aliquam quos dolorum hic eveniet dolores odio libero laborum ab quod illum! Facilis voluptas deleniti enim alias dolor nihil quos, dolorem doloribus. Nesciunt nam recusandae eligendi quaerat, molestias accusamus ipsam culpa cupiditate itaque minima labore amet id?"
+        />
+        <MessageReceived
+          time={new Date()}
+          text="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus fugit illum omnis quia eum nulla ad ea recusandae sapiente tempora."
+        />
+
         <SingleEmojiSent /> */}
       </div>
       <form
         onSubmit={(e) => {
-          e.preventDefault()
+          e.preventDefault();
           form.reset();
           handleSendMessage();
         }}
         className="flex items-center justify-between gap-4"
       >
         <div className="flex pl-6 items-center gap-4 flex-1 bg-[#EDF0FB] rounded-[40px]">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center max-[590px]:hidden gap-3">
             <Icon
               icon="ph:smiley-bold"
               color="#4534b8"
@@ -152,9 +163,21 @@ function MessagesChatBox() {
               className="cursor-pointer"
             />
           </div>
+          <div className="max-[590px]:flex items-center hidden gap-2">
+            <Icon
+              icon="ph:smiley-bold"
+              color="#4534b8"
+              width={20}
+              height={20}
+              className="cursor-pointer"
+            />
+            <AttachMedia />
+          </div>
           <Textarea
+            id="no-scroll"
             classNames={{
-              input: "h-[64px] !pt-[20px] bg-transparent border-0",
+              input:
+                "h-[64px] placeholder:text-[12px] !pt-[20px] bg-transparent border-0",
               root: "flex-1",
             }}
             placeholder="Enter your message"

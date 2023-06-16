@@ -14,6 +14,7 @@ import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import InviteFriends from "@/components/homepage/sidebar/inviteFriends";
 import PendingRequests from "@/components/homepage/sidebar/pendingRequests";
+import Link from "next/link";
 
 const Community: NextPageX = () => {
   const { query, back } = useRouter();
@@ -25,11 +26,11 @@ const Community: NextPageX = () => {
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] h-full overflow-auto py-[50px] relative max-w-[1131px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] h-full overflow-auto py-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
+            className="w-[70%] max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
           >
             <div className="flex flex-col gap-[27px]">
               <div
@@ -57,9 +58,11 @@ const Community: NextPageX = () => {
                   <p className="text-[18px] leading-[22px] font-semibold">
                     Communities
                   </p>
+                  <Link href="/communities/discover">
                   <p className=" font-semibold self-end text-duduzili-violet">
                     View All
                   </p>
+                  </Link>
                 </div>
                 <Slider community={communities?.results} color="#EDF0FB" />
               </div>
@@ -67,7 +70,7 @@ const Community: NextPageX = () => {
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] overflow-auto pb-[80px] max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] max-[790px]:hidden overflow-auto pb-[80px] min-w-[300px] max-w-[400px] flex flex-col gap-6"
           >
             <DownloadApp />
             {data?.data?.is_owner ? (
