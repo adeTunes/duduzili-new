@@ -104,7 +104,7 @@ function PostManyImages({ post }: { post: Post }) {
         align="start"
       >
         {media?.map((Item, idx) => (
-          <Carousel.Slide>
+          <Carousel.Slide key={idx}>
             <Item key={idx} />
           </Carousel.Slide>
         ))}
