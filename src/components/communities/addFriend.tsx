@@ -20,10 +20,10 @@ function AddFriend({ user }) {
           />
         </div>
         <div className="flex flex-col gap-1">
-          <p className=" font-bold leading-[19px] text-[#2A2A2A]">
+          <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
             {user?.first_name} {user?.last_name}
           </p>
-          <p className="text-[#505050] leading-[19px]">@{user?.username}</p>
+          <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">@{user?.username}</p>
         </div>
       </div>
       <p

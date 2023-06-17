@@ -73,14 +73,16 @@ function PrivacyPolicy() {
       </div>
       <div className="flex-1 overflow-auto">
         <main
-          className="bg-[#FBFBFB] flex-col gap-[34px] h-full overflow-auto py-[50px] relative max-w-[1131px] w-[80%] mx-auto flex"
+          className="bg-[#FBFBFB] flex-col gap-[34px] h-full overflow-auto py-[3vh] relative max-w-[1131px] w-[80%] max-[500px]:w-[95%] mx-auto flex"
         >
           <div
             onClick={back}
-            className="flex cursor-pointer items-center gap-10"
+            className="flex cursor-pointer items-center gap-[2.7vw]"
           >
             <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-            <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
+            <p style={{
+                fontSize: "clamp(18px, 1.3vw, 24px)"
+              }} className="text-[#2A2A2A] leading-[29px] font-bold">
               Privacy Policy
             </p>
           </div>

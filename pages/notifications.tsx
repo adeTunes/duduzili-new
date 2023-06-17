@@ -115,14 +115,14 @@ function Friends() {
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
           >
             <div className="flex justify-between items-center">
-              <div onClick={back} className="flex cursor-pointer items-center gap-10">
+              <div onClick={back} className="flex cursor-pointer items-center gap-[2.5vw]">
                 <ArrowLeft
                   
                   size="32"
                   color="#2A2A2A"
                   variant="Outline"
                 />
-                <p style={{fontSize: "clamp(18px, 1.48vw, 24px)"}} className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
+                <p style={{fontSize: "clamp(15px, 1.48vw, 24px)"}} className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                   Notifications
                 </p>
               </div>

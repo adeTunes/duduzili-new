@@ -129,13 +129,13 @@ function CreateCommunityModal({ opened, close }) {
 
   return (
     <Modal
-      size="50vw"
+      size="lg"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 rounded-[24px] flex flex-col overflow-auto",
+        content: "py-6 px-8 rounded-[24px] max-[390px]:px-3 flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-[2vh] border-b-[#EDF0FB] border-b",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "overflow-auto !p-0 flex flex-col gap-8",
+        body: "overflow-auto max-[390px]:px-0 !p-0 flex flex-col gap-8",
       }}
       styles={{
         content: {
@@ -147,7 +147,7 @@ function CreateCommunityModal({ opened, close }) {
       title="Create Community"
       centered
     >
-      <div className="flex pb-3 flex-col flex-1 overflow-auto gap-8">
+      <div id="no-scroll" className="flex pb-3 flex-col flex-1 overflow-auto gap-8">
         <div className="flex flex-col pt-[3vh] gap-2 items-start">
           <p className="text-[#2A2A2A] font-medium leading-6">
             Cover Image <span className="text-[#757575]">(Optional)</span>
@@ -203,7 +203,7 @@ function CreateCommunityModal({ opened, close }) {
               (Select one or more categories that describes your community)
             </span>
           </p>
-          <div className="grid items-center gap-10 grid-cols-3">
+          <div className="flex justify-between items-center gap-3 flex-wrap">
             {data?.map(({ name, id }, index) => (
               <div key={index} className="flex items-center justify-between">
                 {/* <span className="flex items-center gap-3">

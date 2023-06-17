@@ -18,26 +18,27 @@ const InviteFriend: NextPageX = () => {
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] h-full overflow-auto pb-[50px] relative max-w-[1131px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] max-[790px]:w-full h-full overflow-auto pb-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-w-[717px] flex flex-col gap-[34px]"
+            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
           >
-            <div onClick={back} className="flex cursor-pointer items-center gap-10">
+            <div onClick={back} className="flex cursor-pointer items-center gap-[2.7vw]">
               <ArrowLeft
                 className="cursor-pointer"
-                
                 size="32"
                 color="#2A2A2A"
                 variant="Outline"
               />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
+              <p style={{
+                fontSize: "clamp(15px, 1.3vw, 24px)"
+              }} className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
                 Invite Friends
               </p>
             </div>
             <div
-              className="bg-white rounded-2xl px-[19px] py-[21px] flex flex-col gap-[18px]"
+              className="bg-white max-[420px]:p-2 rounded-2xl px-[19px] py-[21px] flex flex-col gap-[18px]"
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
               <div className="flex flex-col">
@@ -52,7 +53,7 @@ const InviteFriend: NextPageX = () => {
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] max-[790px]:hidden pb-[80px] overflow-auto min-w-[300px] max-w-[400px] flex flex-col gap-6"
           >
             <DownloadApp />
             <PendingRequests />

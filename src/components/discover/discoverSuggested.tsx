@@ -13,7 +13,7 @@ function DiscoverSuggested() {
   const {push} = useRouter()
   return (
     <div
-      className="bg-white rounded-2xl p-6 flex flex-col gap-6"
+      className="bg-white rounded-2xl p-6 max-[420px]:p-2 flex flex-col gap-6"
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
       <div className="flex flex-col gap-[11px]">
@@ -34,10 +34,10 @@ function DiscoverSuggested() {
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p className=" font-bold leading-[19px] text-[#2A2A2A]">
+                    <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
                       {item?.first_name} {item?.last_name}
                     </p>
-                    <p className="text-[#505050] leading-[19px]">
+                    <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">
                       @{item?.username}
                     </p>
                   </div>

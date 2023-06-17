@@ -31,7 +31,7 @@ function FriendProfileLayout({
         <main className="bg-[#FBFBFB] max-[790px]:w-full h-full overflow-auto relative max-w-[1139px] justify-between pt-[3vh] gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[34px]"
+            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[2.8vh]"
           >
             <div
               onClick={back}

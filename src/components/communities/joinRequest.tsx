@@ -30,7 +30,7 @@ function JoinRequest({ data }) {
       });
   };
   return (
-    <div className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
+    <div className="px-2 py-4 flex items-center max-[500px]:flex-col max-[500px]:items-start justify-between border-b border-b-[#EDF0FB]">
       <div className="flex gap-3 items-center">
         <div className="w-[36px] h-[36px]">
           <img
@@ -42,10 +42,10 @@ function JoinRequest({ data }) {
           />
         </div>
         <div className="flex flex-col gap-1">
-          <p className=" font-bold leading-[19px] text-[#2A2A2A]">
+          <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
             {data?.user?.first_name} {data?.user?.last_name}
           </p>
-          <p className="text-[#505050] leading-[19px]">
+          <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">
             @{data?.user?.username}
           </p>
         </div>

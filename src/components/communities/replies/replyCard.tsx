@@ -28,7 +28,7 @@ function ReplyCard({ comment }) {
       </div>
       <div
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-        className="ml-[67px] rounded-2xl p-6 flex flex-col gap-2 bg-white"
+        className="ml-[67px] max-[400px]:p-3 rounded-2xl p-6 flex flex-col gap-2 bg-white"
       >
         {!comment?.audio &&
         !comment?.youtube_url &&
