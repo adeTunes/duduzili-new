@@ -81,12 +81,13 @@ function SelectStickerViewModal({
   }, [selected.length]);
   return (
     <>
-      <div className="overflow-auto">
+      <div id="no-scroll" className="overflow-auto w-[90%] mx-auto">
         <div
           style={{
             gridTemplateColumns: "repeat(auto-fill, minmax(40px, 1fr))",
+            gap: "clamp(16px, 2.3vw, 40px)"
           }}
-          className="grid gap-10"
+          className="grid gap-[2.3vw]"
         >
           {availableStickers.map((item, idx) => (
             <StickersList

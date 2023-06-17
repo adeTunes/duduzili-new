@@ -16,7 +16,7 @@ function StickersList({selected, setSelected, item}) {
           setSelected([...filtered]);
         } else setSelected([...selected, item.amount]);
       }}
-      className="flex cursor-pointer flex-col gap-1 items-center"
+      className="flex flex-1 cursor-pointer flex-col gap-1 items-center"
     >
       <div
         className={clsx(

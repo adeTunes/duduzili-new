@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import { Heart, MessageText, TicketStar } from "iconsax-react";
 import React, { useState, useEffect } from "react";
 import ShareOptions from "./shareOptions";
@@ -9,7 +8,6 @@ import { likeOrUnlikePost } from "@/actions/postOptionActions";
 import { useRouter } from "next/router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader, clsx } from "@mantine/core";
-import Link from "next/link";
 import { useAtomValue, useSetAtom } from "jotai";
 import { stickerAwardee, userDetails } from "@/store";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
