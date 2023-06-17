@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 
 const PendingRequestPage: NextPageX = () => {
   const { back, query } = useRouter();
-  const { data } = useCommunityPendingRequests();
+  const { data } = useCommunityPendingRequests(query.community);
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
