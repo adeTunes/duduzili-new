@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { followUserAction } from "@/actions/postOptionActions";
 import { useRouter } from "next/router";
 import { NextPageX } from "../../types/next";
-import useDiscoverPeople from "../../hooks/useDiscoverPeople";
 import FollowLayout from "@/layout/followLayout";
 import Link from "next/link";
 import useFollowers from "../../hooks/useFollowers";
@@ -27,13 +26,13 @@ const Followers: NextPageX = () => {
           </p>
         </Link>
         <Link href={`/following/${query.id}?user=${query.user}`}>
-          <p className=" text-center text-[#787878] font-medium leading-6">
+          <p className="py-3 text-center text-[#787878] font-medium leading-6">
             Following
           </p>
         </Link>
       </div>
       <div
-        className="bg-white rounded-2xl p-6 flex flex-col gap-6"
+        className="bg-white rounded-2xl p-6 max-[420px]:p-2 flex flex-col gap-6"
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
       >
         <div className="flex flex-col gap-[11px]">
@@ -59,10 +58,10 @@ const Followers: NextPageX = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <p className=" font-bold leading-[19px] text-[#2A2A2A]">
+                      <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
                         {item?.first_name} {item?.last_name}
                       </p>
-                      <p className="text-[#505050] leading-[19px]">
+                      <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">
                         @{item?.username}
                       </p>
                     </div>

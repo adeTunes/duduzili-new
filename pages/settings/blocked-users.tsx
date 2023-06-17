@@ -47,9 +47,9 @@ const BlockedUsers: NextPageX = () => {
           ))}
         </div>
       ) : (
-        <div className="flex h-full items-center justify-center">
+        <div className="flex h-full justify-center">
           <div className="flex flex-col gap-10">
-            <div className="w-[330px] h-[300px]">
+            <div className="w-[330px] max-[860px]:w-full">
               <img
                 src="/settings/empty-blocked-users.png"
                 className="h-full w-full object-cover"

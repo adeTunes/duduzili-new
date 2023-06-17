@@ -19,7 +19,7 @@ const Following: NextPageX = () => {
     <>
       <div className="grid gap-8 grid-cols-2">
         <Link href={`/followers/${query.id}?user=${query.user}`}>
-          <p className=" text-center text-[#787878] font-medium leading-6">
+          <p className="py-3 text-center text-[#787878] font-medium leading-6">
             Followers
           </p>
         </Link>
@@ -33,7 +33,7 @@ const Following: NextPageX = () => {
         </Link>
       </div>
       <div
-        className="bg-white rounded-2xl p-6 flex flex-col gap-6"
+        className="bg-white max-[420px]:p-2 rounded-2xl p-6 flex flex-col gap-6"
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
       >
         <div className="flex flex-col gap-[11px]">
@@ -59,10 +59,10 @@ const Following: NextPageX = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <p className=" font-bold leading-[19px] text-[#2A2A2A]">
+                      <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
                         {item?.first_name} {item?.last_name}
                       </p>
-                      <p className="text-[#505050] leading-[19px]">
+                      <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">
                         @{item?.username}
                       </p>
                     </div>

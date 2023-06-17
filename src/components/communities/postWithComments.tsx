@@ -27,7 +27,7 @@ function PostWithComments() {
       </div> */}
       <PostsContainer post={data?.post} />
       {/* Reply section */}
-      <div className="flex gap-[36px] pl-[90px] flex-col">
+      <div className="flex gap-[36px] pl-[5vw] flex-col">
         <ReplyInput />
         {data?.comments?.length ? (
           data?.comments?.map((comment, idx) => <ReplyCard key={idx} comment={comment} />).reverse()

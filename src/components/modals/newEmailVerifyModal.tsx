@@ -39,29 +39,44 @@ export const NewEmailVerifyModal = ({ email, opened, close }) => {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] min-w-[280px] gap-3 max-w-[480px] flex flex-col overflow-auto",
+          "py-6 px-8 rounded-[24px] min-w-[250px] gap-3 max-w-[480px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
-        title: "font-bold text-[24px] text-[#2A2A2A] leading-[29px]",
-        body: "overflow-auto grid !gap-[40px] !p-0",
+        title: "font-bold text-[#2A2A2A] leading-[29px]",
+        body: "overflow-auto grid !p-0",
       }}
       styles={{
         content: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
         },
+        title: {
+          fontSize: "clamp(16px, 2.3vw, 24px)"
+        },
+        body: {
+          gap: "clamp(6px, 3vw, 40px)"
+        }
       }}
       opened={opened}
       onClose={close}
       title="Verify New Email"
       centered
     >
-      <p className="pb-6 border-b text-[#757575] font-medium leading-6 border-b-[#EDF0FB]">
+      <p style={{
+        fontSize: "clamp(12px, 1.4vw, 16px)",
+        paddingBottom: "clamp(5px, 1.5vw, 24px)"
+      }} className="pb-6 border-b text-[#757575] font-medium leading-6 border-b-[#EDF0FB]">
         Please enter the verification code that was sent to your new email
       </p>
       <Group position="center">
         <PinInput
           length={6}
           classNames={{
-            input: "w-[59px] h-[10vh] !border-0 !bg-[#F4F4F4] rounded-[8px]",
+            input: "!border-0 !bg-[#F4F4F4] rounded-[8px]",
+          }}
+          styles={{
+            input: {
+              width: "clamp(30px, 3vw, 53px)",
+              height: "clamp(35px, 4vw, 48px)",
+            }
           }}
           value={otp}
           onChange={setOTP}
@@ -78,7 +93,9 @@ export const NewEmailVerifyModal = ({ email, opened, close }) => {
       </Group>
       <PrimaryButton
         text="Verify OTP"
-        className="mt-[4vh]"
+        style={{
+          marginTop: "clamp(5px, 3vw, 40px)"
+        }}
         onClick={() => {
           setLoading(true);
           const data = new FormData();

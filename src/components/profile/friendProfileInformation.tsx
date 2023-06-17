@@ -21,8 +21,11 @@ function FriendProfileInformation({ friendDetails }) {
           image="/communities/community-picture.png"
           height="h-[240px]"
         />
-        <div className="flex justify-between items-center pl-8">
-          <div className="w-[150px] h-[150px] mt-[-70px]">
+        <div className="flex justify-between max-[956px]:flex-col max-[956px]:items-start max-[956px]:gap-4 items-center pl-8">
+          <div style={{
+              width: "clamp(80px, 9.8vw, 150px)",
+              height: "clamp(80px, 9.8vw, 150px)",
+            }} className="mt-[-70px] max-[956px]:mt-[-50px]">
             <img
               src={
                 friendDetails?.user?.photo_url?.substring(62) ||
@@ -32,7 +35,7 @@ function FriendProfileInformation({ friendDetails }) {
               alt="user profile picture"
             />
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 max-[956px]:-ml-8">
             <p
               onClick={() =>
                 followUserAction(
@@ -46,13 +49,13 @@ function FriendProfileInformation({ friendDetails }) {
                 )
               }
               role="button"
-              className="px-6 py-4 flex items-center gap-2 rounded-[32px] font-medium text-white bg-duduzili-violet"
+              className="px-6 py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium text-white bg-duduzili-violet"
             >
               {loadingFollow ? (
                 <Loader />
               ) : (
                 <>
-                  <UserAdd size="24" color="#FFF" />
+                  <UserAdd className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4" color="#FFF" />
                   <span>
                     {friendDetails?.user?.is_following ? "Unfollow" : "Follow"}
                   </span>
@@ -61,9 +64,9 @@ function FriendProfileInformation({ friendDetails }) {
             </p>
             <p
               role="button"
-              className="px-6 py-4 flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
+              className="px-6 max-[385px]:hidden py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
             >
-              <MessageText size="24" color="#4534B8" variant="Outline" />
+              <MessageText className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4" color="#4534B8" variant="Outline" />
               <span className=" text-duduzili-violet">Message</span>
             </p>
             {loading ? (

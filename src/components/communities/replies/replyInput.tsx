@@ -21,7 +21,7 @@ function ReplyInput() {
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
       >
         <p>Reply this thread</p>
-        <div className="flex items-center gap-3">
+        <div className="flex max-[415px]:hidden items-center gap-3">
           <Icon icon="ic:outline-image" height={24} width={24} />
           <Icon icon="ic:outline-videocam" height={24} width={24} />
           <AudioSquare size="24" color="#2A2A2A" variant="Outline" />

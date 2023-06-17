@@ -20,7 +20,7 @@ function FriendProfileActivities() {
 
   return (
     <div className="flex justify-center">
-      <div className="flex gap-[150px]">
+      <div className="flex gap-[150px] max-[420px]:gap-[50px]">
         {tabs.map((item, idx) => (
           <Link href={item.href} key={idx}>
             <p

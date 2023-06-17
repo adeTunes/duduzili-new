@@ -6,7 +6,12 @@ import CreatePost from "@/components/homepage/createPost";
 import PostSection from "@/components/homepage/postSection";
 import Aside from "@/components/homepage/sidebar";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { allPosts, postLimit, toggleCommunityPreview, userDetails } from "@/store";
+import {
+  allPosts,
+  postLimit,
+  toggleCommunityPreview,
+  userDetails,
+} from "@/store";
 import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import useAllPosts from "../hooks/useAllPosts";
@@ -17,9 +22,9 @@ import { Loader } from "@mantine/core";
 
 const HomePage: NextPageX = () => {
   const showCommunityPreview = useAtomValue(toggleCommunityPreview);
-  const [limit, setLimit] = useAtom(postLimit)
+  const [limit, setLimit] = useAtom(postLimit);
   const user: any = useAtomValue(userDetails);
-  const { data, isError, isLoading } = useAllPosts(limit);
+  const { data, isError, isLoading, isFetching } = useAllPosts(limit);
   const setAllPosts = useSetAtom(allPosts);
 
   useEffect(() => {
@@ -41,7 +46,15 @@ const HomePage: NextPageX = () => {
             {user?.token && showCommunityPreview && <CommunityPreview />}
             {user?.token && <CreatePost />}
             {isLoading ? <PostSkeleton /> : <PostSection />}
-            {data?.next && (isLoading ? <Loader /> : <ShowMoreButton onClick={() => setLimit(prev => prev + 10)} />)}
+            {data?.next && (
+              <p
+                onClick={() => setLimit((prev) => prev + 10)}
+                role="button"
+                className="py-3 rounded-[32px] z-10 border-duduzili-violet flex justify-center border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
+              >
+                {isFetching ? <Loader size="sm" /> : "Show more"}
+              </p>
+            )}
           </section>
           <Aside />
           {user?.token ? <FixedMessagesButton /> : null}

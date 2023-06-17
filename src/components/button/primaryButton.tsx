@@ -17,7 +17,7 @@ function PrimaryButton({
     <button
       onClick={onClick}
       style={style}
-      className={`py-4 px-6 bg-duduzili-violet rounded-[32px] text-base font-medium leading-[19px] text-white ${className}`}
+      className={`py-4 px-6 bg-duduzili-violet rounded-[32px] text-base font-medium leading-[19px] text-white ${className || ""}`}
       {...rest}
     >
       {text}

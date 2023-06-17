@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, clsx } from "@mantine/core";
 import { Icon } from "@iconify/react";
-import { Flag, MicrophoneSlash } from "iconsax-react";
+import { Flag, MessageText, MicrophoneSlash } from "iconsax-react";
 import {
   blockUserAction,
   muteUserAction,
@@ -16,6 +16,11 @@ function FriendProfileOptions({ post, setLoading }) {
   const queryClient = useQueryClient();
   const [opened, {open, close}] = useDisclosure(false)
   const personalPostOptions = [
+    {
+      name: `Message ${fullName}`,
+      icon: <MessageText size="24" color="#2A2A2A" />,
+      action: () => {},
+    },
     {
       name: `Mute ${fullName}`,
       icon: <MicrophoneSlash size="24" color="#2A2A2A" />,
@@ -44,11 +49,12 @@ function FriendProfileOptions({ post, setLoading }) {
       width={200}
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !min-w-[20vw]",
+        dropdown: "!py-6  !rounded-[24px] !w-[auto] !min-w-[20vw]",
       }}
       styles={{
         dropdown: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
+          paddingInline: "clamp(5px, 1vw, 24px) !important"
         },
         item: {
           "&[data-hovered]": {
@@ -61,12 +67,11 @@ function FriendProfileOptions({ post, setLoading }) {
       <Menu.Target>
         <p
           role="button"
-          className="px-6 py-4 flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
+          className="px-6 py-4 max-[500px]:px-3 max-[500px]:py-2 flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
         >
           <Icon
             icon="solar:menu-dots-bold"
-            width={24}
-            height={24}
+            className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
             color="#4534B8"
           />
         </p>
@@ -80,6 +85,7 @@ function FriendProfileOptions({ post, setLoading }) {
                 key={idx}
                 onClick={item.action}
                 className={clsx(
+                  item.name.includes("Message") && "hidden max-[385px]:flex",
                   idx !== arr.length - 1 && "border-b border-b-[#DFE5FA]",
                   item.name.toLocaleLowerCase().includes("block") ||
                     item.name.toLocaleLowerCase().includes("unblock")

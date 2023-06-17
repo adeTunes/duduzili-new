@@ -48,7 +48,7 @@ const MutedUsers: NextPageX = () => {
           ))}
         </div>
       ) : (
-        <div className="flex h-full items-center justify-center">
+        <div className="flex h-full justify-center">
           <div className="flex flex-col gap-10">
             <div className="w-[330px] h-[300px]">
               <img

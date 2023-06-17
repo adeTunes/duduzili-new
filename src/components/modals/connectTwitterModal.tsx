@@ -17,22 +17,31 @@ export const ConnectTwitterModal = ({ opened, close }) => {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] min-w-[280px] gap-3 max-w-[580px] flex flex-col overflow-auto",
+          "py-6 px-8 rounded-[24px] min-w-[250px] gap-3 max-w-[580px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
-        title: "font-bold text-[24px] text-[#2A2A2A] leading-[29px]",
-        body: "overflow-auto grid !gap-[40px] !p-0",
+        title: "font-bold text-[#2A2A2A] leading-[29px]",
+        body: "overflow-auto grid !p-0",
       }}
       styles={{
         content: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
         },
+        title: {
+          fontSize: "clamp(16px, 2.3vw, 24px)"
+        },
+        body: {
+          gap: "clamp(6px, 3vw, 40px)"
+        }
       }}
       opened={opened}
       onClose={close}
       title="Add Twitter Account"
       centered
     >
-      <p className="pb-6 border-b text-[#BDBDBD] font-medium leading-6 border-b-[#EDF0FB]">
+      <p style={{
+        fontSize: "clamp(12px, 1.4vw, 16px)",
+        paddingBottom: "clamp(5px, 1.5vw, 24px)"
+      }} className=" border-b text-[#BDBDBD] font-medium leading-6 border-b-[#EDF0FB]">
         Link your Twitter account. This will prevent future loss of account and
         easy accessibility
       </p>
@@ -48,7 +57,9 @@ export const ConnectTwitterModal = ({ opened, close }) => {
           {...form.getInputProps("link")}
         />
       </div>
-      <PrimaryButton text="Connect" className="mt-[4vh]" onClick={() => {
+      <PrimaryButton style={{
+        marginTop: "clamp(5px, 3vw, 40px)"
+      }}  text="Connect" onClick={() => {
         const data = new FormData()
         data.append('type', 'twitter');
         data.append('link', form.values.link)
