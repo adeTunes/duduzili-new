@@ -13,6 +13,7 @@ import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
 import { AudioSquare } from "iconsax-react";
 import { useRouter } from "next/router";
+import AudioPlayer from "./audioPlayer";
 
 function CreateCommunityPostModal({ limit, opened, close }) {
   const form = useForm({
@@ -33,6 +34,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
       ? setErr("You cannot create post with more than 5 photos")
       : setErr("");
   }, [selected]);
+  const [audio, setAudio] = useState(null)
   return (
     <Modal
       size="lg"
@@ -81,6 +83,10 @@ function CreateCommunityPostModal({ limit, opened, close }) {
             <p className="text-[14px] text-red-600 font-semibold">{err}</p>
           </div>
           <DisplayMedia setSelected={setSelected} selected={selected} />
+          {audio ?
+          <AudioPlayer audio={audio} setAudio={setAudio} />
+          : null
+        }
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
               <Icon
@@ -137,9 +143,17 @@ function CreateCommunityPostModal({ limit, opened, close }) {
                 }}
               />
             </label>
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare size="24" color="#2A2A2A" variant="Outline" />
-            </div>
+            <label htmlFor="audio-file" className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
+              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#2A2A2A" variant="Outline" />
+              <FileInput
+                hidden
+                id="audio-file"
+                accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
+                onChange={(value) => {
+                  setAudio(value)
+                }}
+              />
+            </label>
           </div>
         </div>
         <div className="flex gap-3 justify-end">
@@ -147,6 +161,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
           <PrimaryButton
             text="Share"
             onClick={() => {
+              
               if (!form.values.text)
                 return showNotification({
                   title: "Error",
@@ -162,6 +177,9 @@ function CreateCommunityPostModal({ limit, opened, close }) {
               var data = new FormData();
               data.append("text", form.values.text);
               data.append("code", String(query.id));
+              if(audio) {
+                data.append("audio", audio, audio.name)
+              }
               selected.length &&
                 selected.forEach((item) => {
                   if (item.type === "image") {

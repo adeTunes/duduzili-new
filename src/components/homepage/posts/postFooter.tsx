@@ -41,7 +41,7 @@ function PostFooter({
   const router = useRouter();
   const [openAuthModal, setOpenAuth] = useState(false);
   const [sticker, setSticker] = useState([]);
-  const setStickerAwardee = useSetAtom(stickerAwardee)
+  const setStickerAwardee = useSetAtom(stickerAwardee);
 
   useEffect(() => {
     if (post?.stickers) {
@@ -50,18 +50,18 @@ function PostFooter({
   }, [post]);
 
   const handleStickers = () => {
-    if (!user?.token) return setOpenAuth(true)
-    if ( sticker?.length && post?.user?.id === user?.user?.id) {
-      open()
+    if (!user?.token) return setOpenAuth(true);
+    if (sticker?.length && post?.user?.id === user?.user?.id) {
+      open();
     } else if (post?.user?.id !== user?.user?.id) {
-      setStickerAwardee(post?.user)
-      openReward()
+      setStickerAwardee(post?.user);
+      openReward();
     }
   };
 
-  return ( !router.pathname.includes("/communities/") ?
+  return !router.pathname.includes("/communities/") ? (
     <div className="flex items-center justify-between">
-      <div className="flex w-[241px] max-[480px]:w-fit items-center py-3 px-4 gap-10 max-[480px]:gap-5 max-[292px]:gap-3 bg-[#F4F4F4] rounded-[40px]">
+      <div className="flex w-fit max-[480px]:w-fit items-center py-3 px-4 gap-10 max-[480px]:gap-5 max-[292px]:gap-3 bg-[#F4F4F4] rounded-[40px]">
         <div
           onClick={() => {
             if (!user?.token) return setOpenAuth(true);
@@ -94,7 +94,7 @@ function PostFooter({
             if (!user?.token) return setOpenAuth(true);
             router.push(`/posts/${post?.id}`);
           }}
-          className="cursor-ponter flex items-center gap-2"
+          className="cursor-pointer flex items-center gap-2"
         >
           <MessageText
             className="max-[360px]:w-[16px] max-[360px]:h-[16px]"
@@ -105,7 +105,9 @@ function PostFooter({
             {totalComments}
           </p>
         </div>
-        <ShareOptions post={post} totalReposts={totalReposts} />
+        {!post?.is_repost ? (
+          <ShareOptions post={post} totalReposts={totalReposts} />
+        ) : null}
       </div>
       {router.pathname === "/communities/posts" ? null : (
         <div
@@ -118,7 +120,10 @@ function PostFooter({
             "bg-[#367EE8] rounded-[40px] py-2 px-4 flex items-center gap-2"
           )}
         >
-          <TicketStar className="max-[360px]:w-[16px] max-[360px]:h-[16px]" color="white" />
+          <TicketStar
+            className="max-[360px]:w-[16px] max-[360px]:h-[16px]"
+            color="white"
+          />
           <p className="text-white">{sticker.length}</p>
         </div>
       )}
@@ -130,7 +135,7 @@ function PostFooter({
         close={close}
       />
       <RewardStickersModal
-      postId={post?.id}
+        postId={post?.id}
         openSuccess={openSuccess}
         opened={rewardOpened}
         close={closeReward}
@@ -141,8 +146,7 @@ function PostFooter({
         setOpened={setOpenAuth}
       />
     </div>
-    : null
-  );
+  ) : null;
 }
 
 export default PostFooter;

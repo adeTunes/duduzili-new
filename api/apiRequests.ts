@@ -70,7 +70,7 @@ export const deleteCommunity = (data) => {
   return API.post("/api/v1/rest-auth/community/delete-community", data)
 }
 export const communityPost = (data) => {
-  return API.post("/api/v1/rest-auth/community/community-post", data)
+  return API.post("/api/v1/rest-auth/community/create-community-post", data)
 }
 export const addMemberToCommunity = (data) => {
   return API.post("/api/v1/rest-auth/community/add-user-to-community", data)
@@ -246,8 +246,8 @@ export const getUserBySearch = (search) => {
 export const getCommunityPost = (limit, code) => {
   return API.get(`/api/v1/rest-auth/community/community-post?limit=${limit}&code=${code}`);
 };
-export const getPrivateCommunityRequests = () => {
-  return API.get(`/api/v1/rest-auth/community/list-of-requests`);
+export const getPrivateCommunityRequests = (code) => {
+  return API.get(`/api/v1/rest-auth/community/list-of-requests?code=${code}`);
 };
 export const fetchNotifications = () => {
   return API.get(`/api/v1/rest-auth/notifications/`);

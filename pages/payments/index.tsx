@@ -187,12 +187,12 @@ function Payments() {
                         <span className="text-[#2a2a2a] font-bold text-[22px] leading-8">
                         ₦{income || 0}
                         </span>
-                        <span
+                        {/* <span
                           style={{ background: "rgba(2, 177, 90, 0.15)" }}
                           className="text-[#44BC66] text-xs leading-[15px] h-6 w-[63px] flex items-center justify-center rounded-[32px]"
                         >
                           +129%
-                        </span>
+                        </span> */}
                       </p>
                     </span>
                   </div>
@@ -211,12 +211,12 @@ function Payments() {
                         <span className="text-[#2a2a2a] font-bold text-[22px] leading-8">
                         ₦{outcome || 0}
                         </span>
-                        <span
+                        {/* <span
                           style={{ background: "#F4B9B9" }}
                           className="text-[#D40000] text-xs leading-[15px] h-6 w-[63px] flex items-center justify-center rounded-[32px]"
                         >
                           +129%
-                        </span>
+                        </span> */}
                       </p>
                     </span>
                   </div>

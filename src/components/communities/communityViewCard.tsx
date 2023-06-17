@@ -1,13 +1,40 @@
-import React from "react";
+import React, {useState} from "react";
 import CommunityPicture from "./communityPicture";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { CommunityDetails } from "../../../api/request.types";
 import dayjs from "dayjs";
-import { clsx } from "@mantine/core";
+import { Loader, clsx } from "@mantine/core";
 import LeaveCommunity from "./leaveCommunity";
+import { useQueryClient } from "@tanstack/react-query";
+import { joinCommunity } from "../../../api/apiRequests";
+import { showNotification } from "@mantine/notifications";
+import { useRouter } from "next/router";
+import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
 function CommunityViewCard({ community }: { community: CommunityDetails }) {
+  const [loading, setLoading] = useState(false)
+  const queryClient = useQueryClient()
+  const {query} = useRouter()
+  
+  const joinCommunityAction = () => {
+    setLoading(true);
+    const data = new FormData();
+    data.append("community_code", community?.data?.code);
+    data.append("action", "Join");
+    joinCommunity(data)
+      .then(({ data }) => {
+        showNotification({
+          message: data?.errors || data?.message || data?.error,
+        });
+        queryClient.invalidateQueries(["community-details", community?.data?.code])
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        errorMessageHandler(e);
+      });
+  };
   return (
     <div className="flex flex-col gap-[29px]">
       <CommunityPicture
@@ -30,8 +57,8 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
           {community?.data?.is_joined ? (
             <LeaveCommunity name={community?.data?.name} isOwner={community?.data?.is_owner} code={community?.data?.code} />
           ) : (
-            <p className=" bg-duduzili-violet text-white font-medium px-6 py-4 rounded-[32px] cursor-pointer">
-              Join
+            <p onClick={joinCommunityAction} className=" bg-duduzili-violet text-white flex items-center font-medium px-6 py-4 rounded-[32px] cursor-pointer">
+              {loading ? <Loader size="sm" /> : (community?.data?.is_private ? "Ask to join" :"Join")}
             </p>
           )}
         </div>

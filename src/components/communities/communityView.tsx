@@ -10,8 +10,8 @@ import { userDetails } from "@/store";
 import { useDisclosure } from "@mantine/hooks";
 import { Icon } from "@iconify/react";
 import { AudioSquare } from "iconsax-react";
-import CreatePostModal from "../modals/createPostModal";
 import CreateCommunityPostModal from "../modals/createCommunityPostModal";
+import { showNotification } from "@mantine/notifications";
 
 function CommunityView({ community }) {
   const [limit, setLimit] = useState(20);
@@ -34,7 +34,12 @@ function CommunityView({ community }) {
         <div
           className="bg-white pl-6 pr-5 cursor-pointer py-4 rounded-[32px] grid grid-cols-[1fr_auto] items-center"
           style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-          onClick={open}
+          onClick={() => {
+            if(!community?.data?.is_joined) {
+              return showNotification({message: "You are not a member of this community", color: "red"})
+            } 
+            open()
+          }}
         >
           <p className="text-[#757575]">Create a post</p>
           <div className="flex items-center max-[400px]:hidden gap-3 ">

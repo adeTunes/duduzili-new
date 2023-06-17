@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 function PendingRequests() {
   const { query } = useRouter();
-  const { data } = useCommunityPendingRequests();
+  const { data } = useCommunityPendingRequests(query.id);
   const [requests, setRequests] = useState([]);
   const [selected, setSelected] = useState("");
 

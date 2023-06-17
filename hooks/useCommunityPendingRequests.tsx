@@ -3,12 +3,12 @@ import { getAllPosts, getPrivateCommunityRequests } from "../api/apiRequests";
 import { Posts } from "../api/request.types";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 
-function useCommunityPendingRequests() {
+function useCommunityPendingRequests(code) {
   return useQuery({
-    queryKey: ["pending-requests"],
+    queryKey: ["pending-requests", code],
     queryFn: async () => {
       try {
-        const { data } = await getPrivateCommunityRequests();
+        const { data } = await getPrivateCommunityRequests(code);
         return data.data;
       } catch (e) {
         errorMessageHandler(e)
@@ -16,6 +16,7 @@ function useCommunityPendingRequests() {
       }
     },
     keepPreviousData: true,
+    enabled: !!code
   });
 }
 

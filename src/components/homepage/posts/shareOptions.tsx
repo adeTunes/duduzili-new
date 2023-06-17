@@ -10,6 +10,7 @@ import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticate
 import { Post } from "../../../../api/request.types";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { showNotification } from "@mantine/notifications";
+import copy from "copy-to-clipboard";
 
 function ShareOptions({
   post,
@@ -23,73 +24,62 @@ function ShareOptions({
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
 
+  const handleCopy = () => {
+    const copied = copy(`${location.host}/posts/${post?.id}`);
+    if (copied) {
+      showNotification({
+        message: "copied successfully",
+      });
+    }
+  };
+
   const options =
     user?.user?.id === post?.user?.id || post?.is_repost
       ? [
-          () => <div
-            className={clsx(
-              "text-[#2A2A2A] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
-            )}
-          >
-            <CopyToClipboard
-              text={
-                post
-                  ? `${location.host}/post/${post?.id}`
-                  : ""
-              }
-              onCopy={() =>
-                showNotification({
-                  message: "Post url copied to clipboard",
-                  color: "green",
-                })
-              }
+          () => (
+            <div
+              onClick={handleCopy}
+              className={clsx(
+                "text-[#2A2A2A] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+              )}
             >
               <>
                 <Copy size="24" color="#2A2A2A" />
                 Copy link
               </>
-            </CopyToClipboard>
-          </div>,
+            </div>
+          ),
         ]
       : [
-          () => <div
-          className={clsx(
-            "text-[#2A2A2A] border-b border-b-[#DFE5FA] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
-          )}
-        >
-          <CopyToClipboard
-            text={
-              post
-                ? `${location.host}/post/${post?.id}`
-                : ""
-            }
-            onCopy={() =>
-              showNotification({
-                message: "Post url copied to clipboard",
-                color: "green",
-              })
-            }
-          >
-            <>
-              <Copy size="24" color="#2A2A2A" />
-              Copy link
-            </>
-          </CopyToClipboard>
-        </div>,
-          () => <div
-            onClick={open}
-            className={clsx(
-              "text-[#2A2A2A] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
-            )}
-          >
-            <Icon
-              color="#2A2A2A"
-              icon="material-symbols:edit-square-outline"
-              height={24}
-              width={24}
-            />
-            Share to Feeds
-          </div>,
+          () => (
+            <div
+              onClick={handleCopy}
+              className={clsx(
+                "text-[#2A2A2A] border-b border-b-[#DFE5FA] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+              )}
+            >
+              <>
+                <Copy size="24" color="#2A2A2A" />
+                Copy link
+              </>
+            </div>
+          ),
+          () => (
+            <div
+              onClick={open}
+              className={clsx(
+                "text-[#2A2A2A] flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+              )}
+            >
+              <Icon
+                color="#2A2A2A"
+                icon="material-symbols:edit-square-outline"
+                height={24}
+                width={24}
+              />
+              Share to Feeds
+            </div>
+          ),
         ];
   const [menuOpened, setMenuOpened] = useState(false);
   const [opennAuth, setOpenAuth] = useState(false);
@@ -122,7 +112,10 @@ function ShareOptions({
       <Menu.Target>
         <div className="flex items-center gap-2">
           <Icon
-            className={clsx(size ? "h-4 w-4" : "h-6 w-6", "max:[360px]:w-4 max:[360px]:h-4")}
+            className={clsx(
+              size ? "h-4 w-4" : "h-6 w-6",
+              "max:[360px]:w-4 max:[360px]:h-4"
+            )}
             icon="material-symbols:google-plus-reshare"
             color="#2a2a2a"
           />
