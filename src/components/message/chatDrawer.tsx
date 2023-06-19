@@ -217,7 +217,7 @@ function ChatDrawer({ opened, close }) {
                 text={item.lastMessage}
                 date={item.lastMessageDate}
                 name={item.name}
-                unread={item.unreadMessage}
+                unread={0}
                 key={idx}
               />
             ))}
