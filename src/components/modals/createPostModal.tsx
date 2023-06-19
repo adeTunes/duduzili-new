@@ -64,7 +64,7 @@ function CreatePostModal({ opened, close }) {
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
-        <div className="flex flex-col gap-8 mb-[86px] max-[390px]:mb-[30px]">
+        <div className="flex flex-col gap-8 mb-[40px] max-[30px]:mb-[15px]">
           <div className="flex flex-col gap-2">
             <Textarea
               placeholder="Create a post. Share a moment. Tell people what's on your mind"
@@ -75,7 +75,7 @@ function CreatePostModal({ opened, close }) {
               h="auto"
               autosize
               minRows={2}
-              maxRows={8}
+              maxRows={12}
               {...form.getInputProps("text")}
             />
             <p className="text-[14px] text-red-600 font-semibold">{err}</p>

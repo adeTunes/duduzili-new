@@ -4,7 +4,6 @@ import useDiscoverPeople from "../../../../hooks/useDiscoverPeople";
 import { followUserAction } from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
-import useFollowers from "../../../../hooks/useFollowers";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import useFollowings from "../../../../hooks/useFollowings";
@@ -120,12 +119,12 @@ function DiscoverPeople() {
                         </div>
                       </div>
                       <p
-                        onClick={() => {
-                          setSelected(item?.id);
-                          followUserAction(setLoading, item?.id, () =>
-                            queryClient.invalidateQueries(["discover-people"])
-                          );
-                        }}
+                        // onClick={() => {
+                        //   setSelected(item?.id);
+                        //   followUserAction(setLoading, item?.id, () =>
+                        //     queryClient.invalidateQueries(["discover-people"])
+                        //   );
+                        // }}
                         className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
                       >
                         Message
