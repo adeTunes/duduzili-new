@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import useFollowersSearch from "../../../hooks/use-followers-search";
 import { useDebouncedValue } from "@mantine/hooks";
 import SearchList from "./searchList";
-import { useAtom, useSetAtom } from "jotai";
-import { chatFriendOptions, selectedFriendToChat } from "@/store";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { chatFriendOptions, selectedFriendToChat, userDetails } from "@/store";
 import useOthersSearch from "../../../hooks/use-others-search";
+import { showNotification } from "@mantine/notifications";
 
-function SearchDrawer({ opened, close }) {
+function SearchDrawer({ opened, close, data: chatListData }) {
+  const user: any = useAtomValue(userDetails);
   const tabs = ["Followers", "Others"];
   const [tab, setTab] = useState(0);
   const [search, setSearch] = useState("");
@@ -17,9 +19,15 @@ function SearchDrawer({ opened, close }) {
   const { data: othersData, isFetching: isFetchingOther } =
     useOthersSearch(searchValue);
   const [chatList, setChatList] = useAtom(selectedFriendToChat);
-  const setChatFriendOptions = useSetAtom(chatFriendOptions)
+  const setChatFriendOptions = useSetAtom(chatFriendOptions);
   return (
-    <Drawer opened={opened} onClose={close}>
+    <Drawer
+      opened={opened}
+      onClose={() => {
+        close()
+        setSearch("")
+      }}
+    >
       <div className="flex flex-col gap-6">
         <TextInput
           classNames={{
@@ -53,40 +61,66 @@ function SearchDrawer({ opened, close }) {
             </p>
           ))}
         </div>
-        {tab === 0
-          ? data?.map((item, idx) => (
-              <SearchList
-                onClick={() => {
-                  setChatList([item]);
-                  close();
-                  setSearch("");
-                }}
-                key={idx}
-                image={item?.photo_url?.substring(62)}
-                username={item?.username}
-                name={`${item?.first_name} ${item?.last_name}`}
-              />
-            ))
-          : othersData?.map((item, idx) => (
-              <SearchList
-                onClick={() => {
-                  const findUser = chatList.find((el) => el.id === item.id);
-                  if (findUser) {
+        {
+          (tab === 0
+            ? data?.map((item, idx) => (
+                <SearchList
+                  onClick={() => {
+                    const newFriend = chatListData?.find((el) => {
+                      const friendData =
+                        el?.user_one?.id === user?.user?.id
+                          ? el?.user_two
+                          : el?.user_one;
+                      return friendData?.username === item?.username;
+                    });
+                    if (newFriend) {
+                      setSearch("");
+                      return showNotification({
+                        message:
+                          "You are already in a conversation with this user",
+                          color: "red"
+                      });
+                    }
+                    setChatList([item]);
                     close();
                     setSearch("");
-                  } else {
+                    setChatFriendOptions("selected friend");
+                  }}
+                  key={idx}
+                  image={item?.photo_url?.substring(62)}
+                  username={item?.username}
+                  name={`${item?.first_name} ${item?.last_name}`}
+                />
+              ))
+            : othersData?.map((item, idx) => (
+                <SearchList
+                  onClick={() => {
+                    const newFriend = chatListData?.find((el) => {
+                      const friendData =
+                        el?.user_one?.id === user?.user?.id
+                          ? el?.user_two
+                          : el?.user_one;
+                      return friendData?.username === item?.username;
+                    });
+                    if (newFriend) {
+                      setSearch("");
+                      return showNotification({
+                        message:
+                          "You are already in a conversation with this user",
+                          color: "red"
+                      });
+                    }
                     close();
                     setSearch("");
                     setChatList([item]);
-                    setChatFriendOptions("selected friend")
-                  }
-                }}
-                key={idx}
-                image={item?.photo_url?.substring(62)}
-                username={item?.username}
-                name={`${item?.first_name} ${item?.last_name}`}
-              />
-            ))}
+                    setChatFriendOptions("selected friend");
+                  }}
+                  key={idx}
+                  image={item?.photo_url?.substring(62)}
+                  username={item?.username}
+                  name={`${item?.first_name} ${item?.last_name}`}
+                />
+              )))}
       </div>
     </Drawer>
   );

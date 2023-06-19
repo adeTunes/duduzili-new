@@ -12,6 +12,8 @@ import SearchDrawer from "@/components/message/searchDrawer";
 import { useDisclosure } from "@mantine/hooks";
 import { selectedFriendToChat } from "@/store";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { base64decode } from "nodejs-base64";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
@@ -99,20 +101,54 @@ const Messages: NextPageX = () => {
       profilePicture: "/message/friend-avatar.png",
     },
   ];
-  const user: any = useAtomValue(userDetails)
+  const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
-  const chatOptions = useAtomValue(chatFriendOptions)
+  const [chatOptions, setChatOptions] = useAtom(chatFriendOptions);
+  const { query, push } = useRouter();
 
   useEffect(() => {
-    if(chatOptions === "chat initiated") {
-      const friend = data.find(item => {
-        const newUser = item?.user_one?.id === user?.user?.id ? item?.user_two : item?.user_one
-        return newUser?.username === chatList[0]?.username
-      })
-      setSelectedMessage(JSON.stringify(friend))
-      setChatList([])
+    if (chatOptions === "chat initiated") {
+      const friend = data?.find((item) => {
+        const newUser =
+          item?.user_one?.id === user?.user?.id
+            ? item?.user_two
+            : item?.user_one;
+        return newUser?.username === chatList[0]?.username;
+      });
+      const newFriend =
+        friend?.user_one?.id === user?.user?.id
+          ? friend?.user_two
+          : friend?.user_one;
+      setSelectedMessage(JSON.stringify(newFriend));
+      setChatList([]);
+      setChatOptions("");
     }
-  }, [chatOptions])
+  }, [chatOptions, data]);
+
+  useEffect(() => {
+    if (query.chat && data) {
+      const friend = base64decode(query.chat as string);
+      const match = data?.find((item) => {
+        const friendData =
+          item?.user_one?.id === user?.user?.id
+            ? item?.user_two
+            : item?.user_one;
+        return JSON.parse(friend)?.username === friendData?.username;
+      });
+      if (match) {
+        const newFriend =
+          match?.user_one?.id === user?.user?.id
+            ? match?.user_two
+            : match?.user_one;
+        setSelectedMessage(JSON.stringify(newFriend));
+      } else {
+        setChatList([friend]);
+        setSelectedMessage(friend);
+        setChatOptions("selected friend");
+      }
+      push("/messages/friends", undefined, { shallow: true });
+    }
+  }, [query.chat, data]);
 
   return (
     <div className="flex flex-1 cursor-pointer overflow-auto flex-col gap-6">
@@ -149,20 +185,29 @@ const Messages: NextPageX = () => {
           />
         ))}
         {data?.map((item, idx) => {
-          const friend = item?.user_one?.id === user?.user?.id ? item?.user_two : item?.user_one
-          return <MessageCard
-            onClick={() => {
-              setSelectedMessage(JSON.stringify(friend));
-            }}
-            id={JSON.stringify(friend)}
-            image={friend?.photo_url?.substring(62) || "/profile-pic-default.png"}
-            text={item?.get_messages[0]?.text}
-            date={new Date(item?.get_messages?.[0]?.date_added).toLocaleDateString("en-US", { day: "2-digit", month: "short" })}
-            name={`${friend?.first_name} ${friend?.last_name}`}
-            unread={0}
-            key={idx}
-          />
-          })}
+          const friend =
+            item?.user_one?.id === user?.user?.id
+              ? item?.user_two
+              : item?.user_one;
+          return (
+            <MessageCard
+              onClick={() => {
+                setSelectedMessage(JSON.stringify(friend));
+              }}
+              id={JSON.stringify(friend)}
+              image={
+                friend?.photo_url?.substring(62) || "/profile-pic-default.png"
+              }
+              text={item?.get_messages[0]?.text}
+              date={new Date(
+                item?.get_messages?.[0]?.date_added
+              ).toLocaleDateString("en-US", { day: "2-digit", month: "short" })}
+              name={`${friend?.first_name} ${friend?.last_name}`}
+              unread={0}
+              key={idx}
+            />
+          );
+        })}
         {/* {messages.map(
           (
             item,
@@ -181,7 +226,7 @@ const Messages: NextPageX = () => {
           )
         )} */}
       </div>
-      <SearchDrawer opened={opened} close={close} />
+      <SearchDrawer data={data} opened={opened} close={close} />
     </div>
   );
 };

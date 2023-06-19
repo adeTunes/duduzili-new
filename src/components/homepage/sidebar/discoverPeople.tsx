@@ -7,6 +7,8 @@ import { Loader } from "@mantine/core";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import useFollowings from "../../../../hooks/useFollowings";
+import { base64encode } from "nodejs-base64";
+import { useRouter } from "next/router";
 
 function DiscoverPeople() {
   const { data } = useDiscoverPeople();
@@ -15,6 +17,7 @@ function DiscoverPeople() {
   const [selected, setSelected] = useState(false);
   const user: any = useAtomValue(userDetails);
   const { data: friends } = useFollowings(user?.user?.id);
+  const { push } = useRouter();
   return (
     <div
       className="bg-white rounded-2xl p-6 flex flex-col gap-6"
@@ -32,7 +35,8 @@ function DiscoverPeople() {
             <div className="flex flex-col max-[1125px]:text-[13px]">
               {data?.users?.map(
                 (item, idx) =>
-                  idx < 5 && !item?.is_following && (
+                  idx < 5 &&
+                  !item?.is_following && (
                     <div
                       key={idx}
                       className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"
@@ -119,12 +123,10 @@ function DiscoverPeople() {
                         </div>
                       </div>
                       <p
-                        // onClick={() => {
-                        //   setSelected(item?.id);
-                        //   followUserAction(setLoading, item?.id, () =>
-                        //     queryClient.invalidateQueries(["discover-people"])
-                        //   );
-                        // }}
+                        onClick={() => {
+                          const friend = JSON.stringify(item)
+                          push(`/messages/friends?chat=${base64encode(friend)}`);
+                        }}
                         className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
                       >
                         Message

@@ -12,12 +12,14 @@ import useFollowings from "../hooks/useFollowings";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import useFollowers from "../hooks/useFollowers";
+import {base64encode} from "nodejs-base64"
 
 function Friends() {
   const { back } = useRouter();
   const user: any = useAtomValue(userDetails);
   const { data: followings } = useFollowings(user?.user?.id);
   const { data: followers } = useFollowers(user?.user?.id);
+  const {push} = useRouter()
 
   const [friends, setFriends] = useState([]);
 
@@ -72,7 +74,10 @@ function Friends() {
                         <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">@{item?.username}</p>
                       </div>
                     </div>
-                    <p className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]">
+                    <p onClick={() => {
+                          const friend = JSON.stringify(item)
+                          push(`/messages/friends?chat=${base64encode(friend)}`);
+                        }} className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]">
                       Message
                     </p>
                   </div>
