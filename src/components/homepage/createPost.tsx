@@ -2,7 +2,6 @@ import { Icon } from "@iconify/react";
 import React from "react";
 import CreatePostModal from "../modals/createPostModal";
 import { useDisclosure } from "@mantine/hooks";
-import Image from "next/image";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import { AudioSquare } from "iconsax-react";

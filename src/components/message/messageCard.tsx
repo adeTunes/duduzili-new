@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 import Image from "next/image";
 import React from "react";
 
-function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { image: string, text: string, name: string, date: string, unread: string, onClick: () => void, id: string, usage?: string }) {
+function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { image: string, text: string, name: string, date: string, unread: number, onClick: () => void, id: string, usage?: string }) {
   const selected = useAtomValue(selectedMessage);
   return (
     <div

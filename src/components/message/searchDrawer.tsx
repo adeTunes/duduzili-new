@@ -5,7 +5,7 @@ import useFollowersSearch from "../../../hooks/use-followers-search";
 import { useDebouncedValue } from "@mantine/hooks";
 import SearchList from "./searchList";
 import { useAtom, useSetAtom } from "jotai";
-import { selectedFriendToChat } from "@/store";
+import { chatFriendOptions, selectedFriendToChat } from "@/store";
 import useOthersSearch from "../../../hooks/use-others-search";
 
 function SearchDrawer({ opened, close }) {
@@ -17,6 +17,7 @@ function SearchDrawer({ opened, close }) {
   const { data: othersData, isFetching: isFetchingOther } =
     useOthersSearch(searchValue);
   const [chatList, setChatList] = useAtom(selectedFriendToChat);
+  const setChatFriendOptions = useSetAtom(chatFriendOptions)
   return (
     <Drawer opened={opened} onClose={close}>
       <div className="flex flex-col gap-6">
@@ -56,7 +57,7 @@ function SearchDrawer({ opened, close }) {
           ? data?.map((item, idx) => (
               <SearchList
                 onClick={() => {
-                  setChatList([...chatList, item]);
+                  setChatList([item]);
                   close();
                   setSearch("");
                 }}
@@ -76,7 +77,8 @@ function SearchDrawer({ opened, close }) {
                   } else {
                     close();
                     setSearch("");
-                    setChatList([...chatList, item]);
+                    setChatList([item]);
+                    setChatFriendOptions("selected friend")
                   }
                 }}
                 key={idx}

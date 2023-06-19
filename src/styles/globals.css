@@ -60,6 +60,13 @@ div#messages::-webkit-scrollbar {
 #no-scroll::-webkit-scrollbar {
   display: none;
 }
+.messages-no-scroll {
+  scrollbar-width: none; /* For Firefox and Edge */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.messages-no-scroll::-webkit-scrollbar {
+  display: none;
+}
 
 /* AUDIO PLAYER */
 .voice-note {

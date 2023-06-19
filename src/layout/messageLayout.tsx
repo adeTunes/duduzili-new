@@ -54,7 +54,7 @@ const MessageLayout = ({
             {children}
           </section>
           <aside className="w-[55%] max-[800px]:w-full max-[800px]:max-w-full overflow-auto max-w-[557px] flex flex-col gap-6">
-            <div className="max-[900px]:flex hidden justify-between items-center">
+            <div className="max-[800px]:flex hidden justify-between items-center">
               <div
                 onClick={back}
                 className="flex cursor-pointer items-center gap-3"

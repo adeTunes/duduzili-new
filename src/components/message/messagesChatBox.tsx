@@ -7,18 +7,22 @@ import MessageSent from "./messageSent";
 import SendMessage from "./sendMessage";
 import SingleEmojiSent from "./singleEmojiSent";
 import Image from "next/image";
-import { selectedMessage, userDetails } from "@/store";
+import { chatFriendOptions, selectedFriendToChat, selectedMessage, userDetails } from "@/store";
 import WebSocket from "isomorphic-ws";
 import { useForm } from "@mantine/form";
 import useWebsocketConnection from "../../../hooks/use-websocket-connection";
 import { AttachSquare } from "iconsax-react";
 import AttachMedia from "./attach-media";
+import { useQueryClient } from "@tanstack/react-query";
 
 function MessagesChatBox() {
   const messageFriend = useAtomValue(selectedMessage);
   const [friend, setFriend] = useState(null);
   const user: any = useAtomValue(userDetails);
   const [messages, setMessages] = useState([]);
+  const [chatOptions, setChatOptions] = useAtom(chatFriendOptions)
+  const [chatList, setChatList] = useAtom(selectedFriendToChat)
+  const queryClient = useQueryClient()
   const form = useForm({
     initialValues: {
       text: "",
@@ -54,16 +58,21 @@ function MessagesChatBox() {
   }, [ws]);
 
   const handleSendMessage = () => {
+    const foundFriend = chatList?.find(item => item?.username === friend?.username)
     const chatMessage = {
       command: "send",
       text: form.values.text,
-      username: user?.user?.username,
+      username: friend?.username,
     };
     ws.send(JSON.stringify(chatMessage));
+    if(foundFriend) {
+      queryClient.invalidateQueries(["conversations"])
+      setChatOptions("chat initiated")
+    }
   };
 
   return friend ? (
-    <div id="no-scroll" className="flex overflow-auto flex-1 flex-col gap-6">
+    <div id="no-scroll" className="grid grid-rows-[auto_1fr_auto] overflow-auto flex-1 flex-col gap-6">
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
           <div className="h-[52px] w-[52px]">
@@ -91,7 +100,7 @@ function MessagesChatBox() {
           icon="carbon:overflow-menu-vertical"
         />
       </div>
-      <div id="messages no-scroll" className="flex flex-1 flex-col gap-5">
+      <div id="messages no-scroll" className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5">
         {messages?.map((item) =>
           item?.sender?.id === user?.user?.id ? (
             <MessageSent

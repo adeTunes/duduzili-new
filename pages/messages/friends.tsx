@@ -3,19 +3,20 @@ import { NextPageX } from "../../types/next";
 import { TextInput } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import MessageCard from "@/components/message/messageCard";
-import { useAtomValue, useSetAtom } from "jotai";
-import { selectedMessage } from "@/store";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { chatFriendOptions, selectedMessage, userDetails } from "@/store";
 import MessageLayout from "@/layout/messageLayout";
 import MessagesChatBox from "@/components/message/messagesChatBox";
 import useConversations from "../../hooks/use-conversations";
 import SearchDrawer from "@/components/message/searchDrawer";
 import { useDisclosure } from "@mantine/hooks";
 import { selectedFriendToChat } from "@/store";
+import { useEffect } from "react";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
   const { data } = useConversations();
-  const chatList = useAtomValue(selectedFriendToChat);
+  const [chatList, setChatList] = useAtom(selectedFriendToChat);
   const messages = [
     {
       name: "Frank Muller",
@@ -98,7 +99,21 @@ const Messages: NextPageX = () => {
       profilePicture: "/message/friend-avatar.png",
     },
   ];
+  const user: any = useAtomValue(userDetails)
   const [opened, { open, close }] = useDisclosure(false);
+  const chatOptions = useAtomValue(chatFriendOptions)
+
+  useEffect(() => {
+    if(chatOptions === "chat initiated") {
+      const friend = data.find(item => {
+        const newUser = item?.user_one?.id === user?.user?.id ? item?.user_two : item?.user_one
+        return newUser?.username === chatList[0]?.username
+      })
+      setSelectedMessage(JSON.stringify(friend))
+      setChatList([])
+    }
+  }, [chatOptions])
+
   return (
     <div className="flex flex-1 cursor-pointer overflow-auto flex-col gap-6">
       <div onClick={open}>
@@ -129,10 +144,25 @@ const Messages: NextPageX = () => {
             text={" "}
             date={" "}
             name={`${item?.first_name} ${item?.last_name}`}
-            unread={"0"}
+            unread={0}
             key={idx}
           />
         ))}
+        {data?.map((item, idx) => {
+          const friend = item?.user_one?.id === user?.user?.id ? item?.user_two : item?.user_one
+          return <MessageCard
+            onClick={() => {
+              setSelectedMessage(JSON.stringify(friend));
+            }}
+            id={JSON.stringify(friend)}
+            image={friend?.photo_url?.substring(62) || "/profile-pic-default.png"}
+            text={item?.get_messages[0]?.text}
+            date={new Date(item?.get_messages?.[0]?.date_added).toLocaleDateString("en-US", { day: "2-digit", month: "short" })}
+            name={`${friend?.first_name} ${friend?.last_name}`}
+            unread={0}
+            key={idx}
+          />
+          })}
         {/* {messages.map(
           (
             item,
