@@ -19,88 +19,6 @@ const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
   const { data } = useConversations();
   const [chatList, setChatList] = useAtom(selectedFriendToChat);
-  const messages = [
-    {
-      name: "Frank Muller",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 10",
-      unreadMessage: "2",
-      profilePicture: "/message/friend-avatar.png",
-    },
-    {
-      name: "Jane Doe",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 10",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-2.png",
-    },
-    {
-      name: "Aretha Christiana",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar-3.png",
-    },
-    {
-      name: "Frank Muller",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar.png",
-    },
-    {
-      name: "Mike Holland",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar-4.png",
-    },
-    {
-      name: "Fred Frank",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-5.png",
-    },
-    {
-      name: "Cat Woman",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-6.png",
-    },
-    {
-      name: "Jane Doe",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 10",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-2.png",
-    },
-    {
-      name: "Aretha Christiana",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar-3.png",
-    },
-    {
-      name: "Frank Muller",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar.png",
-    },
-  ];
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
   const [chatOptions, setChatOptions] = useAtom(chatFriendOptions);
@@ -198,10 +116,17 @@ const Messages: NextPageX = () => {
               image={
                 friend?.photo_url?.substring(62) || "/profile-pic-default.png"
               }
-              text={item?.get_messages[0]?.text}
-              date={new Date(
-                item?.get_messages?.[0]?.date_added
-              ).toLocaleDateString("en-US", { day: "2-digit", month: "short" })}
+              text={item?.get_messages?.[item?.get_messages?.length - 1]?.text}
+              date={
+                item?.get_messages?.length
+                  ? new Date(
+                    item?.get_messages?.[item?.get_messages?.length - 1]?.date_added
+                    ).toLocaleDateString("en-US", {
+                      day: "2-digit",
+                      month: "short",
+                    })
+                  : ""
+              }
               name={`${friend?.first_name} ${friend?.last_name}`}
               unread={0}
               key={idx}

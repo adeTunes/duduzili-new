@@ -2,96 +2,17 @@ import { Icon } from "@iconify/react";
 import { Drawer, TextInput, clsx } from "@mantine/core";
 import React from "react";
 import MessageCard from "./messageCard";
-import { useSetAtom } from "jotai";
-import { selectedMessage } from "@/store";
+import { useAtomValue, useSetAtom } from "jotai";
+import { selectedMessage, userDetails } from "@/store";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import GroupChatCard from "./groupChatCard";
+import useConversations from "../../../hooks/use-conversations";
 
 function ChatDrawer({ opened, close }) {
   const setSelectedMessage = useSetAtom(selectedMessage);
-  const messages = [
-    {
-      name: "Frank Muller",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 10",
-      unreadMessage: "2",
-      profilePicture: "/message/friend-avatar.png",
-    },
-    {
-      name: "Jane Doe",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 10",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-2.png",
-    },
-    {
-      name: "Aretha Christiana",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar-3.png",
-    },
-    {
-      name: "Frank Muller",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar.png",
-    },
-    {
-      name: "Mike Holland",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar-4.png",
-    },
-    {
-      name: "Fred Frank",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-5.png",
-    },
-    {
-      name: "Cat Woman",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-6.png",
-    },
-    {
-      name: "Jane Doe",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 10",
-      unreadMessage: "",
-      profilePicture: "/message/friend-avatar-2.png",
-    },
-    {
-      name: "Aretha Christiana",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar-3.png",
-    },
-    {
-      name: "Frank Muller",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: "/message/friend-avatar.png",
-    },
-  ];
+  const { data } = useConversations();
+  const user: any = useAtomValue(userDetails)
   const groupMessages = [
     {
       name: "You, Jane Doe and Frank...",
@@ -208,19 +129,38 @@ function ChatDrawer({ opened, close }) {
             key={idx}
           />
         ))} */}
-            {messages.map((item, idx) => (
-              <MessageCard
-                usage="drawer"
-                onClick={() => setSelectedMessage(JSON.stringify(item))}
-                id={JSON.stringify(item)}
-                image={item.profilePicture}
-                text={item.lastMessage}
-                date={item.lastMessageDate}
-                name={item.name}
-                unread={0}
-                key={idx}
-              />
-            ))}
+            {data?.map((item, idx) => {
+          const friend =
+            item?.user_one?.id === user?.user?.id
+              ? item?.user_two
+              : item?.user_one;
+          return (
+            <MessageCard
+              onClick={() => {
+                setSelectedMessage(JSON.stringify(friend));
+                close()
+              }}
+              id={JSON.stringify(friend)}
+              image={
+                friend?.photo_url?.substring(62) || "/profile-pic-default.png"
+              }
+              text={item?.get_messages?.[item?.get_messages?.length - 1]?.text}
+              date={
+                item?.get_messages?.length
+                  ? new Date(
+                    item?.get_messages?.[item?.get_messages?.length - 1]?.date_added
+                    ).toLocaleDateString("en-US", {
+                      day: "2-digit",
+                      month: "short",
+                    })
+                  : ""
+              }
+              name={`${friend?.first_name} ${friend?.last_name}`}
+              unread={0}
+              key={idx}
+            />
+          );
+        })}
           </div>
         ) : (
           <div

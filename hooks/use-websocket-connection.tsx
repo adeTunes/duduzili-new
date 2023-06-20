@@ -1,10 +1,12 @@
-import { userDetails } from "@/store";
-import { useAtomValue } from "jotai";
+import { socketConnection, userDetails } from "@/store";
+import { useAtomValue, useSetAtom } from "jotai";
 import React, { useEffect, useState } from "react";
+import WebSocket from "isomorphic-ws"
 
 const useWebsocketConnection: (friend: any) => {ws: WebSocket} = (friend) => {
   const user: any = useAtomValue(userDetails);
   const [ws, setWs] = useState<WebSocket>(null);
+  const setWsConnect = useSetAtom(socketConnection)
   useEffect(() => {
     if (friend) {
       setWs(
@@ -20,11 +22,11 @@ const useWebsocketConnection: (friend: any) => {ws: WebSocket} = (friend) => {
       // WebSocket event listeners
       ws.onopen = () => {
         // Perform any necessary join or initial setup actions
+        setWsConnect(true)
         const joinRoom = {
           command: "join",
           username: user?.user?.username,
         };
-
         ws.send(JSON.stringify(joinRoom));
       };
 

@@ -9,11 +9,14 @@ import { Loader } from "@mantine/core";
 import FriendProfileOptions from "./friendProfileOptions";
 import Image from "next/image";
 import Link from "next/link";
+import { base64encode } from "nodejs-base64";
+import { useRouter } from "next/router";
 
 function FriendProfileInformation({ friendDetails }) {
   const [loading, setLoading] = useState(false);
   const [loadingFollow, setLoadingFollow] = useState(false);
   const queryClient = useQueryClient();
+  const {push} = useRouter()
   return (
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
       <div className="flex flex-col">
@@ -63,6 +66,11 @@ function FriendProfileInformation({ friendDetails }) {
               )}
             </p>
             <p
+            onClick={() => {
+              const friend = JSON.stringify(friendDetails?.user)
+              console.log(friendDetails?.user)
+              // push(`/messages/friends?chat=${base64encode(friend)}`);
+            }}
               role="button"
               className="px-6 max-[385px]:hidden py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
             >

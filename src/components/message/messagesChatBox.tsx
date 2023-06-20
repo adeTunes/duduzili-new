@@ -7,7 +7,13 @@ import MessageSent from "./messageSent";
 import SendMessage from "./sendMessage";
 import SingleEmojiSent from "./singleEmojiSent";
 import Image from "next/image";
-import { chatFriendOptions, selectedFriendToChat, selectedMessage, userDetails } from "@/store";
+import {
+  chatFriendOptions,
+  selectedFriendToChat,
+  selectedMessage,
+  socketConnection,
+  userDetails,
+} from "@/store";
 import WebSocket from "isomorphic-ws";
 import { useForm } from "@mantine/form";
 import useWebsocketConnection from "../../../hooks/use-websocket-connection";
@@ -20,9 +26,9 @@ function MessagesChatBox() {
   const [friend, setFriend] = useState(null);
   const user: any = useAtomValue(userDetails);
   const [messages, setMessages] = useState([]);
-  const [chatOptions, setChatOptions] = useAtom(chatFriendOptions)
-  const [chatList, setChatList] = useAtom(selectedFriendToChat)
-  const queryClient = useQueryClient()
+  const [chatOptions, setChatOptions] = useAtom(chatFriendOptions);
+  const [chatList, setChatList] = useAtom(selectedFriendToChat);
+  const queryClient = useQueryClient();
   const form = useForm({
     initialValues: {
       text: "",
@@ -36,16 +42,47 @@ function MessagesChatBox() {
   }, [messageFriend]);
 
   const { ws } = useWebsocketConnection(friend);
+  const wsConnected = useAtomValue(socketConnection)
+
+  useEffect(() => {
+    if (ws && wsConnected) {
+      const receive = {
+        command: "receive",
+      };
+      console.log("Sending message:", receive);
+      const intervalID = setInterval(() => {
+        ws.send(JSON.stringify(receive));
+      }, 5000);
+
+      return () => {
+        clearInterval(intervalID);
+      };
+    }
+  }, [ws, wsConnected]);
 
   useEffect(() => {
     if (ws) {
       ws.onmessage = (event) => {
         // Process the incoming message
-        const message = JSON.parse(event.data);
-        console.log("Received message:", message);
+        const message = JSON.parse(event.data as string);
         if (message.msg_type === "ENTER") {
           setMessages(message.messages);
-        } else if (message?.message) {
+        } else if (
+          message?.msg_type === "MESSAGE" &&
+          Array.isArray(message?.message)
+        ) {
+          if (message?.message?.length) {
+            setMessages((prev) => {
+              const findMessage = prev?.find(
+                (item) => item.id === message.message[0].id
+              );
+              if(!findMessage) {
+                return [...prev, ...message.message];
+              }
+              else return prev
+            });
+          }
+        } else if (!Array.isArray(message?.message)) {
           setMessages((prev) => [...prev, message.message]);
         }
       };
@@ -58,21 +95,25 @@ function MessagesChatBox() {
   }, [ws]);
 
   const handleSendMessage = () => {
-    const foundFriend = chatList?.find(item => item?.username === friend?.username)
+    const foundFriend = chatList?.find(
+      (item) => item?.username === friend?.username
+    );
     const chatMessage = {
       command: "send",
       text: form.values.text,
-      username: friend?.username,
     };
     ws.send(JSON.stringify(chatMessage));
-    if(foundFriend) {
-      queryClient.invalidateQueries(["conversations"])
-      setChatOptions("chat initiated")
+    if (foundFriend) {
+      setChatOptions("chat initiated");
     }
+    queryClient.invalidateQueries(["conversations"]);
   };
 
   return friend ? (
-    <div id="no-scroll" className="grid grid-rows-[auto_1fr_auto] overflow-auto flex-1 flex-col gap-6">
+    <div
+      id="no-scroll"
+      className="grid grid-rows-[auto_1fr_auto] overflow-auto flex-1 flex-col gap-6"
+    >
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
           <div className="h-[52px] w-[52px]">
@@ -100,7 +141,10 @@ function MessagesChatBox() {
           icon="carbon:overflow-menu-vertical"
         />
       </div>
-      <div id="messages no-scroll" className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5">
+      <div
+        id="messages no-scroll"
+        className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5"
+      >
         {messages?.map((item) =>
           item?.sender?.id === user?.user?.id ? (
             <MessageSent
