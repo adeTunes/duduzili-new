@@ -42,7 +42,7 @@ function MessagesChatBox() {
   }, [messageFriend]);
 
   const { ws } = useWebsocketConnection(friend);
-  const wsConnected = useAtomValue(socketConnection)
+  const wsConnected = useAtomValue(socketConnection);
 
   useEffect(() => {
     if (ws && wsConnected) {
@@ -73,13 +73,14 @@ function MessagesChatBox() {
         ) {
           if (message?.message?.length) {
             setMessages((prev) => {
-              const findMessage = prev?.find(
-                (item) => item.id === message.message[0].id
-              );
-              if(!findMessage) {
-                return [...prev, ...message.message];
-              }
-              else return prev
+              let findMessage = [];
+              message?.message?.forEach((el) => {
+                const found = prev?.find((item) => item.id === el.id);
+                if (!found) {
+                  findMessage.push(el);
+                }
+              });
+                return [...prev, ...findMessage];
             });
           }
         } else if (!Array.isArray(message?.message)) {
