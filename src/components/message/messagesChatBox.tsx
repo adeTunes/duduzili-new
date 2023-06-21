@@ -21,9 +21,10 @@ import useWebsocketConnection from "../../../hooks/use-websocket-connection";
 import { AttachSquare } from "iconsax-react";
 import AttachMedia from "./attach-media";
 import { useQueryClient } from "@tanstack/react-query";
-import data from '@emoji-mart/data'
+import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { showNotification } from "@mantine/notifications";
+import EmojiContainer from "./emojiContainer";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
@@ -48,8 +49,8 @@ function MessagesChatBox() {
 
   const { ws, setWs } = useWebsocketConnection(friend);
   const wsConnected = useAtomValue(socketConnection);
-  const chatContainerRef = useRef<HTMLDivElement>(null)
-  const setWsReconnect = useSetAtom(wsReconnection)
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const setWsReconnect = useSetAtom(wsReconnection);
 
   const scrollToBottom = () => {
     const chatContainer = chatContainerRef.current;
@@ -65,19 +66,18 @@ function MessagesChatBox() {
   useEffect(() => {
     if (ws && wsConnected) {
       const receive = {
-        command: "receive"
+        command: "receive",
       };
       const intervalID = setInterval(() => {
         if (wsConnected) {
           try {
-            ws.send(JSON.stringify(receive));  
+            ws.send(JSON.stringify(receive));
           } catch (error) {
-            showNotification({message: "Something went wrong"})
+            showNotification({ message: "Something went wrong" });
           }
-          
         } else {
-          setWsReconnect(true)
-          clearInterval(intervalID)
+          setWsReconnect(true);
+          clearInterval(intervalID);
         }
       }, 5000);
 
@@ -119,7 +119,7 @@ function MessagesChatBox() {
         console.log("WebSocket connection closed");
         // Handle any necessary cleanup or reconnection logic
         setWsConnect(false);
-        setWsReconnect(true)
+        setWsReconnect(true);
       };
     }
   }, [ws]);
@@ -134,15 +134,14 @@ function MessagesChatBox() {
     };
     try {
       ws.send(JSON.stringify(chatMessage));
-    if (foundFriend) {
-      setChatOptions("chat initiated");
-    }
-    scrollToBottom();
-    queryClient.invalidateQueries(["conversations"]);
+      if (foundFriend) {
+        setChatOptions("chat initiated");
+      }
+      scrollToBottom();
+      queryClient.invalidateQueries(["conversations"]);
     } catch (error) {
-      showNotification({message: "Something went wrong"})
+      showNotification({ message: "Something went wrong" });
     }
-    
   };
 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -184,7 +183,7 @@ function MessagesChatBox() {
         />
       </div>
       <div
-      ref={chatContainerRef}
+        ref={chatContainerRef}
         id="messages no-scroll"
         className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5"
       >
@@ -220,9 +219,7 @@ function MessagesChatBox() {
 
         <SingleEmojiSent /> */}
       </div>
-      {showEmojiPicker && (
-        <Picker data={data} onEmojiSelect={console.log} />
-      )}
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -233,13 +230,7 @@ function MessagesChatBox() {
       >
         <div className="flex pl-6 items-center gap-4 flex-1 bg-[#EDF0FB] rounded-[40px]">
           <div className="flex items-center max-[590px]:hidden gap-3">
-            <Icon onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-              icon="ph:smiley-bold"
-              color="#4534b8"
-              width={24}
-              height={24}
-              className="cursor-pointer"
-            />
+            <EmojiContainer form={form} />
             <Icon
               icon="ic:outline-image"
               color="#4534b8"
@@ -263,13 +254,7 @@ function MessagesChatBox() {
             />
           </div>
           <div className="max-[590px]:flex items-center hidden gap-2">
-            <Icon
-              icon="ph:smiley-bold"
-              color="#4534b8"
-              width={20}
-              height={20}
-              className="cursor-pointer"
-            />
+            <EmojiContainer form={form} />
             <AttachMedia />
           </div>
           <Textarea
