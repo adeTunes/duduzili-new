@@ -21,8 +21,6 @@ import useWebsocketConnection from "../../../hooks/use-websocket-connection";
 import { AttachSquare } from "iconsax-react";
 import AttachMedia from "./attach-media";
 import { useQueryClient } from "@tanstack/react-query";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
 import { showNotification } from "@mantine/notifications";
 import EmojiContainer from "./emojiContainer";
 

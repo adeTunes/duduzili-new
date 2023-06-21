@@ -1,6 +1,4 @@
 import { Menu } from "@mantine/core";
-// import Picker from "@emoji-mart/react";
-import data from "@emoji-mart/data";
 import React from "react";
 import { Icon } from "@iconify/react";
 import { UseFormReturnType } from "@mantine/form";
