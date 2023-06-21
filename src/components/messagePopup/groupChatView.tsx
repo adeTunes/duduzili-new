@@ -10,7 +10,7 @@ import { Textarea } from "@mantine/core";
 
 function GroupChatView({ setAction,setTab }) {
   return (
-    <div className="flex mx-4 overflow-auto h-full flex-col gap-3">
+    <div className="flex mx-4 max-[345px]:mx-1 overflow-auto h-full flex-col gap-3">
       <div className="flex pb-4 border-b border-b-[#C0D0E8] items-center justify-between">
         <Icon
           onClick={() => {

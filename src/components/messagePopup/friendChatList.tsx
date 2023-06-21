@@ -88,7 +88,7 @@ function FriendChatList() {
   return (
     <div
       id="conversations-container"
-      className="flex flex-1 overflow-auto flex-col"
+      className="flex flex-1 w-full overflow-auto flex-col"
     >
       {messages.map(
         (

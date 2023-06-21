@@ -7,7 +7,7 @@ function AddGroupMembers({ setAction }) {
   const [selected, setSelected] = useState([]);
   return (
     <div className="grid h-full grid-rows-[auto_auto_1fr] gap-4 overflow-auto">
-      <div className="flex justify-between mx-[14px]">
+      <div className="flex justify-between max-[345px]:mx-2 mx-[14px]">
         <p className="flex items-center gap-4">
           <Icon
             onClick={() => setAction("friend-list")}
@@ -16,7 +16,7 @@ function AddGroupMembers({ setAction }) {
             height={25}
             width={25}
           />
-          <span className="text-[#2a2a2a] font-bold text-[18px] leading-[22px]">
+          <span className="text-[#2a2a2a] font-bold max-[345px]:text-base text-[18px] leading-[22px]">
             New Message
           </span>
         </p>
@@ -25,7 +25,7 @@ function AddGroupMembers({ setAction }) {
             onClick={() => setAction("group-chat-view")}
             className={clsx(
               !selected.length && "opacity-40 pointer-events-none",
-              "bg-[#4534B8] cursor-pointer h-12 w-12 rounded-full flex items-center justify-center"
+              "bg-[#4534B8] cursor-pointer h-12 w-12 max-[345px]:w-8 max-[345px]:h-8 rounded-full flex items-center justify-center"
             )}
           >
             <Send2 size="20" color="#FFFFFF" />
@@ -41,7 +41,7 @@ function AddGroupMembers({ setAction }) {
       <p className="text-[#757575] pb-4 border-b mx-[14px] border-b-[#EDF0FB] text-[15px] leading-6">
         Select one or more friends to start a chat.
       </p>
-      <div className="flex flex-col gap-4 mx-[30px] overflow-auto">
+      <div className="flex flex-col gap-4 max-[345px]:mx-3 mx-[30px] overflow-auto">
         <TextInput
           classNames={{
             input:
@@ -60,7 +60,7 @@ function AddGroupMembers({ setAction }) {
             .map((item, idx) => (
               <div key={idx} className="flex items-center justify-between">
                 <div className="flex items-center gap-[19px]">
-                  <div className="w-[52px] h-[52px]">
+                  <div className="w-[52px] h-[52px] max-[345px]:w-10 max-[345px]:h-10">
                     <img
                       src="/profile-pic-default.png"
                       className="w-full h-full object-cover rounded-full"

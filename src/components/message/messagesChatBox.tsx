@@ -4,9 +4,6 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React, { useState, useEffect, useRef } from "react";
 import MessageReceived from "./messageReceived";
 import MessageSent from "./messageSent";
-import SendMessage from "./sendMessage";
-import SingleEmojiSent from "./singleEmojiSent";
-import Image from "next/image";
 import {
   chatFriendOptions,
   selectedFriendToChat,
@@ -15,10 +12,8 @@ import {
   userDetails,
   wsReconnection,
 } from "@/store";
-import WebSocket from "isomorphic-ws";
 import { useForm } from "@mantine/form";
 import useWebsocketConnection from "../../../hooks/use-websocket-connection";
-import { AttachSquare } from "iconsax-react";
 import AttachMedia from "./attach-media";
 import { useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";

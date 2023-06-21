@@ -10,19 +10,19 @@ function FriendList({ tab, setTab, setAction, user }) {
 
   return (
     <div className="grid h-full grid-rows-[auto_auto_auto_1fr] gap-4">
-      <div className="flex justify-between px-7">
+      <div className="flex justify-between max-[345px]:px-2 px-7">
         <p className="flex items-center gap-4">
-          <span className="text-[#2a2a2a] font-bold text-[18px] leading-[22px]">
+          <span className="text-[#2a2a2a] font-bold max-[345px]:text-base text-[18px] leading-[22px]">
             Messages
           </span>
-          <span className="py-1 px-3 rounded-full bg-[#E59055] text-[15px] text-white">
+          <span className="py-1 px-3 rounded-full max-[345px]:px-[9px] max-[345px]:py-[2px] bg-[#E59055] text-[15px] text-white">
             {user?.number_of_messages}
           </span>
         </p>
         <div className="flex items-center gap-[20px]">
           <div
             onClick={() => setAction("add-group-members")}
-            className="bg-[#4534B8] cursor-pointer h-12 w-12 rounded-full flex items-center justify-center"
+            className="bg-[#4534B8] cursor-pointer h-12 w-12 max-[345px]:w-8 max-[345px]:h-8 rounded-full flex items-center justify-center"
           >
             <Icon
               height={20}
@@ -39,7 +39,7 @@ function FriendList({ tab, setTab, setAction, user }) {
           />
         </div>
       </div>
-      <div className="px-[30px] grid grid-cols-3">
+      <div className="px-[30px] max-[345px]:px-3 grid grid-cols-3">
         {tabs?.map((item, idx) => (
           <p
             onClick={() => setTab(idx)}
@@ -60,7 +60,7 @@ function FriendList({ tab, setTab, setAction, user }) {
           input:
             "h-[47px] !pl-[48px] placeholder:text-[#757575] bg-[#F4F4F4] rounded-[24px] border-0",
         }}
-        className="rounded-[24px] pl-8 bg-[#F4F4F4] mx-[30px]"
+        className="rounded-[24px] pl-8 bg-[#F4F4F4] max-[345px]:mx-3 mx-[30px]"
         placeholder="Search Friend"
         icon={<Icon height={24} width={24} icon="ri:search-line" />}
       />

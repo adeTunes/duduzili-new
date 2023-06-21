@@ -24,7 +24,7 @@ function MessageMenu() {
         item: "!p-0 !h-full",
         itemLabel: "!h-full",
         dropdown:
-          "!pt-6 !rounded-[24px] message-container !h-[623px] !max-w-[400px] !left-[unset] !right-0 !w-[auto] !min-w-[400px]",
+          "!pt-6 !rounded-[24px] message-container !h-[623px] !max-w-[400px] !left-[unset] !right-0 !w-[auto] max-[430px]:min-w-fit min-w-[400px]",
       }}
       styles={{
         dropdown: {
