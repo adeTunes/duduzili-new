@@ -21,6 +21,9 @@ import useWebsocketConnection from "../../../hooks/use-websocket-connection";
 import { AttachSquare } from "iconsax-react";
 import AttachMedia from "./attach-media";
 import { useQueryClient } from "@tanstack/react-query";
+import data from '@emoji-mart/data'
+import Picker from "@emoji-mart/react";
+import { showNotification } from "@mantine/notifications";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
@@ -60,19 +63,18 @@ function MessagesChatBox() {
   // }, [friend]);
 
   useEffect(() => {
-    if(friend === "empty") {
-      
-    }
-  }, [friend])
-
-  useEffect(() => {
     if (ws && wsConnected) {
       const receive = {
-        command: "receive",
+        command: "receive"
       };
       const intervalID = setInterval(() => {
         if (wsConnected) {
-          ws.send(JSON.stringify(receive));
+          try {
+            ws.send(JSON.stringify(receive));  
+          } catch (error) {
+            showNotification({message: "Something went wrong"})
+          }
+          
         } else {
           setWsReconnect(true)
           clearInterval(intervalID)
@@ -130,12 +132,23 @@ function MessagesChatBox() {
       command: "send",
       text: form.values.text,
     };
-    ws.send(JSON.stringify(chatMessage));
+    try {
+      ws.send(JSON.stringify(chatMessage));
     if (foundFriend) {
       setChatOptions("chat initiated");
     }
     scrollToBottom();
     queryClient.invalidateQueries(["conversations"]);
+    } catch (error) {
+      showNotification({message: "Something went wrong"})
+    }
+    
+  };
+
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const handleEmojiSelect = (emoji) => {
+    form.setFieldValue("text", form.values.text + emoji.native);
   };
 
   return friend ? (
@@ -207,6 +220,9 @@ function MessagesChatBox() {
 
         <SingleEmojiSent /> */}
       </div>
+      {showEmojiPicker && (
+        <Picker data={data} onEmojiSelect={console.log} />
+      )}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -217,7 +233,7 @@ function MessagesChatBox() {
       >
         <div className="flex pl-6 items-center gap-4 flex-1 bg-[#EDF0FB] rounded-[40px]">
           <div className="flex items-center max-[590px]:hidden gap-3">
-            <Icon
+            <Icon onClick={() => setShowEmojiPicker(!showEmojiPicker)}
               icon="ph:smiley-bold"
               color="#4534b8"
               width={24}
