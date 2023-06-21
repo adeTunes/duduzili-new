@@ -26,7 +26,7 @@ function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { 
         </div>
         <div className="gap-1 flex flex-col">
           <p className={clsx(usage ? "text-[14px]" : "leading-6", "text-[#222222] font-semibold ")}>{name}</p>
-          <Text lineClamp={1} className="text-[#2A2A2A] text-xs">{text}</Text>
+          <Text truncate lineClamp={1} sx={{fontWeight: unread ? 700 : 400}} className="text-[#2A2A2A] text-xs">{text}</Text>
         </div>
       </div>
       <div className="flex flex-col gap-2 items-center">

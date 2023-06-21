@@ -25,7 +25,7 @@ const SettingsLayout = ({
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-[680px]:w-full h-full pb-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[3vw] flex">
+        <main className="bg-[#FBFBFB] max-[680px]:w-full h-full pb-[50px] relative max-w-[1131px] max-[1170px]:min-w-[900px] max-[940px]:min-w-full min-w-[1131px] justify-between pt-[3vh] gap-[3vw] flex">
           <section className="w-[45%] max-[680px]:hidden min-w-[250px] overflow-auto max-w-[506px] flex flex-col gap-8">
             <div className="flex items-center gap-10">
               <ArrowLeft
@@ -50,7 +50,7 @@ const SettingsLayout = ({
                 <ArrowLeft size="24" color="#2A2A2A" variant="Outline" />
                 <p className="text-[#2A2A2A] text-[16px] font-bold">Settings</p>
               </div>
-              <HambergerMenu onClick={open} size={24} />
+              <HambergerMenu className="cursor-pointer" onClick={open} size={24} />
             </div>
             <p className="font-semibold text-[#222222] text-[18px] leading-[22px] pb-4 border-b border-b-[#EDF0FB]">
               {tabName}

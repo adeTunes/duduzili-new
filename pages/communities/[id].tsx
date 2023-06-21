@@ -15,11 +15,23 @@ import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import InviteFriends from "@/components/homepage/sidebar/inviteFriends";
 import PendingRequests from "@/components/homepage/sidebar/pendingRequests";
 import Link from "next/link";
+import { useSetAtom } from "jotai";
+import { singleCommunity } from "@/store";
+import { useEffect } from "react";
 
 const Community: NextPageX = () => {
   const { query, back } = useRouter();
   const { data, isLoading } = useCommunityDetails(query.id);
   const { data: communities } = useCommunityList("");
+  const setSingleCommunity: any = useSetAtom(singleCommunity)
+
+  useEffect(() => {
+    if(data) {
+      setSingleCommunity(data)
+    }
+  }, [data])
+
+
 
   return (
     <div className="flex flex-col overflow-auto h-screen">

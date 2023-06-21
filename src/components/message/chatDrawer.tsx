@@ -1,56 +1,17 @@
 import { Icon } from "@iconify/react";
-import { Drawer, TextInput, clsx } from "@mantine/core";
+import { Collapse, Drawer, TextInput, clsx } from "@mantine/core";
 import React from "react";
 import MessageCard from "./messageCard";
 import { useAtomValue, useSetAtom } from "jotai";
-import { selectedMessage, userDetails } from "@/store";
+import { openChatDrawer, selectedMessage, userDetails } from "@/store";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import GroupChatCard from "./groupChatCard";
 import useConversations from "../../../hooks/use-conversations";
+import { useDisclosure } from "@mantine/hooks";
+import { Home, Profile2User, Sms, TrendUp } from "iconsax-react";
 
-function ChatDrawer({ opened, close }) {
-  const setSelectedMessage = useSetAtom(selectedMessage);
-  const { data } = useConversations();
-  const user: any = useAtomValue(userDetails)
-  const groupMessages = [
-    {
-      name: "You, Jane Doe and Frank...",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: [
-        "/message/friend-avatar.png",
-        "/message/friend-avatar-3.png",
-        "/message/friend-avatar-2.png",
-      ],
-    },
-    {
-      name: "You and 5 others",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "1",
-      profilePicture: [
-        "/message/friend-avatar-2.png",
-        "/message/friend-avatar-4.png",
-        "/message/friend-avatar.png",
-      ],
-    },
-    {
-      name: "You and 30 others",
-      lastMessage:
-        "Loren ipsum dolor sit amet, con Loren ipsum dolor sit amet, con",
-      lastMessageDate: "Mar 12",
-      unreadMessage: "",
-      profilePicture: [
-        "/message/friend-avatar-4.png",
-        "/message/friend-avatar.png",
-        "/message/friend-avatar-2.png",
-      ],
-    },
-  ];
+function ChatDrawer({ opened, close, boxType }) {
   const { pathname } = useRouter();
   const tabs = [
     {
@@ -66,17 +27,68 @@ function ChatDrawer({ opened, close }) {
       href: "/messages/group-chats",
     },
   ];
+  const [menuOpened, { toggle }] = useDisclosure(false);
+  const navIcons = [
+    {
+      href: "/home",
+      icon: <Home size="16" variant="Outline" />,
+      name: "Feed",
+    },
+    {
+      href: "/communities/posts",
+      icon: <Profile2User size="16" variant="Outline" />,
+      name: "Communities",
+    },
+    {
+      href: "/trending",
+      icon: <TrendUp size="16" variant="Outline" />,
+      name: "Trending Posts",
+    },
+    {
+      href: "/messages/friends",
+      icon: <Sms size="16" variant="Outline" />,
+      name: "Messages",
+    },
+  ];
+
+  const setChatDrawer = useSetAtom(openChatDrawer);
   return (
     <Drawer
       classNames={{
         content: "flex flex-col overflow-auto",
-        body: "flex-1 !px-2 flex flex-col overflow-auto",
+        body: "flex-1 px-6 max-[320px]:px-2 flex flex-col overflow-auto",
       }}
+      size="100%"
       opened={opened}
-      onClose={close}
+      onClose={() => {
+        close()
+        setChatDrawer(false)
+      }}
+      position="right"
     >
-      <div className="flex flex-1 cursor-pointer overflow-auto flex-col gap-6">
-        <div className="flex flex-col gap-3">
+      <p
+        className="mb-8 text-18px font-bold cursor-pointer hover:bg-[#efefef] py-2"
+        onClick={toggle}
+      >
+        Menu
+      </p>
+      <Collapse in={menuOpened}>
+        <ul className="flex flex-col font-semibold gap-3 mb-3">
+          {navIcons.map((item) => (
+            <li key={item.name} className=" cursor-pointer py-2 hover:bg-[#f4f4f4] flex">
+              <Link
+                href={item.href}
+                className="h-full flex gap-3 items-center w-full"
+              >
+                {item.icon}
+                {item.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Collapse>
+      <aside className="w-full flex-1 overflow-auto flex flex-col gap-6">
+        <div className="flex overflow-auto h-full flex-col gap-6">
           <div className="justify-between flex">
             {tabs.map((item, idx) => (
               <Link key={idx} href={item.href}>
@@ -95,106 +107,9 @@ function ChatDrawer({ opened, close }) {
               </Link>
             ))}
           </div>
-          <div>
-            <TextInput
-              classNames={{
-                root: "bg-white",
-                input:
-                  "h-[47px] !pl-[48px] placeholder:text-[#757575] rounded-[24px] border-0",
-              }}
-              className="rounded-[24px] pl-8"
-              style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-              placeholder="Search Chat"
-              icon={<Icon height={24} width={24} icon="ri:search-line" />}
-            />
-          </div>
+          {boxType}
         </div>
-        {pathname === "/messages/friends" ? (
-          <div
-            id="conversations-container"
-            className="flex flex-1 overflow-auto flex-col py-2 bg-white rounded-2xl"
-            style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-          >
-            {/* {chatList?.map((item, idx) => (
-          <MessageCard
-            onClick={() => {
-              setSelectedMessage(JSON.stringify(item));
-            }}
-            id={JSON.stringify(item)}
-            image={item?.photo_url?.substring(62) || "/profile-pic-default.png"}
-            text={" "}
-            date={" "}
-            name={`${item?.first_name} ${item?.last_name}`}
-            unread={0}
-            key={idx}
-          />
-        ))} */}
-            {data?.map((item, idx) => {
-          const friend =
-            item?.user_one?.id === user?.user?.id
-              ? item?.user_two
-              : item?.user_one;
-          return (
-            <MessageCard
-              onClick={() => {
-                setSelectedMessage(JSON.stringify(friend));
-                close()
-              }}
-              id={JSON.stringify(friend)}
-              image={
-                friend?.photo_url?.substring(62) || "/profile-pic-default.png"
-              }
-              text={item?.get_messages?.[item?.get_messages?.length - 1]?.text}
-              date={
-                item?.get_messages?.length
-                  ? new Date(
-                    item?.get_messages?.[item?.get_messages?.length - 1]?.date_added
-                    ).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                      month: "short",
-                    })
-                  : ""
-              }
-              name={`${friend?.first_name} ${friend?.last_name}`}
-              unread={0}
-              key={idx}
-            />
-          );
-        })}
-          </div>
-        ) : (
-          <div
-            id="conversations-container"
-            className="flex flex-1 overflow-auto flex-col py-2 bg-white rounded-2xl"
-            style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-          >
-            {groupMessages.map(
-              (
-                {
-                  profilePicture,
-                  lastMessage,
-                  lastMessageDate,
-                  name,
-                  unreadMessage,
-                },
-                idx
-              ) => (
-                <GroupChatCard
-                  onClick={() => setSelectedMessage("")}
-                  id={""}
-                  image={profilePicture}
-                  text={lastMessage}
-                  date={lastMessageDate}
-                  name={name}
-                  unread={unreadMessage}
-                  key={idx}
-                  usage="drawer"
-                />
-              )
-            )}
-          </div>
-        )}
-      </div>
+      </aside>
     </Drawer>
   );
 }

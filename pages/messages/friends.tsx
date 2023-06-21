@@ -4,7 +4,7 @@ import { TextInput } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import MessageCard from "@/components/message/messageCard";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { chatFriendOptions, selectedMessage, userDetails } from "@/store";
+import { chatFriendOptions, openChatDrawer, selectedMessage, userDetails } from "@/store";
 import MessageLayout from "@/layout/messageLayout";
 import MessagesChatBox from "@/components/message/messagesChatBox";
 import useConversations from "../../hooks/use-conversations";
@@ -17,7 +17,7 @@ import { base64decode } from "nodejs-base64";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
-  const { data } = useConversations();
+  const { data, refetch } = useConversations();
   const [chatList, setChatList] = useAtom(selectedFriendToChat);
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
@@ -67,6 +67,7 @@ const Messages: NextPageX = () => {
       push("/messages/friends", undefined, { shallow: true });
     }
   }, [query.chat, data]);
+  const setChatDrawer = useSetAtom(openChatDrawer)
 
   return (
     <div className="flex flex-1 cursor-pointer overflow-auto flex-col gap-6">
@@ -92,6 +93,9 @@ const Messages: NextPageX = () => {
           <MessageCard
             onClick={() => {
               setSelectedMessage(JSON.stringify(item));
+              if(window.innerWidth <= 800) {
+                setChatDrawer(true)
+              }
             }}
             id={JSON.stringify(item)}
             image={item?.photo_url?.substring(62) || "/profile-pic-default.png"}
@@ -111,6 +115,10 @@ const Messages: NextPageX = () => {
             <MessageCard
               onClick={() => {
                 setSelectedMessage(JSON.stringify(friend));
+                refetch()
+                if(window.innerWidth <= 800) {
+                  setChatDrawer(true)
+                }
               }}
               id={JSON.stringify(friend)}
               image={
@@ -128,7 +136,7 @@ const Messages: NextPageX = () => {
                   : ""
               }
               name={`${friend?.first_name} ${friend?.last_name}`}
-              unread={0}
+              unread={item?.get_messages?.filter(item => !item?.read)?.length}
               key={idx}
             />
           );

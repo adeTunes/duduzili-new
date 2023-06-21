@@ -12,11 +12,21 @@ import useCommunityJoined from "../../hooks/useCommunitiesJoined";
 import { useDisclosure } from "@mantine/hooks";
 import CreateCommunityModal from "@/components/modals/createCommunityModal";
 import useRandomCommunitiesPosts from "../../hooks/useRandomCommunitiesPosts";
+import { useSetAtom } from "jotai";
+import { joinedCommunities } from "@/store";
+import { useEffect } from "react";
 
 const Communities: NextPageX = () => {
   // const { data } = useCommunityJoined();
   const { data } = useRandomCommunitiesPosts();
   const { data: joined, isLoading } = useCommunityJoined(4);
+  const setJoined = useSetAtom(joinedCommunities)
+
+  useEffect(() => {
+    if(joined) {
+      setJoined(joined)
+    }
+  }, [joined])
 
   const [opened, { open, close }] = useDisclosure(false);
   return (

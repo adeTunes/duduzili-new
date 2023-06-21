@@ -1,7 +1,14 @@
 import { pageSearch, userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Indicator, TextInput, clsx } from "@mantine/core";
-import { HambergerMenu, Home, Profile2User, SearchNormal1, Sms, TrendUp } from "iconsax-react";
+import {
+  HambergerMenu,
+  Home,
+  Profile2User,
+  SearchNormal1,
+  Sms,
+  TrendUp,
+} from "iconsax-react";
 import { useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,8 +17,9 @@ import UserProfileImageActions from "./userProfileImageActions";
 import { Loading } from "../loading";
 import Image from "next/image";
 import UseNotifications from "../../../hooks/useNotifications";
-import { useDebouncedValue } from "@mantine/hooks";
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { useQueryClient } from "@tanstack/react-query";
+import MobileDrawer from "../mobileDrawer";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
@@ -67,6 +75,7 @@ function Header() {
   const [searchValue] = useDebouncedValue(search, 500);
   const setPageSearch = useSetAtom(pageSearch);
   const queryClient = useQueryClient();
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     if (searchValue) {
@@ -81,12 +90,12 @@ function Header() {
   return (
     <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
       <Link href="/home">
-        <div style={{height: "clamp(35px, 2.5vw, 49px)"}}>
+        <div style={{ height: "clamp(35px, 2.5vw, 49px)" }}>
           <img src="/logo.png" alt="duduzili logo" className="h-full" />
         </div>
       </Link>
       <TextInput
-      className="max-[580px]:hidden"
+        className="max-[580px]:hidden"
         placeholder="Search Duduzili"
         icon={<Icon icon="mingcute:search-line" height={24} width={24} />}
         classNames={{
@@ -120,8 +129,10 @@ function Header() {
         ))}
       </div>
       <div className="hidden max-[790px]:flex h-[75px] items-center gap-5">
-        <HambergerMenu size={24} />
-        <SearchNormal1 size={24} className=" max-[580px]:inline-block" />
+        {(pathname.includes("messages") || pathname.startsWith("/settings")) ? null : (
+          <HambergerMenu className="cursor-pointer" onClick={open} size={24} />
+        )}
+        <SearchNormal1 size={24} className=" hidden max-[580px]:inline-block" />
         <UserProfileImageActions unread={unread} setLoading={setLoading}>
           <Indicator
             classNames={{ common: "!top-[3px] !right-[6px]" }}
@@ -140,6 +151,7 @@ function Header() {
         </UserProfileImageActions>
       </div>
       <Loading loading={loading} />
+      <MobileDrawer opened={opened} close={close} />
     </header>
   );
 }

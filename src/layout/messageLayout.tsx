@@ -6,6 +6,8 @@ import { clsx } from "@mantine/core";
 import Link from "next/link";
 import ChatDrawer from "@/components/message/chatDrawer";
 import { useDisclosure } from "@mantine/hooks";
+import { useAtomValue } from "jotai";
+import { openChatDrawer } from "@/store";
 
 const MessageLayout = ({
   children,
@@ -33,6 +35,7 @@ const MessageLayout = ({
   ];
 
   const [opened, { open, close }] = useDisclosure(false);
+  const chatDrawerOpened = useAtomValue(openChatDrawer)
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -41,29 +44,22 @@ const MessageLayout = ({
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
         <main className="bg-[#FBFBFB] w-full h-full pb-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
-          <section className="w-[45%] max-[800px]:hidden min-w-[330px] overflow-auto max-w-[506px] flex flex-col gap-[32px]">
-            <div
-              onClick={back}
-              className="flex cursor-pointer items-center gap-10"
-            >
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Messages
-              </p>
+          <section className="w-[45%] max-[800px]:min-w-full max-[800px]:max-w-full min-w-[330px] overflow-auto max-w-[506px] flex flex-col gap-[32px]">
+            <div className="flex items-center justify-between">
+              <div
+                onClick={back}
+                className="flex cursor-pointer items-center gap-10"
+              >
+                <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
+                <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
+                  Messages
+                </p>
+              </div>
+              <HambergerMenu className="cursor-pointer" onClick={open} size={24} />
             </div>
             {children}
           </section>
-          <aside className="w-[55%] max-[800px]:w-full max-[800px]:max-w-full overflow-auto max-w-[557px] flex flex-col gap-6">
-            <div className="max-[800px]:flex hidden justify-between items-center">
-              <div
-                onClick={back}
-                className="flex cursor-pointer items-center gap-3"
-              >
-                <ArrowLeft size="24" color="#2A2A2A" variant="Outline" />
-                <p className="text-[#2A2A2A] text-[16px] font-bold">Messages</p>
-              </div>
-              <HambergerMenu onClick={open} size={24} />
-            </div>
+          <aside className="w-[55%] max-[800px]:hidden overflow-auto max-w-[557px] flex flex-col gap-6">
             <div className="flex overflow-auto h-full flex-col gap-6">
               <div className="max-[800px]:hidden justify-between flex">
                 {tabs.map((item, idx) => (
@@ -88,7 +84,7 @@ const MessageLayout = ({
           </aside>
         </main>
       </div>
-      <ChatDrawer opened={opened} close={close} />
+      <ChatDrawer boxType={boxType} opened={opened || chatDrawerOpened} close={close} />
     </div>
   );
 };

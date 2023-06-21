@@ -3,7 +3,7 @@ import React from "react";
 
 function DownloadApp() {
   return (
-    <div className="p-7 bg-[#4534B8] flex flex-col gap-6 rounded-2xl">
+    <div className="p-7 bg-[#4534B8] max-w-[400px] mx-auto flex flex-col gap-6 rounded-2xl">
       <p className="text-[#FFFFFF] text-[18px] leading-[22px] text-center">
         Download Duduzili mobile App
       </p>
