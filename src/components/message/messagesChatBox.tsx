@@ -93,7 +93,7 @@ function MessagesChatBox() {
         // Process the incoming message
         const message = JSON.parse(event.data as string);
         if (message.msg_type === "ENTER") {
-          setMessages(message.messages);
+          setMessages(message.messages?.reverse());
         } else if (
           message?.msg_type === "MESSAGE" &&
           Array.isArray(message?.message)
@@ -107,11 +107,11 @@ function MessagesChatBox() {
                   findMessage.push(el);
                 }
               });
-              return [...prev, ...findMessage];
+              return [...prev, ...findMessage?.reverse()];
             });
           }
         } else if (!Array.isArray(message?.message)) {
-          setMessages((prev) => [...prev, message.message]);
+          setMessages((prev) => [...prev, message.message?.reverse()]);
         }
       };
 

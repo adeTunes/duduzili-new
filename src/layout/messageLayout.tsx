@@ -55,7 +55,7 @@ const MessageLayout = ({
                   Messages
                 </p>
               </div>
-              <HambergerMenu className="cursor-pointer" onClick={open} size={24} />
+              <HambergerMenu className="cursor-pointer max-[800px]:inline-block hidden" onClick={open} size={24} />
             </div>
             {children}
           </section>

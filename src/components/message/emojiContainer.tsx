@@ -1,9 +1,17 @@
 import { Menu } from "@mantine/core";
-import Picker from "@emoji-mart/react";
+// import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import React from "react";
 import { Icon } from "@iconify/react";
 import { UseFormReturnType } from "@mantine/form";
+import dynamic from 'next/dynamic';
+
+const Picker = dynamic(
+  () => {
+    return import('emoji-picker-react');
+  },
+  { ssr: false }
+);
 
 function EmojiContainer({
   form,
@@ -21,10 +29,10 @@ function EmojiContainer({
     <Menu
       closeOnItemClick={false}
       shadow="md"
-      width={200}
+      width="fit-content"
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !min-w-[25vw]",
+        dropdown: "!p-0 !rounded-[24px] !w-[auto]",
       }}
       styles={{
         dropdown: {
@@ -50,12 +58,14 @@ function EmojiContainer({
 
       <Menu.Dropdown>
         <Menu.Item>
-          <Picker
+        <Picker height={500} width="clamp(240px, 24vw, 400px)" />
+          {/* <Picker
+          style={{innerWidth: 250}}
             data={data}
             onEmojiSelect={(value) =>
               form.setFieldValue("text", form.values.text + value.native)
             }
-          />
+          /> */}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

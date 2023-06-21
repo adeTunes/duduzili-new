@@ -122,5 +122,12 @@ div#messages::-webkit-scrollbar {
   height: 100%;
 }
 
+/* EMOJI */
 
+/* em-emoji-picker :host section[id="root"] {
+  width: 250px !important;
+}
 
+:host div[class="scroll flex-grow padding-lr"] > div {
+  width: 246px !important;
+} */

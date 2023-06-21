@@ -32,7 +32,7 @@ const useWebsocketConnection: (friend: any) => {
         setWsReconnect(false);
         const joinRoom = {
           command: "join",
-          username: user?.user?.username,
+          username: user?.user?.username
         };
         try {
           ws.send(JSON.stringify(joinRoom));
