@@ -60,7 +60,7 @@ const Messages: NextPageX = () => {
             : match?.user_one;
         setSelectedMessage(JSON.stringify(newFriend));
       } else {
-        setChatList([friend]);
+        setChatList([JSON.parse(friend)]);
         setSelectedMessage(friend);
         setChatOptions("selected friend");
       }

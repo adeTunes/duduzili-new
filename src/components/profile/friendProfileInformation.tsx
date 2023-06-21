@@ -68,8 +68,7 @@ function FriendProfileInformation({ friendDetails }) {
             <p
             onClick={() => {
               const friend = JSON.stringify(friendDetails?.user)
-              console.log(friendDetails?.user)
-              // push(`/messages/friends?chat=${base64encode(friend)}`);
+              push(`/messages/friends?chat=${base64encode(friend)}`);
             }}
               role="button"
               className="px-6 max-[385px]:hidden py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"

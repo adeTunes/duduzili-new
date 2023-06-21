@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { TextInput, Textarea, clsx } from "@mantine/core";
-import { useAtom, useAtomValue } from "jotai";
-import React, { useState, useEffect } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import React, { useState, useEffect, useRef } from "react";
 import MessageReceived from "./messageReceived";
 import MessageSent from "./messageSent";
 import SendMessage from "./sendMessage";
@@ -13,6 +13,7 @@ import {
   selectedMessage,
   socketConnection,
   userDetails,
+  wsReconnection,
 } from "@/store";
 import WebSocket from "isomorphic-ws";
 import { useForm } from "@mantine/form";
@@ -22,7 +23,8 @@ import AttachMedia from "./attach-media";
 import { useQueryClient } from "@tanstack/react-query";
 
 function MessagesChatBox() {
-  const messageFriend = useAtomValue(selectedMessage);
+  const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
+  const setWsConnect = useSetAtom(socketConnection);
   const [friend, setFriend] = useState(null);
   const user: any = useAtomValue(userDetails);
   const [messages, setMessages] = useState([]);
@@ -41,17 +43,40 @@ function MessagesChatBox() {
     }
   }, [messageFriend]);
 
-  const { ws } = useWebsocketConnection(friend);
+  const { ws, setWs } = useWebsocketConnection(friend);
   const wsConnected = useAtomValue(socketConnection);
+  const chatContainerRef = useRef<HTMLDivElement>(null)
+  const setWsReconnect = useSetAtom(wsReconnection)
+
+  const scrollToBottom = () => {
+    const chatContainer = chatContainerRef.current;
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  };
+
+  // useEffect(() => {
+  //   scrollToBottom(); // Initial scroll to the bottom when the component mounts
+  // }, [friend]);
+
+  useEffect(() => {
+    if(friend === "empty") {
+      
+    }
+  }, [friend])
 
   useEffect(() => {
     if (ws && wsConnected) {
       const receive = {
         command: "receive",
       };
-      console.log("Sending message:", receive);
       const intervalID = setInterval(() => {
-        ws.send(JSON.stringify(receive));
+        if (wsConnected) {
+          ws.send(JSON.stringify(receive));
+        } else {
+          setWsReconnect(true)
+          clearInterval(intervalID)
+        }
       }, 5000);
 
       return () => {
@@ -80,7 +105,7 @@ function MessagesChatBox() {
                   findMessage.push(el);
                 }
               });
-                return [...prev, ...findMessage];
+              return [...prev, ...findMessage];
             });
           }
         } else if (!Array.isArray(message?.message)) {
@@ -91,6 +116,8 @@ function MessagesChatBox() {
       ws.onclose = () => {
         console.log("WebSocket connection closed");
         // Handle any necessary cleanup or reconnection logic
+        setWsConnect(false);
+        setWsReconnect(true)
       };
     }
   }, [ws]);
@@ -107,6 +134,7 @@ function MessagesChatBox() {
     if (foundFriend) {
       setChatOptions("chat initiated");
     }
+    scrollToBottom();
     queryClient.invalidateQueries(["conversations"]);
   };
 
@@ -143,6 +171,7 @@ function MessagesChatBox() {
         />
       </div>
       <div
+      ref={chatContainerRef}
         id="messages no-scroll"
         className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5"
       >
