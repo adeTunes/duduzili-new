@@ -27,7 +27,7 @@ function CommunityPostOptions({ post, community, setLoading }) {
     useDisclosure(false);
   const fullName = `${post?.user?.first_name} ${post?.user?.last_name}`;
   const queryClient = useQueryClient();
-  const personalPostOptions = [
+  const personalPostOptions = user?.user?.id !== post?.user?.id ? [
     {
       name: `${post?.user?.is_following ? "Unfollow" : "Follow"} ${fullName}`,
       icon: <UserAdd size="24" color="#2A2A2A" />,
@@ -65,8 +65,36 @@ function CommunityPostOptions({ post, community, setLoading }) {
       name: `Leave Community`,
       icon: <Icon color="#D40000" icon="fe:disabled" height={24} width={24} />,
       action: () =>
-        LeaveCommunityAction(community?.code, setLoading, () =>
+        LeaveCommunityAction(community?.code, setLoading, () => {
           queryClient.invalidateQueries(["all-posts"])
+          queryClient.invalidateQueries(["random-communities-posts"])
+        }
+        ),
+    },
+  ] : [
+    {
+      name: `Save post`,
+      icon: (
+        <Icon
+          color="#2A2A2A"
+          icon="circum:bookmark-minus"
+          height={24}
+          width={24}
+        />
+      ),
+      action: () =>
+        savePostAction(setLoading, post?.id, () =>
+          queryClient.invalidateQueries(["random-communities-posts"])
+        ),
+    },
+    {
+      name: `Leave Community`,
+      icon: <Icon color="#D40000" icon="fe:disabled" height={24} width={24} />,
+      action: () =>
+        LeaveCommunityAction(community?.code, setLoading, () => {
+          queryClient.invalidateQueries(["all-posts"])
+          queryClient.invalidateQueries(["random-communities-posts"])
+        }
         ),
     },
   ];
@@ -77,10 +105,10 @@ function CommunityPostOptions({ post, community, setLoading }) {
         setOpened(!opened);
       }}
       shadow="md"
-      width={200}
+      width="20vw"
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !min-w-[20vw]",
+        dropdown: "!py-6 !px-8 max-[420px]:!py-2 max-[420px]:!px-2 !rounded-[24px] !w-[auto] max-[420px]:!min-w-[220px]",
       }}
       styles={{
         dropdown: {
@@ -116,7 +144,7 @@ function CommunityPostOptions({ post, community, setLoading }) {
                   item.name.toLocaleLowerCase().includes("leave")
                     ? "text-[#D40000]"
                     : "text-[#2A2A2A]",
-                  "flex items-center whitespace-nowrap px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+                  "flex items-center max-[365px]:px-0 px-5 py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
                 )}
               >
                 {item.icon}

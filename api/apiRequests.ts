@@ -64,7 +64,7 @@ export const createCommunity = (data) => {
 };
 
 export const joinOrLeaveCommunity = (data) => {
-  return API.post("/api/community/join-or-leave", data)
+  return API.post("/api/v1/rest-auth/community/join-or-leave", data)
 }
 export const deleteCommunity = (data) => {
   return API.post("/api/v1/rest-auth/community/delete-community", data)

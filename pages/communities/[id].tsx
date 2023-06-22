@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useSetAtom } from "jotai";
 import { singleCommunity } from "@/store";
 import { useEffect } from "react";
+import Back from "@/components/back";
 
 const Community: NextPageX = () => {
   const { query, back } = useRouter();
@@ -32,7 +33,6 @@ const Community: NextPageX = () => {
   }, [data])
 
 
-
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -45,15 +45,7 @@ const Community: NextPageX = () => {
             className="w-[70%] max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
           >
             <div className="flex flex-col gap-[27px]">
-              <div
-                onClick={back}
-                className="flex cursor-pointer items-center gap-10"
-              >
-                <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-                <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                  {data?.data?.name}
-                </p>
-              </div>
+              <Back text={data?.data?.name} />
               <div className="flex flex-col gap-[36px]">
                 <CommunityView community={data} />
               </div>

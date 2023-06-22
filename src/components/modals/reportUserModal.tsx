@@ -38,9 +38,10 @@ function ReportUserModal({ id, opened, close }) {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 !min-w-[260px] rounded-[24px] flex flex-col overflow-auto",
+          "py-6 min-w-[260px] max-[450px]:min-w-[100%] max-[450px]:text-[14px] min-[450px]:min-w-[425px]  rounded-[24px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-1",
-        title: "font-semibold text-[20px] text-black leading-6",
+        title:
+          "font-semibold max-[450px]:text-[16px] text-[20px] text-black leading-6",
         body: "overflow-auto !p-0 grid grid-rows-[auto_1fr_auto]",
       }}
       styles={{
@@ -86,8 +87,11 @@ function ReportUserModal({ id, opened, close }) {
               message: "Please choose a reason",
               color: "red",
             });
-          reportUserAction({ id }, setLoading, () => {
+          const formData = new FormData();
+          formData.append("id", String(id));
+          reportUserAction(formData, setLoading, () => {
             queryClient.invalidateQueries(["all-posts"]);
+            queryClient.invalidateQueries(["random-communities-posts"]);
             close();
           });
         }}

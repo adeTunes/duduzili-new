@@ -89,11 +89,17 @@ function Header() {
 
   return (
     <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
-      <Link href="/home">
-        <div style={{ height: "clamp(35px, 2.5vw, 49px)" }}>
-          <img src="/logo.png" alt="duduzili logo" className="h-full" />
-        </div>
-      </Link>
+      <div className="flex items-center gap-2">
+        {pathname.includes("messages") ||
+        pathname.startsWith("/settings") ? null : (
+          <HambergerMenu className="cursor-pointer" onClick={open} size={24} />
+        )}
+        <Link href="/home">
+          <div style={{ height: "clamp(35px, 2.5vw, 49px)" }}>
+            <img src="/logo.png" alt="duduzili logo" className="h-full" />
+          </div>
+        </Link>
+      </div>
       <TextInput
         className="max-[580px]:hidden"
         placeholder="Search Duduzili"
@@ -129,9 +135,6 @@ function Header() {
         ))}
       </div>
       <div className="hidden max-[790px]:flex h-[75px] items-center gap-5">
-        {(pathname.includes("messages") || pathname.startsWith("/settings")) ? null : (
-          <HambergerMenu className="cursor-pointer" onClick={open} size={24} />
-        )}
         <SearchNormal1 size={24} className=" hidden max-[580px]:inline-block" />
         <UserProfileImageActions unread={unread} setLoading={setLoading}>
           <Indicator

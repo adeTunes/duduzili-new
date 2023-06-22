@@ -124,10 +124,29 @@ div#messages::-webkit-scrollbar {
 
 /* EMOJI */
 
-/* em-emoji-picker :host section[id="root"] {
-  width: 250px !important;
+.epr-header-overlay {
+  padding-block: 0 !important;
+  padding-top: 5px !important;
 }
 
-:host div[class="scroll flex-grow padding-lr"] > div {
-  width: 246px !important;
-} */
+.epr-category-nav {
+  padding-block: 0 !important;
+}
+
+.epr-preview {
+  height: 35px !important;
+}
+
+div > img.__EmojiPicker__.epr-emoji-img {
+  height: 32px !important;
+  width: 32px !important;
+}
+
+/* Modals */
+.mantine-Modal-overlay {
+  opacity: 0.5 !important;
+}
+
+.mantine-Modal-content {
+  box-shadow: none !important;
+}

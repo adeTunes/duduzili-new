@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 function PostText({
-  text,
+  text: postText,
   postId,
   usage,
 }: {
@@ -11,10 +11,11 @@ function PostText({
   postId?: number;
   usage?: "post" | "comment";
 }) {
+  const text = postText?.replace(postText?.[0], postText?.[0]?.toLocaleUpperCase())
   const [truncate, setTruncate] = useState(true);
   return text?.length < 250 ? (
     <p className="text-[14px] leading-[38px]">
-      {!usage || usage === "post" ? (
+      {usage === "post" ? (
         <Link href={`/posts/${postId}`} className="cursor-ponter">
           <Text lineClamp={6}>{text}</Text>
         </Link>

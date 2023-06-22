@@ -1,8 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Post } from "../../../api/request.types";
-import RepostTextOnly from "./repostTextOnly";
-import RepostTextWithAudio from "./repostTextWithAudio";
-import RepostTextWithVideo from "./repostTextWithViideo";
 import RepostParent from "./reposts/repostParent";
 import PostText from "./posts/text";
 import PostImage from "./posts/postImage";
@@ -11,21 +8,13 @@ import PostVideo from "./posts/postVideo";
 import PostVideoAndImage from "./posts/postVideoAndImage";
 import PostVideoAndAudio from "./posts/postVideoAndAudio";
 import PostManyImages from "../communities/postManyImages";
+import GalleryViewer from "./posts/galleryViewer";
+import useImageViewer from "../../../hooks/useImageViewer";
+import RepostBody from "./reposts/repostBody";
 
 function RepostsContainer({ post }: { post: Post }) {
-  // return !post?.audio &&
-  //   !post?.video &&
-  //   !post?.youtube_url &&
-  //   !post?.photo &&
-  //   post?.text ? (
-  //   <RepostTextOnly post={post} />
-  // ) : post?.audio && post?.text ? (
-  //   <RepostTextWithAudio post={post} />
-  // ) : post?.video_url && post?.text ? (
-  //   <RepostTextWithVideo post={post} />
-  // ) : post?.youtube_url && post?.text ? (
-  //   <RepostTextWithVideo post={post} />
-  // ) : null;
+  
+
   return (
     <RepostParent post={post}>
       {!post?.media?.audio &&
@@ -38,10 +27,7 @@ function RepostsContainer({ post }: { post: Post }) {
         !post?.media?.video &&
         post?.media?.photo?.length === 1 &&
         post?.text ? (
-        <>
-          <PostText text={post.text} postId={post.id} />
-          <PostImage image={post?.media?.photo?.[0]} />
-        </>
+        <RepostBody post={post} />
       ) : post?.media?.audio &&
         post?.text &&
         !post?.media?.video &&

@@ -33,11 +33,11 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
   };
   return (
     <>
-      <CommunityPicture image={community?.get_logo_url || "/cover-image.png"} />
+      <CommunityPicture code={community?.code} image={community?.get_logo_url || "/cover-image.png"} />
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-[9px]">
           <p className="font-bold text-[18px] leading-[24px] text-[#2A2A2A]">
-            {community?.name}
+            {community?.name?.replace(community?.name?.[0], community?.name?.[0]?.toLocaleUpperCase())}
           </p>
           <div className="flex max-[400px]:flex-col max-[400px]:items-start items-center gap-[19px]">
             <div className="flex">

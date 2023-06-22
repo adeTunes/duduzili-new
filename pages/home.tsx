@@ -44,17 +44,19 @@ const HomePage: NextPageX = () => {
             className="w-[70%] pb-[50px] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[718px] flex flex-col gap-12"
           >
             {user?.token && showCommunityPreview && <CommunityPreview />}
-            {user?.token && <CreatePost />}
-            {isLoading ? <PostSkeleton /> : <PostSection />}
-            {data?.next && (
-              <p
-                onClick={() => setLimit((prev) => prev + 10)}
-                role="button"
-                className="py-3 rounded-[32px] z-10 border-duduzili-violet flex justify-center border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
-              >
-                {isFetching ? <Loader size="sm" /> : "Show more"}
-              </p>
-            )}
+            <div className="flex flex-col gap-12">
+              {user?.token && <CreatePost />}
+              {isLoading ? <PostSkeleton /> : <PostSection />}
+              {data?.next && (
+                <p
+                  onClick={() => setLimit((prev) => prev + 10)}
+                  role="button"
+                  className="py-3 rounded-[32px] z-10 border-duduzili-violet flex justify-center border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
+                >
+                  {isFetching ? <Loader size="sm" /> : "Show more"}
+                </p>
+              )}
+            </div>
           </section>
           <Aside />
           {user?.token ? <FixedMessagesButton /> : null}

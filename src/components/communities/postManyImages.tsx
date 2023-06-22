@@ -7,15 +7,23 @@ import GalleryViewer from "../homepage/posts/galleryViewer";
 import useImageViewer from "../../../hooks/useImageViewer";
 import { Carousel } from "@mantine/carousel";
 
+type Props = { gridSpan?: string; handleClick?: () => void };
+
 function PostManyImages({ post }: { post: Post }) {
   const [media, setMedia] = useState([]);
   const [opened, setOpened] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
+
+  const handleClick = (num) => {
+    setStartIndex(num);
+    setOpened(true);
+  };
+
   useEffect(() => {
     setMedia(
       Object.entries(post?.media).reduce((acc, [key, value]: any, idx) => {
         if (key === "video")
-          acc.push(({ gridSpan }: { gridSpan?: string }) => (
+          acc.push(({ gridSpan, handleClick }: Props) => (
             <PostVideo
               gridSpan={gridSpan}
               height="h-[156px]"
@@ -23,7 +31,7 @@ function PostManyImages({ post }: { post: Post }) {
             />
           ));
         else if (key === "audio")
-          acc.push(({ gridSpan }: { gridSpan?: string }) => (
+          acc.push(({ gridSpan }: Props) => (
             <PostAudio
               gridSpan={gridSpan}
               height="h-[156px]"
@@ -33,8 +41,12 @@ function PostManyImages({ post }: { post: Post }) {
           ));
         else {
           value.forEach((item) => {
-            acc.push(({ gridSpan }: { gridSpan?: string }) => (
-              <div style={{ gridColumn: gridSpan }} className="h-[156px]">
+            acc.push(({ gridSpan, handleClick }: Props) => (
+              <div
+                onClick={handleClick}
+                style={{ gridColumn: gridSpan }}
+                className="h-[156px]"
+              >
                 <img
                   src={item}
                   className="h-full cursor-pointer w-full object-cover rounded-2xl"
@@ -57,11 +69,12 @@ function PostManyImages({ post }: { post: Post }) {
         {media?.map((Item, idx) =>
           media.length <= 4 ? (
             <Item
+              handleClick={() => handleClick(idx)}
               key={idx}
               gridSpan={media.length === 3 && idx === 2 ? "1/3" : ""}
             />
           ) : (
-            idx < 3 && <Item key={idx} />
+            idx < 3 && <Item handleClick={() => handleClick(idx)} key={idx} />
           )
         )}
         {media?.length > 4 &&

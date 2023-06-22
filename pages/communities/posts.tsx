@@ -20,13 +20,13 @@ const Communities: NextPageX = () => {
   // const { data } = useCommunityJoined();
   const { data } = useRandomCommunitiesPosts();
   const { data: joined, isLoading } = useCommunityJoined(4);
-  const setJoined = useSetAtom(joinedCommunities)
+  const setJoined = useSetAtom(joinedCommunities);
 
   useEffect(() => {
-    if(joined) {
-      setJoined(joined)
+    if (joined) {
+      setJoined(joined);
     }
-  }, [joined])
+  }, [joined]);
 
   const [opened, { open, close }] = useDisclosure(false);
   return (
@@ -34,21 +34,30 @@ const Communities: NextPageX = () => {
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1209px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1209px] justify-between pt-[50px] max-[350px]:w-full w-[80%] mx-auto gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] max-[790px]:flex-1 overflow-auto max-w-[689px] flex flex-col gap-[27px]"
+            className="w-[70%] max-[790px]:flex-1 pb-[50px] overflow-auto max-w-[689px] flex flex-col gap-[55px]"
           >
-            <div className="flex max-[300px]:flex-col max-[300px]:items-start items-center justify-between">
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
+            <div className="flex items-center justify-between">
+              <p
+                style={{
+                  fontSize: "clamp(15px, 1.3vw, 24px)",
+                }}
+                className="text-[#2A2A2A] leading-[29px] font-bold"
+              >
                 Communities
               </p>
               <p
                 role="button"
                 className="py-4 bg-duduzili-violet rounded-[32px] px-6 flex items-center gap-1"
                 onClick={open}
-                style={{paddingInline: "clamp(5px, 1.6vw, 24px)", paddingBlock: "clamp(2px, 1.4vw, 16px)", fontSize: "clamp(12px, 0.98vw, 16px)"}}
+                style={{
+                  paddingInline: "clamp(10px, 1.6vw, 24px)",
+                  paddingBlock: "clamp(2px, 1.4vw, 16px)",
+                  fontSize: "clamp(12px, 0.98vw, 16px)",
+                }}
               >
                 <Add size="24" color="#FFFFFF" variant="Outline" />
                 <span className="font-medium max-[860px]:hidden leading-[19px] text-white">
@@ -68,14 +77,14 @@ const Communities: NextPageX = () => {
                 />
               ))}
             </div>
-            {data?.length ? (
+            {/* {data?.length ? (
               <p
                 role="button"
                 className="py-3 rounded-[32px] border-duduzili-violet border border-solid text-[18px] font-semibold leading-6 text-center text-duduzili-violet"
               >
                 Show more
               </p>
-            ) : null}
+            ) : null} */}
             {!data?.length ? <p className="text-center">No posts yet</p> : null}
           </section>
           <aside

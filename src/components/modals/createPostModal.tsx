@@ -88,7 +88,7 @@ function CreatePostModal({ opened, close }) {
         }
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
-            <EmojiContainer height={350} form={form} />
+            <EmojiContainer height={300} form={form} />
             </div>
             <label
               htmlFor="image-file"

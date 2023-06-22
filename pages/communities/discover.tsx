@@ -12,6 +12,7 @@ import { Loading } from "@/components/loading";
 import useCommunityCategoryList from "../../hooks/useCommunityCategoryList";
 import useCommunityList from "../../hooks/useCommunityList";
 import { useRouter } from "next/router";
+import Back from "@/components/back";
 
 const Communities: NextPageX = () => {
   const [selected, setSelected] = useState(0);
@@ -34,15 +35,7 @@ const Communities: NextPageX = () => {
             id="no-scroll"
             className="w-[70%] overflow-auto max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[718px] flex flex-col gap-[27px]"
           >
-            <div
-              onClick={back}
-              className="flex items-center cursor-pointer gap-10"
-            >
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Discover Communities
-              </p>
-            </div>
+            <Back text="Discover Communities" />
             <div className="flex gap-4 flex-wrap">
               {allTags?.map((item, idx) => (
                 <p

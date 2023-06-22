@@ -8,6 +8,7 @@ import PostText from "../homepage/posts/text";
 import CommunityDescription from "./communityDescription";
 import CommunityHeader from "./communityHeader";
 import CommunityPicture from "./communityPicture";
+import CommunityPostBody from "./communityPostBody";
 import PostManyImages from "./postManyImages";
 
 function CommunityList({ post, community }) {
@@ -26,10 +27,7 @@ function CommunityList({ post, community }) {
         !post?.media?.video &&
         post?.media?.photo?.length === 1 &&
         post?.text ? (
-        <>
-          <PostText text={post?.text} postId={post?.id} />
-          <PostImage image={post?.media?.photo?.[0]} />
-        </>
+        <CommunityPostBody post={post} />
       ) : post?.media?.audio &&
         post?.text &&
         !post?.media?.video &&
