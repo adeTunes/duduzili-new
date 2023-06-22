@@ -4,10 +4,12 @@ import ReplyCard from "./replies/replyCard";
 import { useRouter } from "next/router";
 import useSinglePost from "../../../hooks/useSinglePost";
 import PostsContainer from "../homepage/posts/postsContainer";
+import PostSkeleton from "../skeletons/postHeaderSkeleton";
+import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 
 function PostWithComments() {
   const { query } = useRouter();
-  const { data } = useSinglePost(query.id);
+  const { data, isLoading } = useSinglePost(query.id);
   return (
     <>
       {/* <div
@@ -25,7 +27,7 @@ function PostWithComments() {
           iLikeThisPost={data?.post?.i_like_this_post}
         />
       </div> */}
-      <PostsContainer post={data?.post} />
+      {isLoading ? <SinglePostSkeleton /> : <PostsContainer post={data?.post} />}
       {/* Reply section */}
       <div className="flex gap-[36px] pl-[5vw] flex-col">
         <ReplyInput />
