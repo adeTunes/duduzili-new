@@ -13,15 +13,10 @@ const Picker = dynamic(
 
 function EmojiContainer({
   form,
+  height
 }: {
-  form: UseFormReturnType<
-    {
-      text: string;
-    },
-    (values: { text: string }) => {
-      text: string;
-    }
-  >;
+  height?: number
+  form: any
 }) {
   return (
     <Menu
@@ -30,7 +25,7 @@ function EmojiContainer({
       width="fit-content"
       classNames={{
         item: "!p-0",
-        dropdown: "!p-0 !rounded-[24px] !w-[auto]",
+        dropdown: "!p-0 !rounded-[24px] !w-[auto] !z-[9999]",
       }}
       styles={{
         dropdown: {
@@ -48,15 +43,13 @@ function EmojiContainer({
         <Icon
           icon="ph:smiley-bold"
           color="#4534b8"
-          width={24}
-          height={24}
-          className="cursor-pointer"
+          className="cursor-pointer h-6 w-6 max-[390px]:w-4 max-[390px]:h-4"
         />
       </Menu.Target>
 
       <Menu.Dropdown>
         <Menu.Item>
-        <Picker height={500} width="clamp(240px, 24vw, 400px)" />
+        <Picker height={height || 500} width="clamp(240px, 24vw, 400px)" onEmojiClick={e => form.setFieldValue("text", form.values.text + e.emoji)} />
           {/* <Picker
           style={{innerWidth: 250}}
             data={data}

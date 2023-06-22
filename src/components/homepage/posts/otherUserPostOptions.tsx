@@ -76,7 +76,7 @@ function OtherUserPostOptions({ setLoading, open, post }) {
               item.name.toLocaleLowerCase().includes("unblock")
               ? "text-[#D40000]"
               : "text-[#2A2A2A]",
-            "flex items-center whitespace-nowrap py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
+            "flex items-center py-5 cursor-pointer leading-[19px] hover:bg-[#f1f3f5] gap-4"
           )}
           style={{
             paddingInline: "clamp(2px, 0.5vw, 20px)"

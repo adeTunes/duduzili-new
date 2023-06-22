@@ -13,6 +13,9 @@ import { AudioSquare } from "iconsax-react";
 import { useRouter } from "next/router";
 import { postComment } from "@/actions/commentActions";
 import ReturnMedia from "./returnMedia";
+import DisplayMedia from "./displayMedia";
+import AudioPlayer from "./audioPlayer";
+import EmojiContainer from "../message/emojiContainer";
 
 function CommentPostModal({ opened, close }) {
   const { query } = useRouter();
@@ -33,34 +36,20 @@ function CommentPostModal({ opened, close }) {
   });
 
   const [selected, setSelected] = useState([]);
-
-  useEffect(() => {
-    if (mediaForm.values.image) {
-      setSelected([{ type: "image", value: mediaForm.values.image }]);
-    }
-  }, [mediaForm.values.image]);
-  useEffect(() => {
-    if (mediaForm.values.video) {
-      setSelected([{ type: "video", value: mediaForm.values.video }]);
-    }
-  }, [mediaForm.values.video]);
-  useEffect(() => {
-    if (mediaForm.values.audio) {
-      setSelected([{ type: "audio", value: mediaForm.values.audio }]);
-    }
-  }, [mediaForm.values.audio]);
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
+  const [audio, setAudio] = useState(null);
   return (
     <Modal
       size="lg"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 flex flex-col overflow-auto rounded-[24px]",
+        content:
+          "py-6 px-8 flex max-[396px]:px-3 flex-col overflow-auto rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "overflow-auto",
+        body: "overflow-auto max-[396px]:px-0",
       }}
       styles={{
         content: {
@@ -70,6 +59,7 @@ function CommentPostModal({ opened, close }) {
       opened={opened}
       onClose={() => {
         setSelected([]);
+        setAudio(null);
         form.reset();
         close();
       }}
@@ -84,12 +74,12 @@ function CommentPostModal({ opened, close }) {
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
-        <div className="flex flex-col gap-8 flex-1 overflow-auto pb-[86px]">
+        <div className="flex flex-col gap-8 flex-1 overflow-auto pb-[86px] max-[396px]:pb-[15px]">
           <Textarea
             placeholder="Create a post. Share a moment. Tell people what's on your mind"
             classNames={{
               input:
-                "!border-none text-[20px] leading-7 text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
+                "!border-none text-[20px] leading-7 max-[396px]:placeholder:text-[16px] max-[396px]:text-[16px] text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
             }}
             h="auto"
             autosize
@@ -97,70 +87,65 @@ function CommentPostModal({ opened, close }) {
             maxRows={8}
             {...form.getInputProps("text")}
           />
-          <div
-            style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(90.8px, 1fr))",
-            }}
-            className="grid gap-[9px]"
-          >
-            {selected?.map((item, idx) => (
-              <ReturnMedia
-                media={item}
-                selected={selected}
-                setSelected={setSelected}
-                key={idx}
-              />
-            ))}
-          </div>
+          <DisplayMedia selected={selected} setSelected={setSelected} />
+          {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
-              <Icon
-                icon="ph:smiley-bold"
-                color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
-              />
+            <div className="px-4 py-2 max-[396px]:px-2 max-[396px]:py-1 rounded-[34px] bg-[#EDF0FB]">
+              <EmojiContainer height={300} form={form} />
             </div>
             <label
               htmlFor="image-file"
-              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+              className="px-4 py-2 max-[396px]:px-2 max-[396px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="ic:outline-image"
-                color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
+                color="#4534b8"
+                className="cursor-pointer w-6 h-6 max-[396px]:w-4 max-[396px]:h-4"
               />
               <FileInput
                 hidden
                 id="image-file"
+                multiple
                 accept="image/png,image/jpeg"
-                {...mediaForm.getInputProps("image")}
+                onChange={(value) => {
+                  value.forEach((item) => {
+                    setSelected((prev) => [
+                      ...prev,
+                      { type: "image", value: item },
+                    ]);
+                  });
+                }}
               />
             </label>
             <label
               htmlFor="video-file"
-              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+              className="px-4 py-2 max-[396px]:px-2 max-[396px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="mdi:video-outline"
-                color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
+                color="#4534b8"
+                className="cursor-pointer w-6 h-6 max-[396px]:w-4 max-[396px]:h-4"
               />
               <FileInput
                 hidden
                 id="video-file"
                 accept="video/mp4"
-                {...mediaForm.getInputProps("video")}
+                onChange={(value) => {
+                  setSelected([...selected, { type: "video", value }]);
+                }}
               />
             </label>
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare size="24" color="#2A2A2A" variant="Outline" />
-            </div>
+            <label htmlFor="audio-file" className="px-4 py-2 max-[396px]:px-2 max-[396px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
+              <AudioSquare className="w-6 h-6 max-[396px]:w-4 max-[396px]:h-4" color="#4534b8" variant="Outline" />
+              <FileInput
+                hidden
+                id="audio-file"
+                accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
+                onChange={(value) => {
+                  setAudio(value)
+                }}
+              />
+            </label>
           </div>
         </div>
         <div className="flex gap-3 justify-end">
@@ -171,19 +156,28 @@ function CommentPostModal({ opened, close }) {
               if (!form.values.text)
                 return showNotification({
                   title: "Error",
-                  message: "Please enter post text",
+                  message: "Please enter some text",
                   color: "red",
                 });
               var data = new FormData();
               data.append("text", form.values.text);
               data.append("post_id", String(form.values.post_id));
+              if (audio) {
+                data.append("audio", audio, audio.name);
+              }
               selected.length &&
                 selected.forEach((item) => {
-                  item.type.includes("image")
-                    ? data.append("photo", item, item.name)
-                    : item.type.includes("video")
-                    ? data.append("video", item, item.name)
-                    : null;
+                  if (item.type === "image") {
+                    if (typeof item.value === "string") {
+                      data.append("photo", item.value);
+                    } else
+                      data.append("photo", item.value, item.value.name);
+                  } else if (item.type === "video") {
+                    if (typeof item.value === "string") {
+                      data.append("video", item.value);
+                    } else
+                      data.append("video", item.value, item.value.name);
+                  }
                 });
               postComment(data, setLoading, () => {
                 queryClient.invalidateQueries(["single-posts", post_id]);

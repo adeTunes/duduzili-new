@@ -24,11 +24,12 @@ function MessageMenu() {
         item: "!p-0 !h-full",
         itemLabel: "!h-full",
         dropdown:
-          "!pt-6 !rounded-[24px] message-container !h-[623px] !max-w-[400px] !left-[unset] !right-0 !w-[auto] max-[430px]:min-w-fit min-w-[400px]",
+          "!pt-6 !rounded-[24px] message-container !max-w-[400px] !left-[unset] !right-0 !w-[auto] max-[430px]:min-w-fit min-w-[400px]",
       }}
       styles={{
         dropdown: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
+          height: "min(80vh, 500px)"
         },
         item: {
           "&[data-hovered]": {

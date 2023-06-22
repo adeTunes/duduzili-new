@@ -11,7 +11,7 @@ function MainSidebar() {
   return (
     <aside
       id="no-scroll"
-      className="w-full overflow-auto pb-[80px] flex flex-col gap-6"
+      className="w-full overflow-auto pb-[80px] mx-auto max-w-[300px] flex flex-col gap-6"
     >
       <DownloadApp />
       {user?.token && (

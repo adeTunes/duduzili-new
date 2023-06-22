@@ -3,12 +3,9 @@ import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
 import Aside from "@/components/homepage/sidebar";
 import React from "react";
-import { useRouter } from "next/router";
-import { ArrowLeft } from "iconsax-react";
+import Back from "@/components/back";
 
 function ViewPost() {
-  const { back } = useRouter();
-
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -20,12 +17,7 @@ function ViewPost() {
             id="no-scroll"
             className="w-[70%] max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[3vh]"
           >
-            <div className="flex items-center gap-10">
-              <ArrowLeft onClick={back} className="cursor-pointer" size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                View Post
-              </p>
-            </div>
+            <Back text="View Post" />
             <div className="flex flex-col gap-[36px]">
               <PostWithComments />
             </div>

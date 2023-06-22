@@ -37,7 +37,8 @@ function ReportPostModal({ id, opened, close }) {
       size="38vw"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 rounded-[24px] flex flex-col overflow-auto",
+        content:
+          "py-6 !min-w-[260px] rounded-[24px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-1",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto !p-0 grid grid-rows-[auto_1fr_auto]",
@@ -45,10 +46,14 @@ function ReportPostModal({ id, opened, close }) {
       styles={{
         content: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
+          paddingInline: "min(2vh, 32px)",
         },
       }}
       opened={opened}
-      onClose={close}
+      onClose={() => {
+        setSelected("");
+        close();
+      }}
       title="Report Post?"
       centered
     >

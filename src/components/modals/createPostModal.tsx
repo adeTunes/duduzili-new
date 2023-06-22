@@ -13,6 +13,7 @@ import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
 import { AudioSquare } from "iconsax-react";
 import AudioPlayer from "./audioPlayer";
+import EmojiContainer from "../message/emojiContainer";
 
 function CreatePostModal({ opened, close }) {
   const form = useForm({
@@ -64,7 +65,7 @@ function CreatePostModal({ opened, close }) {
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
-        <div className="flex flex-col gap-8 mb-[40px] max-[30px]:mb-[15px]">
+        <div className="flex flex-col gap-8 mb-[40px] max-[390px]:mb-[15px]">
           <div className="flex flex-col gap-2">
             <Textarea
               placeholder="Create a post. Share a moment. Tell people what's on your mind"
@@ -87,11 +88,7 @@ function CreatePostModal({ opened, close }) {
         }
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
-              <Icon
-                icon="ph:smiley-bold"
-                color="#2A2A2A"
-                className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
-              />
+            <EmojiContainer height={350} form={form} />
             </div>
             <label
               htmlFor="image-file"
@@ -99,7 +96,7 @@ function CreatePostModal({ opened, close }) {
             >
               <Icon
                 icon="ic:outline-image"
-                color="#2A2A2A"
+                color="#4534b8"
                 className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
               />
               <FileInput
@@ -123,7 +120,7 @@ function CreatePostModal({ opened, close }) {
             >
               <Icon
                 icon="mdi:video-outline"
-                color="#2A2A2A"
+                color="#4534b8"
                 className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
               />
               <FileInput
@@ -136,7 +133,7 @@ function CreatePostModal({ opened, close }) {
               />
             </label>
             <label htmlFor="audio-file" className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#2A2A2A" variant="Outline" />
+              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#4534b8" variant="Outline" />
               <FileInput
                 hidden
                 id="audio-file"

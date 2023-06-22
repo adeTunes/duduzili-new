@@ -22,7 +22,7 @@ function ReplyCard({ comment }) {
           className="w-[48px] h-[48px] rounded-full object-cover"
           alt=""
         />
-        <p className=" font-semibold text-[18px] leading-6 text-[#2A2A2A]">
+        <p className=" font-semibold max-[390px]:text-base text-[18px] leading-6 text-[#2A2A2A]">
           {comment?.user?.first_name} {comment?.user?.last_name}
         </p>
       </div>

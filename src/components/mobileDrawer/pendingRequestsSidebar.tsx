@@ -7,7 +7,7 @@ function PendingRequestsSidebar() {
   return (
     <aside
       id="no-scroll"
-      className="w-full pb-[80px] overflow-auto mx-auto max-w-[400px] flex flex-col gap-6"
+      className="w-full pb-[80px] overflow-auto mx-auto max-w-[300px] flex flex-col gap-6"
     >
       <DownloadApp />
       <InviteFriends />

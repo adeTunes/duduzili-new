@@ -26,7 +26,7 @@ function PostOptions({ post, setLoading }) {
       width={200}
       classNames={{
         item: "!p-0",
-        dropdown: "!py-0 !rounded-[24px] !w-[auto] !min-w-[20vw]",
+        dropdown: "!py-0 !rounded-[24px] !w-[auto] !min-w-[265px]",
       }}
       styles={{
         dropdown: {
@@ -44,10 +44,9 @@ function PostOptions({ post, setLoading }) {
       <Menu.Target>
         <Icon
           icon="solar:menu-dots-bold"
-          height={24}
-          width={24}
+          
           rotate={1}
-          className="cursor-pointer"
+          className="cursor-pointer w-6 h-6 max-[350px]:w-[18px] max-[350px]:h-[18px]"
         />
       </Menu.Target>
 

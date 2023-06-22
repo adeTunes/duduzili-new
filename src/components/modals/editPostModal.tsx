@@ -17,6 +17,7 @@ import { postComment } from "@/actions/commentActions";
 import useSinglePost from "../../../hooks/useSinglePost";
 import { editParticularPost } from "@/actions/postOptionActions";
 import AudioPlayer from "./audioPlayer";
+import EmojiContainer from "../message/emojiContainer";
 
 function EditPostModal({ opened, close, id }) {
   const { data, isLoading } = useSinglePost(id);
@@ -33,13 +34,13 @@ function EditPostModal({ opened, close, id }) {
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
   const { pathname } = useRouter();
-  const [audio, setAudio] = useState(null)
+  const [audio, setAudio] = useState(null);
 
   useEffect(() => {
     if (data) {
       if (data?.post?.text) form.setFieldValue("text", data?.post?.text);
       if (data?.post?.media?.audio) {
-        setAudio(data?.post?.media?.audio)
+        setAudio(data?.post?.media?.audio);
       }
       if (data?.post?.media?.video) {
         setSelected((prev) => {
@@ -68,10 +69,11 @@ function EditPostModal({ opened, close, id }) {
       size="lg"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 flex flex-col overflow-auto rounded-[24px]",
+        content:
+          "py-6 px-8 flex max-[390px]:px-3 flex-col overflow-auto rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "overflow-auto",
+        body: "overflow-auto max-[390px]:px-0",
       }}
       styles={{
         content: {
@@ -81,6 +83,7 @@ function EditPostModal({ opened, close, id }) {
       opened={opened}
       onClose={() => {
         setSelected([]);
+        setAudio(null)
         form.reset();
         close();
       }}
@@ -93,12 +96,12 @@ function EditPostModal({ opened, close, id }) {
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
-        <div className="flex flex-col gap-8 flex-1 overflow-auto pb-[86px]">
+        <div className="flex flex-col gap-8 flex-1 overflow-auto pb-[86px] max-[390px]:pb-[40px]">
           <Textarea
             placeholder="Create a post. Share a moment. Tell people what's on your mind"
             classNames={{
               input:
-                "!border-none text-[20px] leading-7 text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
+                "!border-none text-[20px] leading-7 text-black max-[390px]:placeholder:text-[16px] !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
             }}
             h="auto"
             autosize
@@ -107,30 +110,19 @@ function EditPostModal({ opened, close, id }) {
             {...form.getInputProps("text")}
           />
           <DisplayMedia selected={selected} setSelected={setSelected} />
-          {audio ?
-          <AudioPlayer audio={audio} setAudio={setAudio} />
-          : null
-        }
+          {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]">
-              <Icon
-                icon="ph:smiley-bold"
-                color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
-              />
+            <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
+              <EmojiContainer height={350} form={form} />
             </div>
             <label
               htmlFor="image-file"
-              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="ic:outline-image"
-                color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
+                color="#4534b8"
+                className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
               />
               <FileInput
                 hidden
@@ -149,14 +141,12 @@ function EditPostModal({ opened, close, id }) {
             </label>
             <label
               htmlFor="video-file"
-              className="px-4 py-2 rounded-[34px] bg-[#EDF0FB]"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="mdi:video-outline"
-                color="#2A2A2A"
-                width={24}
-                height={24}
-                className="cursor-pointer"
+                color="#4534b8"
+                className="cursor-pointer w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
               />
               <FileInput
                 hidden
@@ -167,8 +157,8 @@ function EditPostModal({ opened, close, id }) {
                 }}
               />
             </label>
-            <label htmlFor="audio-file" className="px-4 py-2 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare size="24" color="#2A2A2A" variant="Outline" />
+            <label htmlFor="audio-file" className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
+              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#4534b8" variant="Outline" />
               <FileInput
                 hidden
                 id="audio-file"
@@ -192,8 +182,8 @@ function EditPostModal({ opened, close, id }) {
                   color: "red",
                 });
               var formData = new FormData();
-              if(audio) {
-                formData.append("audio", audio, audio.name)
+              if (audio) {
+                formData.append("audio", audio, audio.name);
               }
               formData.append("text", form.values.text);
               formData.append("post_id", form.values.post_id as string);

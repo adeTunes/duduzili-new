@@ -4,11 +4,13 @@ import PrimaryButton from "../button/primaryButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { postLimit, stickerAwardee } from "@/store";
+import { useRouter } from "next/router";
 
 function RewardStickerSuccess({ opened, close }) {
   const queryClient = useQueryClient();
   const awardee: any = useAtomValue(stickerAwardee);
-  const limit = useAtomValue(postLimit)
+  const limit = useAtomValue(postLimit);
+  const { query, pathname } = useRouter();
   return (
     <Modal
       size="25vw"
@@ -46,7 +48,9 @@ function RewardStickerSuccess({ opened, close }) {
       <PrimaryButton
         text="Done"
         onClick={() => {
-            queryClient.invalidateQueries(["all-posts", limit]);
+          if (pathname.includes("posts")) {
+            queryClient.invalidateQueries(["single-posts", query.id]);
+          } else queryClient.invalidateQueries(["all-posts", limit]);
           close();
         }}
       />

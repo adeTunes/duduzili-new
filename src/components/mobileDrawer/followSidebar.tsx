@@ -7,7 +7,7 @@ function FollowSidebar() {
   return (
     <aside
       id="no-scroll"
-      className="w-full pb-[80px] overflow-auto flex flex-col gap-6"
+      className="w-full pb-[80px] max-w-[300px] mx-auto overflow-auto flex flex-col gap-6"
     >
       <DownloadApp />
       <TrendingPosts />

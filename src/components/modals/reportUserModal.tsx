@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Modal, LoadingOverlay } from "@mantine/core";
+import { Modal, LoadingOverlay, clsx } from "@mantine/core";
 import { reportUserAction } from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
+import PrimaryButton from "../button/primaryButton";
+import { showNotification } from "@mantine/notifications";
 
-function ReportUserModal({id, opened, close }) {
+function ReportUserModal({ id, opened, close }) {
   const [loading, setLoading] = useState(false);
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
+  const [selected, setSelected] = useState("");
   const reportReasons = [
     {
       title: "Cyber Stalking",
@@ -34,30 +37,39 @@ function ReportUserModal({id, opened, close }) {
       size="38vw"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 max-w-[580px] rounded-[24px] flex flex-col overflow-auto",
-        header: "!px-0 !pt-0 !pb-[2vh]",
+        content:
+          "py-6 !min-w-[260px] rounded-[24px] flex flex-col overflow-auto",
+        header: "!px-0 !pt-0 !pb-1",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "overflow-auto !p-0",
+        body: "overflow-auto !p-0 grid grid-rows-[auto_1fr_auto]",
       }}
       styles={{
         content: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
+          paddingInline: "min(2vh, 32px)",
         },
       }}
       opened={opened}
-      onClose={close}
+      onClose={() => {
+        setSelected("");
+        close();
+      }}
       title="Report User?"
       centered
     >
-      <div className="flex flex-col">
+      <h1 className="leading-[30px] text-[#757575] pb-[3vh]">
+        Why are you reporting this user?
+      </h1>
+      <div id="no-scroll" className="flex flex-col pb-[3vh] overflow-auto">
         {reportReasons.map(({ title, details }, index) => (
-          <div  onClick={() => {
-            reportUserAction({ id }, setLoading, () => {
-              queryClient.invalidateQueries(["all-posts"])
-              close()
-            }
-          )
-          }} key={index} className="flex cursor-pointer hover:bg-[#f0efef] flex-col gap-1 border-y-[#EDF0FB] border-y py-[2vh]">
+          <div
+            key={index}
+            onClick={() => setSelected(title)}
+            className={clsx(
+              selected === title && "bg-[#f0efef]",
+              "flex cursor-pointer hover:bg-[#f0efef] flex-col gap-1 border-y-[#EDF0FB] border-y py-[2vh]"
+            )}
+          >
             <h3 className="text-[#2A2A2A] font-semibold leading-[30px]">
               {title}
             </h3>
@@ -65,6 +77,21 @@ function ReportUserModal({id, opened, close }) {
           </div>
         ))}
       </div>
+      <PrimaryButton
+        text="Report"
+        className="w-full"
+        onClick={() => {
+          if (!selected)
+            return showNotification({
+              message: "Please choose a reason",
+              color: "red",
+            });
+          reportUserAction({ id }, setLoading, () => {
+            queryClient.invalidateQueries(["all-posts"]);
+            close();
+          });
+        }}
+      />
       <LoadingOverlay visible={loading} />
     </Modal>
   );

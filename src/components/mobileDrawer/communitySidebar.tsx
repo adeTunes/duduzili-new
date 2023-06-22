@@ -11,7 +11,7 @@ function CommunityDetailsSidebar() {
   return (
     <aside
       id="no-scroll"
-      className="w-full overflow-auto pb-[80px] flex flex-col gap-6"
+      className="w-full overflow-auto mx-auto max-w-[300px] pb-[80px] flex flex-col gap-6"
     >
       <DownloadApp />
       {community?.data?.is_owner ? (
