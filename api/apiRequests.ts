@@ -123,7 +123,7 @@ export const getAllPosts = (limit) => {
 export const getTrendingPosts = () => {
   return API.get("/api/v1/rest-auth/trending/");
 };
-export const getSinglePost = (id: number) => {
+export const getSinglePost = (id: any) => {
   return API.get(`/api/v1/rest-auth/posts/${id}/`);
 };
 

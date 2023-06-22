@@ -14,6 +14,7 @@ import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticate
 
 import RewardStickersModal from "@/components/modals/rewardStickerModal";
 import RewardStickerSuccess from "@/components/modals/rewardStickerSuccess";
+import { base64encode } from "nodejs-base64";
 
 function PostFooter({
   totalLikes,
@@ -92,7 +93,8 @@ function PostFooter({
         <div
           onClick={() => {
             if (!user?.token) return setOpenAuth(true);
-            router.push(`/posts/${post?.id}`);
+            const id = +post?.id * 1000000
+            router.push(`/posts/${base64encode(id)}`);
           }}
           className="cursor-pointer flex items-center gap-2"
         >

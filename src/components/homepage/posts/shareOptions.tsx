@@ -11,6 +11,7 @@ import { Post } from "../../../../api/request.types";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { showNotification } from "@mantine/notifications";
 import copy from "copy-to-clipboard";
+import { base64encode } from "nodejs-base64";
 
 function ShareOptions({
   post,
@@ -25,7 +26,8 @@ function ShareOptions({
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleCopy = () => {
-    const copied = copy(`${location.host}/posts/${post?.id}`);
+    const id = +post?.id * 1000000
+    const copied = copy(`${location.host}/posts/${base64encode(id)}`);
     if (copied) {
       showNotification({
         message: "copied successfully",
