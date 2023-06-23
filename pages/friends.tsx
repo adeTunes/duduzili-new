@@ -13,6 +13,7 @@ import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import useFollowers from "../hooks/useFollowers";
 import {base64encode} from "nodejs-base64"
+import Back from "@/components/back";
 
 function Friends() {
   const { back } = useRouter();
@@ -40,18 +41,7 @@ function Friends() {
             id="no-scroll"
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
           >
-            <div onClick={back} className="flex cursor-pointer items-center gap-[2.5vw]">
-              <ArrowLeft                
-                size="32"
-                color="#2A2A2A"
-                variant="Outline"
-              />
-              <p style={{
-                fontSize: "clamp(15px, 1.3vw, 24px)"
-              }} className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Friends List ({friends?.length})
-              </p>
-            </div>
+            <Back text={`Friends List (${friends?.length})`} />
             <div
               className="bg-white max-[420px]:p-2 rounded-2xl p-6 flex flex-col gap-6"
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}

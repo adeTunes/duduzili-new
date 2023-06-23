@@ -104,7 +104,7 @@ function MessagesChatBox() {
             });
           }
         } else if (!Array.isArray(message?.message)) {
-          setMessages((prev) => [...prev, message.message?.reverse()]);
+          setMessages((prev) => [...prev, message.message]);
         }
       };
 

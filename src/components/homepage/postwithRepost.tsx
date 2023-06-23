@@ -12,6 +12,7 @@ import PostVideoAndImage from "./posts/postVideoAndImage";
 import PostVideoAndAudio from "./posts/postVideoAndAudio";
 import PostManyImages from "../communities/postManyImages";
 import { Post } from "../../../api/request.types";
+import RepostBody from "./reposts/repostBody";
 
 function PostwithRepost({ post }: { post: Post }) {
   return (
@@ -25,7 +26,7 @@ function PostwithRepost({ post }: { post: Post }) {
           date_added: post?.repost_time,
           date: post?.date,
           id: post?.id,
-          is_repost: post?.is_repost
+          is_repost: post?.is_repost,
         }}
       />
       <hr className="w-full bg-[#EDF0FB]" />
@@ -85,10 +86,7 @@ function PostwithRepost({ post }: { post: Post }) {
         !post?.media?.video &&
         post?.media?.photo?.length === 1 &&
         post?.text ? (
-        <>
-          <PostText text={post?.text} postId={post?.id} />
-          <PostImage image={post?.media?.photo?.[0]} />
-        </>
+        <RepostBody post={post} />
       ) : post?.media?.audio &&
         post?.text &&
         !post?.media?.video &&

@@ -10,16 +10,22 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import ReportUserModal from "../modals/reportUserModal";
 import { useDisclosure } from "@mantine/hooks";
+import { useRouter } from "next/router";
+import { base64encode } from "nodejs-base64";
 
 function FriendProfileOptions({ post, setLoading }) {
   const fullName = `${post?.user?.first_name} ${post?.user?.last_name}`;
   const queryClient = useQueryClient();
   const [opened, {open, close}] = useDisclosure(false)
+  const {push} = useRouter()
   const personalPostOptions = [
     {
       name: `Message ${fullName}`,
       icon: <MessageText size="24" color="#2A2A2A" />,
-      action: () => {},
+      action: () => {
+        const friend = JSON.stringify(post?.user);
+        push(`/messages/friends?chat=${base64encode(friend)}`);
+      }
     },
     {
       name: `Mute ${fullName}`,

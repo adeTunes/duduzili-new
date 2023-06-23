@@ -8,13 +8,14 @@ import useDiscoverPeople from "../../hooks/useDiscoverPeople";
 import FollowLayout from "@/layout/followLayout";
 import Link from "next/link";
 import useFollowings from "../../hooks/useFollowings";
+import FollowSkeleton from "@/components/skeletons/followSkeleton";
 
 const Following: NextPageX = () => {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState(null);
   const { push, query } = useRouter();
-  const { data } = useFollowings(+query.id);
+  const { data, isLoading } = useFollowings(+query.id);
   return (
     <>
       <div className="grid gap-8 grid-cols-2">
@@ -39,53 +40,68 @@ const Following: NextPageX = () => {
         <div className="flex flex-col gap-[11px]">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
-              {data?.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"
-                >
-                  <div className="flex gap-3 items-center">
-                    <div
-                      onClick={() => push(`friend/${item?.id}/post`)}
-                      className="w-[36px] cursor-pointer h-[36px]"
-                    >
-                      <img
-                        src={
-                          item?.photo_url?.substring(62) ||
-                          "/profile-pic-default.png"
-                        }
-                        className="w-full h-full rounded-full object-cover"
-                        alt="profile picture of suggested friend"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
-                        {item?.first_name} {item?.last_name}
-                      </p>
-                      <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">
-                        @{item?.username}
-                      </p>
-                    </div>
-                  </div>
-                  <p
-                    onClick={() => {
-                      setSelected(item?.id);
-                      followUserAction(setLoading, item?.id, () =>
-                        queryClient.invalidateQueries(["user-followers", +query.id])
-                      );
-                    }}
-                    className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
+              {isLoading ? (
+                <>
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                </>
+              ) : (
+                data?.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"
                   >
-                    {loading && selected === item?.id ? (
-                      <Loader size="xs" />
-                    ) : item?.is_following ? (
-                      "Unfollow"
-                    ) : (
-                      "Follow"
-                    )}
-                  </p>
-                </div>
-              ))}
+                    <div className="flex gap-3 items-center">
+                      <div
+                        onClick={() => push(`friend/${item?.id}/post`)}
+                        className="w-[36px] cursor-pointer h-[36px]"
+                      >
+                        <img
+                          src={
+                            item?.photo_url?.substring(62) ||
+                            "/profile-pic-default.png"
+                          }
+                          className="w-full h-full rounded-full object-cover"
+                          alt="profile picture of suggested friend"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
+                          {item?.first_name} {item?.last_name}
+                        </p>
+                        <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">
+                          @{item?.username}
+                        </p>
+                      </div>
+                    </div>
+                    <p
+                      onClick={() => {
+                        setSelected(item?.id);
+                        followUserAction(setLoading, item?.id, () =>
+                          queryClient.invalidateQueries([
+                            "user-followers",
+                            +query.id,
+                          ])
+                        );
+                      }}
+                      className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
+                    >
+                      {loading && selected === item?.id ? (
+                        <Loader size="xs" />
+                      ) : item?.is_following ? (
+                        "Unfollow"
+                      ) : (
+                        "Follow"
+                      )}
+                    </p>
+                  </div>
+                ))
+              )}
             </div>
             {/* <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
             Show more

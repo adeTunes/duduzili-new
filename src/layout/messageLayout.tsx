@@ -8,6 +8,7 @@ import ChatDrawer from "@/components/message/chatDrawer";
 import { useDisclosure } from "@mantine/hooks";
 import { useAtomValue } from "jotai";
 import { openChatDrawer } from "@/store";
+import Back from "@/components/back";
 
 const MessageLayout = ({
   children,
@@ -46,15 +47,7 @@ const MessageLayout = ({
         <main className="bg-[#FBFBFB] w-full h-full pb-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
           <section className="w-[45%] max-[800px]:min-w-full max-[800px]:max-w-full min-w-[330px] overflow-auto max-w-[506px] flex flex-col gap-[32px]">
             <div className="flex items-center justify-between">
-              <div
-                onClick={back}
-                className="flex cursor-pointer items-center gap-10"
-              >
-                <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-                <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                  Messages
-                </p>
-              </div>
+              <Back text="Messages" />
               <HambergerMenu className="cursor-pointer max-[800px]:inline-block hidden" onClick={open} size={24} />
             </div>
             {children}
