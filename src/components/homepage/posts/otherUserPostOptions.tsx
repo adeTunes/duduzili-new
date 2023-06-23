@@ -37,11 +37,11 @@ function OtherUserPostOptions({ setLoading, open, post }) {
           queryClient.invalidateQueries(["all-posts"])
         ),
     },
-    {
-      name: `Award ${fullName} a sticker`,
-      icon: <TicketStar size="24" color="#2A2A2A" />,
-      action: () => {},
-    },
+    // {
+    //   name: `Award ${fullName} a sticker`,
+    //   icon: <TicketStar size="24" color="#2A2A2A" />,
+    //   action: () => {},
+    // },
     {
       name: `Mute ${fullName}`,
       icon: <MicrophoneSlash size="24" color="#2A2A2A" />,

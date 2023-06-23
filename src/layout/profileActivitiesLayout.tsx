@@ -6,13 +6,20 @@ import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import PersonalInformation from "@/components/profile/personalInformation";
 import ProfileActivities from "@/components/profile/profileActivities";
-import { userDetails } from "@/store";
+import {
+  currentUserDetails,
+  userDetails,
+  userFollowers,
+  userFollowings,
+} from "@/store";
 import { ArrowLeft } from "iconsax-react";
-import { useAtomValue } from "jotai";
-import React, { ReactNode } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import React, { ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
 import WalletCardAside from "@/components/payments/walletCardAside";
 import Back from "@/components/back";
+import useUserActivities from "../../hooks/useUserDrafts";
+import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 
 function ProfileActivitiesLayout({
   children,
@@ -23,6 +30,19 @@ function ProfileActivitiesLayout({
 }) {
   const user: any = useAtomValue(userDetails);
 
+  const { data, isLoading } = useUserActivities(user?.user?.id);
+  const setFollowings = useSetAtom(userFollowings);
+  const setFollowers = useSetAtom(userFollowers);
+  const setUserDetails = useSetAtom(currentUserDetails);
+
+  useEffect(() => {
+    if (data) {
+      setFollowers(data?.followers);
+      setFollowings(data?.followings);
+      setUserDetails(data);
+    }
+  }, [data]);
+
   // const { data } = useFollowings(user?.user?.id);
   // console.log(data);
   const { back } = useRouter();
@@ -32,17 +52,27 @@ function ProfileActivitiesLayout({
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1139px] justify-between pt-[3vh] gap-[50px] flex">
+        <main className="bg-[#FBFBFB] max-[790px]:w-[80%] max-[600px]:w-full h-full overflow-auto relative max-w-[1139px] justify-between pt-[3vh] gap-[50px] flex">
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[34px]"
+            className="w-[70%]  overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] min-[1200px]:min-w-[600px] min-[900px]:min-w-[500px] max-w-[726px] flex flex-col gap-[34px]"
           >
             <Back text={`${user?.user?.first_name} ${user?.user?.last_name}`} />
             <div className="flex flex-col gap-8">
               <PersonalInformation user={user?.user} />
               <div className="flex flex-col gap-6">
                 <ProfileActivities />
-                <div className="flex flex-col gap-10 pb-[50px]">{children}</div>
+                <div className="flex flex-col gap-10 pb-[50px]">
+                  {isLoading ? (
+                    <>
+                      <SinglePostSkeleton />
+                      <SinglePostSkeleton />
+                      <SinglePostSkeleton />
+                    </>
+                  ) : (
+                    children
+                  )}
+                </div>
               </div>
             </div>
           </section>
@@ -51,7 +81,9 @@ function ProfileActivitiesLayout({
             className="w-[30%] max-[790px]:hidden pb-[80px] overflow-auto min-w-[300px] max-w-[400px] flex flex-col gap-6"
           >
             <div className="flex flex-col gap-4">
-              <p className="text-[#2A2A2A] text-[18px] leading-[22px] font-bold">My Wallet</p>
+              <p className="text-[#2A2A2A] text-[18px] leading-[22px] font-bold">
+                My Wallet
+              </p>
               <WalletCardAside />
             </div>
             <DiscoverPeople />

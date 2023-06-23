@@ -14,6 +14,7 @@ export const userFollowings = atom("");
 export const joinedCommunities = atom({})
 export const userFollowers = atom("");
 export const friendPersonalDetails = atom({});
+export const currentUserDetails = atom({});
 export const openEditModal = atom(false)
 export const verifyAccountEmail = atom("")
 export const withdrawalDetails = atom({})

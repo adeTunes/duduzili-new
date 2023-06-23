@@ -92,7 +92,7 @@ function Header() {
       <div className="flex items-center gap-2">
         {pathname.includes("messages") ||
         pathname.startsWith("/settings") ? null : (
-          <HambergerMenu className="cursor-pointer" onClick={open} size={24} />
+          <HambergerMenu className="cursor-pointer hidden max-[790px]:inline-block" onClick={open} size={24} />
         )}
         <Link href="/home">
           <div style={{ height: "clamp(35px, 2.5vw, 49px)" }}>

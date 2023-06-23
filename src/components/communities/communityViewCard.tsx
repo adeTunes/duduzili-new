@@ -44,7 +44,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
           <p className="font-bold text-[18px] flex flex-col gap-1 leading-[24px] text-[#2A2A2A]">
-            <span>{community?.data?.name}</span>
+            <span>{community?.data?.name?.replace(community?.data?.name?.[0], community?.data?.name?.[0]?.toLocaleUpperCase())}</span>
             {community?.data?.date_joined === "Not a member of community !" ? (
               null
             ) : (

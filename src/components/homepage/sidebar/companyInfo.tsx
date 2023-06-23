@@ -5,11 +5,9 @@ function CompanyInfo() {
   return (
     <div className="px-2 flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <Link href="">
           <p className="text-[#505050] text-[14px] leading-[17px]">
             Terms of Services
           </p>
-        </Link>
         <Link href="/privacy-policy">
           <p className="text-[#505050] text-[14px] leading-[17px]">
             Privacy Policy

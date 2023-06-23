@@ -21,7 +21,7 @@ import { useEffect } from "react";
 import Back from "@/components/back";
 
 const Community: NextPageX = () => {
-  const { query, back } = useRouter();
+  const { query } = useRouter();
   const { data, isLoading } = useCommunityDetails(query.id);
   const { data: communities } = useCommunityList("");
   const setSingleCommunity: any = useSetAtom(singleCommunity)
@@ -45,7 +45,7 @@ const Community: NextPageX = () => {
             className="w-[70%] max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
           >
             <div className="flex flex-col gap-[27px]">
-              <Back text={data?.data?.name} />
+              <Back text={data?.data?.name?.replace(data?.data?.name?.[0], data?.data?.name?.[0]?.toLocaleUpperCase())} />
               <div className="flex flex-col gap-[36px]">
                 <CommunityView community={data} />
               </div>

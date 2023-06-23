@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileActivitiesLayout from "@/layout/profileActivitiesLayout";
 import ImageMedia from "@/components/profile/imageMedia";
 import VideoMedia from "@/components/profile/videoMedia";
@@ -8,33 +8,26 @@ import FriendProfileActivities from "@/components/profile/friendProfileActivitie
 import FriendProfileLayout from "@/layout/friendProfileLayout";
 import { useRouter } from "next/router";
 import useUserActivities from "../../../hooks/useUserDrafts";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { friendPersonalDetails } from "@/store";
+import EmptyComponent from "@/components/emptyComponent";
+import usePostMedia from "../../../hooks/use-post-media";
+import useImageViewer from "../../../hooks/useImageViewer";
+import GalleryViewer from "@/components/homepage/posts/galleryViewer";
 
 const ProfileMedia: NextPageX = () => {
-  const { query } = useRouter();
-  const { data } = useUserActivities(query.id);
-  const setFriendDetails = useSetAtom(friendPersonalDetails);
+  const friendDetails: any = useAtomValue(friendPersonalDetails);
+  const [opened, setOpened] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+  const { media } = usePostMedia(friendDetails?.medias);
+  const viewedMedia = media.filter((item) => item.type !== "audio");
 
-  useEffect(() => {
-    if (data) {
-      setFriendDetails(data);
-    }
-  }, [data]);
-  return !data?.user?.is_following && data?.user?.is_private ? (
-    <div className="flex items-center justify-center">
-      <div className="flex items-center flex-col gap-6">
-        <img
-          src="/profile/private-profile.png"
-          className="w-[154px] object-cover"
-          alt="private account profile illustration"
-        />
-        <p className="max-w-[275px] text-black font-medium leading-6 text-center">
-          This is a private account. You will see their content when they accept
-          your follow request
-        </p>
-      </div>
-    </div>
+  return !friendDetails?.user?.is_following &&
+    friendDetails?.user?.is_private ? (
+    <EmptyComponent
+      className="max-w-[275px]"
+      text="This is a private account. You will see their content when they accept your follow request"
+    />
   ) : (
     <div
       style={{
@@ -42,16 +35,35 @@ const ProfileMedia: NextPageX = () => {
       }}
       className="grid gap-[9px]"
     >
-      <ImageMedia image="/profile/media.png" />
-      <VideoMedia image="/profile/media6.png" />
-      <ImageMedia image="/profile/media2.png" />
-      <AudioMedia image="/profile/media5.png" />
-      <ImageMedia image="/profile/media4.png" />
-      <ImageMedia image="/profile/media5.png" />
-      <ImageMedia image="/profile/media6.png" />
-      <ImageMedia image="/profile/media2.png" />
-      <ImageMedia image="/profile/media6.png" />
-      <ImageMedia image="/profile/media.png" />
+      {media.map(({ type, url }, idx) =>
+        type === "audio" ? (
+          <AudioMedia key={idx} audioUrl={url} />
+        ) : type === "video" ? (
+          <VideoMedia
+            handleClick={() => {
+              setOpened(true);
+              setStartIndex(idx);
+            }}
+            key={idx}
+            videoUrl={url}
+          />
+        ) : (
+          <ImageMedia
+            handleClick={() => {
+              setOpened(true);
+              setStartIndex(idx);
+            }}
+            key={idx}
+            image={url}
+          />
+        )
+      )}
+      <GalleryViewer
+        setOpened={setOpened}
+        startIndex={startIndex}
+        gallery={viewedMedia as { url: string; type: "video" | "photo" }[]}
+        opened={opened}
+      />
     </div>
   );
 };
