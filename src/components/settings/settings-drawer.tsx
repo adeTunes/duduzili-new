@@ -7,7 +7,7 @@ function SettingsDrawer({ opened, close }) {
   return (
     <Drawer onChange={close} opened={opened} onClose={close}>
       <Navigation />
-      <SettingsTab />
+      <SettingsTab close={close} />
     </Drawer>
   );
 }

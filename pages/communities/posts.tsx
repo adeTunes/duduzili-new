@@ -37,7 +37,7 @@ const Communities: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1209px] justify-between pt-[50px] max-[350px]:w-full w-[80%] mx-auto gap-[50px] flex">
+        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1209px] justify-between pt-[50px] max-[500px]:w-full w-[80%] mx-auto gap-[50px] flex">
           <section
             id="no-scroll"
             className="w-[70%] max-[790px]:flex-1 pb-[50px] overflow-auto max-w-[689px] flex flex-col gap-[55px]"

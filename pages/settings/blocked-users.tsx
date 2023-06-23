@@ -8,8 +8,6 @@ import Image from "next/image";
 
 const BlockedUsers: NextPageX = () => {
   const { data, refetch } = useBlockedUsers();
-  console.log(data);
-  
   const [loading, setLoading] = useState(false);
   return (
     <div className="flex overflow-auto flex-1 flex-col">
@@ -56,7 +54,7 @@ const BlockedUsers: NextPageX = () => {
                 alt="empty blocked users picture"
               />
             </div>
-            <p className="font-medium text-[#2A2A2A] text-[24px] leading-6">
+            <p className="font-medium text-[#2A2A2A] max-[500px]:text-[16px] text-[24px] leading-6">
               You don&apos;t have any blocked user.
             </p>
           </div>

@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 import { ArrowRight2 } from "iconsax-react";
 
-const SettingsTab = () => {
+const SettingsTab = ({ close }) => {
   const settings = [
     {
       text: "Account",
@@ -37,7 +37,7 @@ const SettingsTab = () => {
   const { pathname, push } = useRouter();
   return (
     <div className="flex flex-1 overflow-auto flex-col gap-6">
-      <TextInput
+      {/* <TextInput
         classNames={{
           input:
             "h-[47px] !pl-[48px] placeholder:text-[#757575] bg-white rounded-[24px] border-0",
@@ -46,7 +46,7 @@ const SettingsTab = () => {
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
         placeholder="Search Settings"
         icon={<Icon height={24} width={24} icon="ri:search-line" />}
-      />
+      /> */}
       <div
         id="no-scroll"
         className="flex overflow-auto flex-col bg-white rounded-2xl"
@@ -54,7 +54,10 @@ const SettingsTab = () => {
       >
         {settings.map(({ text, href }, idx) => (
           <div
-            onClick={() => push(href)}
+            onClick={() => {
+              push(href);
+              close()
+            }}
             key={idx}
             className={clsx(
               pathname.includes(href)

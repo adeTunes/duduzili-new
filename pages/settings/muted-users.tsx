@@ -3,15 +3,11 @@ import useMutedUsers from "../../hooks/useMuterUsers";
 import { NextPageX } from "../../types/next";
 import SettingsLayout from "@/layout/settingslayout";
 import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { Loading } from "@/components/loading";
 import { LoadingOverlay } from "@mantine/core";
-import Image from "next/image";
 
 const MutedUsers: NextPageX = () => {
   const { data, refetch } = useMutedUsers();
   const [loading, setLoading] = useState(false);
-  const queryClient = useQueryClient();
   return (
     <div className="flex overflow-auto flex-1 flex-col">
       {data?.muted?.length ? (
@@ -50,14 +46,14 @@ const MutedUsers: NextPageX = () => {
       ) : (
         <div className="flex h-full justify-center">
           <div className="flex flex-col gap-10">
-            <div className="w-[330px] h-[300px]">
+            <div className="w-[330px] max-[860px]:w-full">
               <img
                 src="/settings/empty-muted-users.png"
                 className="h-full w-full object-cover"
                 alt="empty blocked users picture"
               />
             </div>
-            <p className="font-medium text-[#2A2A2A] text-[24px] leading-6">
+            <p className="font-medium text-[#2A2A2A] text-[24px] max-[500px]:text-[16px] leading-6">
               You don&apos;t have any muted user.
             </p>
           </div>
