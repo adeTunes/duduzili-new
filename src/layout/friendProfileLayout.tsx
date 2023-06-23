@@ -1,3 +1,4 @@
+import Back from "@/components/back";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
 import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
@@ -6,12 +7,12 @@ import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import FriendProfileActivities from "@/components/profile/friendProfileActivities";
 import FriendProfileInformation from "@/components/profile/friendProfileInformation";
-import ShowMoreButton from "@/components/showMoreButton";
+import ProfileSkeleton from "@/components/skeletons/profileSkeleton";
 import { friendPersonalDetails } from "@/store";
-import { ArrowLeft } from "iconsax-react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
+import useUserActivities from "../../hooks/useUserDrafts";
 
 function FriendProfileLayout({
   children,
@@ -21,7 +22,16 @@ function FriendProfileLayout({
   [key: string]: any;
 }) {
   const friendDetails: any = useAtomValue(friendPersonalDetails);
-  const { back } = useRouter();
+  const { query } = useRouter();
+  const { data } = useUserActivities(query.id);
+  const setFriendDetails = useSetAtom(friendPersonalDetails);
+
+  useEffect(() => {
+    if (data) {
+      setFriendDetails(data);
+    }
+  }, [data]);
+  
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
@@ -33,28 +43,20 @@ function FriendProfileLayout({
             id="no-scroll"
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[2.8vh]"
           >
-            <div
-              onClick={back}
-              className="flex cursor-pointer items-center gap-[2.5vw]"
-            >
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p style={{
-                fontSize: "clamp(15px, 1.3vw, 24px)"
-              }} className="text-[#2A2A2A] leading-[29px] font-bold">
-                {friendDetails?.user?.first_name}{" "}
-                {friendDetails?.user?.last_name}
-              </p>
-            </div>
-            <div className="p-2 flex flex-col gap-8">
-              <FriendProfileInformation friendDetails={friendDetails} />
-              <div className="flex flex-col gap-6">
-                <FriendProfileActivities />
-                <div className="flex flex-col gap-10 pb-[50px]">
-                  {children}
-                  {/* <ShowMoreButton /> */}
+            <Back text={friendDetails?.user?.first_name ? `${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}` : null} />
+            {friendDetails?.user ? (
+              <div className="p-2 flex flex-col gap-8">
+                <FriendProfileInformation friendDetails={friendDetails} />
+                <div className="flex flex-col gap-6">
+                  <FriendProfileActivities />
+                  <div className="flex flex-col gap-10 pb-[50px]">
+                    {children}
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <ProfileSkeleton />
+            )}
           </section>
           <aside
             id="no-scroll"

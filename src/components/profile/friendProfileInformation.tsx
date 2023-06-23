@@ -5,36 +5,64 @@ import { MessageText, UserAdd } from "iconsax-react";
 import { followUserAction } from "@/actions/postOptionActions";
 import { Loading } from "../loading";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader } from "@mantine/core";
+import { Loader, Skeleton } from "@mantine/core";
 import FriendProfileOptions from "./friendProfileOptions";
 import Image from "next/image";
 import Link from "next/link";
 import { base64encode } from "nodejs-base64";
 import { useRouter } from "next/router";
+import useImageViewer from "../../../hooks/useImageViewer";
+import GalleryViewer from "../homepage/posts/galleryViewer";
+import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 
 function FriendProfileInformation({ friendDetails }) {
   const [loading, setLoading] = useState(false);
   const [loadingFollow, setLoadingFollow] = useState(false);
   const queryClient = useQueryClient();
-  const {push} = useRouter()
+  const { push } = useRouter();
+  const [opened, setOpened] = useState(false);
+  const [image, setImage] = useState("");
+
+  const { viewerData } = useImageViewer(image);
+  const startIndex = 0;
   return (
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
       <div className="flex flex-col">
         <PostImage
-          image="/communities/community-picture.png"
+          handleClick={() => {
+            setImage(
+              friendDetails?.user?.get_cover_image ||
+                "/communities/cover-pic-default.png"
+            );
+            setOpened(true);
+          }}
+          image={
+            friendDetails?.user?.get_cover_image ||
+            "/communities/cover-pic-default.png"
+          }
           height="h-[240px]"
         />
         <div className="flex justify-between max-[956px]:flex-col max-[956px]:items-start max-[956px]:gap-4 items-center pl-8">
-          <div style={{
+          <div
+            style={{
               width: "clamp(80px, 9.8vw, 150px)",
               height: "clamp(80px, 9.8vw, 150px)",
-            }} className="mt-[-70px] max-[956px]:mt-[-50px]">
+            }}
+            className="mt-[-70px] max-[956px]:mt-[-50px]"
+          >
             <img
+              onClick={() => {
+                setImage(
+                  friendDetails?.user?.photo_url?.substring(62) ||
+                    "/profile-pic-default.png"
+                );
+                setOpened(true);
+              }}
               src={
                 friendDetails?.user?.photo_url?.substring(62) ||
                 "/profile-pic-default.png"
               }
-              className="w-full h-full object-cover rounded-full"
+              className="w-full relative h-full object-cover rounded-full"
               alt="user profile picture"
             />
           </div>
@@ -58,7 +86,10 @@ function FriendProfileInformation({ friendDetails }) {
                 <Loader />
               ) : (
                 <>
-                  <UserAdd className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4" color="#FFF" />
+                  <UserAdd
+                    className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                    color="#FFF"
+                  />
                   <span>
                     {friendDetails?.user?.is_following ? "Unfollow" : "Follow"}
                   </span>
@@ -66,14 +97,18 @@ function FriendProfileInformation({ friendDetails }) {
               )}
             </p>
             <p
-            onClick={() => {
-              const friend = JSON.stringify(friendDetails?.user)
-              push(`/messages/friends?chat=${base64encode(friend)}`);
-            }}
+              onClick={() => {
+                const friend = JSON.stringify(friendDetails?.user);
+                push(`/messages/friends?chat=${base64encode(friend)}`);
+              }}
               role="button"
               className="px-6 max-[385px]:hidden py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
             >
-              <MessageText className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4" color="#4534B8" variant="Outline" />
+              <MessageText
+                className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                color="#4534B8"
+                variant="Outline"
+              />
               <span className=" text-duduzili-violet">Message</span>
             </p>
             {loading ? (
@@ -89,7 +124,7 @@ function FriendProfileInformation({ friendDetails }) {
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <p className=" font-bold text-[32px] leading-6 text-[#2A2A2A]">
+          <p className=" font-bold text-[32px] leading-8 text-[#2A2A2A]">
             {friendDetails?.user?.first_name} {friendDetails?.user?.last_name}
           </p>
           <p className="text-[#2A2A2A] text-[15px] leading-6">
@@ -126,6 +161,12 @@ function FriendProfileInformation({ friendDetails }) {
           </Link>
         </div>
       </div>
+      <GalleryViewer
+        setOpened={setOpened}
+        startIndex={startIndex}
+        gallery={viewerData}
+        opened={opened}
+      />
     </div>
   );
 }

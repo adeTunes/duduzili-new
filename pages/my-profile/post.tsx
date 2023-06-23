@@ -7,10 +7,11 @@ import ShowMoreButton from "@/components/showMoreButton";
 import { useEffect } from "react";
 import useUserActivities from "../../hooks/useUserDrafts";
 import EmptyComponent from "@/components/emptyComponent";
+import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 
 const MyProfilePost: NextPageX = () => {
   const user: any = useAtomValue(userDetails);
-  const { data } = useUserActivities(user?.user?.id);
+  const { data, isLoading } = useUserActivities(user?.user?.id);
   const setFollowings = useSetAtom(userFollowings);
   const setFollowers = useSetAtom(userFollowers);
 
@@ -23,14 +24,22 @@ const MyProfilePost: NextPageX = () => {
   return (
     <>
       <div className="flex flex-col gap-10 pb-[50px]">
-        {data?.posts?.map((item, idx) => (
-          <PostsContainer key={idx} post={item} />
-        ))}
+        {isLoading ? (
+          <>
+            <SinglePostSkeleton />
+            <SinglePostSkeleton />
+            <SinglePostSkeleton />
+          </>
+        ) : (
+          data?.posts?.map((item, idx) => (
+            <PostsContainer key={idx} post={item} />
+          ))
+        )}
       </div>
-      {!data?.posts?.length && (
+      {!isLoading && !data?.posts?.length && (
         <EmptyComponent
           className="max-w-[275px]"
-          text="This is a private account. You will see their content when they accept your follow request"
+          text="Your posts will appear here"
         />
       )}
       {/* <ShowMoreButton /> */}

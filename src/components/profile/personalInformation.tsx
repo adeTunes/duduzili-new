@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PostImage from "../homepage/posts/postImage";
 import { Icon } from "@iconify/react";
 import { useDisclosure } from "@mantine/hooks";
@@ -7,11 +7,20 @@ import { useAtomValue } from "jotai";
 import { userFollowers, userFollowings } from "@/store";
 import Image from "next/image";
 import Link from "next/link";
+import useImageViewer from "../../../hooks/useImageViewer";
+import GalleryViewer from "../homepage/posts/galleryViewer";
+import { Skeleton } from "@mantine/core";
 
 function PersonalInformation({ user }) {
   const [opened, { open, close }] = useDisclosure(false);
   const followings = useAtomValue(userFollowings);
   const followers = useAtomValue(userFollowers);
+
+  const [galleryOpened, setGalleryOpened] = useState(false);
+  const [image, setImage] = useState("");
+
+  const { viewerData } = useImageViewer(image);
+  const startIndex = 0;
 
   return (
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
@@ -19,6 +28,12 @@ function PersonalInformation({ user }) {
         <PostImage
           image={user?.get_cover_image || "/communities/cover-pic-default.png"}
           height="h-[240px]"
+          handleClick={() => {
+            setImage(
+              user?.get_cover_image || "/communities/cover-pic-default.png"
+            );
+            setGalleryOpened(true);
+          }}
         />
         <div className="flex justify-between items-center pl-8">
           <div
@@ -29,8 +44,14 @@ function PersonalInformation({ user }) {
             className="mt-[-70px]"
           >
             <img
+              onClick={() => {
+                setImage(
+                  user?.photo_url?.substring(62) || "/profile-pic-default.png"
+                );
+                setGalleryOpened(true);
+              }}
               src={user?.photo_url?.substring(62) ?? "/profile-pic-default.png"}
-              className="w-full h-full object-cover rounded-full"
+              className="w-full relative h-full object-cover rounded-full"
               alt="user profile picture"
             />
           </div>
@@ -62,32 +83,46 @@ function PersonalInformation({ user }) {
             "Hi there! I use Duduzili platform to chat with friends and family, send medias and receive updates!"}
         </p>
         <div className="flex items-center gap-10">
-          <Link
-            href={`/followers/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
-          >
-            <p className="flex items-center gap-2">
-              <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
-                {followers}
-              </span>
-              <span className="text-[12px] leading-[15px] text-[#757575]">
-                Followers
-              </span>
-            </p>
-          </Link>
-          <Link
-            href={`/following/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
-          >
-            <p className="flex items-center gap-2">
-              <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
-                {followings}
-              </span>
-              <span className="text-[12px] leading-[15px] text-[#757575]">
-                Following
-              </span>
-            </p>
-          </Link>
+          {followers ? (
+            <Link
+              href={`/followers/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
+            >
+              <p className="flex items-center gap-2">
+                <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
+                  {followers}
+                </span>
+                <span className="text-[12px] leading-[15px] text-[#757575]">
+                  Followers
+                </span>
+              </p>
+            </Link>
+          ) : (
+            <Skeleton height={12} className="flex-1" mt={10} />
+          )}
+          {followings ? (
+            <Link
+              href={`/following/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
+            >
+              <p className="flex items-center gap-2">
+                <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
+                  {followings}
+                </span>
+                <span className="text-[12px] leading-[15px] text-[#757575]">
+                  Following
+                </span>
+              </p>
+            </Link>
+          ) : (
+            <Skeleton height={12} className="flex-1" mt={10} />
+          )}
         </div>
       </div>
+      <GalleryViewer
+        setOpened={setGalleryOpened}
+        startIndex={startIndex}
+        gallery={viewerData}
+        opened={galleryOpened}
+      />
       {opened ? <EditProfileModal opened={opened} close={close} /> : null}
     </div>
   );

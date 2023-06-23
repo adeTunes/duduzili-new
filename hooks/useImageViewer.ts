@@ -4,26 +4,29 @@ function useImageViewer(post) {
   const [viewerData, setViewerData] = useState([]);
 
   useEffect(() => {
-    setViewerData(
-      Object.entries(post?.media).reduce((acc, [key, value]: any, idx) => {
-        if (key === "video") {
-          acc.push({
-            url: value,
-            type: "video",
-          });
-        } else if (key === "photo") {
-          value.forEach((item) => {
+    if (typeof post === "string") {
+      setViewerData([{url: post, type: "photo"}])
+    } else
+      setViewerData(
+        Object.entries(post?.media).reduce((acc, [key, value]: any, idx) => {
+          if (key === "video") {
             acc.push({
-              url: item,
-              type: "photo",
+              url: value,
+              type: "video",
             });
-          });
-        }
-        return acc;
-      }, [])
-    );
-  }, []);
-  return {viewerData};
+          } else if (key === "photo") {
+            value.forEach((item) => {
+              acc.push({
+                url: item,
+                type: "photo",
+              });
+            });
+          }
+          return acc;
+        }, [])
+      );
+  }, [post]);
+  return { viewerData };
 }
 
 export default useImageViewer;

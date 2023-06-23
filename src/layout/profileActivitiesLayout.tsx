@@ -12,6 +12,7 @@ import { useAtomValue } from "jotai";
 import React, { ReactNode } from "react";
 import { useRouter } from "next/router";
 import WalletCardAside from "@/components/payments/walletCardAside";
+import Back from "@/components/back";
 
 function ProfileActivitiesLayout({
   children,
@@ -36,15 +37,7 @@ function ProfileActivitiesLayout({
             id="no-scroll"
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[34px]"
           >
-            <div
-              onClick={back}
-              className="flex cursor-pointer items-center gap-10"
-            >
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] max-[500px]:text-[18px] leading-[29px] text-[24px] font-bold">
-                {`${user?.user?.first_name} ${user?.user?.last_name}`}
-              </p>
-            </div>
+            <Back text={`${user?.user?.first_name} ${user?.user?.last_name}`} />
             <div className="flex flex-col gap-8">
               <PersonalInformation user={user?.user} />
               <div className="flex flex-col gap-6">

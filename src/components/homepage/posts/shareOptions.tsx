@@ -97,7 +97,7 @@ function ShareOptions({
       width={200}
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !min-w-[26vw]",
+        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !max-w-[200px]",
       }}
       styles={{
         dropdown: {
@@ -112,7 +112,7 @@ function ShareOptions({
       }}
     >
       <Menu.Target>
-        <div className="flex items-center gap-2">
+        <div className="flex cursor-pointer items-center gap-2">
           <Icon
             className={clsx(
               size ? "h-4 w-4" : "h-6 w-6",

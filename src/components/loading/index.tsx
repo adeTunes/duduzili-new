@@ -5,7 +5,7 @@ export function Loading({ loading }: { loading: boolean }) {
     <LoadingOverlay
       loaderProps={{ variant: "oval" }}
       overlayOpacity={0.6}
-      overlayColor="#7060CF"
+      overlayColor="#d6d3e5"
       visible={loading}
     />
   );

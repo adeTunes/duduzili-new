@@ -93,7 +93,7 @@ function PostFooter({
         <div
           onClick={() => {
             if (!user?.token) return setOpenAuth(true);
-            const id = +post?.id * 1000000
+            const id = +post?.id * 1000000;
             router.push(`/posts/${base64encode(id)}`);
           }}
           className="cursor-pointer flex items-center gap-2"
@@ -107,9 +107,7 @@ function PostFooter({
             {totalComments}
           </p>
         </div>
-        {!post?.is_repost ? (
-          <ShareOptions post={post} totalReposts={totalReposts} />
-        ) : null}
+        <ShareOptions post={post} totalReposts={totalReposts} />
       </div>
       {router.pathname === "/communities/posts" ? null : (
         <div
