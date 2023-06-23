@@ -15,10 +15,12 @@ import useRandomCommunitiesPosts from "../../hooks/useRandomCommunitiesPosts";
 import { useSetAtom } from "jotai";
 import { joinedCommunities } from "@/store";
 import { useEffect } from "react";
+import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
+import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 
 const Communities: NextPageX = () => {
   // const { data } = useCommunityJoined();
-  const { data } = useRandomCommunitiesPosts();
+  const { data, isLoading: isPostsLoading } = useRandomCommunitiesPosts();
   const { data: joined, isLoading } = useCommunityJoined(4);
   const setJoined = useSetAtom(joinedCommunities);
 
@@ -69,13 +71,22 @@ const Communities: NextPageX = () => {
               </p>
             </div>
             <div className="flex flex-col gap-[50px]">
-              {data?.map((item, index) => (
-                <CommunityList
-                  key={index}
-                  post={item?.post}
-                  community={item?.community}
-                />
-              ))}
+              {isPostsLoading ? (
+                <>
+                  <SinglePostSkeleton />
+                  <SinglePostSkeleton />
+                  <SinglePostSkeleton />
+                  <SinglePostSkeleton />
+                </>
+              ) : (
+                data?.map((item, index) => (
+                  <CommunityList
+                    key={index}
+                    post={item?.post}
+                    community={item?.community}
+                  />
+                ))
+              )}
             </div>
             {/* {data?.length ? (
               <p
@@ -85,7 +96,9 @@ const Communities: NextPageX = () => {
                 Show more
               </p>
             ) : null} */}
-            {!data?.length ? <p className="text-center">No posts yet</p> : null}
+            {!isPostsLoading && !data?.length ? (
+              <p className="text-center">No posts yet</p>
+            ) : null}
           </section>
           <aside
             id="no-scroll"

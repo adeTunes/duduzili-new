@@ -33,7 +33,7 @@ const {back} = useRouter()
               {data?.results?.map((item, index) => (
                 <DiscoverCommunitiesCard key={index} community={item} />
               ))}
-              {!data?.results?.length && <p className="text-center">No communities in this category</p>}
+              {!isLoading && !data?.results?.length ? <p className="text-center">No communities in this category</p> : null}
               {data?.count > 20 && <ShowMoreButton onClick={() => setLimit(v => v + 20)} />}
             </div>
           </section>

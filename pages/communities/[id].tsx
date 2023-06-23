@@ -47,7 +47,7 @@ const Community: NextPageX = () => {
             <div className="flex flex-col gap-[27px]">
               <Back text={data?.data?.name?.replace(data?.data?.name?.[0], data?.data?.name?.[0]?.toLocaleUpperCase())} />
               <div className="flex flex-col gap-[36px]">
-                <CommunityView community={data} />
+                <CommunityView community={data} loading={isLoading} />
               </div>
             </div>
             <div className=" flex flex-col gap-6">
@@ -88,7 +88,7 @@ const Community: NextPageX = () => {
           <FixedMessagesButton />
         </main>
       </div>
-      <Loading loading={isLoading} />
+      {/* <Loading loading={isLoading} /> */}
     </div>
   );
 };
