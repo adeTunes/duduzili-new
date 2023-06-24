@@ -11,7 +11,6 @@ function PostText({
   postId?: number;
   usage?: "post" | "comment";
 }) {
-  const [firstLink, setFirstLink] = useState("")
   function wrapUrlsWithAnchorTags(text) {
     // Regular expression pattern to match potential URLs
     var urlPattern = /\b(https?:\/\/\S+)/gi;
@@ -21,7 +20,6 @@ function PostText({
 
     // Replace each URL with an anchor tag
     if (urls) {
-      setFirstLink(urls[0])
       for (var i = 0; i < urls.length; i++) {
         let url = urls[i];
         let formattedUrl = url.replace(url[0], url[0].toLocaleLowerCase())
