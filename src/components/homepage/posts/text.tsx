@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 function PostText({
-  text: postText,
+  text,
   postId,
   usage,
 }: {
@@ -11,7 +11,28 @@ function PostText({
   postId?: number;
   usage?: "post" | "comment";
 }) {
-  const text = postText?.replace(postText?.[0], postText?.[0]?.toLocaleUpperCase())
+  const [firstLink, setFirstLink] = useState("")
+  function wrapUrlsWithAnchorTags(text) {
+    // Regular expression pattern to match potential URLs
+    var urlPattern = /\b(https?:\/\/\S+)/gi;
+
+    // Find all potential URLs in the text
+    var urls = text.match(urlPattern);
+
+    // Replace each URL with an anchor tag
+    if (urls) {
+      setFirstLink(urls[0])
+      for (var i = 0; i < urls.length; i++) {
+        let url = urls[i];
+        let formattedUrl = url.replace(url[0], url[0].toLocaleLowerCase())
+        var anchorTag = '<a class="text-duduzili-violet" href="' + formattedUrl + '">' + formattedUrl + "</a>";
+        text = text.replace(url, anchorTag);
+      }
+    }
+
+    return text;
+  }
+
   const [truncate, setTruncate] = useState(true);
   return text?.length < 250 ? (
     <p className="text-[14px] leading-[38px]">
@@ -20,7 +41,9 @@ function PostText({
           <Text lineClamp={6}>{text}</Text>
         </Link>
       ) : (
-        text
+        <span
+          dangerouslySetInnerHTML={{ __html: wrapUrlsWithAnchorTags(text) }}
+        ></span>
       )}
     </p>
   ) : (
