@@ -1,4 +1,5 @@
 import Header from "@/components/homepage/header";
+import MainContainer from "@/components/main-container";
 import { ArrowLeft } from "iconsax-react";
 import { useRouter } from "next/router";
 import React from "react";
@@ -72,8 +73,7 @@ function PrivacyPolicy() {
         <Header />
       </div>
       <div className="flex-1 overflow-auto">
-        <main
-          className="bg-[#FBFBFB] flex-col gap-[34px] h-full overflow-auto py-[3vh] relative max-w-[1131px] w-[80%] max-[500px]:w-[95%] mx-auto flex"
+        <MainContainer
         >
           <div
             onClick={back}
@@ -146,7 +146,7 @@ function PrivacyPolicy() {
               ))}
             </div>
           </div>
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

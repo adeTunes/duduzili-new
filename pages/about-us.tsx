@@ -4,6 +4,7 @@ import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import DiscoverPeople from "@/components/homepage/sidebar/discoverPeople";
 import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
+import MainContainer from "@/components/main-container";
 import { Icon } from "@iconify/react";
 import { Text } from "@mantine/core";
 import { ArrowLeft } from "iconsax-react";
@@ -18,10 +19,10 @@ function AboutUs() {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-[790px]:w-full h-full overflow-auto relative max-w-[1139px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[54px]"
+            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] flex-1 flex flex-col gap-[54px]"
           >
             <div
               onClick={back}
@@ -113,7 +114,7 @@ function AboutUs() {
             <CompanyInfo />
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

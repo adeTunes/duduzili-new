@@ -1,6 +1,7 @@
 import FaqAccordion from "@/components/faq/accordion";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
+import MainContainer from "@/components/main-container";
 import { ArrowLeft } from "iconsax-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -14,7 +15,7 @@ function Faq() {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full flex flex-col gap-[3vh] overflow-auto relative max-w-[1180px] pt-[3vh]">
+        <MainContainer>
           <div
             onClick={back}
             className="flex cursor-pointer items-center gap-[2.5vw] pl-5"
@@ -53,7 +54,7 @@ function Faq() {
             </aside>
           </div>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

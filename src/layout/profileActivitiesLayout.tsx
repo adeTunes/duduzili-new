@@ -20,6 +20,7 @@ import WalletCardAside from "@/components/payments/walletCardAside";
 import Back from "@/components/back";
 import useUserActivities from "../../hooks/useUserDrafts";
 import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
+import MainContainer from "@/components/main-container";
 
 function ProfileActivitiesLayout({
   children,
@@ -52,7 +53,7 @@ function ProfileActivitiesLayout({
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-[790px]:w-[80%] max-[600px]:w-full h-full overflow-auto relative max-w-[1139px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%]  overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] min-[1200px]:min-w-[600px] min-[900px]:min-w-[500px] max-w-[726px] flex flex-col gap-[34px]"
@@ -90,7 +91,7 @@ function ProfileActivitiesLayout({
             <CompanyInfo />
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

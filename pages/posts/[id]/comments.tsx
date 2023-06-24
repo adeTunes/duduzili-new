@@ -7,6 +7,7 @@ import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
 import Aside from "@/components/homepage/sidebar";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
+import MainContainer from "@/components/main-container";
 
 function Comments() {
   const { query } = useRouter();
@@ -18,7 +19,7 @@ function Comments() {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-[790px]:w-full h-full overflow-auto pb-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
@@ -56,7 +57,7 @@ function Comments() {
           </section>
           <Aside />
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

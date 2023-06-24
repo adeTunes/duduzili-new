@@ -6,10 +6,12 @@ function CommunityPicture({
   image,
   tag,
   code,
+  handleClick,
 }: {
   image?: string;
   tag?: { name: string }[];
   code?: string;
+  handleClick?: () => void;
 }) {
   const { push } = useRouter();
   return (
@@ -26,12 +28,14 @@ function CommunityPicture({
           ))}
         </div>
       ) : null}
-      {!tag && (
-        <div
-          onClick={() => push(`/communities/${code}`)}
-          className="absolute top-0 right-0 rounded-2xl left-0 bottom-0 group-hover:inline-block hidden cursor-pointer bg-[#d6d3e5] opacity-[0.2]"
-        ></div>
-      )}
+      <div
+        onClick={() => {
+          if(!tag) {
+            push(`/communities/${code}`);
+          } else handleClick()
+        }}
+        className="absolute top-0 right-0 rounded-2xl left-0 bottom-0 group-hover:inline-block hidden cursor-pointer bg-[#d6d3e5] opacity-[0.2]"
+      ></div>
       <img
         src={image || "/communities/community-default.png"}
         className="h-full w-full object-cover rounded-2xl"

@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import AddFriend from "@/components/communities/addFriend";
 import PendingRequests from "@/components/homepage/sidebar/pendingRequests";
 import useDiscoverPeople from "../hooks/useDiscoverPeople";
+import MainContainer from "@/components/main-container";
 
 const InviteFriend: NextPageX = () => {
   const { back } = useRouter();
@@ -19,7 +20,7 @@ const InviteFriend: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-[790px]:w-full h-full overflow-auto pb-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
@@ -60,7 +61,7 @@ const InviteFriend: NextPageX = () => {
             <CompanyInfo />
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

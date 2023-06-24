@@ -11,6 +11,7 @@ import { Loading } from "@/components/loading";
 import useCommunityJoined from "../../hooks/useCommunitiesJoined";
 import { useRouter } from "next/router";
 import Back from "@/components/back";
+import MainContainer from "@/components/main-container";
 
 const Communities: NextPageX = () => {
   const [limit, setLimit] = useState(20)
@@ -23,7 +24,7 @@ const {back} = useRouter()
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1121px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] overflow-auto max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[718px] flex flex-col gap-[27px]"
@@ -39,7 +40,7 @@ const {back} = useRouter()
           </section>
           <Aside />
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
       <Loading loading={isLoading} />
     </div>

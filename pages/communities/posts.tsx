@@ -17,6 +17,7 @@ import { joinedCommunities } from "@/store";
 import { useEffect } from "react";
 import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
 import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
+import MainContainer from "@/components/main-container";
 
 const Communities: NextPageX = () => {
   // const { data } = useCommunityJoined();
@@ -37,7 +38,7 @@ const Communities: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1209px] justify-between pt-[50px] max-[500px]:w-full w-[80%] mx-auto gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] max-[790px]:flex-1 pb-[50px] overflow-auto max-w-[689px] flex flex-col gap-[55px]"
@@ -126,7 +127,7 @@ const Communities: NextPageX = () => {
             ) : null}
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
       <CreateCommunityModal opened={opened} close={close} />
     </div>

@@ -14,6 +14,7 @@ import { pageSearch } from "@/store";
 import PeopleList from "@/components/search/peopleList";
 import DiscoverCommunitiesCard from "@/components/communities/discoverCommunitiesCard";
 import { Loading } from "@/components/loading";
+import MainContainer from "@/components/main-container";
 
 const Search = () => {
   const { back } = useRouter();
@@ -38,7 +39,7 @@ const Search = () => {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-[790px]:w-full h-full overflow-auto py-[3vh] relative max-w-[1131px] justify-between gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
@@ -120,7 +121,7 @@ const Search = () => {
             <CompanyInfo />
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
       <LoadingOverlay visible={isFetching} />
     </div>

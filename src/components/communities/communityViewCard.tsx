@@ -11,6 +11,8 @@ import { joinCommunity } from "../../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import useImageViewer from "../../../hooks/useImageViewer";
+import GalleryViewer from "../homepage/posts/galleryViewer";
 
 function CommunityViewCard({
   community
@@ -19,7 +21,11 @@ function CommunityViewCard({
 }) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-  const { query } = useRouter();
+  const [opened, setOpened] = useState(false);
+  const [image, setImage] = useState("");
+
+  const { viewerData } = useImageViewer(image);
+  const startIndex = 0;
 
   const joinCommunityAction = () => {
     setLoading(true);
@@ -47,6 +53,12 @@ function CommunityViewCard({
       <CommunityPicture
         tag={community?.data?.category}
         image={community?.data?.get_logo_url || "/cover-image.png"}
+        handleClick={() => {
+          setImage(
+            community?.data?.get_logo_url || "/cover-image.png"
+          );
+          setOpened(true);
+        }}
       />
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
@@ -105,6 +117,12 @@ function CommunityViewCard({
           </p>
         </div>
       </div>
+      <GalleryViewer
+        setOpened={setOpened}
+        startIndex={startIndex}
+        gallery={viewerData}
+        opened={opened}
+      />
     </div>
   );
 }

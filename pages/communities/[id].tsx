@@ -19,6 +19,7 @@ import { useSetAtom } from "jotai";
 import { singleCommunity } from "@/store";
 import { useEffect } from "react";
 import Back from "@/components/back";
+import MainContainer from "@/components/main-container";
 
 const Community: NextPageX = () => {
   const { query } = useRouter();
@@ -39,7 +40,7 @@ const Community: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full overflow-auto py-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
@@ -86,7 +87,7 @@ const Community: NextPageX = () => {
             <CompanyInfo />
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
       {/* <Loading loading={isLoading} /> */}
     </div>

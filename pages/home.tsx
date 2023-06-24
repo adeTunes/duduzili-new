@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
 import ShowMoreButton from "@/components/showMoreButton";
 import { Loader } from "@mantine/core";
+import MainContainer from "@/components/main-container";
 
 const HomePage: NextPageX = () => {
   const showCommunityPreview = useAtomValue(toggleCommunityPreview);
@@ -38,10 +39,10 @@ const HomePage: NextPageX = () => {
         {user?.token ? <Header /> : <HeaderUnauthenticated />}
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-w-[1121px] justify-between h-full overflow-auto pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
-            className="w-[70%] pb-[50px] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[718px] flex flex-col gap-12"
+            className="w-[70%] pb-[50px] flex-1 overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] flex flex-col gap-12"
           >
             {user?.token && showCommunityPreview && <CommunityPreview />}
             <div className="flex flex-col gap-12">
@@ -60,7 +61,7 @@ const HomePage: NextPageX = () => {
           </section>
           <Aside />
           {user?.token ? <FixedMessagesButton /> : null}
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import { NextPageX } from "../types/next";
 import TrendingCard from "@/components/trendingCard";
 import DiscoverPeople from "@/components/homepage/sidebar/discoverPeople";
 import PostsList from "@/components/homepage/sidebar/postsList";
+import MainContainer from "@/components/main-container";
 
 const Trending: NextPageX = () => {
   const { back } = useRouter();
@@ -20,7 +21,7 @@ const Trending: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] max-[790px]:min-w-[98%] py-[50px] overflow-auto relative max-w-[1121px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section id="no-scroll" className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[718px] flex flex-col gap-[34px]">
             <div onClick={back} className="flex cursor-pointer items-center gap-[2.7vw]">
               <ArrowLeft
@@ -52,7 +53,7 @@ const Trending: NextPageX = () => {
             <CompanyInfo />
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

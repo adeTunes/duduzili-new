@@ -14,6 +14,7 @@ import { userDetails } from "@/store";
 import useFollowers from "../hooks/useFollowers";
 import {base64encode} from "nodejs-base64"
 import Back from "@/components/back";
+import MainContainer from "@/components/main-container";
 
 function Friends() {
   const { back } = useRouter();
@@ -36,7 +37,7 @@ function Friends() {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full max-[790px]:w-full overflow-auto py-[3vh] relative max-w-[1131px] justify-between gap-[3vh] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
@@ -84,7 +85,7 @@ function Friends() {
             <CompanyInfo />
           </aside>
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
     </div>
   );

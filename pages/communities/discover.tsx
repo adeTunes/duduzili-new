@@ -13,12 +13,13 @@ import useCommunityCategoryList from "../../hooks/useCommunityCategoryList";
 import useCommunityList from "../../hooks/useCommunityList";
 import { useRouter } from "next/router";
 import Back from "@/components/back";
+import MainContainer from "@/components/main-container";
 
 const Communities: NextPageX = () => {
   const [selected, setSelected] = useState(0);
   const { data: tags, isLoading: tagsLoading } = useCommunityCategoryList();
   const [selectedCategory, setSelectedCategory] = useState("");
-  const { data, isLoading } = useCommunityList(selectedCategory);
+  const { data, isLoading, isFetching } = useCommunityList(selectedCategory);
   const [allTags, setAllTags] = useState([]);
   const { back } = useRouter();
   useEffect(() => {
@@ -30,7 +31,7 @@ const Communities: NextPageX = () => {
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1121px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section
             id="no-scroll"
             className="w-[70%] overflow-auto max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[718px] flex flex-col gap-[27px]"
@@ -81,9 +82,9 @@ const Communities: NextPageX = () => {
           </section>
           <Aside />
           <FixedMessagesButton />
-        </main>
+        </MainContainer>
       </div>
-      <Loading loading={isLoading || tagsLoading} />
+      <Loading loading={isLoading || tagsLoading || isFetching} />
     </div>
   );
 };

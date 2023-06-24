@@ -9,6 +9,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useAtomValue } from "jotai";
 import { openChatDrawer } from "@/store";
 import Back from "@/components/back";
+import MainContainer from "@/components/main-container";
 
 const MessageLayout = ({
   children,
@@ -44,7 +45,7 @@ const MessageLayout = ({
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <main className="bg-[#FBFBFB] w-full h-full pb-[50px] relative max-w-[1131px] justify-between pt-[3vh] gap-[50px] flex">
+        <MainContainer>
           <section className="w-[45%] max-[800px]:min-w-full max-[800px]:max-w-full min-w-[330px] overflow-auto max-w-[506px] flex flex-col gap-[32px]">
             <div className="flex items-center justify-between">
               <Back text="Messages" />
@@ -75,7 +76,7 @@ const MessageLayout = ({
               {boxType}
             </div>
           </aside>
-        </main>
+        </MainContainer>
       </div>
       <ChatDrawer boxType={boxType} opened={opened || chatDrawerOpened} close={close} />
     </div>
