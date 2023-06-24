@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 import { ArrowRight2 } from "iconsax-react";
 
-const SettingsTab = ({ close }) => {
+const SettingsTab = ({ close }: {close?: () => void}) => {
   const settings = [
     {
       text: "Account",
