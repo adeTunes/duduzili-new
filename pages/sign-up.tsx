@@ -19,8 +19,6 @@ const SignUp: NextPageX = () => {
     initialValues: {
       first_name: "",
       last_name: "",
-      // fullname: "",
-      username: "",
       email: "",
       password: "",
       confirm_password: "",
@@ -110,16 +108,6 @@ const SignUp: NextPageX = () => {
               type="email"
               placeholder="Email address"
               {...form.getInputProps("email")}
-            />
-            <TextInput
-              required
-              autoComplete="off"
-              classNames={{
-                input:
-                  "border h-[5vh] min-w-[250px] border-solid border-duduzili-chinese-white rounded-lg",
-              }}
-              placeholder="Username"
-              {...form.getInputProps("username")}
             />
             <PasswordInput
               required

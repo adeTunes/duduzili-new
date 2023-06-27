@@ -20,7 +20,7 @@ import AudioPlayer from "./audioPlayer";
 import EmojiContainer from "../message/emojiContainer";
 
 function EditPostModal({ opened, close, id }) {
-  const { data, isLoading } = useSinglePost(id);
+  const { data, isLoading } = useSinglePost(id, false);
 
   const post_id = id;
   const form = useForm({

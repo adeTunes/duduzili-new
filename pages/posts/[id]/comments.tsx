@@ -11,7 +11,7 @@ import MainContainer from "@/components/main-container";
 
 function Comments() {
   const { query } = useRouter();
-  const { data } = useSinglePost(query.id);
+  const { data, refetch } = useSinglePost(query.id);
   const { back } = useRouter();
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -49,7 +49,7 @@ function Comments() {
                 >
                   Show more
                 </p>
-                <ReplyInput />
+                <ReplyInput refetch={refetch} />
               </>
             ) : (
               <p className="text-center">No comments here yet</p>

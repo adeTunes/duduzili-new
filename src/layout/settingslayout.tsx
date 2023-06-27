@@ -8,7 +8,6 @@ import SettingsTab from "../components/settings/settingsTab";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import { useDisclosure } from "@mantine/hooks";
 import SettingsDrawer from "@/components/settings/settings-drawer";
-import MainContainer from "@/components/main-container";
 
 const SettingsLayout = ({
   children,
@@ -26,7 +25,7 @@ const SettingsLayout = ({
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <MainContainer>
+        <main className="bg-[#FBFBFB] max-[680px]:w-full h-full pb-[50px] relative max-w-[1131px] max-[1170px]:min-w-[900px] max-[940px]:min-w-full min-w-[1131px] justify-between pt-[3vh] gap-[3vw] flex">
           <section className="w-[45%] max-[680px]:hidden min-w-[250px] overflow-auto max-w-[506px] flex flex-col gap-8">
             <div className="flex items-center gap-10">
               <ArrowLeft
@@ -59,7 +58,7 @@ const SettingsLayout = ({
             {children}
           </aside>
           <FixedMessagesButton />
-        </MainContainer>
+        </main>
       </div>
       <SettingsDrawer opened={opened} close={close} />
     </div>

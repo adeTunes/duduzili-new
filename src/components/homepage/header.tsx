@@ -2,6 +2,7 @@ import { pageSearch, userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Indicator, TextInput, clsx } from "@mantine/core";
 import {
+  Add,
   HambergerMenu,
   Home,
   Profile2User,
@@ -20,6 +21,9 @@ import UseNotifications from "../../../hooks/useNotifications";
 import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import MobileDrawer from "../mobileDrawer";
+import MobileMenuIcon from "./mobileMenuIcon";
+import CreatePostModal from "../modals/createPostModal";
+import SearchDropdown from "../searchDropdown";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
@@ -30,6 +34,29 @@ function Header() {
       setUnread(data?.notifications?.some((item) => item.read === true));
     }
   }, [data]);
+  const bottomNavIcons = [
+    {
+      href: "/home",
+      icon: <Home className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      routeId: "/home",
+    },
+    {
+      href: "/communities/posts",
+      icon: <Profile2User className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      routeId: "communities",
+    },
+    { icon: <Add className="w-10 h-10 max-[382px]:w-8 max-[382px]:h-8" variant="Outline" color="white" /> },
+    {
+      href: "/trending",
+      icon: <TrendUp className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      routeId: "trending",
+    },
+    {
+      href: "/messages/friends",
+      icon: <Sms className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      routeId: "messages",
+    },
+  ];
   const navIcons = [
     {
       href: "/home",
@@ -50,6 +77,10 @@ function Header() {
       href: "/messages/friends",
       icon: <Sms size="20" variant="Outline" />,
       routeId: "messages",
+    },
+    {
+      icon: <SearchNormal1 size="20" variant="Outline" />,
+      routeId: "search",
     },
     {
       icon: (
@@ -76,6 +107,7 @@ function Header() {
   const setPageSearch = useSetAtom(pageSearch);
   const queryClient = useQueryClient();
   const [opened, { open, close }] = useDisclosure(false);
+  const [createOpened, {open: openCreate, close: closeCreate}] = useDisclosure(false)
 
   useEffect(() => {
     if (searchValue) {
@@ -88,12 +120,11 @@ function Header() {
   }, [searchValue]);
 
   return (
-    <header className="w-[90%] mx-auto max-w-[1300px] flex justify-between items-center">
-      <div className="flex items-center gap-2">
-        {pathname.includes("messages") ||
-        pathname.startsWith("/settings") ? null : (
-          <HambergerMenu className="cursor-pointer hidden max-[790px]:inline-block" onClick={open} size={24} />
-        )}
+    <header className="w-[90%] max-[330px]:w-full max-[330px]:px-2 mx-auto max-w-[1300px] flex justify-between items-center">
+      <div className="flex items-center gap-4 max-[330px]:gap-2">
+        <div onClick={open} className="w-[45px] h-[45px] hidden max-[500px]:flex max-[330px]:w-[32px] max-[330px]:h-[32px] cursor-pointer rounded-full bg-[#EDF0FB] items-center justify-center">
+          <MobileMenuIcon className="w-[25px] max-[330px]:w-[18px] max-[330px]:h-[18px] h-[25px]" />
+        </div>
         <Link href="/home">
           <div style={{ height: "clamp(35px, 2.5vw, 49px)" }}>
             <img src="/logo.png" alt="duduzili logo" className="h-full" />
@@ -101,7 +132,7 @@ function Header() {
         </Link>
       </div>
       <TextInput
-        className="max-[580px]:hidden"
+        className="max-[790px]:hidden"
         placeholder="Search Duduzili"
         icon={<Icon icon="mingcute:search-line" height={24} width={24} />}
         classNames={{
@@ -113,7 +144,7 @@ function Header() {
           setSearch(e.target.value);
         }}
       />
-      <div className="flex max-[790px]:hidden items-center gap-8">
+      <div className="flex items-center max-[650px]:gap-6 gap-8">
         {navIcons.map(({ href, icon, routeId }, idx) => (
           <div
             key={idx}
@@ -121,11 +152,15 @@ function Header() {
               pathname.includes(routeId)
                 ? "border-b-[4px] border-b-[#4534B8] text-[#4534B8]"
                 : "border-b-[4px] border-b-[#fff]",
+              routeId === "search" && "hidden max-[790px]:flex",
+              routeId && routeId !== "search" && "max-[500px]:hidden",
               "h-[75px] flex items-center "
             )}
           >
-            {routeId ? (
+            {routeId && routeId !== "search" ? (
               <Link href={href}>{icon}</Link>
+            ) : routeId === "search" ? (
+              <SearchDropdown>{icon}</SearchDropdown>
             ) : (
               <UserProfileImageActions unread={unread} setLoading={setLoading}>
                 {icon}
@@ -134,7 +169,7 @@ function Header() {
           </div>
         ))}
       </div>
-      <div className="hidden max-[790px]:flex h-[75px] items-center gap-5">
+      {/* <div className="hidden max-[790px]:flex h-[75px] items-center gap-5">
         <SearchNormal1 size={24} className=" hidden max-[580px]:inline-block" />
         <UserProfileImageActions unread={unread} setLoading={setLoading}>
           <Indicator
@@ -152,9 +187,33 @@ function Header() {
             />
           </Indicator>
         </UserProfileImageActions>
+      </div> */}
+      <div
+        className="fixed bottom-0 h-[93px] hidden max-[500px]:flex items-center z-[9999999] right-0 left-0 bg-white"
+        style={{ boxShadow: "0px 0px 20px 0px rgba(0, 0, 0, 0.20)" }}
+      >
+        <div className="flex justify-between items-center  max-[382px]:w-[90%] w-[80%] mx-auto">
+          {bottomNavIcons.map(({ routeId, href, icon }, idx) => (
+            <div
+              key={idx}
+              className={clsx(
+                pathname.includes(routeId) && "text-duduzili-violet"
+              )}
+            >
+              {routeId ? (
+                <Link href={href}>{icon}</Link>
+              ) : (
+                <div onClick={openCreate} className="bg-duduzili-violet items-center mt-[-75px] border-[8px] border-[#f2f2f2] flex justify-center h-[72px] rounded-full w-[72px]">
+                  {icon}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       <Loading loading={loading} />
       <MobileDrawer opened={opened} close={close} />
+      <CreatePostModal opened={createOpened} close={closeCreate} />
     </header>
   );
 }

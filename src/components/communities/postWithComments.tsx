@@ -9,7 +9,7 @@ import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 
 function PostWithComments() {
   const { query } = useRouter();
-  const { data, isLoading } = useSinglePost(query.id);
+  const { data, isLoading, refetch } = useSinglePost(query.id);
   return (
     <>
       {/* <div
@@ -30,7 +30,7 @@ function PostWithComments() {
       {isLoading ? <SinglePostSkeleton /> : <PostsContainer post={data?.post} />}
       {/* Reply section */}
       <div className="flex gap-[36px] pl-[5vw] flex-col">
-        <ReplyInput />
+        <ReplyInput refetch={refetch} />
         {data?.comments?.length ? (
           data?.comments?.map((comment, idx) => <ReplyCard key={idx} comment={comment} />).reverse()
         ) : (

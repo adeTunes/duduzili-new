@@ -16,8 +16,9 @@ import ReturnMedia from "./returnMedia";
 import DisplayMedia from "./displayMedia";
 import AudioPlayer from "./audioPlayer";
 import EmojiContainer from "../message/emojiContainer";
+import { base64decode } from "nodejs-base64";
 
-function CommentPostModal({ opened, close }) {
+function CommentPostModal({ opened, close, refetch }) {
   const { query } = useRouter();
   const post_id = query.id;
   const form = useForm({
@@ -161,7 +162,7 @@ function CommentPostModal({ opened, close }) {
                 });
               var data = new FormData();
               data.append("text", form.values.text);
-              data.append("post_id", String(form.values.post_id));
+              data.append("post_id", String(+(base64decode(post_id as string)) / 1000000));
               if (audio) {
                 data.append("audio", audio, audio.name);
               }
@@ -180,7 +181,7 @@ function CommentPostModal({ opened, close }) {
                   }
                 });
               postComment(data, setLoading, () => {
-                queryClient.invalidateQueries(["single-posts", post_id]);
+                refetch(String(+(base64decode(post_id as string)) / 1000000))
                 setSelected([]);
                 form.reset();
                 close();

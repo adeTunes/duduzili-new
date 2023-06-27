@@ -5,7 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import CommentPostModal from "@/components/modals/commentPostModal";
 import { AudioSquare } from "iconsax-react";
 
-function ReplyInput() {
+function ReplyInput({refetch}: {refetch?: (id: any) =>  void}) {
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
   return (
@@ -27,7 +27,7 @@ function ReplyInput() {
           <AudioSquare size="24" color="#2A2A2A" variant="Outline" />
         </div>
       </div>
-      <CommentPostModal opened={opened} close={close} />
+      <CommentPostModal refetch={refetch} opened={opened} close={close} />
     </div>
   );
 }
