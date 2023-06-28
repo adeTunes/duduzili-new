@@ -264,6 +264,12 @@ export const otherUsersSearch = (username) => {
 export const communityMembers = (code) => {
   return API.get(`/api/v1/rest-auth/community/community-members-list?code=${code}`);
 };
+export const acceptFollowRequest = (id) => {
+  return API.get(`/api/v1/rest-auth/approve_request/${id}/`);
+};
+export const rejectFollowRequest = (id) => {
+  return API.get(`/api/v1/rest-auth/decline_request/${id}/`);
+};
 
 
 

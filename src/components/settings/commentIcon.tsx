@@ -1,8 +1,9 @@
 import React from "react";
 
-function CommentIcon({ height, width }: { height?: string; width?: string }) {
+function CommentIcon({ height, width, className }: { height?: string; width?: string; className?: string }) {
   return (
     <svg
+    className={className}
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"

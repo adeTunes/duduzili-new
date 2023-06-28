@@ -32,7 +32,7 @@ function Header() {
   const [unread, setUnread] = useState(null);
   useEffect(() => {
     if (data) {
-      setUnread(data?.notifications?.some((item) => item.read === true));
+      setUnread(data?.notifications?.some((item) => item.read !== true));
     }
   }, [data]);
   const bottomNavIcons = [
@@ -116,7 +116,7 @@ function Header() {
         <Indicator
           classNames={{ common: "!top-[3px] !right-[6px]" }}
           color="#E59055"
-          disabled={!!unread}
+          disabled={!unread}
         >
           {user?.user?.photo_url ? (
             <img

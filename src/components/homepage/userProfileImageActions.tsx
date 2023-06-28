@@ -58,10 +58,10 @@ function UserProfileImageActions({ children, unread, setLoading }) {
     <Menu
       closeOnItemClick={false}
       shadow="md"
-      width={200}
+      width="25vw"
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !min-w-[25vw]",
+        dropdown: "!py-6 !px-8 !rounded-[24px] !max-w-[300px] min-w-[270px]",
       }}
       styles={{
         dropdown: {

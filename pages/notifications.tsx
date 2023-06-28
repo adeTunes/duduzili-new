@@ -20,7 +20,7 @@ type Notification = {
   title: string;
   day: string;
   time: string;
-  action: "like" | "sticker-reward" | "post-comment" | "friend-request";
+  action: "like" | "sticker-reward" | "comment" | "friend-request";
   unread: boolean;
 }[];
 
@@ -62,6 +62,7 @@ function Friends() {
               ? `${item?.date} ago`
               : item?.date,
             unread: !item?.read,
+            senderId: item?.sender?.id,
             action: item?.notification_type,
           });
           return acc;
@@ -139,13 +140,14 @@ function Friends() {
               className="bg-white rounded-2xl max-[480px]:p-3 p-6 flex flex-col gap-2"
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
-              {notifications?.map(({ title, action, day, unread }, idx) => (
+              {notifications?.map(({ title, senderId, action, day, unread }, idx) => (
                 <NotificationCard
                   key={idx}
                   title={title}
                   action={action}
                   day={day}
                   unread={unread}
+                  senderId={senderId}
                 />
               ))}
             </div>
