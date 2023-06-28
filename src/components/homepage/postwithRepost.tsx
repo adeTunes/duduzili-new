@@ -13,8 +13,11 @@ import PostVideoAndAudio from "./posts/postVideoAndAudio";
 import PostManyImages from "../communities/postManyImages";
 import { Post } from "../../../api/request.types";
 import RepostBody from "./reposts/repostBody";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 function PostwithRepost({ post }: { post: Post }) {
+  dayjs.extend(relativeTime);
   return (
     <div
       className="rounded-[24px] max-[390px]:p-[10px] bg-white p-8 flex flex-col gap-6"
@@ -51,24 +54,17 @@ function PostwithRepost({ post }: { post: Post }) {
             </p>
             <span className="flex items-center gap-1">
               <small className="text-[#757575] text-[10px]">
-                {new Date(post?.date_added)
+                {post?.original_post_date ? new Date(post?.original_post_date)
                   ?.toLocaleDateString("us-EN", {
                     month: "long",
                     day: "numeric",
                   })
                   ?.split(" ")
                   ?.reverse()
-                  ?.join(" ")}
+                  ?.join(" ") : ""}
               </small>
               <span className="bg-[#2A2A2A] text-white text-[10px] px-2 rounded-2xl py-1">
-                {post?.date?.includes("now")
-                  ? post?.date
-                  : post?.date?.includes("days") ||
-                    post?.date?.includes("min") ||
-                    post?.date?.includes("sec") ||
-                    post?.date?.includes("hr")
-                  ? `${post?.date} ago`
-                  : post?.date}
+                {post?.original_post_date ? dayjs(post?.original_post_date).fromNow() : ""}
               </span>
             </span>
           </div>

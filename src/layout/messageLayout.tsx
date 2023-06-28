@@ -49,13 +49,13 @@ const MessageLayout = ({
           <section className="w-[45%] max-[800px]:min-w-full max-[800px]:max-w-full min-w-[330px] overflow-auto max-w-[506px] flex flex-col gap-[32px]">
             <div className="flex items-center justify-between">
               <Back text="Messages" />
-              <HambergerMenu className="cursor-pointer max-[800px]:inline-block hidden" onClick={open} size={24} />
+              {/* <HambergerMenu className="cursor-pointer max-[800px]:inline-block hidden" onClick={open} size={24} /> */}
             </div>
             {children}
           </section>
           <aside className="w-[55%] max-[800px]:hidden overflow-auto max-w-[557px] flex flex-col gap-6">
             <div className="flex overflow-auto h-full flex-col gap-6">
-              <div className="max-[800px]:hidden justify-between flex">
+              {/* <div className="max-[800px]:hidden justify-between flex">
                 {tabs.map((item, idx) => (
                   <Link key={idx} href={item.href}>
                     <p
@@ -72,7 +72,7 @@ const MessageLayout = ({
                     </p>
                   </Link>
                 ))}
-              </div>
+              </div> */}
               {boxType}
             </div>
           </aside>

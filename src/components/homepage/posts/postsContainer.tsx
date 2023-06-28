@@ -45,8 +45,6 @@ function PostsContainer({ post }: { post: Post }) {
     <PostVideoAndAudioContainer post={post} />
   ) : post?.media?.photo?.length > 1 ? (
     <PostManyImagesContainer post={post} />
-  ) : post?.youtube_url && post?.text ? (
-    <PostWithVideo post={post} />
   ) : null;
 }
 

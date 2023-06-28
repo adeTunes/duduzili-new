@@ -13,16 +13,15 @@ import { useRouter } from "next/router";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "../homepage/posts/galleryViewer";
+import { useDisclosure } from "@mantine/hooks";
+import MembersDrawer from "./membersDrawer";
 
-function CommunityViewCard({
-  community
-}: {
-  community: CommunityDetails;
-}) {
+function CommunityViewCard({ community }: { community: CommunityDetails }) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const [opened, setOpened] = useState(false);
   const [image, setImage] = useState("");
+  const [membersOpened, { open, close }] = useDisclosure(false);
 
   const { viewerData } = useImageViewer(image);
   const startIndex = 0;
@@ -54,9 +53,7 @@ function CommunityViewCard({
         tag={community?.data?.category}
         image={community?.data?.get_logo_url || "/cover-image.png"}
         handleClick={() => {
-          setImage(
-            community?.data?.get_logo_url || "/cover-image.png"
-          );
+          setImage(community?.data?.get_logo_url || "/cover-image.png");
           setOpened(true);
         }}
       />
@@ -99,7 +96,15 @@ function CommunityViewCard({
           )}
         </div>
         <div className="flex items-center gap-[19px]">
-          <div className="flex">
+          <div
+            onClick={() => {
+              if(!community?.data?.is_joined) {
+                return showNotification({message: "You are not a member of this community!"})
+              }
+              open()
+            }}
+            className="flex cursor-pointer"
+          >
             {community?.data?.members_photo?.map((item, idx) => (
               <img
                 key={idx}
@@ -112,7 +117,15 @@ function CommunityViewCard({
               />
             ))}
           </div>
-          <p className="leading-[24px] text-[#2A2A2A]">
+          <p
+            onClick={() => {
+              if(!community?.data?.is_joined) {
+                return showNotification({message: "You are not a member of this community!"})
+              }
+              open()
+            }}
+            className="leading-[24px] cursor-pointer hover:text-[#9e9b9b] text-[#2A2A2A]"
+          >
             {community?.data?.total_members} members
           </p>
         </div>
@@ -123,6 +136,13 @@ function CommunityViewCard({
         gallery={viewerData}
         opened={opened}
       />
+      {community?.data?.is_joined ? (
+        <MembersDrawer
+          code={community?.data?.code}
+          opened={membersOpened}
+          close={close}
+        />
+      ) : null}
     </div>
   );
 }

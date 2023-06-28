@@ -261,6 +261,9 @@ export const followersSearch = (user) => {
 export const otherUsersSearch = (username) => {
   return API.get(`/api/v1/rest-auth/user/chat_list?query_type=users&search=${username}`);
 };
+export const communityMembers = (code) => {
+  return API.get(`/api/v1/rest-auth/community/community-members-list?code=${code}`);
+};
 
 
 

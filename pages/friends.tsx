@@ -12,16 +12,19 @@ import useFollowings from "../hooks/useFollowings";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import useFollowers from "../hooks/useFollowers";
-import {base64encode} from "nodejs-base64"
+import { base64encode } from "nodejs-base64";
 import Back from "@/components/back";
 import MainContainer from "@/components/main-container";
+import FollowSkeleton from "@/components/skeletons/followSkeleton";
 
 function Friends() {
   const { back } = useRouter();
   const user: any = useAtomValue(userDetails);
-  const { data: followings } = useFollowings(user?.user?.id);
-  const { data: followers } = useFollowers(user?.user?.id);
-  const {push} = useRouter()
+  const { data: followings, isLoading } = useFollowings(user?.user?.id);
+  const { data: followers, isLoading: isDataLoading } = useFollowers(
+    user?.user?.id
+  );
+  const { push } = useRouter();
 
   const [friends, setFriends] = useState([]);
 
@@ -48,31 +51,56 @@ function Friends() {
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
               <div className="flex flex-col">
-                {friends?.map((item, idx) => (
-                  <div key={idx} className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]">
-                    <div className="flex gap-3 items-center">
-                      <div className="w-[36px] h-[36px]">
-                        <img
-                          src={item?.photo_url?.substring(62) || "/profile-pic-default.png"}
-                          className="w-full h-full rounded-full object-cover"
-                          alt="profile picture of suggested friend"
-                        />
+                {isLoading || isDataLoading ? (
+                  <>
+                    <FollowSkeleton />
+                    <FollowSkeleton />
+                    <FollowSkeleton />
+                    <FollowSkeleton />
+                    <FollowSkeleton />
+                    <FollowSkeleton />
+                    <FollowSkeleton />
+                  </>
+                ) : (
+                  friends?.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"
+                    >
+                      <div className="flex gap-3 items-center">
+                        <div className="w-[36px] h-[36px]">
+                          <img
+                            src={
+                              item?.photo_url?.substring(62) ||
+                              "/profile-pic-default.png"
+                            }
+                            className="w-full h-full rounded-full object-cover"
+                            alt="profile picture of suggested friend"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
+                            {item?.first_name} {item?.last_name}
+                          </p>
+                          <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">
+                            @{item?.username}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">
-                          {item?.first_name} {item?.last_name}
-                        </p>
-                        <p className="max-[420px]:text-[13px] text-[#505050] leading-[19px]">@{item?.username}</p>
-                      </div>
+                      <p
+                        onClick={() => {
+                          const friend = JSON.stringify(item);
+                          push(
+                            `/messages/friends?chat=${base64encode(friend)}`
+                          );
+                        }}
+                        className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
+                      >
+                        Message
+                      </p>
                     </div>
-                    <p onClick={() => {
-                          const friend = JSON.stringify(item)
-                          push(`/messages/friends?chat=${base64encode(friend)}`);
-                        }} className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]">
-                      Message
-                    </p>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </section>

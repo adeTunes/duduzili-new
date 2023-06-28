@@ -52,7 +52,9 @@ const Community: NextPageX = () => {
               </div>
             </div>
             <div className=" flex flex-col gap-6">
-              <p className="text-[24px] leading-[29px] font-semibold">
+              <p style={{
+            fontSize: "clamp(15px, 1.3vw, 24px)",
+          }} className="leading-[29px] font-semibold">
                 Discover Communities
               </p>
               <div
