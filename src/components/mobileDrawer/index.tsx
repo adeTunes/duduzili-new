@@ -113,7 +113,7 @@ function MobileDrawer({ opened, close }) {
                   <Link
                     key={id}
                     href={el.href}
-                    className="flex items-center gap-4 px-2 py-[10px]"
+                    className="flex hover:bg-[#f5f5f5] items-center gap-4 px-2 py-[10px]"
                   >
                     {el.icon}
                     {el.name}
@@ -122,7 +122,7 @@ function MobileDrawer({ opened, close }) {
                   <div
                     key={id}
                     onClick={el.action}
-                    className="flex items-center text-[#D40000] gap-4 px-2 py-[10px]"
+                    className="flex hover:bg-[#f5f5f5] cursor-pointer items-center text-[#D40000] gap-4 px-2 py-[10px]"
                   >
                     {el.icon}
                     {el.name}
