@@ -7,6 +7,7 @@ import { Loading } from "@/components/loading";
 import { useRouter } from "next/router";
 import { clsx } from "@mantine/core";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
+import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
 function PostHeader({ post }) {
   // user={post.user} day={post.date} date={post.date_added}
@@ -30,11 +31,19 @@ function PostHeader({ post }) {
             "h-[56px] w-[56px] max-[480px]:h-[45px] max-[480px]:w-[45px]"
           )}
         >
-          <img
-            src={user?.photo_url?.substring(62) || "/profile-pic-default.png"}
-            className="w-full h-full object-cover rounded-full"
-            alt="user profile picture"
-          />
+          {user?.photo_url ? (
+            <img
+              src={user?.photo_url?.substring(62)}
+              className="w-full h-full object-cover rounded-full"
+              alt="user profile picture"
+            />
+          ) : (
+            <DefaultProfilePicture
+              firstName={user?.first_name}
+              lastName={user?.last_name}
+              text="text-[100%]"
+            />
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <p className="flex items-center max-[440px]:flex-col max-[440px]:items-start gap-2">

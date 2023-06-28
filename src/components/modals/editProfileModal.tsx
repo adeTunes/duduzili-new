@@ -21,6 +21,7 @@ import { Icon } from "@iconify/react";
 import { displayImage } from "@/helpers/displayImage";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function EditProfileModal({ opened, close }) {
   const user: any = useAtomValue(userDetails);
@@ -53,9 +54,7 @@ function EditProfileModal({ opened, close }) {
   const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (user?.user?.photo_url?.substring(62))
-      setSource(user?.user?.photo_url?.substring(62));
-    else setSource("/profile-pic-default.png");
+    setSource(user?.user?.photo_url?.substring(62));
   }, []);
 
   useEffect(() => {
@@ -95,10 +94,11 @@ function EditProfileModal({ opened, close }) {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] max-[390px]:px-3 flex flex-col overflow-auto",
+          "py-6 px-8 z-[99999999] rounded-[24px] max-[390px]:px-3 flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto grid max-[390px]:px-0 grid-rows-[1fr_auto]",
+        inner: "z-[9999999]"
       }}
       styles={{
         content: {
@@ -137,16 +137,25 @@ function EditProfileModal({ opened, close }) {
           </div>
           <div className="flex justify-between items-center pl-8">
             <div
-              className="w-[150px] h-[150px] !bg-cover !bg-no-repeat !bg-[center_top] mt-[-70px] rounded-full flex items-center justify-center relative"
+              className="!bg-cover !bg-no-repeat !bg-[center_top] mt-[-70px] rounded-full flex items-center justify-center relative"
               style={{
-                width: "clamp(80px, 9.8vw, 150px)",
-                height: "clamp(80px, 9.8vw, 150px)",
-                background: `url(${source})`,
-                backgroundPosition: "top center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
+                width: "clamp(80px, 9.8vw, 130px)",
+                height: "clamp(80px, 9.8vw, 130px)",
               }}
             >
+              {source ? (
+              <img
+                src={source as string}
+                className="w-full h-full object-cover rounded-full"
+                alt="user profile picture"
+              />
+            ) : (
+              <DefaultProfilePicture
+                text="text-[300%] max-[1120px]:text-[250%] max-[900px]:text-[150%]"
+                firstName={user?.user?.first_name}
+                lastName={user?.user?.last_name}
+              />
+            )}
               <label
                 htmlFor="profile-input"
                 className="absolute h-[50px] cursor-pointer w-[50px] bg-[#4534B8] rounded-full opacity-50 flex items-center justify-center"

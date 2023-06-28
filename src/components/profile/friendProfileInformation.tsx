@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "../homepage/posts/galleryViewer";
 import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
+import DefaultProfilePicture from "./defaultProfilePicture";
 
 function FriendProfileInformation({ friendDetails }) {
   const [loading, setLoading] = useState(false);
@@ -50,21 +51,23 @@ function FriendProfileInformation({ friendDetails }) {
             }}
             className="mt-[-70px] max-[956px]:mt-[-50px]"
           >
-            <img
-              onClick={() => {
-                setImage(
-                  friendDetails?.user?.photo_url?.substring(62) ||
-                    "/profile-pic-default.png"
-                );
-                setOpened(true);
-              }}
-              src={
-                friendDetails?.user?.photo_url?.substring(62) ||
-                "/profile-pic-default.png"
-              }
-              className="w-full relative h-full object-cover rounded-full"
-              alt="user profile picture"
-            />
+            {friendDetails?.user?.photo_url ? (
+              <img
+                onClick={() => {
+                  setImage(friendDetails?.user?.photo_url?.substring(62));
+                  setOpened(true);
+                }}
+                src={friendDetails?.user?.photo_url?.substring(62)}
+                className="w-full relative h-full object-cover rounded-full"
+                alt="user profile picture"
+              />
+            ) : (
+              <DefaultProfilePicture
+                text="text-[300%] max-[1120px]:text-[250%] max-[900px]:text-[150%]"
+                firstName={friendDetails?.user?.first_name}
+                lastName={friendDetails?.user?.last_name}
+              />
+            )}
           </div>
           <div className="flex items-center gap-4 max-[956px]:-ml-8">
             <p

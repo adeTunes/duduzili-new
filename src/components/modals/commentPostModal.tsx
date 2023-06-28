@@ -70,7 +70,7 @@ function CommentPostModal({ opened, close, refetch }) {
       <div className="grid h-full overflow-auto grid-rows-[auto_1fr_auto] gap-5 mt-6">
         <UserAvatarWithName
           image={
-            user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"
+            user?.user?.photo_url?.substring(62)
           }
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}

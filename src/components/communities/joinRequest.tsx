@@ -5,6 +5,7 @@ import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function JoinRequest({ data }) {
   const queryCLient = useQueryClient();
@@ -33,13 +34,19 @@ function JoinRequest({ data }) {
     <div className="px-2 py-4 flex items-center max-[350px]:flex-col max-[500px]:items-start justify-between border-b border-b-[#EDF0FB]">
       <div className="flex gap-3 items-center">
         <div className="w-[36px] h-[36px]">
-          <img
-            src={
-              data?.user?.photo_url?.substring(62) || "/profile-pic-default.png"
-            }
-            className="w-full h-full rounded-full object-cover"
-            alt="profile picture of suggested friend"
-          />
+          {data?.user?.photo_url ? (
+            <img
+              src={data?.user?.photo_url?.substring(62)}
+              className="w-full h-full rounded-full object-cover"
+              alt="profile picture of suggested friend"
+            />
+          ) : (
+            <DefaultProfilePicture
+              text="text-[100%]"
+              firstName={data?.user?.first_name}
+              lastName={data?.user?.last_name}
+            />
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <p className="max-[430px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">

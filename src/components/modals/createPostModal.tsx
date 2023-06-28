@@ -61,7 +61,7 @@ function CreatePostModal({ opened, close }) {
     >
       <div className="flex flex-col gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"}
+          image={user?.user?.photo_url?.substring(62)}
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />

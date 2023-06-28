@@ -1,14 +1,15 @@
 import { clsx } from "@mantine/core";
 import React from "react";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 type Prop = {
-    onClick: React.MouseEventHandler<HTMLDivElement>,
-    image: string;
-    username: string;
-    name: string
-}
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+  image: string;
+  username: string;
+  name: string;
+};
 
-function SearchList({onClick, image, username, name}: Prop) {
+function SearchList({ onClick, image, username, name }: Prop) {
   return (
     <div
       onClick={onClick}
@@ -18,11 +19,19 @@ function SearchList({onClick, image, username, name}: Prop) {
     >
       <div className="flex items-center gap-[19px]">
         <div className="w-[52px] h-[52px]">
-          <img
-            src={image || "/profile-pic-default.png"}
-            className="w-full h-full object-cover rounded-full"
-            alt=""
-          />
+          {image ? (
+            <img
+              src={image}
+              className="w-full h-full object-cover rounded-full"
+              alt=""
+            />
+          ) : (
+            <DefaultProfilePicture
+              firstName={name.split(" ")[0]}
+              lastName={name.split(" ")[1]}
+              text="text-[100%]"
+            />
+          )}
         </div>
         <div className="gap-1 flex flex-col">
           <p className="text-[#222222] font-semibold leading-6">{name}</p>

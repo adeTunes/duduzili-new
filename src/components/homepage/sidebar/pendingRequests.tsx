@@ -8,6 +8,7 @@ import { treatCommunityJoinRequest } from "../../../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useQueryClient } from "@tanstack/react-query";
+import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
 function PendingRequests() {
   const { query } = useRouter();
@@ -65,14 +66,19 @@ function PendingRequests() {
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-3 items-center">
                     <div className="w-[36px] h-[36px]">
-                      <img
-                        src={
-                          item?.user?.photo_url?.substring(62) ||
-                          "/profile-pic-default.png"
-                        }
-                        className="w-full h-full rounded-full object-cover"
-                        alt="profile picture of suggested friend"
-                      />
+                      {item?.user?.photo_url ? (
+                        <img
+                          src={item?.user?.photo_url?.substring(62)}
+                          className="w-full h-full rounded-full object-cover"
+                          alt="profile picture of suggested friend"
+                        />
+                      ) : (
+                        <DefaultProfilePicture
+                          firstName={item?.user?.first_name}
+                          lastName={item?.user?.last_name}
+                          text="text-[80%]"
+                        />
+                      )}
                     </div>
                     <div className="flex flex-col gap-1">
                       <p className=" font-bold leading-[19px] text-[#2A2A2A]">

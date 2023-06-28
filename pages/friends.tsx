@@ -16,6 +16,7 @@ import { base64encode } from "nodejs-base64";
 import Back from "@/components/back";
 import MainContainer from "@/components/main-container";
 import FollowSkeleton from "@/components/skeletons/followSkeleton";
+import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
 function Friends() {
   const { back } = useRouter();
@@ -69,14 +70,19 @@ function Friends() {
                     >
                       <div className="flex gap-3 items-center">
                         <div className="w-[36px] h-[36px]">
-                          <img
-                            src={
-                              item?.photo_url?.substring(62) ||
-                              "/profile-pic-default.png"
-                            }
-                            className="w-full h-full rounded-full object-cover"
-                            alt="profile picture of suggested friend"
-                          />
+                          {item?.photo_url ? (
+                            <img
+                              src={item?.photo_url?.substring(62)}
+                              className="w-full h-full rounded-full object-cover"
+                              alt="profile picture of suggested friend"
+                            />
+                          ) : (
+                            <DefaultProfilePicture
+                              text="text-[80%]"
+                              firstName={item?.first_name}
+                              lastName={item?.last_name}
+                            />
+                          )}
                         </div>
                         <div className="flex flex-col gap-1">
                           <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">

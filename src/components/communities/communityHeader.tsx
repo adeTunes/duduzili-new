@@ -5,6 +5,7 @@ import CommunityPostOptions from "./communityPostOptions";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import Link from "next/link";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function CommunityHeader({ post, community }) {
   const [loading, setLoading] = useState(false);
@@ -27,14 +28,19 @@ function CommunityHeader({ post, community }) {
         </Link>
         <div className="flex max-[900px]:items-start items-center gap-[19px]">
           <div className="w-[33px] h-[33px]">
-            <img
-              src={
-                post?.user?.photo_url?.substring(62) ||
-                "/profile-pic-default.png"
-              }
-              className="w-full h-full object-cover rounded-full"
-              alt=""
-            />
+            {post?.user?.photo_url ? (
+              <img
+                src={post?.user?.photo_url?.substring(62)}
+                className="w-full h-full object-cover rounded-full"
+                alt=""
+              />
+            ) : (
+              <DefaultProfilePicture
+                text="text-[80%]"
+                firstName={post?.user?.first_name}
+                lastName={post?.user?.last_name}
+              />
+            )}
           </div>
           <span className="font-medium max-[900px]:hidden leading-6 text-[#2A2A2A]">
             {post?.user?.first_name} {post?.user?.last_name}

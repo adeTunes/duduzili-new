@@ -18,6 +18,7 @@ import AttachMedia from "./attach-media";
 import { useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
 import EmojiContainer from "./emojiContainer";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
@@ -151,13 +152,19 @@ function MessagesChatBox() {
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
           <div className="h-[52px] w-[52px]">
-            <img
-              src={
-                friend?.photo_url?.substring(62) || "/profile-pic-default.png"
-              }
-              className="h-full w-full object-cover rounded-full"
-              alt=""
-            />
+            {friend?.photo_url ? (
+              <img
+                src={friend?.photo_url?.substring(62)}
+                className="h-full w-full object-cover rounded-full"
+                alt=""
+              />
+            ) : (
+              <DefaultProfilePicture
+                firstName={friend?.first_name}
+                lastName={friend?.last_name}
+                text="text-[100%]"
+              />
+            )}
           </div>
           <div className="flex flex-col gap-[2px]">
             <p className="text-[18px] font-semibold text-[#222222] leading-[22px]">

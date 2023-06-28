@@ -13,6 +13,7 @@ import {
 import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function UserProfileImageActions({ children, unread, setLoading }) {
   const router = useRouter();
@@ -81,11 +82,20 @@ function UserProfileImageActions({ children, unread, setLoading }) {
           <div className="flex flex-col">
             <div className="flex items-center border-b border-b-[#DFE5FA] pb-5 justify-between">
               <div className="flex items-center gap-[15px]">
-                <Avatar
-                  size={45}
-                  radius="xl"
-                  src={user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"}
-                />
+                {user?.user?.photo_url ? (
+                  <Avatar
+                    size={45}
+                    radius="xl"
+                    src={user?.user?.photo_url?.substring(62)}
+                  />
+                ) : (
+                  <DefaultProfilePicture
+                    text="text-[120%]"
+                    className="!h-[45px] !w-[45px]"
+                    firstName={user?.user?.first_name}
+                    lastName={user?.user?.last_name}
+                  />
+                )}
                 <p className="flex flex-col gap-2">
                   <span>@{user?.user?.username}</span>
                   {user?.user?.is_online ? (

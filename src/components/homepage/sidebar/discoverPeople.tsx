@@ -9,6 +9,7 @@ import { userDetails } from "@/store";
 import useFollowings from "../../../../hooks/useFollowings";
 import { base64encode } from "nodejs-base64";
 import { useRouter } from "next/router";
+import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
 function DiscoverPeople() {
   const { data } = useDiscoverPeople();
@@ -43,14 +44,19 @@ function DiscoverPeople() {
                     >
                       <div className="flex gap-3 items-center">
                         <div className="w-[36px] h-[36px]">
-                          <img
-                            src={
-                              item?.photo_url?.substring(62) ||
-                              "/profile-pic-default.png"
-                            }
-                            className="w-full h-full rounded-full object-cover"
-                            alt="profile picture of suggested friend"
-                          />
+                          {item?.photo_url ? (
+                            <img
+                              src={item?.photo_url?.substring(62)}
+                              className="w-full h-full rounded-full object-cover"
+                              alt="profile picture of suggested friend"
+                            />
+                          ) : (
+                            <DefaultProfilePicture
+                              firstName={item?.first_name}
+                              lastName={item?.last_name}
+                              text="text-[80%]"
+                            />
+                          )}
                         </div>
                         <div className="flex flex-col gap-1">
                           <p className=" font-bold leading-[19px] text-[#2A2A2A]">
@@ -104,14 +110,19 @@ function DiscoverPeople() {
                     >
                       <div className="flex gap-3 items-center">
                         <div className="w-[36px] h-[36px]">
-                          <img
-                            src={
-                              item?.photo_url?.substring(62) ||
-                              "/profile-pic-default.png"
-                            }
-                            className="w-full h-full rounded-full object-cover"
-                            alt="profile picture of suggested friend"
-                          />
+                          {item?.photo_url ? (
+                            <img
+                              src={item?.photo_url?.substring(62)}
+                              className="w-full h-full rounded-full object-cover"
+                              alt="profile picture of suggested friend"
+                            />
+                          ) : (
+                            <DefaultProfilePicture
+                              firstName={item?.first_name}
+                              lastName={item?.last_name}
+                              text="text-[80%]"
+                            />
+                          )}
                         </div>
                         <div className="flex flex-col gap-1">
                           <p className=" font-bold leading-[19px] text-[#2A2A2A]">
@@ -124,8 +135,10 @@ function DiscoverPeople() {
                       </div>
                       <p
                         onClick={() => {
-                          const friend = JSON.stringify(item)
-                          push(`/messages/friends?chat=${base64encode(friend)}`);
+                          const friend = JSON.stringify(item);
+                          push(
+                            `/messages/friends?chat=${base64encode(friend)}`
+                          );
                         }}
                         className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
                       >

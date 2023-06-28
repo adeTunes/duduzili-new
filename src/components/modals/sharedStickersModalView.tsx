@@ -5,9 +5,9 @@ import { userDetails } from "@/store";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Sticker, TicketStar } from "iconsax-react";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function SharedStickersModalView({ setActive, stickerUsers, sticker }) {
-
   const [openAuth, setOpenAuth] = useState(false);
   return (
     <>
@@ -16,14 +16,20 @@ function SharedStickersModalView({ setActive, stickerUsers, sticker }) {
           {Object.entries(stickerUsers)?.map(([key, value]: any, index) => (
             <div key={index} className="flex items-center justify-between">
               <div className="flex items-center gap-[19px]">
-                <div
-                  style={{ height: "32px", width: "32px" }}
-                >
-                  <img
-                    src={value?.profile_pic?.substring(62) ?? "/profile-pic-default.png"}
-                    className="h-full w-full object-cover rounded-full"
-                    alt=""
-                  />
+                <div style={{ height: "32px", width: "32px" }}>
+                  {value?.profile_pic ? (
+                    <img
+                      src={value?.profile_pic?.substring(62)}
+                      className="h-full w-full object-cover rounded-full"
+                      alt=""
+                    />
+                  ) : (
+                    <DefaultProfilePicture
+                      text="text-[80%]"
+                      firstName={value?.full_name?.split(" ")?.[0]}
+                      lastName={value?.full_name?.split(" ")?.[1]}
+                    />
+                  )}
                 </div>
                 <div className="flex flex-col gap-[2px]">
                   <p className="text-[14px] font-medium text-[#222222] leading-[22px]">

@@ -4,17 +4,27 @@ import { useAtomValue } from "jotai";
 import { useDisclosure } from "@mantine/hooks";
 import CommentPostModal from "@/components/modals/commentPostModal";
 import { AudioSquare } from "iconsax-react";
+import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
-function ReplyInput({refetch}: {refetch?: (id: any) =>  void}) {
+function ReplyInput({ refetch }: { refetch?: (id: any) => void }) {
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div className="grid gap-4 grid-cols-[auto_1fr]">
-      <img
-        src={user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"}
-        className="w-[56px] h-[56px] rounded-full object-cover"
-        alt=""
-      />
+      {user?.user?.photo_url ? (
+        <img
+          src={user?.user?.photo_url?.substring(62)}
+          className="w-[56px] h-[56px] rounded-full object-cover"
+          alt=""
+        />
+      ) : (
+        <DefaultProfilePicture
+        text="text-[100%]"
+          className="!w-[56px] !h-[56px]"
+          firstName={user?.user?.first_name}
+          lastName={user?.user?.last_name}
+        />
+      )}
       <div
         onClick={open}
         className="cursor-pointer bg-white pl-6 pr-5 py-2 rounded-[32px] grid grid-cols-[1fr_auto] items-center"

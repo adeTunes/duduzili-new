@@ -4,6 +4,7 @@ import { Loader } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { followUserAction } from "@/actions/postOptionActions";
 import { useRouter } from "next/router";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function PeopleList({ data, query }) {
   const queryClient = useQueryClient();
@@ -30,14 +31,19 @@ function PeopleList({ data, query }) {
                         onClick={() => push(`friend/${item?.id}/post`)}
                         className="w-[36px] cursor-pointer h-[36px]"
                       >
-                        <img
-                          src={
-                            item?.photo_url?.substring(62) ||
-                            "/profile-pic-default.png"
-                          }
-                          className="w-full h-full rounded-full object-cover"
-                          alt="profile picture of suggested friend"
-                        />
+                        {item?.photo_url ? (
+                          <img
+                            src={item?.photo_url?.substring(62)}
+                            className="w-full h-full rounded-full object-cover"
+                            alt="profile picture of suggested friend"
+                          />
+                        ) : (
+                          <DefaultProfilePicture
+                            text="text-[80%]"
+                            firstName={item?.first_name}
+                            lastName={item?.last_name}
+                          />
+                        )}
                       </div>
                       <div className="flex flex-col gap-1">
                         <p className=" font-bold leading-[19px] text-[#2A2A2A]">

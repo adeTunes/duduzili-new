@@ -8,6 +8,7 @@ import FollowLayout from "@/layout/followLayout";
 import Link from "next/link";
 import useFollowers from "../../hooks/useFollowers";
 import FollowSkeleton from "@/components/skeletons/followSkeleton";
+import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
 const Followers: NextPageX = () => {
   const queryClient = useQueryClient();
@@ -41,13 +42,13 @@ const Followers: NextPageX = () => {
             <div className="flex flex-col">
               {isLoading ? (
                 <>
-                <FollowSkeleton />
-                <FollowSkeleton />
-                <FollowSkeleton />
-                <FollowSkeleton />
-                <FollowSkeleton />
-                <FollowSkeleton />
-                <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
+                  <FollowSkeleton />
                 </>
               ) : (
                 data?.map((item, idx) => (
@@ -60,14 +61,19 @@ const Followers: NextPageX = () => {
                         onClick={() => push(`friend/${item?.id}/post`)}
                         className="w-[36px] cursor-pointer h-[36px]"
                       >
-                        <img
-                          src={
-                            item?.photo_url?.substring(62) ||
-                            "/profile-pic-default.png"
-                          }
-                          className="w-full h-full rounded-full object-cover"
-                          alt="profile picture of suggested friend"
-                        />
+                        {item?.photo_url ? (
+                          <img
+                            src={item?.photo_url?.substring(62)}
+                            className="w-full h-full rounded-full object-cover"
+                            alt="profile picture of suggested friend"
+                          />
+                        ) : (
+                          <DefaultProfilePicture
+                          text="text-[80%]"
+                            firstName={item?.first_name}
+                            lastName={item?.last_name}
+                          />
+                        )}
                       </div>
                       <div className="flex flex-col gap-1">
                         <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">

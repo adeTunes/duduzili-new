@@ -47,7 +47,7 @@ function AddGroupMembers({ setAction }) {
             input:
               "h-[47px] !pl-[48px] placeholder:text-[#757575] bg-[#F4F4F4] rounded-[24px] border-0",
           }}
-          className="rounded-[24px] pl-3 bg-[#F4F4F4]"
+          className="rounded-[24px] pl-8 bg-[#F4F4F4]"
           placeholder="Search Friend"
           icon={<Icon height={24} width={24} icon="ri:search-line" />}
         />

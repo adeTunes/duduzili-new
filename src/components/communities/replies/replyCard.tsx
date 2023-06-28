@@ -9,6 +9,7 @@ import { Heart, MessageText } from "iconsax-react";
 import { Icon } from "@iconify/react";
 import PostText from "@/components/homepage/posts/text";
 import PostImage from "@/components/homepage/posts/postImage";
+import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
 function ReplyCard({ comment }) {
   const [loading, setLoading] = useState(false);
@@ -17,11 +18,20 @@ function ReplyCard({ comment }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex self-start gap-[19px] items-center">
-        <img
-          src={comment?.user?.photo_url?.substring(62) || "/profile-pic-default.png"}
-          className="w-[48px] h-[48px] rounded-full object-cover"
-          alt=""
-        />
+        {comment?.user?.photo_url ? (
+          <img
+            src={comment?.user?.photo_url?.substring(62)}
+            className="w-[48px] h-[48px] rounded-full object-cover"
+            alt=""
+          />
+        ) : (
+          <DefaultProfilePicture
+          text="text-[100%]"
+          className="!w-[48px] !h-[48px]"
+            firstName={comment?.user?.first_name}
+            lastName={comment?.user?.last_name}
+          />
+        )}
         <p className=" font-semibold max-[390px]:text-base text-[18px] leading-6 text-[#2A2A2A]">
           {comment?.user?.first_name} {comment?.user?.last_name}
         </p>

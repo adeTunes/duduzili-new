@@ -10,6 +10,7 @@ import Link from "next/link";
 import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "../homepage/posts/galleryViewer";
 import { Skeleton } from "@mantine/core";
+import DefaultProfilePicture from "./defaultProfilePicture";
 
 function PersonalInformation({ user }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -38,22 +39,28 @@ function PersonalInformation({ user }) {
         <div className="flex justify-between items-center pl-8">
           <div
             style={{
-              width: "clamp(80px, 9.8vw, 150px)",
-              height: "clamp(80px, 9.8vw, 150px)",
+              width: "clamp(80px, 9.8vw, 130px)",
+              height: "clamp(80px, 9.8vw, 130px)",
             }}
-            className="mt-[-70px]"
+            className="mt-[-70px] relative cursor-pointer"
           >
-            <img
-              onClick={() => {
-                setImage(
-                  user?.photo_url?.substring(62) || "/profile-pic-default.png"
-                );
-                setGalleryOpened(true);
-              }}
-              src={user?.photo_url?.substring(62) ?? "/profile-pic-default.png"}
-              className="w-full relative h-full object-cover rounded-full"
-              alt="user profile picture"
-            />
+            {user?.photo_url ? (
+              <img
+                onClick={() => {
+                  setImage(user?.photo_url?.substring(62));
+                  setGalleryOpened(true);
+                }}
+                src={user?.photo_url?.substring(62)}
+                className="w-full relative h-full object-cover rounded-full"
+                alt="user profile picture"
+              />
+            ) : (
+              <DefaultProfilePicture
+                text="text-[300%] max-[1120px]:text-[250%] max-[900px]:text-[150%]"
+                firstName={user?.first_name}
+                lastName={user?.last_name}
+              />
+            )}
           </div>
           <p
             onClick={open}

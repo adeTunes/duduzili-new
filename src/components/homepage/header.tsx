@@ -24,6 +24,7 @@ import MobileDrawer from "../mobileDrawer";
 import MobileMenuIcon from "./mobileMenuIcon";
 import CreatePostModal from "../modals/createPostModal";
 import SearchDropdown from "../searchDropdown";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
@@ -37,23 +38,51 @@ function Header() {
   const bottomNavIcons = [
     {
       href: "/home",
-      icon: <Home className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      icon: (
+        <Home
+          className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
+          variant="Outline"
+        />
+      ),
       routeId: "/home",
     },
     {
       href: "/communities/posts",
-      icon: <Profile2User className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      icon: (
+        <Profile2User
+          className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
+          variant="Outline"
+        />
+      ),
       routeId: "communities",
     },
-    { icon: <Add className="w-10 h-10 max-[382px]:w-8 max-[382px]:h-8" variant="Outline" color="white" /> },
+    {
+      icon: (
+        <Add
+          className="w-10 h-10 max-[382px]:w-8 max-[382px]:h-8"
+          variant="Outline"
+          color="white"
+        />
+      ),
+    },
     {
       href: "/trending",
-      icon: <TrendUp className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      icon: (
+        <TrendUp
+          className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
+          variant="Outline"
+        />
+      ),
       routeId: "trending",
     },
     {
       href: "/messages/friends",
-      icon: <Sms className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5" variant="Outline" />,
+      icon: (
+        <Sms
+          className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
+          variant="Outline"
+        />
+      ),
       routeId: "messages",
     },
   ];
@@ -89,13 +118,20 @@ function Header() {
           color="#E59055"
           disabled={!!unread}
         >
-          <img
-            src={
-              user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"
-            }
-            className="w-10 h-10 cursor-pointer rounded-full object-cover"
-            alt=""
-          />
+          {user?.user?.photo_url ? (
+            <img
+              src={user?.user?.photo_url?.substring(62)}
+              className="w-10 h-10 cursor-pointer rounded-full object-cover"
+              alt=""
+            />
+          ) : (
+            <DefaultProfilePicture
+            text="text-[100%]"
+              className="!w-10 !h-10 cursor-pointer"
+              firstName={user?.user?.first_name}
+              lastName={user?.user?.last_name}
+            />
+          )}
         </Indicator>
       ),
     },
@@ -107,7 +143,8 @@ function Header() {
   const setPageSearch = useSetAtom(pageSearch);
   const queryClient = useQueryClient();
   const [opened, { open, close }] = useDisclosure(false);
-  const [createOpened, {open: openCreate, close: closeCreate}] = useDisclosure(false)
+  const [createOpened, { open: openCreate, close: closeCreate }] =
+    useDisclosure(false);
 
   useEffect(() => {
     if (searchValue) {
@@ -122,7 +159,10 @@ function Header() {
   return (
     <header className="w-[90%] max-[330px]:w-full max-[330px]:px-2 mx-auto max-w-[1300px] flex justify-between items-center">
       <div className="flex items-center gap-4 max-[330px]:gap-2">
-        <div onClick={open} className="w-[45px] h-[45px] hidden max-[500px]:flex max-[330px]:w-[32px] max-[330px]:h-[32px] cursor-pointer rounded-full bg-[#EDF0FB] items-center justify-center">
+        <div
+          onClick={open}
+          className="w-[45px] h-[45px] hidden max-[500px]:flex max-[330px]:w-[32px] max-[330px]:h-[32px] cursor-pointer rounded-full bg-[#EDF0FB] items-center justify-center"
+        >
           <MobileMenuIcon className="w-[25px] max-[330px]:w-[18px] max-[330px]:h-[18px] h-[25px]" />
         </div>
         <Link href="/home">
@@ -203,7 +243,10 @@ function Header() {
               {routeId ? (
                 <Link href={href}>{icon}</Link>
               ) : (
-                <div onClick={openCreate} className="bg-duduzili-violet items-center mt-[-75px] border-[8px] border-[#f2f2f2] flex justify-center h-[72px] rounded-full w-[72px]">
+                <div
+                  onClick={openCreate}
+                  className="bg-duduzili-violet items-center mt-[-75px] border-[8px] border-[#f2f2f2] flex justify-center h-[72px] rounded-full w-[72px]"
+                >
                   {icon}
                 </div>
               )}

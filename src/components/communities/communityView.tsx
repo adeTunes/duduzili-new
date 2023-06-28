@@ -14,6 +14,7 @@ import CreateCommunityPostModal from "../modals/createCommunityPostModal";
 import { showNotification } from "@mantine/notifications";
 import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 import { Skeleton } from "@mantine/core";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function CommunityView({ community, loading }) {
   const [limit, setLimit] = useState(20);
@@ -48,13 +49,20 @@ function CommunityView({ community, loading }) {
         </div>
       ) : (
         <div className="grid gap-4 grid-cols-[auto_1fr]">
-          <img
-            src={
-              user?.user?.photo_url?.substring(62) || "/profile-pic-default.png"
-            }
-            className="w-[56px] h-[56px] rounded-full object-cover"
-            alt=""
-          />
+          {user?.user?.photo_url ? (
+            <img
+              src={user?.user?.photo_url?.substring(62)}
+              className="w-[56px] h-[56px] rounded-full object-cover"
+              alt=""
+            />
+          ) : (
+            <DefaultProfilePicture
+              text="text-[100%]"
+              className="!w-[56px] !h-[56px]"
+              firstName={user?.user?.first_name}
+              lastName={user?.user?.last_name}
+            />
+          )}
           <div
             className="bg-white pl-6 pr-5 cursor-pointer py-4 rounded-[32px] grid grid-cols-[1fr_auto] items-center"
             style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}

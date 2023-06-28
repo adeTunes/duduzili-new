@@ -98,7 +98,7 @@ const Messages: NextPageX = () => {
               }
             }}
             id={JSON.stringify(item)}
-            image={item?.photo_url?.substring(62) || "/profile-pic-default.png"}
+            image={item?.photo_url?.substring(62)}
             text={" "}
             date={" "}
             name={`${item?.first_name} ${item?.last_name}`}
@@ -122,7 +122,7 @@ const Messages: NextPageX = () => {
               }}
               id={JSON.stringify(friend)}
               image={
-                friend?.photo_url?.substring(62) || "/profile-pic-default.png"
+                friend?.photo_url?.substring(62)
               }
               text={item?.get_messages?.[item?.get_messages?.length - 1]?.text}
               date={

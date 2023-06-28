@@ -2,6 +2,7 @@ import { Drawer, Skeleton } from "@mantine/core";
 import React from "react";
 import useCommunityMembers from "../../../hooks/use-community-members";
 import { useRouter } from "next/router";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function MembersDrawer({ opened, close, code }) {
   const { data, isLoading } = useCommunityMembers(code);
@@ -48,14 +49,19 @@ function MembersDrawer({ opened, close, code }) {
               >
                 <div className="flex gap-3 items-center">
                   <div className="w-[36px] h-[36px]">
-                    <img
-                      src={
-                        member?.photo_url?.substring(62) ||
-                        "/profile-pic-default.png"
-                      }
-                      className="w-full h-full rounded-full object-cover"
-                      alt="profile picture of suggested friend"
-                    />
+                    {member?.photo_url ? (
+                      <img
+                        src={member?.photo_url?.substring(62)}
+                        className="w-full h-full rounded-full object-cover"
+                        alt="profile picture of suggested friend"
+                      />
+                    ) : (
+                      <DefaultProfilePicture
+                      text="text-[100%]"
+                        firstName={member?.first_name}
+                        lastName={member?.last_name}
+                      />
+                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="max-[420px]:text-[13px] font-bold leading-[19px] text-[#2A2A2A]">

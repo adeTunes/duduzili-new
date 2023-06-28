@@ -3,6 +3,7 @@ import { Text, clsx } from "@mantine/core";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
 import React from "react";
+import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
 function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { image: string, text: string, name: string, date: string, unread: number, onClick: () => void, id: string, usage?: string }) {
   const selected = useAtomValue(selectedMessage);
@@ -18,11 +19,14 @@ function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { 
     >
       <div className="flex items-center gap-[19px]">
         <div className={clsx(usage ? "min-w-[40px] w-[40px] h-[40px] min-h-[40px]" : "min-w-[52px] w-[52px] h-[52px] min-h-[52px]")}>
+          {image ?
           <img
             src={image}
             className="w-full h-full object-cover rounded-full"
             alt=""
           />
+          : <DefaultProfilePicture firstName={name.split(" ")[0]} lastName={name.split(" ")[1]} />
+          }
         </div>
         <div className="gap-1 flex flex-col">
           <p className={clsx(usage ? "text-[14px]" : "leading-6", "text-[#222222] font-semibold ")}>{name}</p>
