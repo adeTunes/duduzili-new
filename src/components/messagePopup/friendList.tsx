@@ -6,8 +6,6 @@ import GroupChatList from "./groupChatList";
 import FriendChatList from "./friendChatList";
 
 function FriendList({ tab, setTab, setAction, user }) {
-  const tabs = ["Friends", "Others", "Group Chat"];
-
   return (
     <div className="grid h-full grid-rows-[auto_auto_auto_1fr] gap-4">
       <div className="flex justify-between max-[345px]:px-2 px-7">
@@ -39,28 +37,12 @@ function FriendList({ tab, setTab, setAction, user }) {
           />
         </div>
       </div>
-      <div className="px-[30px] max-[345px]:px-3 grid grid-cols-3">
-        {tabs?.map((item, idx) => (
-          <p
-            onClick={() => setTab(idx)}
-            key={idx}
-            className={clsx(
-              tab === idx
-                ? "border-b-[3px] border-b-duduzili-violet text-duduzili-violet"
-                : "border-b border-b-[#C0D0E8] text-[#828282]",
-              "pb-2 cursor-pointer  flex justify-center font-semibold leading-6"
-            )}
-          >
-            {item}
-          </p>
-        ))}
-      </div>
       <TextInput
         classNames={{
           input:
             "h-[47px] !pl-[48px] placeholder:text-[#757575] bg-[#F4F4F4] rounded-[24px] border-0",
         }}
-        className="rounded-[24px] pl-8 bg-[#F4F4F4] max-[345px]:mx-3 mx-[30px]"
+        className="rounded-[24px] pl-3 bg-[#F4F4F4] max-[345px]:mx-3 mx-[30px]"
         placeholder="Search Friend"
         icon={<Icon height={24} width={24} icon="ri:search-line" />}
       />

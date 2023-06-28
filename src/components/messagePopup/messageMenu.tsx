@@ -61,8 +61,6 @@ function MessageMenu() {
             <FriendList tab={tab} setTab={setTab} setAction={setAction} user={user} />
           ) : action === "add-group-members" ? (
             <AddGroupMembers setAction={setAction} />
-          ) : action === "group-chat-view" ? (
-            <GroupChatView setTab={setTab} setAction={setAction} />
           ) : null}
         </Menu.Item>
       </Menu.Dropdown>

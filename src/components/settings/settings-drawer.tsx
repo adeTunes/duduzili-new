@@ -5,8 +5,9 @@ import Navigation from "../mobileDrawer/navigation";
 
 function SettingsDrawer({ opened, close }) {
   return (
-    <Drawer onChange={close} opened={opened} onClose={close}>
-      <Navigation />
+    <Drawer classNames={{
+      inner: "z-[9999999]",
+    }} onChange={close} opened={opened} onClose={close}>
       <SettingsTab close={close} />
     </Drawer>
   );

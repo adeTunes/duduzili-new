@@ -1,8 +1,6 @@
 import { Sms } from "iconsax-react";
 import { NextPageX } from "../../types/next";
 import SettingsLayout from "@/layout/settingslayout";
-import SettingsOutlineButton from "@/components/settings/settingsOutlineButton";
-import { clsx } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import AccountSettingsView from "@/components/settings/accountSettingsView";
 import UseAccountSettings from "../../hooks/useAccountSettings";

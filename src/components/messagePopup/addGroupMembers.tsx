@@ -21,7 +21,7 @@ function AddGroupMembers({ setAction }) {
           </span>
         </p>
         <div className="flex items-center gap-[20px]">
-          <div
+          {/* <div
             onClick={() => setAction("group-chat-view")}
             className={clsx(
               !selected.length && "opacity-40 pointer-events-none",
@@ -29,7 +29,7 @@ function AddGroupMembers({ setAction }) {
             )}
           >
             <Send2 size="20" color="#FFFFFF" />
-          </div>
+          </div> */}
           <Icon
             icon="material-symbols:keyboard-arrow-down"
             className="cursor-pointer"
@@ -47,7 +47,7 @@ function AddGroupMembers({ setAction }) {
             input:
               "h-[47px] !pl-[48px] placeholder:text-[#757575] bg-[#F4F4F4] rounded-[24px] border-0",
           }}
-          className="rounded-[24px] pl-8 bg-[#F4F4F4]"
+          className="rounded-[24px] pl-3 bg-[#F4F4F4]"
           placeholder="Search Friend"
           icon={<Icon height={24} width={24} icon="ri:search-line" />}
         />
@@ -75,6 +75,11 @@ function AddGroupMembers({ setAction }) {
                   </div>
                 </div>
                 <button
+                  className="bg-[#DFE5FA] text-duduzili-violet py-2 px-4 text-xs font-medium  rounded-[32px]"
+                >
+                  Select
+                </button>
+                {/* <button
                   onClick={() => {
                     if (selected.includes(idx)) {
                       setSelected(selected.filter((item) => item !== idx));
@@ -99,7 +104,7 @@ function AddGroupMembers({ setAction }) {
                   ) : (
                     "Select"
                   )}
-                </button>
+                </button> */}
               </div>
             ))}
         </div>

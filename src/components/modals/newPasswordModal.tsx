@@ -28,7 +28,7 @@ export const NewPasswordModal = ({ opened, close }) => {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] min-w-[250px] gap-3 max-w-[580px] flex flex-col overflow-auto",
+          "py-6 px-8 max-[360px]:px-3 max-[360px]:py-2 rounded-[24px] min-w-[333px] max-[360px]:min-w-[270px] gap-3 max-w-[580px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
         title: "font-bold text-[#2A2A2A] leading-[29px]",
         body: "overflow-auto grid  !p-0",

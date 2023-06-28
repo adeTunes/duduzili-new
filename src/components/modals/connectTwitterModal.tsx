@@ -17,7 +17,7 @@ export const ConnectTwitterModal = ({ opened, close }) => {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] min-w-[250px] gap-3 max-w-[580px] flex flex-col overflow-auto",
+          "py-6 px-8 max-[500px]:px-3 max-[500px]:py-2 rounded-[24px] min-w-[250px] gap-3 max-w-[580px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
         title: "font-bold text-[#2A2A2A] leading-[29px]",
         body: "overflow-auto grid !p-0",
