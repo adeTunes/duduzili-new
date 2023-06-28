@@ -25,7 +25,7 @@ function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { 
             className="w-full h-full object-cover rounded-full"
             alt=""
           />
-          : <DefaultProfilePicture firstName={name.split(" ")[0]} lastName={name.split(" ")[1]} />
+          : <DefaultProfilePicture text="text-[80%]" firstName={name.split(" ")[0]} lastName={name.split(" ")[1]} />
           }
         </div>
         <div className="gap-1 flex flex-col">

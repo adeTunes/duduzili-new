@@ -36,7 +36,7 @@ function DiscoverSuggested() {
                           <img
                             src={item?.photo_url?.substring(62)}
                             className="w-full h-full rounded-full object-cover"
-                            alt="profile picture of suggested friend"
+                            alt=""
                           />
                         ) : (
                           <DefaultProfilePicture
