@@ -14,7 +14,7 @@ function PostBody({ post }: { post: Post }) {
   const startIndex = 0;
   return (
     <div
-      className="rounded-[24px] max-[390px]:p-[10px] bg-white p-8 flex flex-col gap-6"
+      className="rounded-[24px] max-[500px]:p-[10px] bg-white p-8 flex flex-col gap-6"
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
       <PostHeader post={post} />

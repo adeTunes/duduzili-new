@@ -33,7 +33,7 @@ function ProfileActivities() {
               pathname === item.href
                 ? "text-white bg-duduzili-violet"
                 : "bg-[#FBFBFB] text-[#757575]",
-              "text-[20px] leading-[28px] py-3 px-6 rounded-[32px]"
+              "text-[20px] max-[450px]:px-3 max-[290px]:px-2 max-[290px]:text-sm max-[450px]:py-[6px] max-[450px]:text-base leading-[28px] py-3 px-6 rounded-[32px]"
             )}
           >
             {item.text}
