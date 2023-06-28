@@ -23,7 +23,7 @@ function PostText({
       for (var i = 0; i < urls.length; i++) {
         let url = urls[i];
         let formattedUrl = url.replace(url[0], url[0].toLocaleLowerCase())
-        var anchorTag = '<a class="text-duduzili-violet" target="_blank" href="' + formattedUrl + '">' + formattedUrl + "</a>";
+        var anchorTag = '<a class="text-duduzili-violet hover:underline" target="_blank" href="' + formattedUrl + '">' + formattedUrl + "</a>";
         text = text.replace(url, anchorTag);
       }
     }
