@@ -33,7 +33,42 @@ function CreatePostModal({ opened, close }) {
       ? setErr("You cannot create post with more than 5 photos")
       : setErr("");
   }, [selected]);
-  const [audio, setAudio] = useState(null)
+  const [audio, setAudio] = useState(null);
+
+  const savePostOrDraft = () => {
+    if (selected.filter((item) => item.type === "image").length > 5)
+      return showNotification({
+        title: "Error",
+        message: "You cannot create post with more than 5 photos",
+        color: "red",
+      });
+    var data = new FormData();
+    data.append("text", form.values.text);
+    if (audio) {
+      data.append("audio", audio, audio.name);
+    }
+    selected.length &&
+      selected.forEach((item) => {
+        if (item.type === "image") {
+          if (typeof item.value === "string") {
+            data.append("photo", item.value);
+          } else data.append("photo", item.value, item.value.name);
+        } else if (item.type === "video") {
+          if (typeof item.value === "string") {
+            data.append("video", item.value);
+          } else data.append("video", item.value, item.value.name);
+        }
+      });
+    data.append("is_article", "yes");
+    data.append("publish", "save");
+    createPost(data, setLoading, () => {
+      queryClient.invalidateQueries(["all-posts"]);
+      setSelected([]);
+      form.reset();
+      close();
+    });
+  };
+
   return (
     <Modal
       size="lg"
@@ -42,7 +77,7 @@ function CreatePostModal({ opened, close }) {
         content: "py-6 px-8 max-[390px]:px-3 rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "max-[390px]:px-0"
+        body: "max-[390px]:px-0",
       }}
       styles={{
         content: {
@@ -53,7 +88,7 @@ function CreatePostModal({ opened, close }) {
       onClose={() => {
         setSelected([]);
         form.reset();
-        setAudio(null)
+        setAudio(null);
         close();
       }}
       title="Create New"
@@ -82,10 +117,7 @@ function CreatePostModal({ opened, close }) {
             <p className="text-[14px] text-red-600 font-semibold">{err}</p>
           </div>
           <DisplayMedia setSelected={setSelected} selected={selected} />
-          {audio ?
-          <AudioPlayer audio={audio} setAudio={setAudio} />
-          : null
-        }
+          {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <div className="flex items-center gap-3">
             {/* <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
             <EmojiContainer height={300} form={form} />
@@ -132,14 +164,21 @@ function CreatePostModal({ opened, close }) {
                 }}
               />
             </label>
-            <label htmlFor="audio-file" className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#4534b8" variant="Outline" />
+            <label
+              htmlFor="audio-file"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]"
+            >
+              <AudioSquare
+                className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
+                color="#4534b8"
+                variant="Outline"
+              />
               <FileInput
                 hidden
                 id="audio-file"
                 accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
                 onChange={(value) => {
-                  setAudio(value)
+                  setAudio(value);
                 }}
               />
             </label>
@@ -156,37 +195,7 @@ function CreatePostModal({ opened, close }) {
                   message: "Please enter post text",
                   color: "red",
                 });
-              if(selected.filter((item) => item.type === "image").length > 5)
-              return showNotification({
-                title: "Error",
-                message: "You cannot create post with more than 5 photos",
-                color: "red",
-              });
-              var data = new FormData();
-              data.append("text", form.values.text);
-              if(audio) {
-                data.append("audio", audio, audio.name)
-              }
-              selected.length &&
-                selected.forEach((item) => {
-                  if (item.type === "image") {
-                    if (typeof item.value === "string") {
-                      data.append("photo", item.value);
-                    } else data.append("photo", item.value, item.value.name);
-                  } else if (item.type === "video") {
-                    if (typeof item.value === "string") {
-                      data.append("video", item.value);
-                    } else data.append("video", item.value, item.value.name);
-                  }
-                });
-              data.append("is_article", "yes");
-              data.append("publish", "save");
-              createPost(data, setLoading, () => {
-                queryClient.invalidateQueries(["all-posts"]);
-                setSelected([]);
-                form.reset();
-                close();
-              });
+                savePostOrDraft()
             }}
           />
         </div>

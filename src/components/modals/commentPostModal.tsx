@@ -91,9 +91,6 @@ function CommentPostModal({ opened, close, refetch }) {
           <DisplayMedia selected={selected} setSelected={setSelected} />
           {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 max-[396px]:px-2 max-[396px]:py-1 rounded-[34px] bg-[#EDF0FB]">
-              <EmojiContainer height={300} form={form} />
-            </div>
             <label
               htmlFor="image-file"
               className="px-4 py-2 max-[396px]:px-2 max-[396px]:py-1 rounded-[34px] bg-[#EDF0FB]"

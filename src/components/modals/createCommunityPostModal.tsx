@@ -35,7 +35,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
       ? setErr("You cannot create post with more than 5 photos")
       : setErr("");
   }, [selected]);
-  const [audio, setAudio] = useState(null)
+  const [audio, setAudio] = useState(null);
   return (
     <Modal
       size="lg"
@@ -44,7 +44,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
         content: "py-6 px-8 max-[390px]:px-3 rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "max-[390px]:px-0"
+        body: "max-[390px]:px-0",
       }}
       styles={{
         content: {
@@ -62,9 +62,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
     >
       <div className="flex flex-col gap-5 mt-6">
         <UserAvatarWithName
-          image={
-            user?.user?.photo_url?.substring(62)
-          }
+          image={user?.user?.photo_url?.substring(62)}
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
@@ -85,14 +83,8 @@ function CreateCommunityPostModal({ limit, opened, close }) {
             <p className="text-[14px] text-red-600 font-semibold">{err}</p>
           </div>
           <DisplayMedia setSelected={setSelected} selected={selected} />
-          {audio ?
-          <AudioPlayer audio={audio} setAudio={setAudio} />
-          : null
-        }
+          {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <div className="flex items-center gap-3">
-          <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
-            <EmojiContainer height={300} form={form} />
-            </div>
             <label
               htmlFor="image-file"
               className="px-4 py-2 rounded-[34px] max-[390px]:px-2 max-[390px]:py-1 bg-[#EDF0FB]"
@@ -135,14 +127,21 @@ function CreateCommunityPostModal({ limit, opened, close }) {
                 }}
               />
             </label>
-            <label htmlFor="audio-file" className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#4534b8" variant="Outline" />
+            <label
+              htmlFor="audio-file"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]"
+            >
+              <AudioSquare
+                className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
+                color="#4534b8"
+                variant="Outline"
+              />
               <FileInput
                 hidden
                 id="audio-file"
                 accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
                 onChange={(value) => {
-                  setAudio(value)
+                  setAudio(value);
                 }}
               />
             </label>
@@ -153,7 +152,6 @@ function CreateCommunityPostModal({ limit, opened, close }) {
           <PrimaryButton
             text="Share"
             onClick={() => {
-              
               if (!form.values.text)
                 return showNotification({
                   title: "Error",
@@ -169,8 +167,8 @@ function CreateCommunityPostModal({ limit, opened, close }) {
               var data = new FormData();
               data.append("text", form.values.text);
               data.append("code", String(query.id));
-              if(audio) {
-                data.append("audio", audio, audio.name)
+              if (audio) {
+                data.append("audio", audio, audio.name);
               }
               selected.length &&
                 selected.forEach((item) => {

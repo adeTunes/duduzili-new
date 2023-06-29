@@ -30,7 +30,7 @@ function UserProfileImageActions({ children, unread, setLoading }) {
         <Indicator
           classNames={{ common: "!top-[3px] !right-[5px]" }}
           color="#E59055"
-          disabled={!!unread}
+          disabled={!unread}
         >
           <Notification size="24" color="#2A2A2A" />
         </Indicator>
