@@ -14,7 +14,6 @@ import { Loading } from "@/components/loading";
 import { useSetAtom } from "jotai";
 import { userDetails } from "@/store";
 import { LoginUser } from "../api/request.types";
-import AudioPlayer from "@/components/audioPlayer";
 
 const Home: NextPageX = () => {
   const [loading, setLoading] = useState(false);
