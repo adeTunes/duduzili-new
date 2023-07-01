@@ -10,15 +10,14 @@ import PostManyImagesContainer from "./postManyImagesContainer";
 import PostwithRepost from "../postwithRepost";
 
 function PostsContainer({ post }: { post: Post }) {
-  return post?.is_repost ?
-  <PostwithRepost post={post} />:
-  !post?.media?.audio &&
-    !post?.youtube_url &&
+  return post?.is_repost ? (
+    <PostwithRepost post={post} />
+  ) : !post?.media?.audio &&
     !post?.media?.video &&
     !post?.media?.photo?.length &&
     post?.text ? (
     <PostTextOnly post={post} />
-  ) : !post?.youtube_url &&
+  ) :
     !post?.media?.video &&
     post?.media?.photo?.length === 1 &&
     post?.text ? (

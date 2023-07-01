@@ -14,6 +14,8 @@ import DisplayMedia from "./displayMedia";
 import { AudioSquare } from "iconsax-react";
 import AudioPlayer from "./audioPlayer";
 import EmojiContainer from "../message/emojiContainer";
+import AudioRecorder from "../audio/audioRecorder";
+import AudioOptions from "./audioOption";
 
 function CreatePostModal({ opened, close }) {
   const form = useForm({
@@ -47,6 +49,9 @@ function CreatePostModal({ opened, close }) {
     if (audio) {
       data.append("audio", audio, audio.name);
     }
+    else if (recordedAudio) {
+      data.append("audio", recordedAudio);
+    }
     selected.length &&
       selected.forEach((item) => {
         if (item.type === "image") {
@@ -69,6 +74,10 @@ function CreatePostModal({ opened, close }) {
     });
   };
 
+  const [audioMenuOpened, setAudioMenuOpened] = useState(false);
+  const [start, setStart] = useState(false);
+  const [recordedAudio, setRecordedAudio] = useState(null);
+
   return (
     <Modal
       size="lg"
@@ -78,6 +87,7 @@ function CreatePostModal({ opened, close }) {
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "max-[390px]:px-0",
+        inner: "z-[9999999]"
       }}
       styles={{
         content: {
@@ -118,6 +128,11 @@ function CreatePostModal({ opened, close }) {
           </div>
           <DisplayMedia setSelected={setSelected} selected={selected} />
           {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
+          <AudioRecorder
+            start={start}
+            audio={recordedAudio}
+            setAudio={setRecordedAudio}
+          />
           <div className="flex items-center gap-3">
             {/* <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
             <EmojiContainer height={300} form={form} />
@@ -164,24 +179,13 @@ function CreatePostModal({ opened, close }) {
                 }}
               />
             </label>
-            <label
-              htmlFor="audio-file"
-              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]"
-            >
-              <AudioSquare
-                className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4"
-                color="#4534b8"
-                variant="Outline"
-              />
-              <FileInput
-                hidden
-                id="audio-file"
-                accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
-                onChange={(value) => {
-                  setAudio(value);
-                }}
-              />
-            </label>
+            <AudioOptions
+              setStart={setStart}
+              setRecordedAudio={setRecordedAudio}
+              setAudio={setAudio}
+              setOpened={setAudioMenuOpened}
+              opened={audioMenuOpened}
+            />
           </div>
         </div>
         <div className="flex gap-3 justify-end">
@@ -195,7 +199,7 @@ function CreatePostModal({ opened, close }) {
                   message: "Please enter post text",
                   color: "red",
                 });
-                savePostOrDraft()
+              savePostOrDraft();
             }}
           />
         </div>

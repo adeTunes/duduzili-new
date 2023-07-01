@@ -67,7 +67,7 @@ function MessagesChatBox() {
           try {
             ws.send(JSON.stringify(receive));
           } catch (error) {
-            showNotification({ message: "Something went wrong" });
+            console.log(error)
           }
         } else {
           setWsReconnect(true);

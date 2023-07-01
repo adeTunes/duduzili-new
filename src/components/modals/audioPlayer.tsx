@@ -10,6 +10,7 @@ function AudioPlayer({ audio, setAudio }) {
   const [remainingTime, setRemainingTime] = useState(0);
   const [play, setPlay] = useState(false);
   const [barHeights, setBarHeights] = useState<number[]>([]);
+  const [containerWidth, setContainerWidth] = useState(0);
 
   function mapRange(value, inMin, inMax, outMin, outMax) {
     return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
@@ -67,7 +68,7 @@ function AudioPlayer({ audio, setAudio }) {
     };
   }, [audio]);
 
-  const barsCount = 60; // Adjust this value to control the number of bars
+  const barsCount = containerWidth < 350 ? 13 : 30; // Adjust this value to control the number of bars
   const bars = Array.from(Array(barsCount)).map((_, index) => {
     const isBlue = index / barsCount <= progress;
     const height = barHeights[index] || 6;
@@ -89,8 +90,31 @@ function AudioPlayer({ audio, setAudio }) {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toFixed(0).padStart(2, "0")}`;
   }
+  const containerRef = useRef<HTMLDivElement>()
+  
+
+  useEffect(() => {
+    const updateContainerWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.getBoundingClientRect().width);
+      }
+    };
+
+    // Initial update
+    updateContainerWidth();
+
+    // Attach the event listener for resizing
+    window.addEventListener('resize', updateContainerWidth);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', updateContainerWidth);
+    };
+  }, []);
+
+
   return (
-    <>
+    <div ref={containerRef}>
       {/* <audio ref={audioRef} controls hidden /> */}
       {play ? (
         <div
@@ -200,7 +224,7 @@ function AudioPlayer({ audio, setAudio }) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
