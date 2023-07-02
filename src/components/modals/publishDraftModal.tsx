@@ -4,7 +4,7 @@ import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Icon } from "@iconify/react";
 import PrimaryButtonOutline from "../button/primaryButtonOutline";
 import PrimaryButton from "../button/primaryButton";
-import { createCommunityPost, createPost } from "@/actions/createPost";
+import { createPost } from "@/actions/createPost";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
@@ -13,48 +13,77 @@ import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
 import { AudioSquare } from "iconsax-react";
 import { useRouter } from "next/router";
+import { postComment } from "@/actions/commentActions";
+import useSinglePost from "../../../hooks/useSinglePost";
+import { editParticularPost } from "@/actions/postOptionActions";
 import AudioPlayer from "./audioPlayer";
-import dynamic from "next/dynamic";
 import AudioOptions from "./audioOption";
+import dynamic from "next/dynamic";
 
 const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
   ssr: false,
 });
 
-function CreateCommunityPostModal({ limit, opened, close }) {
+function PublishDraftModal({ opened, close, id }) {
+  const { data, isLoading } = useSinglePost(id, false);
+
+  const post_id = id;
   const form = useForm({
     initialValues: {
       text: "",
+      post_id,
     },
   });
-
   const [selected, setSelected] = useState([]);
-  const [err, setErr] = useState("");
-
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
-  const { query } = useRouter();
-  useEffect(() => {
-    selected.filter((item) => item.type === "image").length > 5
-      ? setErr("You cannot create post with more than 5 photos")
-      : setErr("");
-  }, [selected]);
+  const { pathname } = useRouter();
   const [audio, setAudio] = useState(null);
 
   const [audioMenuOpened, setAudioMenuOpened] = useState(false);
   const [start, setStart] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState(null);
+
+  useEffect(() => {
+    if (data) {
+      if (data?.post?.text) form.setFieldValue("text", data?.post?.text);
+      if (data?.post?.media?.audio) {
+        setAudio(data?.post?.media?.audio);
+      }
+      if (data?.post?.media?.video) {
+        setSelected((prev) => {
+          const filtered = prev.filter(
+            (item) => item.value !== data?.post?.media?.video
+          );
+          return [
+            ...filtered,
+            { type: "video", value: data?.post?.media?.video },
+          ];
+        });
+      }
+      if (data?.post?.media?.photo) {
+        data?.post?.media?.photo?.forEach((el) => {
+          setSelected((prev) => {
+            const filtered = prev.filter((item) => item.value !== el);
+            return [...filtered, { type: "image", value: el }];
+          });
+        });
+      }
+    }
+  }, [data]);
+
   return (
     <Modal
       size="lg"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 max-[390px]:px-3 rounded-[24px]",
+        content:
+          "py-6 px-8 flex max-[390px]:px-3 flex-col overflow-auto rounded-[24px]",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
-        body: "max-[390px]:px-0",
-        inner: "z-[9999999]"
+        body: "overflow-auto max-[390px]:px-0",
+        inner: "z-[9999999]",
       }}
       styles={{
         content: {
@@ -64,35 +93,34 @@ function CreateCommunityPostModal({ limit, opened, close }) {
       opened={opened}
       onClose={() => {
         setSelected([]);
+        setAudio(null);
         form.reset();
+        setRecordedAudio(null);
         close();
       }}
-      title="Create New"
+      title="Publish Draft"
       centered
     >
-      <div className="flex flex-col gap-5 mt-6">
+      <div className="grid h-full overflow-auto grid-rows-[auto_1fr_auto] gap-5 mt-6">
         <UserAvatarWithName
           image={user?.user?.photo_url?.substring(62)}
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
-        <div className="flex flex-col gap-8 mb-[40px] max-[390px]:mb-[15px]">
-          <div className="flex flex-col gap-2">
-            <Textarea
-              placeholder="Create a post. Share a moment. Tell people what's on your mind"
-              classNames={{
-                input:
-                  "!border-none text-[20px] leading-7 max-[390px]:placeholder:text-[16px] text-black !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
-              }}
-              h="auto"
-              autosize
-              minRows={2}
-              maxRows={8}
-              {...form.getInputProps("text")}
-            />
-            <p className="text-[14px] text-red-600 font-semibold">{err}</p>
-          </div>
-          <DisplayMedia setSelected={setSelected} selected={selected} />
+        <div className="flex flex-col gap-8 flex-1 overflow-auto pb-[86px] max-[390px]:pb-[40px]">
+          <Textarea
+            placeholder="Create a post. Share a moment. Tell people what's on your mind"
+            classNames={{
+              input:
+                "!border-none text-[20px] leading-7 text-black max-[390px]:placeholder:text-[16px] !px-0 placeholder:text-[#A4A4A4] placeholder:text-[20px] placeholder:leading-7",
+            }}
+            h="auto"
+            autosize
+            minRows={2}
+            maxRows={8}
+            {...form.getInputProps("text")}
+          />
+          <DisplayMedia selected={selected} setSelected={setSelected} />
           {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <AudioRecorder
             setStart={setStart}
@@ -103,7 +131,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
           <div className="flex items-center gap-3">
             <label
               htmlFor="image-file"
-              className="px-4 py-2 rounded-[34px] max-[390px]:px-2 max-[390px]:py-1 bg-[#EDF0FB]"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="ic:outline-image"
@@ -127,7 +155,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
             </label>
             <label
               htmlFor="video-file"
-              className="px-4 py-2 rounded-[34px] max-[390px]:px-2 max-[390px]:py-1 bg-[#EDF0FB]"
+              className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]"
             >
               <Icon
                 icon="mdi:video-outline"
@@ -163,40 +191,38 @@ function CreateCommunityPostModal({ limit, opened, close }) {
                   message: "Please enter post text",
                   color: "red",
                 });
-              if (selected.filter((item) => item.type === "image").length > 5)
-                return showNotification({
-                  title: "Error",
-                  message: "You cannot create post with more than 5 photos",
-                  color: "red",
-                });
-              var data = new FormData();
-              data.append("text", form.values.text);
-              data.append("code", String(query.id));
+              var formData = new FormData();
               if (audio) {
-                data.append("audio", audio, audio.name);
+                formData.append("audio", audio, audio.name);
+              } else if (recordedAudio) {
+                formData.append("audio", recordedAudio?.blob);
               }
+              formData.append("text", form.values.text);
+              formData.append("post_id", form.values.post_id as string);
+              formData.append("is_article", "yes");
+              formData.append("publish", "True");
               selected.length &&
                 selected.forEach((item) => {
                   if (item.type === "image") {
                     if (typeof item.value === "string") {
-                      data.append("photo", item.value);
-                    } else data.append("photo", item.value, item.value.name);
+                      formData.append("photo", item.value);
+                    } else
+                      formData.append("photo", item.value, item.value.name);
                   } else if (item.type === "video") {
                     if (typeof item.value === "string") {
-                      data.append("video", item.value);
-                    } else data.append("video", item.value, item.value.name);
+                      formData.append("video", item.value);
+                    } else
+                      formData.append("video", item.value, item.value.name);
                   }
                 });
-              data.append("is_article", "yes");
-              data.append("publish", "save");
-              data.append("is_community", "True");
-              createCommunityPost(data, setLoading, () => {
+              editParticularPost(id, true, formData, setLoading, () => {
                 queryClient.invalidateQueries([
-                  "community-posts",
-                  limit,
-                  query.id,
+                  "user-activities",
+                  user?.user?.id,
                 ]);
                 setSelected([]);
+                setAudio(null);
+                setRecordedAudio(null);
                 form.reset();
                 close();
               });
@@ -204,9 +230,9 @@ function CreateCommunityPostModal({ limit, opened, close }) {
           />
         </div>
       </div>
-      <LoadingOverlay visible={loading} />
+      <LoadingOverlay visible={loading || isLoading} />
     </Modal>
   );
 }
 
-export default CreateCommunityPostModal;
+export default PublishDraftModal;

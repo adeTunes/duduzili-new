@@ -60,7 +60,7 @@ function PostFooter({
     }
   };
 
-  return !router.pathname.includes("/communities/") ? (
+  return (!router.pathname.includes("/communities/") && !router.pathname.includes("draft")) ? (
     <div className="flex items-center justify-between">
       <div className="flex w-fit max-[480px]:w-fit items-center py-3 px-4 gap-10 max-[480px]:gap-5 max-[292px]:gap-3 bg-[#F4F4F4] rounded-[40px]">
         <div

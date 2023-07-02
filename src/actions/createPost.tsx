@@ -2,12 +2,12 @@ import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { communityPost, createPostRequest } from "../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 
-export const createPost = async (data, loader, onSuccess) => {
+export const createPost = async (data, publish, loader, onSuccess) => {
   loader(true);
   try {
     const request = await createPostRequest(data);
     showNotification({
-      message: "Post created successfully",
+      message: publish === "True" ? "Post Created successfully" : publish === "publish" ? "Draft published successfully" : "Post saved to drafts",
       color: "green",
     });
     onSuccess();

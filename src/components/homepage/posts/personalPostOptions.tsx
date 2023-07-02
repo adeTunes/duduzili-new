@@ -13,7 +13,7 @@ import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import { Post } from "../../../../api/request.types";
 
-function PersonalPostOptions({ setLoading, open, post }: {setLoading: any, open: () => void, post: Post}) {
+function PersonalPostOptions({openDraft, setLoading, open, post }: {setLoading: any, openDraft: () => void, open: () => void, post: Post}) {
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails)
   const { pathname } = useRouter();
@@ -38,6 +38,33 @@ function PersonalPostOptions({ setLoading, open, post }: {setLoading: any, open:
       ),
       action: () =>
         savePostAction(setLoading, post?.id, successAction),
+    },
+    {
+      name: "Delete Post",
+      icon: (
+        <Icon
+          icon="material-symbols:delete-outline"
+          color="#D40000"
+          height={24}
+          width={24}
+        />
+      ),
+      action: () => {
+        deleteParticularPost(post?.id, setLoading, successAction);
+      },
+    },
+  ] : pathname.includes("draft") ? [
+    {
+      name: "Publish post",
+      icon: (
+        <Icon
+          color="#2A2A2A"
+          icon="circum:bookmark-minus"
+          height={24}
+          width={24}
+        />
+      ),
+      action: openDraft
     },
     {
       name: "Delete Post",

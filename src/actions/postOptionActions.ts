@@ -236,12 +236,12 @@ export const likeOrUnlikePost = async (id, loader, onSuccess) => {
     errorMessageHandler(e);
   }
 };
-export const editParticularPost = async (id, data, loader, onSuccess) => {
+export const editParticularPost = async (id, draft, data, loader, onSuccess) => {
   loader(true);
   try {
     const request = await editPost(id, data);
     showNotification({
-      message: "Post edited successfully",
+      message: draft ? "Draft published successfully" : "Post edited successfully",
       color: "green",
     });
     onSuccess();

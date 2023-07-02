@@ -17,7 +17,12 @@ import { postComment } from "@/actions/commentActions";
 import useSinglePost from "../../../hooks/useSinglePost";
 import { editParticularPost } from "@/actions/postOptionActions";
 import AudioPlayer from "./audioPlayer";
-import EmojiContainer from "../message/emojiContainer";
+import AudioOptions from "./audioOption";
+import dynamic from "next/dynamic";
+
+const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
+  ssr: false,
+});
 
 function EditPostModal({ opened, close, id }) {
   const { data, isLoading } = useSinglePost(id, false);
@@ -35,6 +40,10 @@ function EditPostModal({ opened, close, id }) {
   const user: any = useAtomValue(userDetails);
   const { pathname } = useRouter();
   const [audio, setAudio] = useState(null);
+
+  const [audioMenuOpened, setAudioMenuOpened] = useState(false);
+  const [start, setStart] = useState(false);
+  const [recordedAudio, setRecordedAudio] = useState(null);
 
   useEffect(() => {
     if (data) {
@@ -86,6 +95,7 @@ function EditPostModal({ opened, close, id }) {
         setSelected([]);
         setAudio(null)
         form.reset();
+        setRecordedAudio(null)
         close();
       }}
       title="Edit Post"
@@ -112,10 +122,13 @@ function EditPostModal({ opened, close, id }) {
           />
           <DisplayMedia selected={selected} setSelected={setSelected} />
           {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
+          <AudioRecorder
+            setStart={setStart}
+            start={start}
+            audio={recordedAudio}
+            setAudio={setRecordedAudio}
+          />
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]">
-              <EmojiContainer height={300} form={form} />
-            </div>
             <label
               htmlFor="image-file"
               className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 rounded-[34px] bg-[#EDF0FB]"
@@ -158,17 +171,13 @@ function EditPostModal({ opened, close, id }) {
                 }}
               />
             </label>
-            <label htmlFor="audio-file" className="px-4 py-2 max-[390px]:px-2 max-[390px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare className="w-6 h-6 max-[390px]:w-4 max-[390px]:h-4" color="#4534b8" variant="Outline" />
-              <FileInput
-                hidden
-                id="audio-file"
-                accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
-                onChange={(value) => {
-                  setAudio(value)
-                }}
-              />
-            </label>
+            <AudioOptions
+              setStart={setStart}
+              setRecordedAudio={setRecordedAudio}
+              setAudio={setAudio}
+              setOpened={setAudioMenuOpened}
+              opened={audioMenuOpened}
+            />
           </div>
         </div>
         <div className="flex gap-3 justify-end">
@@ -185,11 +194,13 @@ function EditPostModal({ opened, close, id }) {
               var formData = new FormData();
               if (audio) {
                 formData.append("audio", audio, audio.name);
+              } else if (recordedAudio) {
+                formData.append("audio", recordedAudio?.blob);
               }
               formData.append("text", form.values.text);
               formData.append("post_id", form.values.post_id as string);
               formData.append("is_article", "yes");
-              formData.append("publish", "save");
+              formData.append("publish", "True");
               selected.length &&
                 selected.forEach((item) => {
                   if (item.type === "image") {
@@ -204,7 +215,7 @@ function EditPostModal({ opened, close, id }) {
                       formData.append("video", item.value, item.value.name);
                   }
                 });
-              editParticularPost(id, formData, setLoading, () => {
+              editParticularPost(id, false, formData, setLoading, () => {
                 if (pathname.includes("home"))
                   queryClient.invalidateQueries(["all-posts"]);
                 else if (pathname.includes("my-profile")) {
@@ -215,6 +226,8 @@ function EditPostModal({ opened, close, id }) {
                 } else queryClient.invalidateQueries(["single-posts", id]);
                 queryClient.invalidateQueries(["trending-posts"]);
                 setSelected([]);
+                setAudio(null)
+                setRecordedAudio(null)
                 form.reset();
                 close();
               });

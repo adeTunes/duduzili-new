@@ -1,4 +1,11 @@
-import { LoadingOverlay, Modal, Textarea, FileInput } from "@mantine/core";
+import {
+  LoadingOverlay,
+  Modal,
+  Textarea,
+  FileInput,
+  Text,
+  Loader,
+} from "@mantine/core";
 import React, { useState, useEffect } from "react";
 import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Icon } from "@iconify/react";
@@ -13,9 +20,13 @@ import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
 import { AudioSquare } from "iconsax-react";
 import AudioPlayer from "./audioPlayer";
-import EmojiContainer from "../message/emojiContainer";
-import AudioRecorder from "../audio/audioRecorder";
 import AudioOptions from "./audioOption";
+import dynamic from "next/dynamic";
+import { modals } from "@mantine/modals";
+
+const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
+  ssr: false,
+});
 
 function CreatePostModal({ opened, close }) {
   const form = useForm({
@@ -37,7 +48,7 @@ function CreatePostModal({ opened, close }) {
   }, [selected]);
   const [audio, setAudio] = useState(null);
 
-  const savePostOrDraft = () => {
+  const savePostOrDraft = (publish: "True" | "False") => {
     if (selected.filter((item) => item.type === "image").length > 5)
       return showNotification({
         title: "Error",
@@ -48,9 +59,8 @@ function CreatePostModal({ opened, close }) {
     data.append("text", form.values.text);
     if (audio) {
       data.append("audio", audio, audio.name);
-    }
-    else if (recordedAudio) {
-      data.append("audio", recordedAudio);
+    } else if (recordedAudio) {
+      data.append("audio", recordedAudio?.blob);
     }
     selected.length &&
       selected.forEach((item) => {
@@ -65,18 +75,41 @@ function CreatePostModal({ opened, close }) {
         }
       });
     data.append("is_article", "yes");
-    data.append("publish", "save");
-    createPost(data, setLoading, () => {
+    data.append("publish", publish);
+    createPost(data, publish, setLoading, () => {
       queryClient.invalidateQueries(["all-posts"]);
-      setSelected([]);
-      form.reset();
-      close();
+      closeModal();
     });
+  };
+
+  const closeModal = () => {
+    setSelected([]);
+    setAudio(null);
+    setRecordedAudio(null);
+    form.reset();
+    close();
   };
 
   const [audioMenuOpened, setAudioMenuOpened] = useState(false);
   const [start, setStart] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState(null);
+
+  const openModal = () =>
+    modals.openConfirmModal({
+      title: "Save to draft?",
+      classNames: { inner: "z-[99999992]", overlay: "z-[99999991]" },
+      centered: true,
+      closeOnConfirm: true,
+      children: <Text size="sm">Do you want to save this post to draft?</Text>,
+      labels: { confirm: loading ? <Loader size="sm" /> : "Yes", cancel: "No" },
+      confirmProps: {
+        className: "bg-duduzili-violet hover:bg-duduzili-violet",
+      },
+      onCancel: () => {
+        closeModal();
+      },
+      onConfirm: () => savePostOrDraft("False"),
+    });
 
   return (
     <Modal
@@ -87,7 +120,7 @@ function CreatePostModal({ opened, close }) {
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "max-[390px]:px-0",
-        inner: "z-[9999999]"
+        inner: "z-[9999999]",
       }}
       styles={{
         content: {
@@ -96,11 +129,11 @@ function CreatePostModal({ opened, close }) {
       }}
       opened={opened}
       onClose={() => {
-        setSelected([]);
-        form.reset();
-        setAudio(null);
-        close();
+        if(form.values.text || audio || recordedAudio | selected.length)
+        openModal()
+        else closeModal()
       }}
+      closeOnClickOutside={false}
       title="Create New"
       centered
     >
@@ -129,6 +162,7 @@ function CreatePostModal({ opened, close }) {
           <DisplayMedia setSelected={setSelected} selected={selected} />
           {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <AudioRecorder
+            setStart={setStart}
             start={start}
             audio={recordedAudio}
             setAudio={setRecordedAudio}
@@ -199,7 +233,7 @@ function CreatePostModal({ opened, close }) {
                   message: "Please enter post text",
                   color: "red",
                 });
-              savePostOrDraft();
+              savePostOrDraft("True");
             }}
           />
         </div>

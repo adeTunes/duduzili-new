@@ -33,7 +33,7 @@ function PostText({
 
   const [truncate, setTruncate] = useState(true);
   return text?.length < 250 ? (
-    <p style={{wordWrap: "break-word"}} className="text-[14px] leading-[38px]">
+    <p style={{wordWrap: "break-word"}} className="text-[14px] leading-6">
       {usage === "post" ? (
         <Link href={`/posts/${postId}`} className="cursor-ponter">
           <Text lineClamp={6}>{text}</Text>
@@ -47,7 +47,7 @@ function PostText({
   ) : (
     <p
       style={{ height: "max-content", transition: "height 2s" }}
-      className=" text-[14px] leading-[38px]"
+      className=" text-[14px] leading-6"
     >
       {truncate ? (
         <span>

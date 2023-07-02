@@ -1,4 +1,3 @@
-import { main } from "@/utils/record";
 import { FileInput, Menu } from "@mantine/core";
 import { AudioSquare, Microphone2 } from "iconsax-react";
 import React from "react";
@@ -67,7 +66,7 @@ function AudioOptions({ opened, setRecordedAudio, setOpened, setAudio, setStart 
           <button
             onClick={() => {
               setAudio(null)
-              main(setRecordedAudio, setStart);
+              setRecordedAudio(null)
               setStart(true);
             }}
             type="button"

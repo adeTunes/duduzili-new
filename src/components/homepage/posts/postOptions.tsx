@@ -8,6 +8,7 @@ import OtherUserPostOptions from "./otherUserPostOptions";
 import EditPostModal from "@/components/modals/editPostModal";
 import { useDisclosure } from "@mantine/hooks";
 import ReportPostModal from "@/components/modals/reportPostModal";
+import PublishDraftModal from "@/components/modals/publishDraftModal";
 
 function PostOptions({ post, setLoading }) {
   const user: any = useAtomValue(userDetails);
@@ -15,7 +16,8 @@ function PostOptions({ post, setLoading }) {
   const [editOpened, { open, close }] = useDisclosure(false);
   const [reportPostOpened, { open: openReportPost, close: closeReportPost }] =
     useDisclosure(false);
-
+  const [draftOpened, { open: openDraft, close: closeDraft }] =
+    useDisclosure(false);
   return (
     <Menu
       opened={opened}
@@ -31,7 +33,7 @@ function PostOptions({ post, setLoading }) {
       styles={{
         dropdown: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
-          paddingInline: "clamp(5px, 1vw, 24px) !important"
+          paddingInline: "clamp(5px, 1vw, 24px) !important",
         },
         item: {
           "&[data-hovered]": {
@@ -44,7 +46,6 @@ function PostOptions({ post, setLoading }) {
       <Menu.Target>
         <Icon
           icon="solar:menu-dots-bold"
-          
           rotate={1}
           className="cursor-pointer w-6 h-6 max-[350px]:w-[18px] max-[350px]:h-[18px]"
         />
@@ -54,6 +55,7 @@ function PostOptions({ post, setLoading }) {
         {post?.user?.id === user?.user?.id ? (
           <Menu.Item>
             <PersonalPostOptions
+              openDraft={openDraft}
               open={open}
               setLoading={setLoading}
               post={post}
@@ -69,9 +71,16 @@ function PostOptions({ post, setLoading }) {
           </Menu.Item>
         )}
       </Menu.Dropdown>
-      <ReportPostModal id={post?.id} opened={reportPostOpened} close={closeReportPost} />
+      <ReportPostModal
+        id={post?.id}
+        opened={reportPostOpened}
+        close={closeReportPost}
+      />
       {editOpened ? (
         <EditPostModal id={post?.id} opened={editOpened} close={close} />
+      ) : null}
+      {draftOpened ? (
+        <PublishDraftModal id={post?.id} opened={draftOpened} close={closeDraft} />
       ) : null}
     </Menu>
   );

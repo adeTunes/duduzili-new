@@ -1,5 +1,5 @@
 import { LoadingOverlay, Modal, Textarea, FileInput } from "@mantine/core";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Icon } from "@iconify/react";
 import PrimaryButtonOutline from "../button/primaryButtonOutline";
@@ -9,14 +9,17 @@ import { useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
-import { AudioSquare } from "iconsax-react";
 import { useRouter } from "next/router";
 import { postComment } from "@/actions/commentActions";
-import ReturnMedia from "./returnMedia";
 import DisplayMedia from "./displayMedia";
 import AudioPlayer from "./audioPlayer";
-import EmojiContainer from "../message/emojiContainer";
 import { base64decode } from "nodejs-base64";
+import AudioOptions from "./audioOption";
+import dynamic from "next/dynamic";
+
+const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
+  ssr: false,
+});
 
 function CommentPostModal({ opened, close, refetch }) {
   const { query } = useRouter();
@@ -41,6 +44,10 @@ function CommentPostModal({ opened, close, refetch }) {
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
   const [audio, setAudio] = useState(null);
+
+  const [audioMenuOpened, setAudioMenuOpened] = useState(false);
+  const [start, setStart] = useState(false);
+  const [recordedAudio, setRecordedAudio] = useState(null);
   return (
     <Modal
       size="lg"
@@ -91,6 +98,12 @@ function CommentPostModal({ opened, close, refetch }) {
           />
           <DisplayMedia selected={selected} setSelected={setSelected} />
           {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
+          <AudioRecorder
+            setStart={setStart}
+            start={start}
+            audio={recordedAudio}
+            setAudio={setRecordedAudio}
+          />
           <div className="flex items-center gap-3">
             <label
               htmlFor="image-file"
@@ -134,17 +147,13 @@ function CommentPostModal({ opened, close, refetch }) {
                 }}
               />
             </label>
-            <label htmlFor="audio-file" className="px-4 py-2 max-[396px]:px-2 max-[396px]:py-1 cursor-pointer rounded-[34px] bg-[#EDF0FB]">
-              <AudioSquare className="w-6 h-6 max-[396px]:w-4 max-[396px]:h-4" color="#4534b8" variant="Outline" />
-              <FileInput
-                hidden
-                id="audio-file"
-                accept="audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a"
-                onChange={(value) => {
-                  setAudio(value)
-                }}
-              />
-            </label>
+            <AudioOptions
+              setStart={setStart}
+              setRecordedAudio={setRecordedAudio}
+              setAudio={setAudio}
+              setOpened={setAudioMenuOpened}
+              opened={audioMenuOpened}
+            />
           </div>
         </div>
         <div className="flex gap-3 justify-end">

@@ -12,18 +12,21 @@ import useCommunityJoined from "../../hooks/useCommunitiesJoined";
 import { useDisclosure } from "@mantine/hooks";
 import CreateCommunityModal from "@/components/modals/createCommunityModal";
 import useRandomCommunitiesPosts from "../../hooks/useRandomCommunitiesPosts";
-import { useSetAtom } from "jotai";
-import { joinedCommunities } from "@/store";
+import { useAtomValue, useSetAtom } from "jotai";
+import { joinedCommunities, toggleCommunityPreview } from "@/store";
 import { useEffect } from "react";
 import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
 import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 import MainContainer from "@/components/main-container";
+import CommunityPreview from "@/components/homepage/communityPreview";
 
 const Communities: NextPageX = () => {
   // const { data } = useCommunityJoined();
   const { data, isLoading: isPostsLoading } = useRandomCommunitiesPosts();
   const { data: joined, isLoading } = useCommunityJoined(4);
   const setJoined = useSetAtom(joinedCommunities);
+  const showCommunityPreview = useAtomValue(toggleCommunityPreview);
+
 
   useEffect(() => {
     if (joined) {
@@ -43,6 +46,7 @@ const Communities: NextPageX = () => {
             id="no-scroll"
             className="w-[70%] max-[790px]:flex-1 pb-[50px] overflow-auto max-w-[689px] flex flex-col gap-[55px]"
           >
+            {showCommunityPreview && <CommunityPreview />}
             <div className="flex items-center justify-between">
               <p
                 style={{
