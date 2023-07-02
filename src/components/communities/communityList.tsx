@@ -80,10 +80,10 @@ function CommunityList({ post, community }) {
       ) : null}
       <PostFooter
         post={post}
-        totalComments={post.total_comments}
-        totalLikes={post.total_likes}
-        totalReposts={post.total_reposts}
-        iLikeThisPost={post.i_like_this_post}
+        totalComments={post?.total_comments}
+        totalLikes={post?.total_likes}
+        totalReposts={post?.total_reposts}
+        iLikeThisPost={post?.i_like_this_post}
       />
       {/* <CommunityPicture image="/communities/cover-pic-default.png" /> */}
       {/* {communities?.map((item, index) => (

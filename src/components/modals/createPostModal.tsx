@@ -23,6 +23,7 @@ import AudioPlayer from "./audioPlayer";
 import AudioOptions from "./audioOption";
 import dynamic from "next/dynamic";
 import { modals } from "@mantine/modals";
+import CreatePostMenu from "./createPostMenu";
 
 const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
   ssr: false,
@@ -47,6 +48,20 @@ function CreatePostModal({ opened, close }) {
       : setErr("");
   }, [selected]);
   const [audio, setAudio] = useState(null);
+
+  const closeModal = () => {
+    setSelected([]);
+    setAudio(null);
+    setRecordedAudio(null);
+    form.reset();
+    close();
+  };
+
+  const [audioMenuOpened, setAudioMenuOpened] = useState(false);
+  const [start, setStart] = useState(false);
+  const [recordedAudio, setRecordedAudio] = useState(null);
+
+  const [menuOpened, setMenuOpened] = useState(false);
 
   const savePostOrDraft = (publish: "True" | "False") => {
     if (selected.filter((item) => item.type === "image").length > 5)
@@ -81,18 +96,6 @@ function CreatePostModal({ opened, close }) {
       closeModal();
     });
   };
-
-  const closeModal = () => {
-    setSelected([]);
-    setAudio(null);
-    setRecordedAudio(null);
-    form.reset();
-    close();
-  };
-
-  const [audioMenuOpened, setAudioMenuOpened] = useState(false);
-  const [start, setStart] = useState(false);
-  const [recordedAudio, setRecordedAudio] = useState(null);
 
   const openModal = () =>
     modals.openConfirmModal({
@@ -129,9 +132,9 @@ function CreatePostModal({ opened, close }) {
       }}
       opened={opened}
       onClose={() => {
-        if(form.values.text || audio || recordedAudio | selected.length)
-        openModal()
-        else closeModal()
+        if (form.values.text || audio || recordedAudio | selected.length)
+          openModal();
+        else closeModal();
       }}
       closeOnClickOutside={false}
       title="Create New"
@@ -224,17 +227,15 @@ function CreatePostModal({ opened, close }) {
         </div>
         <div className="flex gap-3 justify-end">
           <PrimaryButtonOutline onClick={close} text="Cancel" />
-          <PrimaryButton
-            text="Share"
-            onClick={() => {
-              if (!form.values.text)
-                return showNotification({
-                  title: "Error",
-                  message: "Please enter post text",
-                  color: "red",
-                });
-              savePostOrDraft("True");
-            }}
+          <CreatePostMenu
+            opened={menuOpened}
+            setOpened={setMenuOpened}
+            closeModal={closeModal}
+            setLoading={setLoading}
+            audio={audio}
+            recordedAudio={recordedAudio}
+            selected={selected}
+            form={form}
           />
         </div>
       </div>

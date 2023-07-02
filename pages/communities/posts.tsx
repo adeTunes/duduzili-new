@@ -46,7 +46,7 @@ const Communities: NextPageX = () => {
             id="no-scroll"
             className="w-[70%] max-[790px]:flex-1 pb-[50px] overflow-auto max-w-[689px] flex flex-col gap-[55px]"
           >
-            {showCommunityPreview && <CommunityPreview />}
+            {showCommunityPreview && <div className="hidden max-[790px]:block"><CommunityPreview /></div>}
             <div className="flex items-center justify-between">
               <p
                 style={{
