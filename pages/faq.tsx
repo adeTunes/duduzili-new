@@ -1,35 +1,17 @@
+import Back from "@/components/back";
 import FaqAccordion from "@/components/faq/accordion";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
-import MainContainer from "@/components/main-container";
-import { ArrowLeft } from "iconsax-react";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React from "react";
 
 function Faq() {
-  const { back } = useRouter();
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
         <Header />
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
-        <MainContainer>
-          <div
-            onClick={back}
-            className="flex cursor-pointer items-center gap-[2.5vw] pl-5"
-          >
-            <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-            <p
-              style={{
-                fontSize: "clamp(15px, 1.3vw, 24px)",
-              }}
-              className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold"
-            >
-              FAQs
-            </p>
-          </div>
+        <main className="bg-[#FBFBFB] max-[680px]:w-full h-full pb-[50px] relative flex-col max-w-[1131px] max-[1170px]:min-w-[900px] max-[940px]:min-w-full min-w-[1131px] justify-between pt-[3vh] gap-[3vw] flex">
+          <Back text="FAQs" />
           <div className="gap-[46px] flex h-full overflow-auto">
             <section id="no-scroll" className="flex-1 max-[740px]:hidden">
               <div className="h-[378px] max-[900px]:w-full">
@@ -54,7 +36,7 @@ function Faq() {
             </aside>
           </div>
           <FixedMessagesButton />
-        </MainContainer>
+        </main>
       </div>
     </div>
   );

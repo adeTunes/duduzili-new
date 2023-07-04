@@ -46,12 +46,12 @@ function AudioMedia({ audioUrl }) {
   return (
     <div className="relative h-[140px]">
       <div
-        className="absolute top-0 left-0 right-0 bottom-0"
+        className="absolute rounded-[32px] top-0 left-0 right-0 bottom-0"
         style={{
           background:
             "linear-gradient(180deg, rgba(255, 255, 255, 0) 52.08%, rgba(0, 0, 0, 0.49) 100%)",
         }}
-      ></div>
+      />
       <div className="absolute top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center">
         <div
           style={{ background: "rgba(54, 126, 232, 0.5)" }}
@@ -79,7 +79,7 @@ function AudioMedia({ audioUrl }) {
           <small className="text-white">{formatTime(remainingTime)}</small>
         </div>
       </div>
-      <img src="/cover-image.png" className="w-full h-full object-cover" alt="" />
+      <img src="/community-default.png" className="w-full h-full object-cover" alt="" />
     </div>
   );
 }

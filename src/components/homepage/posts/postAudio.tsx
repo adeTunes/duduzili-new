@@ -59,7 +59,7 @@ function PostAudio({
       }}
       className={clsx(height || "h-[200px]", "p-5 flex relative justify-between flex-col rounded-2xl")}
     >
-      <div className="absolute bg-black opacity-30 top-0 left-0 right-0 bottom-0" />
+      <div className="absolute bg-black opacity-30 rounded-2xl top-0 left-0 right-0 bottom-0" />
       <p
         style={{ background: "rgba(255, 255, 255, 0.2)" }}
         className="text-[14px] z-[9] rounded-[32px] self-start py-[3px] text-white px-6"
