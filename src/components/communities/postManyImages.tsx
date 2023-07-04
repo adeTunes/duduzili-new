@@ -36,7 +36,7 @@ function PostManyImages({ post }: { post: Post }) {
               gridSpan={gridSpan}
               height="h-[156px]"
               audioUrl={post?.media?.audio}
-              photoUrl="/cover-image.png"
+              photoUrl="/community-default.png"
             />
           ));
         else {

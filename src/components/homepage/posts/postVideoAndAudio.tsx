@@ -37,7 +37,7 @@ function PostVideoAndAudio({
         <video ref={videoRef} className="h-full w-full" controls={showControls} src={videoUrl} />
       </div>
       <PostAudio audioUrl={audioUrl}
-        photoUrl="/cover-image.png" />
+         photoUrl="/community-default.png" />
     </div>
   );
 }

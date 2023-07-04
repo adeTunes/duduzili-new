@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { TextInput, Textarea, clsx } from "@mantine/core";
+import { Skeleton, TextInput, Textarea, clsx } from "@mantine/core";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React, { useState, useEffect, useRef } from "react";
 import MessageReceived from "./messageReceived";
@@ -19,13 +19,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
 import EmojiContainer from "./emojiContainer";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import ViewProfileMenu from "./viewProfileMenu";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
-  const setWsConnect = useSetAtom(socketConnection);
   const [friend, setFriend] = useState(null);
   const user: any = useAtomValue(userDetails);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(null);
   const [chatOptions, setChatOptions] = useAtom(chatFriendOptions);
   const [chatList, setChatList] = useAtom(selectedFriendToChat);
   const queryClient = useQueryClient();
@@ -41,10 +41,8 @@ function MessagesChatBox() {
     }
   }, [messageFriend]);
 
-  const { ws, setWs } = useWebsocketConnection(friend);
-  const wsConnected = useAtomValue(socketConnection);
+  const { wsocket: ws, setWs } = useWebsocketConnection(friend);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const setWsReconnect = useSetAtom(wsReconnection);
 
   const scrollToBottom = () => {
     const chatContainer = chatContainerRef.current;
@@ -56,30 +54,6 @@ function MessagesChatBox() {
   // useEffect(() => {
   //   scrollToBottom(); // Initial scroll to the bottom when the component mounts
   // }, [friend]);
-
-  useEffect(() => {
-    if (ws && wsConnected) {
-      const receive = {
-        command: "receive",
-      };
-      const intervalID = setInterval(() => {
-        if (wsConnected) {
-          try {
-            ws.send(JSON.stringify(receive));
-          } catch (error) {
-            console.log(error)
-          }
-        } else {
-          setWsReconnect(true);
-          clearInterval(intervalID);
-        }
-      }, 5000);
-
-      return () => {
-        clearInterval(intervalID);
-      };
-    }
-  }, [ws, wsConnected]);
 
   useEffect(() => {
     if (ws) {
@@ -108,17 +82,11 @@ function MessagesChatBox() {
           setMessages((prev) => [...prev, message.message]);
         }
       };
-
-      ws.onclose = () => {
-        console.log("WebSocket connection closed");
-        // Handle any necessary cleanup or reconnection logic
-        setWsConnect(false);
-        setWsReconnect(true);
-      };
     }
   }, [ws]);
 
   const handleSendMessage = () => {
+    form.reset();
     const foundFriend = chatList?.find(
       (item) => item?.username === friend?.username
     );
@@ -138,10 +106,11 @@ function MessagesChatBox() {
     }
   };
 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-
-  const handleEmojiSelect = (emoji) => {
-    form.setFieldValue("text", form.values.text + emoji.native);
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevent the default Enter behavior (line break)
+      handleSendMessage(); // Call the onSubmit event handler manually
+    }
   };
 
   return friend ? (
@@ -151,7 +120,7 @@ function MessagesChatBox() {
     >
       <div className="flex pb-4 border-b border-b-[#EDF0FB] items-center justify-between">
         <div className="flex items-center gap-[19px]">
-          <div className="h-[52px] w-[52px]">
+          <div className="h-[52px] max-[400px]:w-[35px] max-[400px]:h-[35px] w-[52px]">
             {friend?.photo_url ? (
               <img
                 src={friend?.photo_url?.substring(62)}
@@ -167,39 +136,38 @@ function MessagesChatBox() {
             )}
           </div>
           <div className="flex flex-col gap-[2px]">
-            <p className="text-[18px] font-semibold text-[#222222] leading-[22px]">
+            <p className="text-[18px] max-[400px]:text-[15px] font-semibold text-[#222222] leading-[22px]">
               {friend?.first_name} {friend?.last_name}
             </p>
-            <p className="text-[14px] leading-[17px] text-[#2A2A2A]">
+            <p className="text-[14px] max-[400px]:text-xs leading-[17px] text-[#2A2A2A]">
               @{friend?.username}
             </p>
           </div>
         </div>
-        <Icon
-          height={24}
-          className="cursor-pointer"
-          width={24}
-          icon="carbon:overflow-menu-vertical"
-        />
+        <ViewProfileMenu id={friend?.id} />
       </div>
       <div
         ref={chatContainerRef}
         id="messages no-scroll"
         className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5"
       >
-        {messages?.map((item) =>
-          item?.sender?.id === user?.user?.id ? (
-            <MessageSent
-              text={item?.text}
-              time={item?.date_added}
-              key={item?.id}
-            />
-          ) : (
-            <MessageReceived
-              text={item?.text}
-              time={item?.date_added}
-              key={item?.id}
-            />
+        {!messages ? (
+          <Skeleton className="rounded-l-2xl rounded-tr-2xl" />
+        ) : (
+          messages?.map((item) =>
+            item?.sender?.id === user?.user?.id ? (
+              <MessageSent
+                text={item?.text}
+                time={item?.date_added}
+                key={item?.id}
+              />
+            ) : (
+              <MessageReceived
+                text={item?.text}
+                time={item?.date_added}
+                key={item?.id}
+              />
+            )
           )
         )}
         {/* <MessageReceived time={new Date()} text="hello people" />
@@ -223,7 +191,6 @@ function MessagesChatBox() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          form.reset();
           handleSendMessage();
         }}
         className="flex items-center justify-between gap-4"
@@ -264,6 +231,7 @@ function MessagesChatBox() {
                 "h-[64px] placeholder:text-[12px] !pt-[20px] bg-transparent border-0",
               root: "flex-1",
             }}
+            onKeyDown={handleKeyDown}
             placeholder="Enter your message"
             {...form.getInputProps("text")}
           />

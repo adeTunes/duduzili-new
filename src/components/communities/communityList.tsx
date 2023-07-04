@@ -36,7 +36,7 @@ function CommunityList({ post, community }) {
           <PostText text={post.text} postId={post.id} />
           <PostAudio
             audioUrl={post?.media?.audio}
-            photoUrl="/cover-image.png"
+            photoUrl="/community-default.png"
           />
         </>
       ) : post?.media?.video &&

@@ -5,11 +5,6 @@ function PostSkeleton() {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
-        <div className="flex gap-4">
-          <Skeleton height={48} width={77} radius="32px" />
-          <Skeleton height={48} width={77} radius="32px" />
-          <Skeleton height={48} width={77} radius="32px" />
-        </div>
         <div className="flex flex-col gap-8">
           <div
             className="rounded-[24px] bg-white p-8 flex flex-col gap-6"

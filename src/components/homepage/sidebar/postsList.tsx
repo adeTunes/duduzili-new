@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import React from "react";
 import TrendingPostsContainer from "./trendingPosts/trendingPostsContainer";
 import { AudioSquare, Gallery, VideoSquare } from "iconsax-react";

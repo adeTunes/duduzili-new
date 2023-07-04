@@ -36,7 +36,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
       <CommunityPicture code={community?.code} image={community?.get_logo_url || "/cover-image.png"} />
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-[9px]">
-          <p className="font-bold text-[18px] leading-[24px] text-[#2A2A2A]">
+          <p className="font-bold text-[18px] max-[400px]:text-[15px] leading-[24px] text-[#2A2A2A]">
             {community?.name?.replace(community?.name?.[0], community?.name?.[0]?.toLocaleUpperCase())}
           </p>
           <div className="flex max-[400px]:flex-col max-[400px]:items-start items-center gap-[19px]">
@@ -56,7 +56,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
                   )
               )}
             </div>
-            <p className="leading-[24px] text-[#2A2A2A]">
+            <p className="leading-[24px] max-[400px]:text-sm text-[#2A2A2A]">
               {community?.total_members}{" "}
               {community?.total_members < 2 ? "member" : "members"}
             </p>
@@ -68,7 +68,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
               ? () => push(`/communities/${community?.code}`) 
               : joinCommunityAction
           }
-          className="text-[#4534B8] bg-[#EDF0FB] py-3 px-6 rounded-[32px] cursor-pointer"
+          className="text-[#4534B8] bg-[#EDF0FB] max-[400px]:px-3 max-[400px]:text-sm max-[400px]:py-1 py-3 px-6 rounded-[32px] cursor-pointer"
         >
           {loading ? <Loader size="sm" /> : community?.is_joined ? "Select" : community?.is_private ? "Ask to join" : "Join"}
         </p>

@@ -5,57 +5,58 @@ import WebSocket from "isomorphic-ws";
 import { showNotification } from "@mantine/notifications";
 
 const useWebsocketConnection: (friend: any) => {
-  ws: WebSocket;
+  wsocket: WebSocket;
   setWs: React.Dispatch<React.SetStateAction<WebSocket>>;
 } = (friend) => {
   const user: any = useAtomValue(userDetails);
-  const [ws, setWs] = useState<WebSocket>(null);
-  const setWsConnect = useSetAtom(socketConnection);
-  const [wsReconnect, setWsReconnect] = useAtom(wsReconnection);
-  useEffect(() => {
-    if (friend || wsReconnect) {
-      setWs(
-        new WebSocket(
-          `${process.env.NEXT_PUBLIC_SOCKET_URL}/${friend?.username}?token=${user?.token}`
-        )
-      );
-      setWsReconnect(false);
-    }
-  }, [friend, wsReconnect]);
+  const [wsocket, setWs] = useState<WebSocket>(null);
+  const [reconnectionCount, setReconnectionCount] = useState(0);
 
   useEffect(() => {
-    if (ws) {
-      // WebSocket event listeners
-      ws.onopen = () => {
-        // Perform any necessary join or initial setup actions
-        setWsConnect(true);
-        setWsReconnect(false);
-        const joinRoom = {
-          command: "join",
-          username: user?.user?.username
-        };
+    if (!friend) return;
+
+    const ws = new WebSocket(
+      `${process.env.NEXT_PUBLIC_SOCKET_URL}/${friend?.username}?token=${user?.token}`
+    );
+    let intervalID;
+
+    ws.onopen = () => {
+      // Perform any necessary join or initial setup actions
+      const joinRoom = {
+        command: "join",
+        username: user?.user?.username,
+      };
+      try {
+        ws.send(JSON.stringify(joinRoom));
+      } catch (error) {
+        showNotification({ message: "Something went wrong" });
+      }
+      const receive = {
+        command: "receive",
+      };
+      intervalID = setInterval(() => {
         try {
-          ws.send(JSON.stringify(joinRoom));
-        } catch (error) {
-          showNotification({message: "Something went wrong"})
-        }
-      };
+          ws.send(JSON.stringify(receive));
+        } catch (error) {}
+      }, 5000);
+    };
 
-      ws.onclose = () => {
-        console.log("WebSocket connection closed");
-        // Handle any necessary cleanup or reconnection logic
-        setWsReconnect(true);
-        setWsConnect(false);
-      };
-    }
-    // return () => {
-    //   // Clean up the WebSocket connection when the component unmounts
-    //   if(ws)
-    //   ws.close();
-    // };
-  }, [ws]);
+    ws.onclose = () => {
+      console.warn("WebSocket connection closed");
+      // Handle any necessary cleanup or reconnection logic
+      setTimeout(() => {
+        setReconnectionCount((prevCount) => prevCount + 1);
+      }, 3000);
+    };
+    setWs(ws);
+    return () => {
+      clearInterval(intervalID);
+      // if (ws) ws.close();
+    };
+  }, [friend, reconnectionCount]);
+  
 
-  return { ws, setWs };
+  return { wsocket, setWs };
 };
 
 export default useWebsocketConnection;

@@ -42,7 +42,7 @@ function MessageMenu() {
       <Menu.Target>
         <div
           role="button"
-          className=" bg-[#4534B8] z-[400] relative rounded-[32px] px-6 py-3 max-[500px]:py-[6px] max-[500px]:px-3 flex items-center gap-2"
+          className=" bg-[#4534B8] z-[200] relative rounded-[32px] px-6 py-3 max-[500px]:py-[6px] max-[500px]:px-3 flex items-center gap-2"
         >
           <Icon
             icon="ci:chat-conversation"

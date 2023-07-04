@@ -59,7 +59,7 @@ function EditProfileModal({ opened, close }) {
 
   useEffect(() => {
     if (user?.user?.get_cover_image) setCoverImage(user?.user?.get_cover_image);
-    else setCoverImage("/communities/community-picture.png");
+    else setCoverImage("/communities/cover-pic-default.png");
   }, []);
 
   useEffect(() => {
@@ -94,11 +94,11 @@ function EditProfileModal({ opened, close }) {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 z-[99999999] rounded-[24px] max-[390px]:px-3 flex flex-col overflow-auto",
+          "py-6 px-8 z-[101] rounded-[24px] max-[390px]:px-3 flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto grid max-[390px]:px-0 grid-rows-[1fr_auto]",
-        inner: "z-[9999999]"
+        inner: "z-[201]"
       }}
       styles={{
         content: {

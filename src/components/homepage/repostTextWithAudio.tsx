@@ -16,7 +16,7 @@ function RepostTextWithAudio({ post }) {
       <PostText text={post?.text} postId={post?.id} />
       <PostAudio
         audioUrl={post.audio_url}
-        photoUrl={post.photo_url }
+        photoUrl="/community-default.png"
       />
     </div>
   );

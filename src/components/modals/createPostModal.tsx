@@ -100,7 +100,7 @@ function CreatePostModal({ opened, close }) {
   const openModal = () =>
     modals.openConfirmModal({
       title: "Save to draft?",
-      classNames: { inner: "z-[99999992]", overlay: "z-[99999991]" },
+      classNames: { inner: "z-[203]", overlay: "z-[202]" },
       centered: true,
       closeOnConfirm: true,
       children: <Text size="sm">Do you want to save this post to draft?</Text>,
@@ -123,7 +123,7 @@ function CreatePostModal({ opened, close }) {
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "max-[390px]:px-0",
-        inner: "z-[9999999]",
+        inner: "z-[201]",
       }}
       styles={{
         content: {

@@ -2,7 +2,6 @@ import { Drawer, clsx } from "@mantine/core";
 import React from "react";
 import MobileMenuIcon from "../homepage/mobileMenuIcon";
 import MobileDrawerLogo from "./mobileDrawerLogo";
-import { Icon } from "@iconify/react";
 import PeopleIcon from "./peopleIcon";
 import { Lock, LogoutCurve, TicketStar, TrendUp } from "iconsax-react";
 import InfoIcon from "./infoIcon";
@@ -10,9 +9,36 @@ import HelpIcon from "./helpIcon";
 import Link from "next/link";
 import FeedsIcon from "./feedsIcon";
 import DownloadApp from "../homepage/sidebar/downloadApp";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
 
 function MobileDrawer({ opened, close }) {
-  const navItems = [
+  const unAuthenticatedList = [
+    {
+      children: [
+      ],
+    },
+    {
+      children: [
+        {
+          icon: <Lock color="#367EE8" size={24} />,
+          name: "Privacy Policy",
+          href: "/privacy-policy",
+        },
+        {
+          icon: <InfoIcon />,
+          name: "About App",
+          href: "/about-us",
+        },
+        {
+          icon: <HelpIcon color="#44BC66" />,
+          name: "FAQs",
+          href: "/faq",
+        },
+      ],
+    },
+  ];
+  const authenticatedList = [
     {
       children: [
         {
@@ -78,16 +104,19 @@ function MobileDrawer({ opened, close }) {
       ],
     },
   ];
+  const user: any = useAtomValue(userDetails)
+  const navItems = user?.token ? authenticatedList : unAuthenticatedList
   return (
     <Drawer
       classNames={{
         content: "flex flex-col overflow-auto",
         body: "flex-1 !px-2 gap-6 flex flex-col overflow-auto",
-        inner: "z-[9999999]",
+        inner: "z-[201]",
       }}
       opened={opened}
       onClose={close}
       withCloseButton={false}
+      size="80%"
     >
       <div className="flex items-center justify-between">
         <div
@@ -104,7 +133,7 @@ function MobileDrawer({ opened, close }) {
             <div
               key={idx}
               className={clsx(
-                idx !== arr.length - 1 && "border-b border-b-[#EDF0FB]",
+                idx !== arr.length - 1 && user?.token && "border-b border-b-[#EDF0FB]",
                 "grid gap-2 pb-2"
               )}
             >

@@ -1,10 +1,14 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import { NextPageX } from "../../types/next";
-import { TextInput } from "@mantine/core";
+import { Skeleton, TextInput } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import MessageCard from "@/components/message/messageCard";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { chatFriendOptions, openChatDrawer, selectedMessage, userDetails } from "@/store";
+import {
+  chatFriendOptions,
+  openChatDrawer,
+  selectedMessage,
+  userDetails,
+} from "@/store";
 import MessageLayout from "@/layout/messageLayout";
 import MessagesChatBox from "@/components/message/messagesChatBox";
 import useConversations from "../../hooks/use-conversations";
@@ -14,10 +18,11 @@ import { selectedFriendToChat } from "@/store";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { base64decode } from "nodejs-base64";
+import FollowSkeleton from "@/components/skeletons/followSkeleton";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
-  const { data, refetch } = useConversations();
+  const { data, isLoading, refetch } = useConversations();
   const [chatList, setChatList] = useAtom(selectedFriendToChat);
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);
@@ -67,10 +72,10 @@ const Messages: NextPageX = () => {
       push("/messages/friends", undefined, { shallow: true });
     }
   }, [query.chat, data]);
-  const setChatDrawer = useSetAtom(openChatDrawer)
+  const setChatDrawer = useSetAtom(openChatDrawer);
 
   return (
-    <div className="flex flex-1 cursor-pointer overflow-auto flex-col gap-6">
+    <div className="flex flex-1 overflow-auto flex-col gap-6">
       <div onClick={open}>
         <TextInput
           classNames={{
@@ -93,8 +98,8 @@ const Messages: NextPageX = () => {
           <MessageCard
             onClick={() => {
               setSelectedMessage(JSON.stringify(item));
-              if(window.innerWidth <= 800) {
-                setChatDrawer(true)
+              if (window.innerWidth <= 800) {
+                setChatDrawer(true);
               }
             }}
             id={JSON.stringify(item)}
@@ -106,41 +111,60 @@ const Messages: NextPageX = () => {
             key={idx}
           />
         ))}
-        {data?.map((item, idx) => {
-          const friend =
-            item?.user_one?.id === user?.user?.id
-              ? item?.user_two
-              : item?.user_one;
-          return (
-            <MessageCard
-              onClick={() => {
-                setSelectedMessage(JSON.stringify(friend));
-                refetch()
-                if(window.innerWidth <= 800) {
-                  setChatDrawer(true)
-                }
-              }}
-              id={JSON.stringify(friend)}
-              image={
-                friend?.photo_url?.substring(62)
-              }
-              text={item?.get_messages?.[item?.get_messages?.length - 1]?.text}
-              date={
-                item?.get_messages?.length
-                  ? new Date(
-                    item?.get_messages?.[item?.get_messages?.length - 1]?.date_added
-                    ).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                      month: "short",
-                    })
-                  : ""
-              }
-              name={`${friend?.first_name} ${friend?.last_name}`}
-              unread={item?.get_messages?.filter(item => !item?.read)?.length}
-              key={idx}
-            />
-          );
-        })}
+        {isLoading
+          ? Array(10)
+              .fill(0)
+              .map((_, idx) => (
+                <div key={idx} className="py-2 px-6 max-[400px]:px-3 gap-4 flex justify-between">
+                  <Skeleton height={40} width={40} circle />
+                  <div className="flex flex-1 flex-col gap-3">
+                    <Skeleton width="50%" height={12} />
+                    <Skeleton width="80%" height={12} />
+                  </div>
+                </div>
+              ))
+          : data?.map((item, idx) => {
+              const friend =
+                item?.user_one?.id === user?.user?.id
+                  ? item?.user_two
+                  : item?.user_one;
+              return (
+                <MessageCard
+                  onClick={() => {
+                    setSelectedMessage(JSON.stringify(friend));
+                    refetch();
+                    if (window.innerWidth <= 800) {
+                      setChatDrawer(true);
+                    }
+                  }}
+                  id={JSON.stringify(friend)}
+                  image={friend?.photo_url?.substring(62)}
+                  text={
+                    item?.get_messages?.[item?.get_messages?.length - 1]?.text
+                  }
+                  date={
+                    item?.get_messages?.length
+                      ? new Date(
+                          item?.get_messages?.[
+                            item?.get_messages?.length - 1
+                          ]?.date_added
+                        ).toLocaleDateString("en-US", {
+                          day: "2-digit",
+                          month: "short",
+                        })
+                      : ""
+                  }
+                  name={`${friend?.first_name} ${friend?.last_name}`}
+                  unread={
+                    item?.get_messages?.filter(
+                      (item) =>
+                        item?.receiver?.id === user?.user?.id && !item?.read
+                    )?.length
+                  }
+                  key={idx}
+                />
+              );
+            })}
         {/* {messages.map(
           (
             item,

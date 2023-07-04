@@ -13,7 +13,7 @@ function MembersDrawer({ opened, close, code }) {
       classNames={{
         content: "flex flex-col overflow-auto",
         body: "flex-1 !px-2 gap-6 flex flex-col overflow-auto",
-        inner: "z-[9999999]",
+        inner: "z-[201]",
         title: "text-[#2A2A2A] leading-[29px] font-bold",
       }}
       styles={{

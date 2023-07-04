@@ -16,14 +16,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import MainContainer from "@/components/main-container";
 
-type Notification = {
-  title: string;
-  day: string;
-  time: string;
-  action: "like" | "sticker-reward" | "comment" | "friend-request";
-  unread: boolean;
-}[];
-
 function Friends() {
   const { back } = useRouter();
   const { data } = UseNotifications();
@@ -70,40 +62,6 @@ function Friends() {
       );
     }
   }, [data]);
-
-  // const notificationsArr: Notification = [
-  //   {
-  //     title:
-  //       "Ayodele Davies liked your post: If you are will be great in life, do somet...",
-  //     action: "like",
-  //     day: "Today",
-  //     time: "11.30AM",
-  //     unread: false,
-  //   },
-  //   {
-  //     title:
-  //       "Ayodele Davies awarded your post with a Leop sticker: If you are will be...",
-  //     action: "sticker-reward",
-  //     day: "Yesterday",
-  //     time: "11.30AM",
-  //     unread: false,
-  //   },
-  //   {
-  //     title:
-  //       "Ayodele Davies commented on your post: If you are will be great in life, t...",
-  //     action: "post-comment",
-  //     day: "12d ago",
-  //     time: "11.30AM",
-  //     unread: true,
-  //   },
-  //   {
-  //     title: "Ayodele Davies sent you a friend request",
-  //     action: "friend-request",
-  //     day: "11/12/2020",
-  //     time: "11.30AM",
-  //     unread: false,
-  //   },
-  // ];
 
   return (
     <div className="flex flex-col overflow-auto h-screen">

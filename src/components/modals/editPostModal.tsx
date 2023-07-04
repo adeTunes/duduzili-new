@@ -83,7 +83,7 @@ function EditPostModal({ opened, close, id }) {
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto max-[390px]:px-0",
-        inner: "z-[9999999]"
+        inner: "z-[201]"
       }}
       styles={{
         content: {

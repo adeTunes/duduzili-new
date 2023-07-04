@@ -45,8 +45,9 @@ function PostAudio({
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toFixed(0).padStart(2, "0")}`;
+    return `${minutes === Infinity ? 0 : minutes}:${seconds.toFixed(0).padStart(2, "0") === "NaN" ? "00" : seconds.toFixed(0).padStart(2, "0")}`;
   }
+  
   return (
     <div
       style={{

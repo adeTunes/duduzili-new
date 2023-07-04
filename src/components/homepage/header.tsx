@@ -229,7 +229,7 @@ function Header() {
         </UserProfileImageActions>
       </div> */}
       <div
-        className="fixed bottom-0 h-[93px] hidden max-[500px]:flex items-center z-[9999999] right-0 left-0 bg-white"
+        className="fixed bottom-0 h-[93px] hidden max-[500px]:flex items-center z-[99] right-0 left-0 bg-white"
         style={{ boxShadow: "0px 0px 20px 0px rgba(0, 0, 0, 0.20)" }}
       >
         <div className="flex justify-between items-center  max-[382px]:w-[90%] w-[80%] mx-auto">

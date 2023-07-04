@@ -136,7 +136,7 @@ function CreateCommunityModal({ opened, close }) {
         header: "!px-0 !pt-0 !pb-[2vh] border-b-[#EDF0FB] border-b",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto max-[390px]:px-0 !p-0 flex flex-col gap-8",
-        inner: "z-[9999999]"
+        inner: "z-[201]"
       }}
       styles={{
         content: {

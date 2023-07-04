@@ -36,7 +36,7 @@ function RepostsContainer({ post }: { post: Post }) {
           <PostText text={post.text} postId={post.id} />
           <PostAudio
             audioUrl={post?.media?.audio}
-            photoUrl="/cover-image.png"
+            photoUrl="/community-default.png"
           />
         </>
       ) : post?.media?.video &&

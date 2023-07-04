@@ -1,6 +1,13 @@
 import AudioPlayer from "@/components/modals/audioPlayer";
 import { clsx } from "@mantine/core";
-import { Microphone2, Pause, Play, Refresh2, Stop, StopCircle } from "iconsax-react";
+import {
+  Microphone2,
+  Pause,
+  Play,
+  Refresh2,
+  Stop,
+  StopCircle,
+} from "iconsax-react";
 import { useEffect, useRef, useState } from "react";
 import useTimer from "../../../hooks/use-timer";
 import { ReactMic } from "react-mic";
@@ -75,6 +82,10 @@ const AudioRecorder = ({ start, setStart, audio, setAudio }) => {
     setStart(true);
   };
 
+  const cancelAudio = () => {
+    setAudio(null);
+  };
+
   return (
     <>
       {/* {start ? ( */}
@@ -84,7 +95,7 @@ const AudioRecorder = ({ start, setStart, audio, setAudio }) => {
           "justify-between w-[80%] items-center gap-3"
         )}
       >
-        <Microphone2 size={32} color="#4534B8" />
+        <Microphone2 className="cursor-pointer" size={32} color="#4534B8" />
         <div className="">
           <ReactMic
             record={start}
@@ -99,6 +110,7 @@ const AudioRecorder = ({ start, setStart, audio, setAudio }) => {
           seconds < 10 ? "0" + seconds : seconds
         }`}</p>
         <StopCircle
+          className="cursor-pointer"
           onClick={stopRecording}
           size="32"
           color="red"
@@ -109,7 +121,11 @@ const AudioRecorder = ({ start, setStart, audio, setAudio }) => {
         <>
           <div className="flex flex-col gap-3 items-center">
             <div className="grid grid-cols-[auto_1fr_auto] w-full items-center gap-3">
-              <Microphone2 size={32} color="#4534B8" />
+              <Microphone2
+                className="cursor-pointer"
+                size={32}
+                color="#4534B8"
+              />
               <div className="w-full" id="wavesurfer-id" />
               <div className="flex items-center gap-3">
                 {!isPlaying ? (
@@ -119,6 +135,7 @@ const AudioRecorder = ({ start, setStart, audio, setAudio }) => {
                     width={32}
                     icon="material-symbols:play-arrow"
                     color="#4534B8"
+                    className="cursor-pointer"
                   />
                 ) : (
                   <Icon
@@ -127,6 +144,7 @@ const AudioRecorder = ({ start, setStart, audio, setAudio }) => {
                     color="#4534B8"
                     height={32}
                     width={32}
+                    className="cursor-pointer"
                   />
                 )}
                 <StopCircle
@@ -134,8 +152,22 @@ const AudioRecorder = ({ start, setStart, audio, setAudio }) => {
                   size="32"
                   color="red"
                   variant="Bulk"
+                  className="cursor-pointer"
                 />
-                <Refresh2 onClick={startRecording} size="28" color="#4534B8"/>
+                <Refresh2
+                  className="cursor-pointer"
+                  onClick={startRecording}
+                  size="28"
+                  color="#4534B8"
+                />
+                <Icon
+                  className="cursor-pointer"
+                  onClick={cancelAudio}
+                  height={32}
+                  width={32}
+                  color="#000000"
+                  icon="ic:outline-close"
+                />
               </div>
             </div>
           </div>

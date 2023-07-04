@@ -11,6 +11,7 @@ import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "../homepage/posts/galleryViewer";
 import { Skeleton } from "@mantine/core";
 import DefaultProfilePicture from "./defaultProfilePicture";
+import { Location } from "iconsax-react";
 
 function PersonalInformation({ user }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -84,6 +85,10 @@ function PersonalInformation({ user }) {
           <p className="text-[#2A2A2A] text-[15px] leading-6">
             @{user?.username}
           </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Location size="16" color="#000" />
+          {user?.country}
         </div>
         <p className="text-[#8A8D88] text-[15px] leading-6">
           {user?.bio ??

@@ -40,7 +40,7 @@ function CommentAudioAndVideo({
           src={videoUrl}
         />
       </div>
-      <PostAudio audioUrl={audioUrl} photoUrl="/cover-image.png" />
+      <PostAudio audioUrl={audioUrl}  photoUrl="/community-default.png" />
     </div>
   );
 }

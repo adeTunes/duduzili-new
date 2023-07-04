@@ -127,7 +127,9 @@ function FriendProfileInformation({ friendDetails }) {
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <p className=" font-bold text-[32px] leading-8 text-[#2A2A2A]">
+          <p style={{
+            fontSize: "clamp(18px, 1.8vw, 32px)",
+          }} className=" font-bold leading-8 text-[#2A2A2A]">
             {friendDetails?.user?.first_name} {friendDetails?.user?.last_name}
           </p>
           <p className="text-[#2A2A2A] text-[15px] leading-6">

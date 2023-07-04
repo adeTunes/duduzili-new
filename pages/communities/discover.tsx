@@ -1,6 +1,5 @@
 import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
-import { ArrowLeft } from "iconsax-react";
 import { clsx } from "@mantine/core";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import { NextPageX } from "../../types/next";
@@ -49,7 +48,7 @@ const Communities: NextPageX = () => {
                     selected === idx
                       ? " bg-duduzili-violet text-white"
                       : "text-[#787878] bg-[#EDF0FB]",
-                    "py-3 px-6 rounded-[32px] cursor-pointer"
+                    "py-3 px-6 rounded-[32px] max-[500px]:text-sm max-[500px]:px-3 max-[500px]:py-1 cursor-pointer"
                   )}
                 >
                   {item.name}

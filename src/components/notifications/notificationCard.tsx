@@ -61,7 +61,7 @@ function NotificationCard({
   const queryClient = useQueryClient()
   return (
     <div className="flex items-center max-[890px]:flex-col max-[890px]:items-start gap-3 justify-between py-4 border-b border-b-[#DFDFDF]">
-      <div className="flex items-center gap-4">
+      <div className="flex items-start gap-4">
         <div className="bg-[#F6F5FB] h-[50px] w-[50px] max-[480px]:h-[35px] max-[480px]:w-[35px] max-[480px]:min-h-[35px] max-[480px]:min-w-[35px] min-w-[50px] min-h-[50px] flex items-center justify-center rounded-full">
           {icons[action]}
         </div>
@@ -77,7 +77,7 @@ function NotificationCard({
           >
             {title}
           </Text>
-          <span className=" leading-[19px] text-[#505050]">{day}</span>
+          <span className=" leading-[19px] max-[480px]:text-xs text-[#505050]">{day}</span>
         </div>
       </div>
       {action === "request" && (
@@ -98,7 +98,7 @@ function NotificationCard({
             }}
             className="cursor-pointer text-white font-medium leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
           >
-            {loading ? <Loader size="sm" /> : "Accept"}
+            {loading ? <Loader size="xs" /> : "Accept"}
           </p>
           <p
             onClick={() => {
@@ -116,7 +116,7 @@ function NotificationCard({
             }}
             className="cursor-pointer text-duduzili-violet font-medium leading-[15px] text-[12px] px-4 py-2 bg-[#EDF0FB] rounded-[32px]"
           >
-            {rejectLoading ? <Loader size="sm" /> : "Reject"}
+            {rejectLoading ? <Loader size="xs" /> : "Reject"}
           </p>
         </div>
       )}

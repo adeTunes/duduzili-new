@@ -5,7 +5,25 @@ import Image from "next/image";
 import React from "react";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
 
-function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { image: string, text: string, name: string, date: string, unread: number, onClick: () => void, id: string, usage?: string }) {
+function MessageCard({
+  image,
+  text,
+  name,
+  date,
+  unread,
+  onClick,
+  id,
+  usage,
+}: {
+  image: string;
+  text: string;
+  name: string;
+  date: string;
+  unread: number;
+  onClick: () => void;
+  id: string;
+  usage?: string;
+}) {
   const selected = useAtomValue(selectedMessage);
   return (
     <div
@@ -14,27 +32,54 @@ function MessageCard({ image, text, name, date, unread, onClick, id, usage }: { 
         selected === id
           ? "bg-[#F4F4F4] border-r-[4px] border-r-duduzili-violet"
           : "bg-[#FFFFFF] border-r-[4px] border-r-transparent",
-        "py-2 hover:bg-[#F4F4F4] cursor-pointer px-6 gap-[3vw] flex justify-between"
+        "py-2 hover:bg-[#F4F4F4] cursor-pointer px-6 max-[400px]:px-3 gap-[3vw] flex justify-between"
       )}
     >
       <div className="flex items-center gap-[19px]">
-        <div className={clsx(usage ? "min-w-[40px] w-[40px] h-[40px] min-h-[40px]" : "min-w-[52px] w-[52px] h-[52px] min-h-[52px]")}>
-          {image ?
-          <img
-            src={image}
-            className="w-full h-full object-cover rounded-full"
-            alt=""
-          />
-          : <DefaultProfilePicture text="text-[80%]" firstName={name.split(" ")[0]} lastName={name.split(" ")[1]} />
-          }
+        <div
+          className={clsx(
+            usage
+              ? "min-w-[40px] max-[450px]:w-[30px] max-[450px]:h-[30px] max-[450px]:min-w-[30px] max-[450px]:min-h-[30px] w-[40px] h-[40px] min-h-[40px]"
+              : "max-[450px]:w-[30px] max-[450px]:h-[30px] max-[450px]:min-w-[30px] max-[450px]:min-h-[30px] min-w-[52px] w-[52px] h-[52px] min-h-[52px]"
+          )}
+        >
+          {image ? (
+            <img
+              src={image}
+              className="w-full h-full object-cover rounded-full"
+              alt=""
+            />
+          ) : (
+            <DefaultProfilePicture
+              text="text-[80%]"
+              firstName={name.split(" ")[0]}
+              lastName={name.split(" ")[1]}
+            />
+          )}
         </div>
         <div className="gap-1 flex flex-col">
-          <p className={clsx(usage ? "text-[14px]" : "leading-6", "text-[#222222] font-semibold ")}>{name}</p>
-          <Text truncate lineClamp={1} sx={{fontWeight: unread ? 700 : 400}} className="text-[#2A2A2A] text-xs">{text}</Text>
+          <p
+            className={clsx(
+              usage ? "text-[14px]" : "leading-6 max-[450px]:text-sm",
+              "text-[#222222] max-[450px]:text-sm font-semibold "
+            )}
+          >
+            {name}
+          </p>
+          <Text
+            truncate
+            lineClamp={1}
+            sx={{ fontWeight: unread ? 700 : 400 }}
+            className="text-[#2A2A2A] text-xs"
+          >
+            {text?.length > 21 ? text?.slice(0, 21) + "..." : text}
+          </Text>
         </div>
       </div>
       <div className="flex flex-col gap-2 items-center">
-        <p className="text-[#828282] text-[10px] leading-3 whitespace-nowrap">{date}</p>
+        <p className="text-[#828282] text-[10px] leading-3 whitespace-nowrap">
+          {date}
+        </p>
         <span
           className={clsx(
             !unread ? "bg-transparent" : "bg-duduzili-orange",

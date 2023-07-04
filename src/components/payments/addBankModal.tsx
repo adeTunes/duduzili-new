@@ -165,7 +165,7 @@ function AddBankModal({ opened, close, openSuccess }) {
           </p>
           <Group position="center">
             <PinInput
-              length={6}
+              length={5}
               classNames={{
                 input:
                   "w-[59px] h-[10vh] !border-0 !bg-[#F4F4F4] rounded-[8px]",

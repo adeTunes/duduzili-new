@@ -69,7 +69,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
             {community?.data?.date_joined ===
             "Not a member of community !" ? null : (
               <span className="text-[14px] leading-6 text-[#2A2A2A] font-normal">
-                Joined{" "}
+                {community?.data?.is_owner ? "Created" : "Joined"}{" "}
                 {dayjs(community?.data?.date_joined).format("DD/MM/YYYY")}
               </span>
             )}
