@@ -15,6 +15,7 @@ import DepositModal from "@/components/payments/depositModal";
 import DepositSuccessModal from "@/components/payments/depositModalSuccess";
 import useIncomeAndOutcome from "../../hooks/useIncomeAndOutcome";
 import { amountFormatter } from "@/helpers/amountFormatter";
+import Back from "@/components/back";
 
 function Payments() {
   const { back } = useRouter();
@@ -115,18 +116,10 @@ function Payments() {
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] h-full overflow-auto py-[50px] relative max-w-[1130px] w-[80%] mx-auto grid grid-rows-[auto_1fr] gap-8">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main className="bg-[#FBFBFB] h-full overflow-auto py-[50px] relative max-w-[1130px] grid grid-rows-[auto_1fr] gap-8">
           <div className="flex items-center justify-between">
-            <div
-              onClick={back}
-              className="flex cursor-pointer items-center gap-10"
-            >
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Sticker & Payment
-              </p>
-            </div>
+            <Back text="Sticker & Payment" />
             <Link href="/payments/withdrawal-accounts">
               <p className="cursor-pointer text-duduzili-violet font-semibold leading-6 flex items-center gap-1">
                 View Withdrawal Accounts{" "}

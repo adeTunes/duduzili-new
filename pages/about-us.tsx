@@ -1,40 +1,42 @@
+import Back from "@/components/back";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import Header from "@/components/homepage/header";
+import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
 import CompanyInfo from "@/components/homepage/sidebar/companyInfo";
 import DiscoverPeople from "@/components/homepage/sidebar/discoverPeople";
 import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import MainContainer from "@/components/main-container";
+import { userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Text } from "@mantine/core";
 import { ArrowLeft } from "iconsax-react";
+import { useAtomValue } from "jotai";
 import { useRouter } from "next/router";
 import React from "react";
 
 function AboutUs() {
   const { back } = useRouter();
+  const user: any = useAtomValue(userDetails);
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
-        <Header />
+        {user?.token ? <Header /> : <HeaderUnauthenticated />}
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
         <MainContainer>
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] flex-1 flex flex-col gap-[54px]"
+            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] flex-1 flex flex-col gap-[2vh]"
           >
-            <div
-              onClick={back}
-              className="flex cursor-pointer items-center gap-10"
-            >
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                About Duduzili
-              </p>
-            </div>
-            <div className="flex flex-col gap-[99px]">
-              <div className="flex flex-col gap-5 text-[#2A2A2A] text-[20px] leading-8">
+            <Back text="About Duduzili" />
+            <div id="no-scroll" className="flex overflow-auto flex-col gap-[3vh]">
+              <div
+                style={{
+                  fontSize: "clamp(15px, 1.3vw, 24px)",
+                }}
+                className="flex flex-col gap-5 text-[#2A2A2A] leading-8"
+              >
                 <p>
                   We are about bringing people together. We are building tools
                   for people with something to say and ideas to share, people
@@ -48,12 +50,17 @@ function AboutUs() {
                 </p>
               </div>
               <div className="flex flex-col gap-10">
-                <h2 className="text-[#2A2A2A] font-bold leading-7 text-[20px]">
+                <h2
+                  style={{
+                    fontSize: "clamp(15px, 1.3vw, 24px)",
+                  }}
+                  className="text-[#2A2A2A] font-bold leading-7 text-[20px]"
+                >
                   Connect with us
                 </h2>
                 <div className="flex flex-col gap-10">
                   <div className="flex flex-col gap-2">
-                    <small className="text-[15px] text-[#2A2A2A] leading-6">
+                    <small className="text-[15px] max-[500px]:text-xs text-[#2A2A2A] leading-6">
                       Follow us on Facebook
                     </small>
                     <div className="flex items-center max-[380px]:flex-col max-[380px]:items-start gap-4">
@@ -67,6 +74,9 @@ function AboutUs() {
                       </div>
                       <Text lineClamp={1}>
                         <a
+                          style={{
+                            fontSize: "clamp(15px, 1.3vw, 24px)",
+                          }}
                           target="_blank"
                           href="https://facebook.com/dudzili"
                           className="text-[#2A2A2A] text-[20px] leading-7"
@@ -77,7 +87,7 @@ function AboutUs() {
                     </div>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <small className="text-[15px] text-[#2A2A2A] leading-6">
+                    <small className="text-[15px] max-[500px]:text-xs text-[#2A2A2A] leading-6">
                       Follow us on Twitter
                     </small>
                     <div className="flex items-center max-[380px]:flex-col max-[380px]:items-start gap-4">
@@ -91,9 +101,12 @@ function AboutUs() {
                       </div>
                       <Text lineClamp={1}>
                         <a
+                        style={{
+                          fontSize: "clamp(15px, 1.3vw, 24px)",
+                        }}
                           target="_blank"
                           href="https://twitter.com/dudzili"
-                          className="text-[#2A2A2A] text-[20px] leading-7"
+                          className="text-[#2A2A2A] leading-7"
                         >
                           https://twitter.com/dudzili
                         </a>

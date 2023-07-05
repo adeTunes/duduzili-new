@@ -16,7 +16,6 @@ import ConfirmWithdrawalAccount from "./confirmWithdrawalAccount";
 import {
   generateTokenForWithdrawal,
   makeWithdrawal,
-  sendOTP,
   verifyTokenForWithdrawal,
 } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
@@ -27,8 +26,6 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
   const [bank, setBank] = useState("");
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
-  const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current));
 
   const form = useForm({
     initialValues: {
@@ -54,7 +51,7 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
         showNotification({
           message: data?.data,
         });
-        close()
+        close();
         openSuccess();
       })
       .catch((e) => {
@@ -91,22 +88,22 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       });
   };
 
-  useEffect(() => {
-    if (active === 2) {
-      setLoading(true);
-      generateTokenForWithdrawal()
-        .then(({ data }) => {
-          setLoading(false);
-          showNotification({
-            message: data?.data || data?.error || data?.message,
-          });
-        })
-        .catch((e) => {
-          setLoading(false);
-          errorMessageHandler(e);
-        });
-    }
-  }, [active]);
+  // useEffect(() => {
+  //   if (active === 2) {
+  //     setLoading(true);
+  //     generateTokenForWithdrawal()
+  //       .then(({ data }) => {
+  //         setLoading(false);
+  //         showNotification({
+  //           message: data?.data || data?.error || data?.message,
+  //         });
+  //       })
+  //       .catch((e) => {
+  //         setLoading(false);
+  //         errorMessageHandler(e);
+  //       });
+  //   }
+  // }, [active]);
 
   return (
     <Modal
@@ -150,55 +147,39 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       </p>
       <ModalStepper active={active} setActive={setActive} />
       {active === 0 ? (
-        <SelectWithdrawalAccount form={form} bank={bank} setBank={setBank} />
+        <SelectWithdrawalAccount
+          nextStep={nextStep}
+          form={form}
+          bank={bank}
+          setBank={setBank}
+        />
       ) : active === 1 ? (
         <ConfirmWithdrawalAccount
+          nextStep={nextStep}
           bank={JSON.parse(bank)}
           amount={form.values.amount}
         />
       ) : (
-        <div>
-          <Group position="center">
-            <PinInput
-              length={4}
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          handleVerifyCode()
+        }} className="flex flex-col !gap-[40px]">
+          <div>
+          <TextInput
+              placeholder="Enter OTP"
               classNames={{
+                label: "text-[#2a2a2a] font-medium leading-6",
+                root: "flex flex-col gap-2",
                 input:
-                  "w-[100px] text-[18px] h-[10vh] !border-0 !bg-[#F4F4F4] rounded-[8px]",
+                  "h-[48px] border border-[#C8C8C8] rounded-[8px] placeholder:text-[#757575] leading-6 text-[15px]",
               }}
               value={otp}
-              onChange={setOTP}
+              onChange={e => setOTP(e.target.value)}
             />
-          </Group>
-        </div>
+          </div>
+          <PrimaryButton className="flex-1 h-full" text="Verify OTP" />
+        </form>
       )}
-      <PrimaryButton
-        text={
-          active === 0
-            ? "Proceed"
-            : active === 1
-            ? "Confirm Account"
-            : "Verify OTP"
-        }
-        onClick={() => {
-          if (active === 0) {
-            if (!bank)
-              return showNotification({
-                message: "Please select a withdrawal account to proceed",
-                color: "red",
-              });
-            if (!form.values.amount)
-              return showNotification({
-                message: "Please enter withdrawal amount",
-                color: "red",
-              });
-              sessionStorage.setItem("withdraw-amount", form.values.amount)
-            nextStep();
-          } else if (active === 1) nextStep();
-          else {
-            handleVerifyCode()
-          }
-        }}
-      />
       <LoadingOverlay visible={loading} />
     </Modal>
   );

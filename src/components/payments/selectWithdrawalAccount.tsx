@@ -2,6 +2,8 @@ import { LoadingOverlay, Radio, TextInput } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import React, { useState } from "react";
 import UseWithdrawalAccounts from "../../../hooks/useWithdrawalAccounts";
+import PrimaryButton from "../button/primaryButton";
+import { showNotification } from "@mantine/notifications";
 interface Prop {
   form: UseFormReturnType<
     {
@@ -15,12 +17,14 @@ interface Prop {
   >;
   bank: string;
   setBank: React.Dispatch<React.SetStateAction<string>>;
+  nextStep: () => void
 }
 
-function SelectWithdrawalAccount({ form, bank, setBank }: Prop) {
+function SelectWithdrawalAccount({nextStep, form, bank, setBank }: Prop) {
   const { data, isLoading } = UseWithdrawalAccounts();
 
   return (
+    <>
     <div className="grid grid-rows-[auto_1fr] overflow-auto gap-6">
       <TextInput
         label="Amount to withdraw"
@@ -76,6 +80,24 @@ function SelectWithdrawalAccount({ form, bank, setBank }: Prop) {
       </div>
       <LoadingOverlay visible={isLoading} />
     </div>
+    <PrimaryButton
+        text="Proceed"
+        onClick={() => {
+          if (!bank)
+            return showNotification({
+              message: "Please select a withdrawal account to proceed",
+              color: "red",
+            });
+          if (!form.values.amount)
+            return showNotification({
+              message: "Please enter withdrawal amount",
+              color: "red",
+            });
+          sessionStorage.setItem("withdraw-amount", form.values.amount);
+          nextStep();
+        }}
+      />
+    </>
   );
 }
 

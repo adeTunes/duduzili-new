@@ -14,7 +14,12 @@ import SelectWithdrawalAccount from "./selectWithdrawalAccount";
 import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import ConfirmWithdrawalAccount from "./confirmWithdrawalAccount";
-import { sendOTP } from "../../../api/apiRequests";
+import {
+  generateTokenForWithdrawal,
+  makeWithdrawal,
+  sendOTP,
+  verifyTokenForWithdrawal,
+} from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useAtomValue } from "jotai";
 import { withdrawalDetails } from "@/store";
@@ -23,7 +28,6 @@ import { amountFormatter } from "@/helpers/amountFormatter";
 export default function WithdrawalBankModal({ opened, close, openSuccess }) {
   const [active, setActive] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [course, setCourse] = useState("");
   const nextStep = () =>
     setActive((current) => (current < 2 ? current + 1 : current));
   const form = useForm({
@@ -33,23 +37,23 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
   });
 
   const [otp, setOTP] = useState("");
-  const resendOTP = () => {
-    setLoading(true);
-    const data = new FormData();
-    // data.append("email", email);
-    sendOTP(data)
-      .then(({ data }) => {
-        showNotification({
-          message: data?.error ?? data?.message,
-          color: "green",
-        });
-        setLoading(false);
-      })
-      .catch((e) => {
-        setLoading(false);
-        errorMessageHandler(e);
-      });
-  };
+  // const resendOTP = () => {
+  //   setLoading(true);
+  //   const data = new FormData();
+  //   // data.append("email", email);
+  //   sendOTP(data)
+  //     .then(({ data }) => {
+  //       showNotification({
+  //         message: data?.error ?? data?.message,
+  //         color: "green",
+  //       });
+  //       setLoading(false);
+  //     })
+  //     .catch((e) => {
+  //       setLoading(false);
+  //       errorMessageHandler(e);
+  //     });
+  // };
   const [amount, setAmount] = useState("");
   const details: any = useAtomValue(withdrawalDetails);
   const entries = {
@@ -60,8 +64,76 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
   };
 
   useEffect(() => {
-    amountFormatter(form.values.amount, setAmount)
+    amountFormatter(form.values.amount, setAmount);
   }, [form.values.amount]);
+
+  useEffect(() => {
+    if (active === 1) {
+      setLoading(true);
+      generateTokenForWithdrawal()
+        .then(({ data }) => {
+          setLoading(false);
+          showNotification({
+            message: data?.data || data?.error || data?.message,
+          });
+        })
+        .catch((e) => {
+          setLoading(false);
+          errorMessageHandler(e);
+        });
+    }
+  }, [active]);
+
+  const handleWithdrawal = () => {
+    const data = new FormData();
+    data.append("amount", form.values.amount);
+    data.append("account_id", details?.id);
+    makeWithdrawal(data)
+      .then(({ data }) => {
+        setLoading(false);
+        if (!data?.message?.includes("successful")) {
+          return showNotification({
+            message: data?.data?.non_field_errors || data?.data,
+          });
+        }
+        showNotification({
+          message: data?.data,
+        });
+        close();
+        openSuccess();
+      })
+      .catch((e) => {
+        setLoading(false);
+        errorMessageHandler(e);
+      });
+  };
+
+  const handleVerifyCode = () => {
+    if (!otp)
+      return showNotification({
+        message: "Please enter code",
+        color: "red",
+      });
+    setLoading(true);
+    const data = new FormData();
+    data.append("code", otp);
+    verifyTokenForWithdrawal(data)
+      .then(({ data }) => {
+        if (!data?.message?.includes("successful")) {
+          return showNotification({
+            message: data?.data,
+          });
+        }
+        showNotification({
+          message: data?.data,
+        });
+        handleWithdrawal();
+      })
+      .catch((e) => {
+        setLoading(false);
+        errorMessageHandler(e);
+      });
+  };
 
   return (
     <Modal
@@ -72,7 +144,7 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
           "py-6 px-8 rounded-[24px] min-w-[280px] gap-3 max-w-[580px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
         title: "font-bold text-[24px] text-[#2A2A2A] leading-[29px]",
-        body: "overflow-auto grid grid-rows-[auto_auto_1fr_auto] !gap-[40px] !p-0",
+        body: "overflow-auto grid grid-rows-[auto_auto_1fr] !gap-[40px] !p-0",
       }}
       styles={{
         content: {
@@ -117,62 +189,75 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
         <Stepper.Step completedIcon={<span>2</span>}></Stepper.Step>
       </Stepper>
       {active === 0 ? (
-        <div
-          style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
-          className="p-6 flex flex-col gap-[25px] rounded-lg"
-        >
-          {Object.entries(entries).map(([key, value], index) => (
-            <div key={index} className="flex items-center justify-between">
-              <p className="font-medium leading-6 text-[#bdbdbd]">{key}</p>
-              <p className="text-[#2a2a2a] leading-6 font-semibold">{value}</p>
-            </div>
-          ))}
-          <TextInput
-            label="Amount to withdraw"
-            placeholder="Enter amount"
-            classNames={{
-              label: "text-[#2a2a2a] font-medium leading-6",
-              root: "flex flex-col gap-2",
-              input:
-                "h-[48px] border border-[#C8C8C8] rounded-[8px] placeholder:text-[#757575] leading-6 text-[15px]",
-            }}
-            {...form.getInputProps("amount")}
-          />
-        </div>
-      ) : (
-        <div>
-          <Group position="center">
-            <PinInput
-              length={4}
+        <>
+          <div
+            style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
+            className="p-6 flex flex-col gap-[25px] rounded-lg"
+          >
+            {Object.entries(entries).map(([key, value], index) => (
+              <div key={index} className="flex items-center justify-between">
+                <p className="font-medium leading-6 text-[#bdbdbd]">{key}</p>
+                <p className="text-[#2a2a2a] leading-6 font-semibold">
+                  {value}
+                </p>
+              </div>
+            ))}
+            <TextInput
+              label="Amount to withdraw"
+              placeholder="Enter amount"
               classNames={{
+                label: "text-[#2a2a2a] font-medium leading-6",
+                root: "flex flex-col gap-2",
                 input:
-                  "w-[100px] text-[18px] h-[10vh] !border-0 !bg-[#F4F4F4] rounded-[8px]",
+                  "h-[48px] border border-[#C8C8C8] rounded-[8px] placeholder:text-[#757575] leading-6 text-[15px]",
+              }}
+              {...form.getInputProps("amount")}
+            />
+          </div>
+          <PrimaryButton
+            text={active === 0 ? "Confirm Account" : "Verify OTP"}
+            onClick={() => {
+              nextStep()
+              sessionStorage.setItem("withdraw-amount", form.values.amount);
+            }}
+          />
+        </>
+      ) : (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleVerifyCode();
+          }}
+          className="flex-1 h-full flex flex-col !gap-[40px]"
+        >
+          <div>
+            <TextInput
+              placeholder="Enter OTP"
+              classNames={{
+                label: "text-[#2a2a2a] font-medium leading-6",
+                root: "flex flex-col gap-2",
+                input:
+                  "h-[48px] border border-[#C8C8C8] rounded-[8px] placeholder:text-[#757575] leading-6 text-[15px]",
               }}
               value={otp}
-              onChange={setOTP}
+              onChange={(e) => setOTP(e.target.value)}
             />
-            <div className="flex items-center w-full justify-between">
-              {/* <p className="text-[#757575] leading-6 font-medium">0:05</p> */}
-              <p
+            {/* <div className="flex items-center w-full justify-between"> */}
+            {/* <p className="text-[#757575] leading-6 font-medium">0:05</p> */}
+            {/* <p
                 className="text-[#3B81E5] leading-6 font-medium ml-auto cursor-pointer"
                 onClick={resendOTP}
               >
                 Resend code
-              </p>
-            </div>
-          </Group>
-        </div>
+              </p> */}
+            {/* </div> */}
+          </div>
+          <PrimaryButton
+            text={active === 0 ? "Confirm Account" : "Verify OTP"}
+          />
+        </form>
       )}
-      <PrimaryButton
-        text={active === 0 ? "Confirm Account" : "Verify OTP"}
-        onClick={() => {
-          if (active === 0) nextStep();
-          else {
-            close();
-            openSuccess();
-          }
-        }}
-      />
+
       <LoadingOverlay visible={loading} />
     </Modal>
   );

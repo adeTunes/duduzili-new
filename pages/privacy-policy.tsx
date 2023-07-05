@@ -1,5 +1,6 @@
 import Back from "@/components/back";
 import Header from "@/components/homepage/header";
+import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
 import MainContainer from "@/components/main-container";
 import { userDetails } from "@/store";
 import { clsx } from "@mantine/core";
@@ -83,7 +84,7 @@ function PrivacyPolicy() {
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <div className="bg-white">
-        <Header />
+        {user?.token ? <Header /> : <HeaderUnauthenticated />}
       </div>
       <div className="flex-1 overflow-auto">
         <main

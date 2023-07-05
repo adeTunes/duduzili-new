@@ -13,6 +13,7 @@ interface Props {
       "Bank Name": string;
       "Account Name": string;
       "Account Number": string;
+      id: number
     };
   };
 }
@@ -36,6 +37,7 @@ function BankDetailsCard({ details }: Props) {
       </span>
       <div className="grid grid-cols-2">
         {Object.entries(details?.options).map(([key, value], index) => (
+          key !== "id" &&
           <Fragment key={index}>
             <p className="border-b border-b-[#EDF0FB] py-2 text-[#4A4C58] leading-[15px] text-xs">
               {key}
@@ -56,6 +58,7 @@ function BankDetailsCard({ details }: Props) {
                 "Bank name": details?.options?.["Bank Name"],
                 "Account number": details?.options?.["Account Number"],
                 "Account name": details?.options?.["Account Name"],
+                id: details?.options?.id
               });
               open();
             }}

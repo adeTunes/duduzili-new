@@ -32,6 +32,7 @@ function WithdrawalAccounts() {
             "Bank Name": item?.bank_name,
             "Account Name": item?.account_name,
             "Account Number": item?.account_number,
+            id: item?.id
           },
         });
         return acc;

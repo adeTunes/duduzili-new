@@ -6,7 +6,7 @@ function FaqAccordion() {
   return (
     <Accordion
       chevron={<IconPlus size="1rem" />}
-      classNames={{ control: "h-[78px]" }}
+      classNames={{ control: "h-[78px] max-[500px]:!px-2", content: "!px-2" }}
       styles={{
         chevron: {
           "&[data-rotate]": {
