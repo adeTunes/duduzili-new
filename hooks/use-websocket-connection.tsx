@@ -16,7 +16,7 @@ const useWebsocketConnection: (friend: any) => {
     if (!friend) return;
 
     const ws = new WebSocket(
-      `${process.env.NEXT_PUBLIC_SOCKET_URL}/${friend?.username}?token=${user?.token}`
+      `${process.env.NEXT_PUBLIC_SOCKET_URL}/ws/chat/${friend?.username}?token=${user?.token}`
     );
     let intervalID;
 

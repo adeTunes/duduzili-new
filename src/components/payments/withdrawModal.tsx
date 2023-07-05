@@ -88,22 +88,22 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       });
   };
 
-  // useEffect(() => {
-  //   if (active === 2) {
-  //     setLoading(true);
-  //     generateTokenForWithdrawal()
-  //       .then(({ data }) => {
-  //         setLoading(false);
-  //         showNotification({
-  //           message: data?.data || data?.error || data?.message,
-  //         });
-  //       })
-  //       .catch((e) => {
-  //         setLoading(false);
-  //         errorMessageHandler(e);
-  //       });
-  //   }
-  // }, [active]);
+  useEffect(() => {
+    if (active === 2) {
+      setLoading(true);
+      generateTokenForWithdrawal()
+        .then(({ data }) => {
+          setLoading(false);
+          showNotification({
+            message: data?.data || data?.error || data?.message,
+          });
+        })
+        .catch((e) => {
+          setLoading(false);
+          errorMessageHandler(e);
+        });
+    }
+  }, [active]);
 
   return (
     <Modal

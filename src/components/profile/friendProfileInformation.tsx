@@ -43,7 +43,7 @@ function FriendProfileInformation({ friendDetails }) {
           }
           height="h-[240px]"
         />
-        <div className="flex justify-between max-[956px]:flex-col max-[956px]:items-start max-[956px]:gap-4 items-center pl-8">
+        <div className="flex relative justify-between max-[956px]:flex-col max-[956px]:items-start max-[956px]:gap-4 items-center pl-8">
           <div
             style={{
               width: "clamp(80px, 9.8vw, 150px)",

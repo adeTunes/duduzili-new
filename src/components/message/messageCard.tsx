@@ -86,7 +86,7 @@ function MessageCard({
             "h-5 w-5  flex text-[12.5px] items-center text-white justify-center rounded-full"
           )}
         >
-          {unread}
+          {unread || ""}
         </span>
       </div>
     </div>

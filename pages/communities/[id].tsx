@@ -25,14 +25,13 @@ const Community: NextPageX = () => {
   const { query } = useRouter();
   const { data, isLoading } = useCommunityDetails(query.id);
   const { data: communities } = useCommunityList("");
-  const setSingleCommunity: any = useSetAtom(singleCommunity)
+  const setSingleCommunity: any = useSetAtom(singleCommunity);
 
   useEffect(() => {
-    if(data) {
-      setSingleCommunity(data)
+    if (data) {
+      setSingleCommunity(data);
     }
-  }, [data])
-
+  }, [data]);
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
@@ -46,15 +45,23 @@ const Community: NextPageX = () => {
             className="w-[70%] max-[450px]:min-w-[250px] max-[790px]:flex-1 min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[56px]"
           >
             <div className="flex flex-col gap-[27px]">
-              <Back text={data?.data?.name?.replace(data?.data?.name?.[0], data?.data?.name?.[0]?.toLocaleUpperCase())} />
+              <Back
+                text={data?.data?.name?.replace(
+                  data?.data?.name?.[0],
+                  data?.data?.name?.[0]?.toLocaleUpperCase()
+                )}
+              />
               <div className="flex flex-col gap-[36px]">
                 <CommunityView community={data} loading={isLoading} />
               </div>
             </div>
             <div className=" flex flex-col gap-6">
-              <p style={{
-            fontSize: "clamp(15px, 1.3vw, 24px)",
-          }} className="leading-[29px] font-semibold">
+              <p
+                style={{
+                  fontSize: "clamp(15px, 1.3vw, 24px)",
+                }}
+                className="leading-[29px] font-semibold"
+              >
                 Discover Communities
               </p>
               <div
@@ -66,9 +73,9 @@ const Community: NextPageX = () => {
                     Communities
                   </p>
                   <Link href="/communities/discover">
-                  <p className=" font-semibold self-end text-duduzili-violet">
-                    View All
-                  </p>
+                    <p className=" font-semibold self-end text-duduzili-violet">
+                      View All
+                    </p>
                   </Link>
                 </div>
                 <Slider community={communities?.results} color="#EDF0FB" />

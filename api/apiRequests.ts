@@ -64,34 +64,34 @@ export const createCommunity = (data) => {
 };
 
 export const joinOrLeaveCommunity = (data) => {
-  return API.post("/api/v1/rest-auth/community/join-or-leave", data)
-}
+  return API.post("/api/v1/rest-auth/community/join-or-leave", data);
+};
 export const deleteCommunity = (data) => {
-  return API.post("/api/v1/rest-auth/community/delete-community", data)
-}
+  return API.post("/api/v1/rest-auth/community/delete-community", data);
+};
 export const communityPost = (data) => {
-  return API.post("/api/v1/rest-auth/community/create-community-post", data)
-}
+  return API.post("/api/v1/rest-auth/community/create-community-post", data);
+};
 export const addMemberToCommunity = (data) => {
-  return API.post("/api/v1/rest-auth/community/add-user-to-community", data)
-}
+  return API.post("/api/v1/rest-auth/community/add-user-to-community", data);
+};
 export const editCommunity = (data) => {
-  return API.post("/api/v1/rest-auth/community/create", data)
-}
+  return API.post("/api/v1/rest-auth/community/create", data);
+};
 export const treatCommunityJoinRequest = (data) => {
-  return API.post("/api/v1/rest-auth/community/treat-request", data)
-}
+  return API.post("/api/v1/rest-auth/community/treat-request", data);
+};
 export const uploadCoverImage = (data) => {
-  return API.post("/api/v1/rest-auth/upload-cover-image/", data)
-}
+  return API.post("/api/v1/rest-auth/upload-cover-image/", data);
+};
 export const uploadCommunityCoverImage = (data) => {
-  return API.post("api/v1/rest-auth/community/upload-community-logo", data)
-}
+  return API.post("api/v1/rest-auth/community/upload-community-logo", data);
+};
 export const searchEndpoint = (data) => {
-  const formData = new FormData()
-  formData.append("querystring", data)
-  return API.post("/api/v1/rest-auth/make_search/", formData)
-}
+  const formData = new FormData();
+  formData.append("querystring", data);
+  return API.post("/api/v1/rest-auth/make_search/", formData);
+};
 
 // PUT REQUESTS
 
@@ -241,10 +241,14 @@ export const randomCommunitiesPosts = () => {
   return API.get("/api/v1/rest-auth/community/post-user-communities");
 };
 export const getUserBySearch = (search) => {
-  return API.get(`/api/v1/rest-auth/user/chat_list?query_type=users&search=${search}`)
-}
+  return API.get(
+    `/api/v1/rest-auth/user/chat_list?query_type=users&search=${search}`
+  );
+};
 export const getCommunityPost = (limit, code) => {
-  return API.get(`/api/v1/rest-auth/community/community-post?limit=${limit}&code=${code}`);
+  return API.get(
+    `/api/v1/rest-auth/community/community-post?limit=${limit}&code=${code}`
+  );
 };
 export const getPrivateCommunityRequests = (code) => {
   return API.get(`/api/v1/rest-auth/community/list-of-requests?code=${code}`);
@@ -256,13 +260,19 @@ export const fetchConversations = () => {
   return API.get(`/api/v1/rest-auth/user_messages/fetch-user-conversations/`);
 };
 export const followersSearch = (user) => {
-  return API.get(`/api/v1/rest-auth/user/chat_list?query_type=followers&search=${user}`);
+  return API.get(
+    `/api/v1/rest-auth/user/chat_list?query_type=followers&search=${user}`
+  );
 };
 export const otherUsersSearch = (username) => {
-  return API.get(`/api/v1/rest-auth/user/chat_list?query_type=users&search=${username}`);
+  return API.get(
+    `/api/v1/rest-auth/user/chat_list?query_type=users&search=${username}`
+  );
 };
 export const communityMembers = (code) => {
-  return API.get(`/api/v1/rest-auth/community/community-members-list?code=${code}`);
+  return API.get(
+    `/api/v1/rest-auth/community/community-members-list?code=${code}`
+  );
 };
 export const acceptFollowRequest = (id) => {
   return API.get(`/api/v1/rest-auth/approve_request/${id}/`);
@@ -270,12 +280,13 @@ export const acceptFollowRequest = (id) => {
 export const rejectFollowRequest = (id) => {
   return API.get(`/api/v1/rest-auth/decline_request/${id}/`);
 };
-
-
+export const readSingleNotification = (id) => {
+  return API.get(`/api/v1/rest-auth/notification/mark_as_read/${id}/`);
+};
 
 /**
  * PAYMENTS REQUESTS
-*/
+ */
 
 export const getTransactionHistory = () => {
   return PAYMENTAPI.get(`/api/payments/fetch-user-wallet-transactions/`);
@@ -284,44 +295,53 @@ export const getUserWallet = () => {
   return PAYMENTAPI.get(`/api/payments/fetch-user-wallet/`);
 };
 export const getWithdrawalAccounts = () => {
-  return PAYMENTAPI.get("/api/payments/user-withdrawal-account/")
-}
+  return PAYMENTAPI.get("/api/payments/user-withdrawal-account/");
+};
 export const getBankList = () => {
-  return PAYMENTAPI.get("/api/payments/banks-list/")
-}
+  return PAYMENTAPI.get("/api/payments/banks-list/");
+};
 export const fetchAccountName = (data) => {
-  return PAYMENTAPI.post("/api/payments/fetch-account-name/", data)
-}
+  return PAYMENTAPI.post("/api/payments/fetch-account-name/", data);
+};
 export const addWithdrawalAccount = (data) => {
-  return PAYMENTAPI.post("/api/payments/user-withdrawal-account/", data)
-}
+  return PAYMENTAPI.post("/api/payments/user-withdrawal-account/", data);
+};
 export const verifyTokenForAddingAccount = (data) => {
-  return PAYMENTAPI.post("/api/payments/verify-withdrawal-account-token/", data)
-}
+  return PAYMENTAPI.post(
+    "/api/payments/verify-withdrawal-account-token/",
+    data
+  );
+};
 export const initializeDeposit = (data) => {
-  return PAYMENTAPI.post("/api/payments/initialize-transaction/", data)
-}
+  return PAYMENTAPI.post("/api/payments/initialize-transaction/", data);
+};
 export const generateTokenForAddWithdrawalAcc = () => {
-  return PAYMENTAPI.get("/api/payments/generate-token-for-withdrawal-account/")
-}
+  return PAYMENTAPI.get("/api/payments/generate-token-for-withdrawal-account/");
+};
 export const verifyTokenForAddWithdrawalAcc = (code) => {
-  return PAYMENTAPI.post("/api/payments/verify-withdrawal-account-token/", code)
-}
+  return PAYMENTAPI.post(
+    "/api/payments/verify-withdrawal-account-token/",
+    code
+  );
+};
 export const generateTokenForWithdrawal = () => {
-  return PAYMENTAPI.get("/api/payments/generate-token-for-transfer/")
-}
+  return PAYMENTAPI.get("/api/payments/generate-token-for-transfer/");
+};
 export const verifyTokenForWithdrawal = (code) => {
-  return PAYMENTAPI.post("/api/payments/verify-token-for-initiating-transfer/", code)
-}
+  return PAYMENTAPI.post(
+    "/api/payments/verify-token-for-initiating-transfer/",
+    code
+  );
+};
 export const makeWithdrawal = (data) => {
-  return PAYMENTAPI.post("/api/payments/make-withdrawal/", data)
-}
+  return PAYMENTAPI.post("/api/payments/make-withdrawal/", data);
+};
 export const deleteWithdrawalAccount = (data) => {
-  return PAYMENTAPI.post("/api/payments/delete-user-withdrawal-account/", data)
-}
+  return PAYMENTAPI.post("/api/payments/delete-user-withdrawal-account/", data);
+};
 export const rewardPostWithSticker = (data) => {
-  return PAYMENTAPI.post("/api/payments/rewards-coin/", data)
-}
+  return PAYMENTAPI.post("/api/payments/rewards-coin/", data);
+};
 export const fetchWalletIncomeAndOutcome = () => {
-  return PAYMENTAPI.get("/api/payments/fetch-income-outcome/")
-}
+  return PAYMENTAPI.get("/api/payments/fetch-income-outcome/");
+};

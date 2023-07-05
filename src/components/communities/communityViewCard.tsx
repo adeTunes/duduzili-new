@@ -58,9 +58,9 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
         }}
       />
       <div className="flex flex-col gap-5">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <p className="font-bold text-[18px] flex flex-col gap-1 leading-[24px] text-[#2A2A2A]">
-            <span>
+            <span style={{fontSize: "clamp(14px, 1.55vw, 18px)"}}>
               {community?.data?.name?.replace(
                 community?.data?.name?.[0],
                 community?.data?.name?.[0]?.toLocaleUpperCase()
@@ -83,11 +83,11 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
           ) : (
             <p
               onClick={joinCommunityAction}
-              className=" bg-duduzili-violet text-white flex items-center font-medium px-6 py-4 rounded-[32px] cursor-pointer"
+              className=" bg-duduzili-violet whitespace-nowrap text-white flex items-center max-[400px]:px-3 max-[400px]:py-2 max-[400px]:text-sm font-medium px-6 py-4 rounded-[32px] cursor-pointer"
             >
               {loading ? (
                 <Loader size="sm" />
-              ) : community?.data?.is_private ? (
+              ) : !community?.data?.is_private ? (
                 "Ask to join"
               ) : (
                 "Join"
@@ -98,10 +98,12 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
         <div className="flex items-center gap-[19px]">
           <div
             onClick={() => {
-              if(!community?.data?.is_joined) {
-                return showNotification({message: "You are not a member of this community!"})
+              if (!community?.data?.is_joined) {
+                return showNotification({
+                  message: "You are not a member of this community!",
+                });
               }
-              open()
+              open();
             }}
             className="flex cursor-pointer"
           >
@@ -119,17 +121,23 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
           </div>
           <p
             onClick={() => {
-              if(!community?.data?.is_joined) {
-                return showNotification({message: "You are not a member of this community!"})
+              if (!community?.data?.is_joined) {
+                return showNotification({
+                  message: "You are not a member of this community!",
+                });
               }
-              open()
+              open();
             }}
             className="leading-[24px] cursor-pointer hover:text-[#9e9b9b] text-[#2A2A2A]"
+            style={{ fontSize: "clamp(12px, 0.96vw, 16px)" }}
           >
-            {community?.data?.total_members} members
+            {+community?.data?.total_members < 2
+              ? `${+community?.data?.total_members} member`
+              : `${+community?.data?.total_members} members`}
           </p>
         </div>
       </div>
+      <p className="leading-6 text-sm">{community?.data?.description}</p>
       <GalleryViewer
         setOpened={setOpened}
         startIndex={startIndex}

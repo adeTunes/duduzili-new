@@ -4,7 +4,6 @@ import ReplyCard from "./replies/replyCard";
 import { useRouter } from "next/router";
 import useSinglePost from "../../../hooks/useSinglePost";
 import PostsContainer from "../homepage/posts/postsContainer";
-import PostSkeleton from "../skeletons/postHeaderSkeleton";
 import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 
 function PostWithComments() {
@@ -32,7 +31,7 @@ function PostWithComments() {
       <div className="flex gap-[36px] pl-[5vw] flex-col">
         <ReplyInput refetch={refetch} />
         {data?.comments?.length ? (
-          data?.comments?.map((comment, idx) => <ReplyCard key={idx} comment={comment} />).reverse()
+          data?.comments?.map((comment, idx) => <ReplyCard key={idx} comment={comment} />)
         ) : (
           <p className="text-center">No comments here yet</p>
         )}

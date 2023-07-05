@@ -1,16 +1,16 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import useCommunityPendingRequests from "../../../../hooks/useCommunityPendingRequests";
 import Link from "next/link";
 import { Loader, clsx } from "@mantine/core";
-import { treatCommunityJoinRequest } from "../../../../api/apiRequests";
 import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useQueryClient } from "@tanstack/react-query";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
+import useCommunityPendingRequests from "../../../hooks/useCommunityPendingRequests";
+import { treatCommunityJoinRequest } from "../../../api/apiRequests";
 
-function PendingRequests() {
+function CommunityRequests() {
   const { query } = useRouter();
   const { data } = useCommunityPendingRequests(query.id);
   const [requests, setRequests] = useState([]);
@@ -49,10 +49,9 @@ function PendingRequests() {
 
   return (
     <div
-      className="bg-white rounded-2xl p-6 flex flex-col gap-2"
-      style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
+      className="flex flex-col gap-2"
     >
-      <p className="text-[18px] border-b border-b-[#EDF0FB] pb-4 leading-[22px] text-[#2A2A2A] font-bold">
+      <p className="text-[15px] border-b border-b-[#EDF0FB] pb-4 leading-[22px] text-[#2A2A2A] font-bold">
         Community Requests ({requests.length})
       </p>
       <div className="flex flex-col gap-6">
@@ -61,7 +60,7 @@ function PendingRequests() {
             idx < 5 && (
               <div
                 key={idx}
-                className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"
+                className="py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"
               >
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-3 items-center">
@@ -137,4 +136,4 @@ function PendingRequests() {
   );
 }
 
-export default PendingRequests;
+export default CommunityRequests;

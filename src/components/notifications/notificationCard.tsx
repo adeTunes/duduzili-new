@@ -5,11 +5,14 @@ import CommentIcon from "../settings/commentIcon";
 import { Loader, Text, clsx } from "@mantine/core";
 import {
   acceptFollowRequest,
+  readSingleNotification,
   rejectFollowRequest,
 } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { showNotification } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { base64encode } from "nodejs-base64";
 
 function NotificationCard({
   title,
@@ -17,13 +20,22 @@ function NotificationCard({
   action,
   unread,
   senderId,
+  postID,
+  notificationID,
 }: {
   title: string;
   day: string;
   action: "like" | "sticker-reward" | "comment" | "request" | "follow";
   unread: boolean;
   senderId: number;
+  postID: number;
+  notificationID: number;
 }) {
+  const markSingleAsRead = () => {
+    readSingleNotification(notificationID)
+      .then(({ data }) => {})
+      .catch((e) => {});
+  };
   const icons = {
     like: (
       <Profile
@@ -58,9 +70,27 @@ function NotificationCard({
   };
   const [loading, setLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
+  const { push } = useRouter();
   return (
-    <div className="flex items-center max-[890px]:flex-col max-[890px]:items-start gap-3 justify-between py-4 border-b border-b-[#DFDFDF]">
+    <div
+      className={clsx(
+        (action === "like" || action === "comment" || action === "follow") &&
+          "cursor-pointer hover:bg-[#f5f5f5]",
+        "flex items-center max-[890px]:flex-col max-[890px]:items-start gap-3 justify-between py-4 border-b border-b-[#DFDFDF]"
+      )}
+      onClick={() => {
+        if (unread) {
+          markSingleAsRead();
+        }
+        if (action === "like" || action === "comment") {
+          const id = postID * 1000000;
+          push(`/posts/${base64encode(id)}`);
+        } else {
+          push(`/friend/${senderId}/post`);
+        }
+      }}
+    >
       <div className="flex items-start gap-4">
         <div className="bg-[#F6F5FB] h-[50px] w-[50px] max-[480px]:h-[35px] max-[480px]:w-[35px] max-[480px]:min-h-[35px] max-[480px]:min-w-[35px] min-w-[50px] min-h-[50px] flex items-center justify-center rounded-full">
           {icons[action]}
@@ -77,7 +107,9 @@ function NotificationCard({
           >
             {title}
           </Text>
-          <span className=" leading-[19px] max-[480px]:text-xs text-[#505050]">{day}</span>
+          <span className=" leading-[19px] max-[480px]:text-xs text-[#505050]">
+            {day}
+          </span>
         </div>
       </div>
       {action === "request" && (
@@ -89,7 +121,7 @@ function NotificationCard({
                 .then(({ data }) => {
                   showNotification({ message: data.message });
                   setLoading(false);
-                  queryClient.invalidateQueries(["notifications"])
+                  queryClient.invalidateQueries(["notifications"]);
                 })
                 .catch((e) => {
                   setLoading(false);
@@ -107,7 +139,7 @@ function NotificationCard({
                 .then(({ data }) => {
                   showNotification({ message: data.message });
                   setRejectLoading(false);
-                  queryClient.invalidateQueries(["notifications"])
+                  queryClient.invalidateQueries(["notifications"]);
                 })
                 .catch((e) => {
                   setRejectLoading(false);

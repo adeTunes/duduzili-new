@@ -25,16 +25,35 @@ import MobileMenuIcon from "./mobileMenuIcon";
 import CreatePostModal from "../modals/createPostModal";
 import SearchDropdown from "../searchDropdown";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import useConversations from "../../../hooks/use-conversations";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
   const { data } = UseNotifications();
   const [unread, setUnread] = useState(null);
+  const [unreadMessages, setUnreadMessages] = useState([]);
+  const { data: conversations, isLoading, refetch } = useConversations();
+  // const {data: conversations, isLoading} = useSocketConversations()
   useEffect(() => {
     if (data) {
       setUnread(data?.notifications?.some((item) => item.read !== true));
     }
   }, [data]);
+
+  useEffect(() => {
+    if (conversations) {
+      setUnreadMessages(
+        conversations.reduce((acc, item) => {
+          const unread = item?.get_messages?.filter(
+            (item) => item?.receiver?.id === user?.user?.id && !item?.read
+          )?.length;
+          if (unread) acc.push(unread);
+          return acc;
+        }, [])
+      );
+    }
+  }, [conversations]);
+
   const bottomNavIcons = [
     {
       href: "/home",
@@ -78,14 +97,21 @@ function Header() {
     {
       href: "/messages/friends",
       icon: (
-        <Sms
-          className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
-          variant="Outline"
-        />
+        <Indicator
+          classNames={{ common: "!top-[2px] !right-[5px]" }}
+          color="#E59055"
+          disabled={unreadMessages?.length ? false : true}
+        >
+          <Sms
+            className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
+            variant="Outline"
+          />
+        </Indicator>
       ),
       routeId: "messages",
     },
   ];
+
   const navIcons = [
     {
       href: "/home",
@@ -126,7 +152,7 @@ function Header() {
             />
           ) : (
             <DefaultProfilePicture
-            text="text-[100%]"
+              text="text-[100%]"
               className="!w-10 !h-10 cursor-pointer"
               firstName={user?.user?.first_name}
               lastName={user?.user?.last_name}
@@ -161,7 +187,7 @@ function Header() {
       <div className="flex items-center gap-4 max-[330px]:gap-2">
         <div
           onClick={open}
-          className="w-[45px] h-[45px] hidden max-[500px]:flex max-[330px]:w-[32px] max-[330px]:h-[32px] cursor-pointer rounded-full bg-[#EDF0FB] items-center justify-center"
+          className="w-[45px] h-[45px] hidden max-[790px]:flex max-[330px]:w-[32px] max-[330px]:h-[32px] cursor-pointer rounded-full bg-[#EDF0FB] items-center justify-center"
         >
           <MobileMenuIcon className="w-[25px] max-[330px]:w-[18px] max-[330px]:h-[18px] h-[25px]" />
         </div>

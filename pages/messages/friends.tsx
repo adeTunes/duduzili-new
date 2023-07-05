@@ -19,10 +19,12 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { base64decode } from "nodejs-base64";
 import FollowSkeleton from "@/components/skeletons/followSkeleton";
+import useSocketConversations from "../../hooks/use-socket-conversations";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
   const { data, isLoading, refetch } = useConversations();
+  // const {data, isLoading} = useSocketConversations()
   const [chatList, setChatList] = useAtom(selectedFriendToChat);
   const user: any = useAtomValue(userDetails);
   const [opened, { open, close }] = useDisclosure(false);

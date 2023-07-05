@@ -4,21 +4,16 @@ import {
   LoadingOverlay,
   Modal,
   PinInput,
-  Select,
-  TextInput,
   clsx,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { forwardRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PrimaryButton from "../button/primaryButton";
 import {
   addWithdrawalAccount,
   fetchAccountName,
   generateTokenForAddWithdrawalAcc,
-  sendOTP,
-  verifyOTP,
   verifyTokenForAddWithdrawalAcc,
-  verifyTokenForAddingAccount,
 } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { showNotification } from "@mantine/notifications";
@@ -98,13 +93,13 @@ function AddBankModal({ opened, close, openSuccess }) {
     data.append("code", otp);
     verifyTokenForAddWithdrawalAcc(data)
       .then(({ data }) => {
-        if(!data?.message?.includes("successful")) {
+        if (!data?.message?.includes("successful")) {
           return showNotification({
-            message: data?.data
+            message: data?.data,
           });
         }
         showNotification({
-          message: data?.data
+          message: data?.data,
         });
         setAddLoading(false);
         setActive((v) => v + 1);
@@ -116,7 +111,7 @@ function AddBankModal({ opened, close, openSuccess }) {
   };
 
   useEffect(() => {
-    if (opened) {
+    if (opened && !codeLoading) {
       setCodeLoading(true);
       generateTokenForAddWithdrawalAcc()
         .then(({ data }) => {
@@ -175,6 +170,19 @@ function AddBankModal({ opened, close, openSuccess }) {
             />
             <div className="flex items-center w-full justify-between">
               <p
+                onClick={() => {
+                  generateTokenForAddWithdrawalAcc()
+                    .then(({ data }) => {
+                      setCodeLoading(false);
+                      showNotification({
+                        message: data?.data || data?.error || data?.message,
+                      });
+                    })
+                    .catch((e) => {
+                      setCodeLoading(false);
+                      errorMessageHandler(e);
+                    });
+                }}
                 className="text-[#3B81E5] leading-6 font-medium ml-auto cursor-pointer"
                 // onClick={resendOTP}
               >

@@ -11,12 +11,17 @@ import FeedsIcon from "./feedsIcon";
 import DownloadApp from "../homepage/sidebar/downloadApp";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
+import useCommunityDetails from "../../../hooks/useCommunityDetails";
+import { useRouter } from "next/router";
+import InviteFriends from "../homepage/sidebar/inviteFriends";
+import CommunityRequests from "./communityRequests";
+import CommunityInvites from "./communityInvites";
+import useCommunityDetailsMobile from "../../../hooks/use-community-details-mobile";
 
 function MobileDrawer({ opened, close }) {
   const unAuthenticatedList = [
     {
-      children: [
-      ],
+      children: [],
     },
     {
       children: [
@@ -104,8 +109,10 @@ function MobileDrawer({ opened, close }) {
       ],
     },
   ];
-  const user: any = useAtomValue(userDetails)
-  const navItems = user?.token ? authenticatedList : unAuthenticatedList
+  const { query, pathname } = useRouter();
+  const user: any = useAtomValue(userDetails);
+  const navItems = user?.token ? authenticatedList : unAuthenticatedList;
+  const { data, isLoading, refetch } = useCommunityDetailsMobile(query.id);
   return (
     <Drawer
       classNames={{
@@ -116,12 +123,12 @@ function MobileDrawer({ opened, close }) {
       opened={opened}
       onClose={close}
       withCloseButton={false}
-      size="80%"
+      size="max(240px, 80%)"
     >
       <div className="flex items-center justify-between">
         <div
           onClick={close}
-          className="w-[45px] h-[45px] hidden max-[500px]:flex max-[330px]:w-[32px] max-[330px]:h-[32px] cursor-pointer rounded-full bg-[#F5F5F5] items-center justify-center"
+          className="w-[45px] h-[45px] flex max-[330px]:w-[32px] max-[330px]:h-[32px] cursor-pointer rounded-full bg-[#F5F5F5] items-center justify-center"
         >
           <MobileMenuIcon className="w-[25px] rotate-90 max-[330px]:w-[18px] max-[330px]:h-[18px] h-[25px]" />
         </div>
@@ -133,7 +140,9 @@ function MobileDrawer({ opened, close }) {
             <div
               key={idx}
               className={clsx(
-                idx !== arr.length - 1 && user?.token && "border-b border-b-[#EDF0FB]",
+                idx !== arr.length - 1 &&
+                  user?.token &&
+                  "border-b border-b-[#EDF0FB]",
                 "grid gap-2 pb-2"
               )}
             >
@@ -161,6 +170,15 @@ function MobileDrawer({ opened, close }) {
             </div>
           ))}
         </div>
+            {pathname.includes("/communities") &&
+            pathname !== "/communities/joined" &&
+            pathname !== "/communities/discover" &&
+            data?.data?.is_owner ? (
+              <>
+                <CommunityRequests />
+                <CommunityInvites />
+              </>
+            ) : null}
         <div className="grid gap-[10px]">
           <div className="maw-w-[250px] mx-auto">
             <DownloadApp />

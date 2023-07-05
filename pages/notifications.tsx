@@ -34,7 +34,7 @@ function Friends() {
         setLoading(false);
       })
       .catch((e) => {
-        setLoading(false)
+        setLoading(false);
         errorMessageHandler(e);
       });
   };
@@ -44,7 +44,9 @@ function Friends() {
       setNotifications(
         data?.notifications?.reduce((acc, item) => {
           acc.push({
-            title: `${item?.sender?.first_name} ${item?.sender?.last_name} ${item?.notice}${item?.post?.text ? `: ${item?.post?.text}` : ""}`,
+            title: `${item?.sender?.first_name} ${item?.sender?.last_name} ${
+              item?.notice
+            }${item?.post?.text ? `: ${item?.post?.text}` : ""}`,
             day: item?.date?.includes("now")
               ? item?.date
               : item?.date?.includes("day") ||
@@ -56,6 +58,8 @@ function Friends() {
             unread: !item?.read,
             senderId: item?.sender?.id,
             action: item?.notification_type,
+            postID: item?.post?.id,
+            notificationID: item?.id
           });
           return acc;
         }, [])
@@ -75,21 +79,22 @@ function Friends() {
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
           >
             <div className="flex justify-between items-center">
-              <div onClick={back} className="flex cursor-pointer items-center gap-[2.5vw]">
-                <ArrowLeft
-                  
-                  size="32"
-                  color="#2A2A2A"
-                  variant="Outline"
-                />
-                <p style={{fontSize: "clamp(15px, 1.48vw, 24px)"}} className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
+              <div
+                onClick={back}
+                className="flex cursor-pointer items-center gap-[2.5vw]"
+              >
+                <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
+                <p
+                  style={{ fontSize: "clamp(15px, 1.48vw, 24px)" }}
+                  className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold"
+                >
                   Notifications
                 </p>
               </div>
               <p
                 onClick={markAsRead}
                 className=" text-duduzili-blue cursor-pointer font-semibold leading-6"
-                style={{fontSize: "clamp(12px, 0.96vw, 16px)"}}
+                style={{ fontSize: "clamp(12px, 0.96vw, 16px)" }}
               >
                 {loading ? <Loader size="sm" /> : "Mark all as read"}
               </p>
@@ -98,16 +103,20 @@ function Friends() {
               className="bg-white rounded-2xl max-[480px]:p-3 p-6 flex flex-col gap-2"
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
-              {notifications?.map(({ title, senderId, action, day, unread }, idx) => (
-                <NotificationCard
-                  key={idx}
-                  title={title}
-                  action={action}
-                  day={day}
-                  unread={unread}
-                  senderId={senderId}
-                />
-              ))}
+              {notifications?.map(
+                ({ postID, title, notificationID, senderId, action, day, unread }, idx) => (
+                  <NotificationCard
+                    notificationID={notificationID}
+                    key={idx}
+                    title={title}
+                    action={action}
+                    day={day}
+                    unread={unread}
+                    senderId={senderId}
+                    postID={postID}
+                  />
+                )
+              )}
             </div>
           </section>
           <aside

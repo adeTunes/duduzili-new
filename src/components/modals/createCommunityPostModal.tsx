@@ -188,7 +188,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
                   }
                 });
               data.append("is_article", "yes");
-              data.append("publish", "save");
+              data.append("publish", "True");
               data.append("is_community", "True");
               createCommunityPost(data, setLoading, () => {
                 queryClient.invalidateQueries([
