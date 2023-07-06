@@ -92,6 +92,9 @@ export const searchEndpoint = (data) => {
   formData.append("querystring", data);
   return API.post("/api/v1/rest-auth/make_search/", formData);
 };
+export const uploadToCloudinary = (data) => {
+  return API.post("/api/v1/rest-auth/upload-to-cloudinary/", data);
+};
 
 // PUT REQUESTS
 

@@ -18,8 +18,6 @@ import { selectedFriendToChat } from "@/store";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { base64decode } from "nodejs-base64";
-import FollowSkeleton from "@/components/skeletons/followSkeleton";
-import useSocketConversations from "../../hooks/use-socket-conversations";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);

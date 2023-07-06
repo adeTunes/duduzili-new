@@ -150,3 +150,9 @@ div > img.__EmojiPicker__.epr-emoji-img {
 .mantine-Modal-content {
   box-shadow: none !important;
 }
+
+div[style="top: 0px; left: 0px; overflow: hidden; position: fixed; display: flex; align-items: center; justify-content: center; flex-direction: row; height: 100%; width: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(2.14286em); z-index: 100;"] {
+  z-index: 202 !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: unset !important;
+}

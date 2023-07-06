@@ -19,6 +19,7 @@ import CommunityInvites from "./communityInvites";
 import useCommunityDetailsMobile from "../../../hooks/use-community-details-mobile";
 
 function MobileDrawer({ opened, close }) {
+  const {push} = useRouter()
   const unAuthenticatedList = [
     {
       children: [],
@@ -104,7 +105,10 @@ function MobileDrawer({ opened, close }) {
           icon: (
             <LogoutCurve className="rotate-180" color="#D40000" size={24} />
           ),
-          action: () => {},
+          action: () => {
+            localStorage.removeItem("duduzili-user");
+            push("/login");
+          },
         },
       ],
     },

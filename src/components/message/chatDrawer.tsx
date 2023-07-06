@@ -2,9 +2,6 @@ import { Drawer, clsx } from "@mantine/core";
 import React from "react";
 import { useSetAtom } from "jotai";
 import { openChatDrawer } from "@/store";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Navigation from "../mobileDrawer/navigation";
 import MobileDrawerLogo from "../mobileDrawer/mobileDrawerLogo";
 
 function ChatDrawer({ opened, close, boxType }) {

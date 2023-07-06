@@ -1,5 +1,13 @@
 import { Icon } from "@iconify/react";
-import { Skeleton, TextInput, Textarea, clsx } from "@mantine/core";
+import {
+  FileInput,
+  Loader,
+  Modal,
+  Skeleton,
+  TextInput,
+  Textarea,
+  clsx,
+} from "@mantine/core";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React, { useState, useEffect, useRef } from "react";
 import MessageReceived from "./messageReceived";
@@ -20,6 +28,11 @@ import { showNotification } from "@mantine/notifications";
 import EmojiContainer from "./emojiContainer";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
 import ViewProfileMenu from "./viewProfileMenu";
+import { useDisclosure } from "@mantine/hooks";
+import { uploadToCloudinary } from "../../../api/apiRequests";
+import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import PhotoReceived from "./photoReceived";
+import PhotoSent from "./photoSent";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
@@ -51,9 +64,9 @@ function MessagesChatBox() {
     }
   };
 
-  // useEffect(() => {
-  //   scrollToBottom(); // Initial scroll to the bottom when the component mounts
-  // }, [friend]);
+  useEffect(() => {
+    scrollToBottom(); // Initial scroll to the bottom when the component mounts
+  }, [friend]);
 
   useEffect(() => {
     if (ws) {
@@ -85,15 +98,24 @@ function MessagesChatBox() {
     }
   }, [ws]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (prop?: {
+    media?: string;
+    type: "photo" | "audio" | "video";
+  }) => {
+    const { media, type } = prop;
     form.reset();
     const foundFriend = chatList?.find(
       (item) => item?.username === friend?.username
     );
-    const chatMessage = {
-      command: "send",
-      text: form.values.text,
-    };
+    const chatMessage = media
+      ? {
+          command: "send",
+          [type]: media,
+        }
+      : {
+          command: "send",
+          text: form.values.text,
+        };
     try {
       ws.send(JSON.stringify(chatMessage));
       if (foundFriend) {
@@ -107,11 +129,33 @@ function MessagesChatBox() {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); // Prevent the default Enter behavior (line break)
       handleSendMessage(); // Call the onSubmit event handler manually
     }
   };
+
+  const [file, setFile] = useState(null);
+  const [source, setSource] = useState<string | ArrayBuffer>("");
+  const [opened, { open, close }] = useDisclosure(false);
+  const [mediaLoading, setMediaLoading] = useState(false);
+
+  useEffect(() => {
+    if (file) {
+      if (file.type.includes("image")) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          setSource(e.target.result);
+          open();
+        };
+
+        reader.readAsDataURL(file);
+      } else if (file && file.type.includes("video")) {
+        setSource(URL.createObjectURL(file));
+      }
+    }
+  }, [file?.name]);
 
   return friend ? (
     <div
@@ -151,13 +195,29 @@ function MessagesChatBox() {
         id="messages no-scroll"
         className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5"
       >
+        {/* <PhotoReceived photo="/message-photo.png" time={new Date()} />
+        <PhotoSent photo="/message-photo.png" time={new Date()} /> */}
         {!messages ? (
           <Skeleton className="rounded-l-2xl rounded-tr-2xl" />
         ) : (
           messages?.map((item) =>
             item?.sender?.id === user?.user?.id ? (
-              <MessageSent
-                text={item?.text}
+              item?.media?.photo ? (
+                <PhotoSent
+                  photo={item?.media?.photo}
+                  time={item?.date_added}
+                  key={item?.id}
+                />
+              ) : (
+                <MessageSent
+                  text={item?.text}
+                  time={item?.date_added}
+                  key={item?.id}
+                />
+              )
+            ) : item?.media?.photo ? (
+              <PhotoReceived
+                photo={item?.media?.photo}
                 time={item?.date_added}
                 key={item?.id}
               />
@@ -193,25 +253,37 @@ function MessagesChatBox() {
           e.preventDefault();
           handleSendMessage();
         }}
-        className="flex items-center justify-between gap-4"
+        className="flex items-center relative justify-between gap-4"
       >
         <div className="flex pl-6 items-center gap-4 flex-1 bg-[#EDF0FB] rounded-[40px]">
-          <div className="flex items-center max-[590px]:hidden gap-3">
-            <EmojiContainer form={form} />
-            <Icon
-              icon="ic:outline-image"
-              color="#4534b8"
-              width={24}
-              height={24}
-              className="cursor-pointer"
-            />
-            <Icon
-              icon="mdi:video-outline"
-              color="#4534b8"
-              width={24}
-              height={24}
-              className="cursor-pointer"
-            />
+          <div className="flex items-center max-[490px]:hidden gap-3">
+            <label htmlFor="image-file">
+              <Icon
+                icon="ic:outline-image"
+                color="#4534b8"
+                width={24}
+                height={24}
+                className="cursor-pointer"
+              />
+              <FileInput
+                onChange={(value) => {
+                  setFile(value);
+                }}
+                hidden
+                id="image-file"
+                accept="image/png,image/jpeg"
+              />
+            </label>
+            <label htmlFor="video-file">
+              <Icon
+                icon="mdi:video-outline"
+                color="#4534b8"
+                width={24}
+                height={24}
+                className="cursor-pointer"
+              />
+              <FileInput hidden id="video-file" accept="video/mp4" />
+            </label>
             <Icon
               icon="ant-design:audio-outlined"
               color="#4534b8"
@@ -219,9 +291,15 @@ function MessagesChatBox() {
               height={24}
               className="cursor-pointer"
             />
+            {/* <AudioOptions
+              setStart={setStart}
+              setRecordedAudio={setRecordedAudio}
+              setAudio={setAudio}
+              setOpened={setAudioMenuOpened}
+              opened={audioMenuOpened}
+            /> */}
           </div>
-          <div className="max-[590px]:flex items-center hidden gap-2">
-            <EmojiContainer form={form} />
+          <div className="max-[490px]:flex items-center hidden">
             <AttachMedia />
           </div>
           <Textarea
@@ -231,6 +309,9 @@ function MessagesChatBox() {
                 "h-[64px] placeholder:text-[12px] !pt-[20px] bg-transparent border-0",
               root: "flex-1",
             }}
+            autosize
+            minRows={1}
+            maxRows={10}
             onKeyDown={handleKeyDown}
             placeholder="Enter your message"
             {...form.getInputProps("text")}
@@ -246,6 +327,88 @@ function MessagesChatBox() {
           />
         </button>
       </form>
+
+      <Modal
+        closeOnClickOutside={false}
+        centered
+        classNames={{
+          close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
+          overlay: "z-[201]",
+          body: "overflow-auto pb-0 !px-0 max-[420px]:px-0",
+          header:
+            "overflow-auto max-[420px]:px-0 !px-0 !pt-0 !pb-6 max-[420px]:!pb-2 border-b border-b-[#EDF0FB]",
+          inner: "bottom-[30px] z-[201]",
+          title: "font-semibold text-[20px] text-black leading-6",
+          content:
+            "py-6 max-[420px]:py-2 px-8 gap-4 flex max-[420px]:px-1 flex-col overflow-auto rounded-[24px]",
+        }}
+        size="lg"
+        styles={{
+          content: {
+            boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
+          },
+        }}
+        opened={opened}
+        onClose={() => {
+          setSource("");
+          close();
+        }}
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setMediaLoading(true);
+            const data = new FormData();
+            data.append("photo", file);
+            uploadToCloudinary(data)
+              .then(({ data }) => {
+                if (!data?.data?.photo) {
+                  return showNotification({
+                    message: "Something went wrong!",
+                    color: "red",
+                  });
+                }
+                const photo = String(data?.data?.photo);
+                handleSendMessage({ media: photo, type: "photo" });
+                setMediaLoading(false);
+                close();
+              })
+              .catch((e) => {
+                setMediaLoading(false);
+                errorMessageHandler(e);
+              });
+          }}
+          className="flex flex-col  gap-6"
+        >
+          <div
+            style={{
+              width: "clamp(220px,76.5%,400px)",
+              height: "clamp(240px, 47.2vw, 400px)",
+            }}
+            className="h-[300px] self-center"
+          >
+            <img
+              src={source as string}
+              className="w-full h-full object-cover rounded-[29px]"
+              alt=""
+            />
+          </div>
+          <button
+            className="self-end p-4 max-[500px]:p-3 bg-duduzili-violet rounded-full"
+            type="submit"
+          >
+            {mediaLoading ? (
+              <Loader size="sm" />
+            ) : (
+              <Icon
+                className="cursor-pointer w-8 h-8 max-[500px]:w-4 max-[500px]:h-4"
+                icon="carbon:send"
+                color="white"
+              />
+            )}
+          </button>
+        </form>
+      </Modal>
     </div>
   ) : (
     <></>

@@ -10,7 +10,6 @@ import React, { useState, useEffect } from "react";
 import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Icon } from "@iconify/react";
 import PrimaryButtonOutline from "../button/primaryButtonOutline";
-import PrimaryButton from "../button/primaryButton";
 import { createPost } from "@/actions/createPost";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
@@ -18,7 +17,6 @@ import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
-import { AudioSquare } from "iconsax-react";
 import AudioPlayer from "./audioPlayer";
 import AudioOptions from "./audioOption";
 import dynamic from "next/dynamic";
@@ -112,7 +110,7 @@ function CreatePostModal({ opened, close }) {
         closeModal();
       },
       onConfirm: () => savePostOrDraft("False"),
-    });
+  });
 
   return (
     <Modal
