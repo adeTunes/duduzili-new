@@ -23,7 +23,7 @@ const InviteFriend: NextPageX = () => {
         <MainContainer>
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
+            className="w-[70%] pb-[60px] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[717px] flex flex-col gap-[34px]"
           >
             <div onClick={back} className="flex cursor-pointer items-center gap-[2.7vw]">
               <ArrowLeft

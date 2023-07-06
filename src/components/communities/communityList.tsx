@@ -5,9 +5,7 @@ import PostVideo from "../homepage/posts/postVideo";
 import PostVideoAndAudio from "../homepage/posts/postVideoAndAudio";
 import PostVideoAndImage from "../homepage/posts/postVideoAndImage";
 import PostText from "../homepage/posts/text";
-import CommunityDescription from "./communityDescription";
 import CommunityHeader from "./communityHeader";
-import CommunityPicture from "./communityPicture";
 import CommunityPostBody from "./communityPostBody";
 import PostManyImages from "./postManyImages";
 
@@ -16,15 +14,13 @@ function CommunityList({ post, community }) {
     <div className="flex flex-col gap-10">
       <CommunityHeader community={community} post={post} />
       {!post?.media?.audio &&
-      !post?.youtube_url &&
       !post?.media?.video &&
       !post?.media?.photo?.length &&
       post?.text ? (
         <>
           <PostText text={post?.text} postId={post?.id} />
         </>
-      ) : !post?.youtube_url &&
-        !post?.media?.video &&
+      ) : !post?.media?.video &&
         post?.media?.photo?.length === 1 &&
         post?.text ? (
         <CommunityPostBody post={post} />
@@ -91,7 +87,6 @@ function CommunityList({ post, community }) {
           <CommunityDescription text={item?.description} />
         </div>
       ))} */}
-      
     </div>
   );
 }

@@ -15,7 +15,6 @@ import useRandomCommunitiesPosts from "../../hooks/useRandomCommunitiesPosts";
 import { useAtomValue, useSetAtom } from "jotai";
 import { joinedCommunities, toggleCommunityPreview } from "@/store";
 import { useEffect } from "react";
-import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
 import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 import MainContainer from "@/components/main-container";
 import CommunityPreview from "@/components/homepage/communityPreview";
