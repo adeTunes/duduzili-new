@@ -368,6 +368,7 @@ function MessagesChatBox() {
         opened={opened}
         onClose={() => {
           setSource("");
+          setFile(null)
           close();
         }}
       >

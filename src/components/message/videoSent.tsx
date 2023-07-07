@@ -4,29 +4,29 @@ import GalleryViewer from "../homepage/posts/galleryViewer";
 import { Icon } from "@iconify/react";
 
 function VideoSent({ video, time }) {
-  const { viewerData } = useImageViewer({media: {video: video}});
+  const { viewerData } = useImageViewer({ media: { video } });
   const startIndex = 0;
   const [opened, setOpened] = useState(false);
   return (
     <div className="flex flex-col gap-1">
       <div className=" bg-duduzili-violet relative self-end rounded-l-2xl rounded-tr-2xl w-fit max-[580px]:max-w-[80%] max-w-[60%] py-2 text-[#fff] px-2">
         <div className="w-[150px] h-[150px] rounded-[11px]">
-        <div className="top-0 absolute z-20 right-0 left-0 bottom-0 flex items-center justify-center">
-          <div
-            onClick={() => {
+          <div className="top-0 absolute z-20 right-0 left-0 bottom-0 flex items-center justify-center">
+            <div
+              onClick={() => {
                 setOpened(true);
-            }}
-            className="p-4 z-10 rounded-[64px] cursor-pointer"
-            style={{ background: "rgba(54, 126, 232, 0.5)" }}
-          >
-            <Icon
-              icon="material-symbols:play-circle-outline"
-              height={32}
-              width={32}
-              color="white"
-            />
+              }}
+              className="p-4 z-10 rounded-[64px] cursor-pointer"
+              style={{ background: "rgba(54, 126, 232, 0.5)" }}
+            >
+              <Icon
+                icon="material-symbols:play-circle-outline"
+                height={32}
+                width={32}
+                color="white"
+              />
+            </div>
           </div>
-        </div>
           <video
             src={video as string}
             className="w-full h-full rounded-[11px] object-cover"

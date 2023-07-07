@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 function useImageViewer(post) {
   const [viewerData, setViewerData] = useState([]);
+  const dep = useMemo(() => {
+    if (typeof post === "string") return post;
+    else return post?.media?.video;
+  }, [post])
 
   useEffect(() => {
     if (typeof post === "string") {
@@ -25,7 +29,8 @@ function useImageViewer(post) {
           return acc;
         }, [])
       );
-  }, [post]);
+  }, [dep]);
+
   return { viewerData };
 }
 
