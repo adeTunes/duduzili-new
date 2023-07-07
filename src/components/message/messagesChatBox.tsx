@@ -102,20 +102,23 @@ function MessagesChatBox() {
     media?: string;
     type: "photo" | "audio" | "video";
   }) => {
-    const { media, type } = prop;
     form.reset();
     const foundFriend = chatList?.find(
       (item) => item?.username === friend?.username
     );
-    const chatMessage = media
-      ? {
-          command: "send",
-          [type]: media,
-        }
-      : {
-          command: "send",
-          text: form.values.text,
-        };
+    let chatMessage;
+    if (prop) {
+      const { media, type } = prop;
+      chatMessage = {
+        command: "send",
+        [type]: media,
+      };
+    } else {
+      chatMessage = {
+        command: "send",
+        text: form.values.text,
+      };
+    }
     try {
       ws.send(JSON.stringify(chatMessage));
       if (foundFriend) {
