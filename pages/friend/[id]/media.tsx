@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
-import ProfileActivitiesLayout from "@/layout/profileActivitiesLayout";
+import React, { useState } from "react";
 import ImageMedia from "@/components/profile/imageMedia";
 import VideoMedia from "@/components/profile/videoMedia";
 import AudioMedia from "@/components/profile/audioMedia";
 import { NextPageX } from "../../../types/next";
-import FriendProfileActivities from "@/components/profile/friendProfileActivities";
 import FriendProfileLayout from "@/layout/friendProfileLayout";
-import { useRouter } from "next/router";
-import useUserActivities from "../../../hooks/useUserDrafts";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { friendPersonalDetails } from "@/store";
 import EmptyComponent from "@/components/emptyComponent";
 import usePostMedia from "../../../hooks/use-post-media";
-import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "@/components/homepage/posts/galleryViewer";
 
 const ProfileMedia: NextPageX = () => {

@@ -130,7 +130,15 @@ function Header() {
     },
     {
       href: "/messages/friends",
-      icon: <Sms size="20" variant="Outline" />,
+      icon: (
+        <Indicator
+          classNames={{ common: "!top-[2px] !right-[5px]" }}
+          color="#E59055"
+          disabled={unreadMessages?.length ? false : true}
+        >
+          <Sms size="20" variant="Outline" />
+        </Indicator>
+      ),
       routeId: "messages",
     },
     {

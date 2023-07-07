@@ -33,6 +33,8 @@ import { uploadToCloudinary } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import PhotoReceived from "./photoReceived";
 import PhotoSent from "./photoSent";
+import VideoSent from "./videoSent";
+import VideoReceived from "./videoReceived";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
@@ -125,6 +127,7 @@ function MessagesChatBox() {
         setChatOptions("chat initiated");
       }
       scrollToBottom();
+      setFile(null)
       queryClient.invalidateQueries(["conversations"]);
     } catch (error) {
       showNotification({ message: "Something went wrong" });
@@ -156,6 +159,7 @@ function MessagesChatBox() {
         reader.readAsDataURL(file);
       } else if (file && file.type.includes("video")) {
         setSource(URL.createObjectURL(file));
+        open();
       }
     }
   }, [file?.name]);
@@ -198,14 +202,15 @@ function MessagesChatBox() {
         id="messages no-scroll"
         className="flex messages-no-scroll overflow-auto flex-1 flex-col gap-5"
       >
-        {/* <PhotoReceived photo="/message-photo.png" time={new Date()} />
-        <PhotoSent photo="/message-photo.png" time={new Date()} /> */}
+        {/* <PhotoReceived photo="/message-photo.png" time={new Date()} /> */}
         {!messages ? (
           <Skeleton className="rounded-l-2xl rounded-tr-2xl" />
         ) : (
           messages?.map((item) =>
             item?.sender?.id === user?.user?.id ? (
-              item?.media?.photo ? (
+              item?.media?.video ? (
+                <VideoSent video={item?.media?.video} time={new Date()} />
+              ) : item?.media?.photo ? (
                 <PhotoSent
                   photo={item?.media?.photo}
                   time={item?.date_added}
@@ -218,6 +223,8 @@ function MessagesChatBox() {
                   key={item?.id}
                 />
               )
+            ) : item?.media?.video ? (
+              <VideoReceived video={item?.media?.video} time={new Date()} />
             ) : item?.media?.photo ? (
               <PhotoReceived
                 photo={item?.media?.photo}
@@ -285,7 +292,14 @@ function MessagesChatBox() {
                 height={24}
                 className="cursor-pointer"
               />
-              <FileInput hidden id="video-file" accept="video/mp4" />
+              <FileInput
+                onChange={(value) => {
+                  setFile(value);
+                }}
+                hidden
+                id="video-file"
+                accept="video/mp4"
+              />
             </label>
             <Icon
               icon="ant-design:audio-outlined"
@@ -362,17 +376,24 @@ function MessagesChatBox() {
             e.preventDefault();
             setMediaLoading(true);
             const data = new FormData();
-            data.append("photo", file);
+            if (file?.type?.includes("image")) {
+              data.append("photo", file);
+            } else data.append("video", file);
             uploadToCloudinary(data)
               .then(({ data }) => {
-                if (!data?.data?.photo) {
+                if (!data?.data) {
                   return showNotification({
                     message: "Something went wrong!",
                     color: "red",
                   });
                 }
-                const photo = String(data?.data?.photo);
-                handleSendMessage({ media: photo, type: "photo" });
+                let media;
+                if (data?.data?.photo) {
+                  media = { media: String(data?.data?.photo), type: "photo" };
+                } else if (data?.data?.video) {
+                  media = { media: data?.data?.video, type: "video" };
+                }
+                handleSendMessage(media);
                 setMediaLoading(false);
                 close();
               })
@@ -390,13 +411,22 @@ function MessagesChatBox() {
             }}
             className="h-[300px] self-center"
           >
-            <img
-              src={source as string}
-              className="w-full h-full object-cover rounded-[29px]"
-              alt=""
-            />
+            {file?.type?.includes("image") ? (
+              <img
+                src={source as string}
+                className="w-full h-full object-cover rounded-[29px]"
+                alt=""
+              />
+            ) : (
+              <video
+                src={source as string}
+                controls
+                className="w-full h-full rounded-[29px] object-cover"
+              ></video>
+            )}
           </div>
           <button
+            disabled={mediaLoading}
             className="self-end p-4 max-[500px]:p-3 bg-duduzili-violet rounded-full"
             type="submit"
           >
