@@ -103,7 +103,7 @@ function PublishDraftModal({ opened, close, id }) {
     >
       <div className="grid h-full overflow-auto grid-rows-[auto_1fr_auto] gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.user?.photo_url?.substring(62)}
+          image={user?.user?.photo_url }
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />

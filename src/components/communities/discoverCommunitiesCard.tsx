@@ -46,7 +46,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
                   index < 3 && (
                     <img
                       key={index}
-                      src={item?.substring(62)}
+                      src={item }
                       className={clsx(
                         index !== 0 && "ml-[-20px]",
                         "w-[33px] border-[2px] border-white h-[33px] object-cover rounded-full"

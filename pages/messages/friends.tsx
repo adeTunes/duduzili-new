@@ -17,7 +17,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { selectedFriendToChat } from "@/store";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { base64decode } from "nodejs-base64";
+import { base64decode, base64encode } from "nodejs-base64";
+import ChatDrawer from "@/components/message/chatDrawer";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
@@ -28,6 +29,7 @@ const Messages: NextPageX = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [chatOptions, setChatOptions] = useAtom(chatFriendOptions);
   const { query, push } = useRouter();
+  const [chatOpened, {open: openChatDrawer, close: closeChatDrawer}] = useDisclosure(false)
 
   useEffect(() => {
     if (chatOptions === "chat initiated") {
@@ -72,7 +74,6 @@ const Messages: NextPageX = () => {
       push("/messages/friends", undefined, { shallow: true });
     }
   }, [query.chat, data]);
-  const setChatDrawer = useSetAtom(openChatDrawer);
 
   return (
     <div className="flex flex-1 overflow-auto flex-col gap-6">
@@ -99,11 +100,12 @@ const Messages: NextPageX = () => {
             onClick={() => {
               setSelectedMessage(JSON.stringify(item));
               if (window.innerWidth <= 800) {
-                setChatDrawer(true);
+                const chatFriend = JSON.stringify(item)
+                push(`/messages/view?chat=${base64encode(chatFriend)}`)
               }
             }}
             id={JSON.stringify(item)}
-            image={item?.photo_url?.substring(62)}
+            image={item?.photo_url }
             text={" "}
             date={" "}
             name={`${item?.first_name} ${item?.last_name}`}
@@ -134,11 +136,12 @@ const Messages: NextPageX = () => {
                     setSelectedMessage(JSON.stringify(friend));
                     refetch();
                     if (window.innerWidth <= 800) {
-                      setChatDrawer(true);
+                      const chatFriend = JSON.stringify(friend)
+                      push(`/messages/view?chat=${base64encode(chatFriend)}`)
                     }
                   }}
                   id={JSON.stringify(friend)}
-                  image={friend?.photo_url?.substring(62)}
+                  image={friend?.photo_url }
                   text={
                     item?.get_messages?.[item?.get_messages?.length - 1]?.text
                   }

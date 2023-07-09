@@ -30,7 +30,7 @@ function CommunityHeader({ post, community }) {
           <div className="w-[33px] h-[33px]">
             {post?.user?.photo_url ? (
               <img
-                src={post?.user?.photo_url?.substring(62)}
+                src={post?.user?.photo_url }
                 className="w-full h-full object-cover rounded-full"
                 alt=""
               />

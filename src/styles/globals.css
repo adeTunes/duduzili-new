@@ -156,3 +156,17 @@ div[style="top: 0px; left: 0px; overflow: hidden; position: fixed; display: flex
   background: rgba(0, 0, 0, 0.8) !important;
   backdrop-filter: unset !important;
 }
+
+.day-container {
+  position: relative;
+}
+
+.date {
+  position: sticky;
+  top: 0;
+  background-color: transparent;
+  z-index: 21;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+}

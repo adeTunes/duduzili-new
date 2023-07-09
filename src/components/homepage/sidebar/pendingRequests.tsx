@@ -68,7 +68,7 @@ function PendingRequests() {
                     <div className="w-[36px] h-[36px]">
                       {item?.user?.photo_url ? (
                         <img
-                          src={item?.user?.photo_url?.substring(62)}
+                          src={item?.user?.photo_url }
                           className="w-full h-full rounded-full object-cover"
                           alt="profile picture of suggested friend"
                         />

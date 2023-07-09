@@ -43,7 +43,7 @@ function PostwithRepost({ post }: { post: Post }) {
         <div className="flex items-center gap-2">
           <div className="h-[48px] w-[48px]">
             <img
-              src={post?.user?.photo_url?.substring(62)}
+              src={post?.user?.photo_url }
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />
@@ -71,15 +71,13 @@ function PostwithRepost({ post }: { post: Post }) {
         </div>
       </div>
       {!post?.media?.audio &&
-      !post?.youtube_url &&
       !post?.media?.video &&
       !post?.media?.photo?.length &&
       post?.text ? (
         <>
           <PostText text={post?.text} postId={post?.id} />
         </>
-      ) : !post?.youtube_url &&
-        !post?.media?.video &&
+      ) : !post?.media?.video &&
         post?.media?.photo?.length === 1 &&
         post?.text ? (
         <RepostBody post={post} />

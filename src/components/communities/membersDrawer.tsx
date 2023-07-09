@@ -51,7 +51,7 @@ function MembersDrawer({ opened, close, code }) {
                   <div className="w-[36px] h-[36px]">
                     {member?.photo_url ? (
                       <img
-                        src={member?.photo_url?.substring(62)}
+                        src={member?.photo_url }
                         className="w-full h-full rounded-full object-cover"
                         alt="profile picture of suggested friend"
                       />

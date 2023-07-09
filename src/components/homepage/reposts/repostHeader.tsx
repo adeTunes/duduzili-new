@@ -13,7 +13,7 @@ function RepostHeader({post}) {
         <div className="flex items-center gap-2">
           <div className="h-[48px] w-[48px]">
             <img
-              src={post?.  user?.photo_url?.substring(62)  }
+              src={post?.  user?.photo_url   }
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />

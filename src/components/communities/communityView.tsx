@@ -51,7 +51,7 @@ function CommunityView({ community, loading }) {
         <div className="grid gap-4 grid-cols-[auto_1fr]">
           {user?.user?.photo_url ? (
             <img
-              src={user?.user?.photo_url?.substring(62)}
+              src={user?.user?.photo_url }
               className="w-[56px] h-[56px] rounded-full object-cover"
               alt=""
             />

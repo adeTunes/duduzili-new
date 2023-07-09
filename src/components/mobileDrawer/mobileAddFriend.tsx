@@ -16,7 +16,7 @@ function MobileAddFriend({ user }) {
         <div className="w-[36px] h-[36px]">
           {user?.photo_url ? (
             <img
-              src={user?.photo_url?.substring(62)}
+              src={user?.photo_url }
               className="w-full h-full rounded-full object-cover"
               alt="profile picture of suggested friend"
             />

@@ -54,7 +54,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "max-[390px]:px-0",
-        inner: "z-[201]"
+        inner: "z-[201]",
       }}
       styles={{
         content: {
@@ -65,6 +65,8 @@ function CreateCommunityPostModal({ limit, opened, close }) {
       onClose={() => {
         setSelected([]);
         form.reset();
+        setAudio(null);
+        setRecordedAudio(null);
         close();
       }}
       title="Create New"
@@ -72,7 +74,7 @@ function CreateCommunityPostModal({ limit, opened, close }) {
     >
       <div className="flex flex-col gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.user?.photo_url?.substring(62)}
+          image={user?.user?.photo_url }
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
@@ -175,6 +177,9 @@ function CreateCommunityPostModal({ limit, opened, close }) {
               if (audio) {
                 data.append("audio", audio, audio.name);
               }
+              else if (recordedAudio) {
+                data.append("audio", recordedAudio?.blob);
+              }
               selected.length &&
                 selected.forEach((item) => {
                   if (item.type === "image") {
@@ -196,6 +201,8 @@ function CreateCommunityPostModal({ limit, opened, close }) {
                   limit,
                   query.id,
                 ]);
+                setAudio(null);
+                setRecordedAudio(null);
                 setSelected([]);
                 form.reset();
                 close();

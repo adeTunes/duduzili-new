@@ -36,7 +36,7 @@ function JoinRequest({ data }) {
         <div className="w-[36px] h-[36px]">
           {data?.user?.photo_url ? (
             <img
-              src={data?.user?.photo_url?.substring(62)}
+              src={data?.user?.photo_url }
               className="w-full h-full rounded-full object-cover"
               alt="profile picture of suggested friend"
             />

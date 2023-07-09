@@ -64,7 +64,7 @@ const Following: NextPageX = () => {
                       >
                         {item?.photo_url ? (
                           <img
-                            src={item?.photo_url?.substring(62)}
+                            src={item?.photo_url }
                             className="w-full h-full rounded-full object-cover"
                             alt="profile picture of suggested friend"
                           />

@@ -11,7 +11,7 @@ import PostText from "@/components/homepage/posts/text";
 import PostImage from "@/components/homepage/posts/postImage";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 
-function ReplyCard({ comment }) {
+function ReplyCard({ comment, refetch }: {comment: any; refetch?: any}) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { query } = useRouter();
@@ -20,7 +20,7 @@ function ReplyCard({ comment }) {
       <div className="flex self-start gap-[19px] items-center">
         {comment?.user?.photo_url ? (
           <img
-            src={comment?.user?.photo_url?.substring(62)}
+            src={comment?.user?.photo_url }
             className="w-[48px] h-[48px] rounded-full object-cover"
             alt=""
           />
@@ -53,7 +53,7 @@ function ReplyCard({ comment }) {
           comment?.content ? (
           <>
             <PostText text={comment?.content} postId={comment?.id} />
-            <PostImage image={comment?.photo?.substring(62)} />
+            <PostImage image={comment?.photo } />
           </>
         ) : comment?.audio &&
           !comment?.youtube_url &&
@@ -75,21 +75,21 @@ function ReplyCard({ comment }) {
          ) : comment?.youtube_url && comment?.text ? (
            <CommentVideo comment={comment} />
          ) : null} */}
-        <div className="flex items-center py-3 px-4 w-fit gap-10 bg-[#F4F4F4] rounded-[40px]">
+        <div className="flex items-center py-2 px-4 w-fit gap-10 bg-[#F4F4F4] rounded-[40px]">
           <div
             onClick={() =>
               likeOrUnlikeComment(comment?.id, setLoading, () => {
-                queryClient.invalidateQueries(["single-posts", query.id]);
+                refetch();
               })
             }
-            className="flex items-center cursor-pointer gap-2"
+            className="flex items-center cursor-pointer gap-3"
           >
             {loading ? (
-              <Loader />
+              <Loader size="sm" />
             ) : (
               <>
                 <Heart
-                  size="24"
+                  size="18"
                   color={comment?.i_like_this_comment ? "#F5597F" : "#2A2A2A"}
                   variant={comment?.i_like_this_comment ? "Bold" : "Outline"}
                 />
@@ -105,7 +105,7 @@ function ReplyCard({ comment }) {
           {comment?.total_number_of_replies}
         </p>
       </div> */}
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <Icon
               icon="material-symbols:google-plus-reshare"
               height={24}
@@ -113,7 +113,7 @@ function ReplyCard({ comment }) {
               color="#2a2a2a"
             />
             <p className=" text-[14px] text-[#2A2A2A] leading-[17px]">107</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

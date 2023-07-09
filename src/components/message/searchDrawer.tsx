@@ -87,7 +87,7 @@ function SearchDrawer({ opened, close, data: chatListData }) {
                     setChatFriendOptions("selected friend");
                   }}
                   key={idx}
-                  image={item?.photo_url?.substring(62)}
+                  image={item?.photo_url }
                   username={item?.username}
                   name={`${item?.first_name} ${item?.last_name}`}
                 />
@@ -116,7 +116,7 @@ function SearchDrawer({ opened, close, data: chatListData }) {
                     setChatFriendOptions("selected friend");
                   }}
                   key={idx}
-                  image={item?.photo_url?.substring(62)}
+                  image={item?.photo_url }
                   username={item?.username}
                   name={`${item?.first_name} ${item?.last_name}`}
                 />

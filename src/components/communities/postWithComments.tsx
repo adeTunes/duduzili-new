@@ -31,7 +31,7 @@ function PostWithComments() {
       <div className="flex gap-[36px] pl-[5vw] flex-col">
         <ReplyInput refetch={refetch} />
         {data?.comments?.length ? (
-          data?.comments?.map((comment, idx) => <ReplyCard key={idx} comment={comment} />)
+          data?.comments?.map((comment, idx) => <ReplyCard refetch={refetch} key={idx} comment={comment} />)
         ) : (
           <p className="text-center">No comments here yet</p>
         )}

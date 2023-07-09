@@ -46,7 +46,7 @@ function DiscoverPeople() {
                         <div className="w-[36px] h-[36px]">
                           {item?.photo_url ? (
                             <img
-                              src={item?.photo_url?.substring(62)}
+                              src={item?.photo_url }
                               className="w-full h-full rounded-full object-cover"
                               alt="profile picture of suggested friend"
                             />
@@ -112,7 +112,7 @@ function DiscoverPeople() {
                         <div className="w-[36px] h-[36px]">
                           {item?.photo_url ? (
                             <img
-                              src={item?.photo_url?.substring(62)}
+                              src={item?.photo_url }
                               className="w-full h-full rounded-full object-cover"
                               alt="profile picture of suggested friend"
                             />

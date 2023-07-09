@@ -41,7 +41,7 @@ function TrendingPostsContainer({
             <div className="h-[40px] w-[40px] hover:opacity-80 cursor-pointer">
               {user?.photo_url ? (
                 <img
-                  src={user?.photo_url?.substring(62)}
+                  src={user?.photo_url }
                   className="w-full h-full object-cover rounded-full"
                   alt="user profile picture"
                 />

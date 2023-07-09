@@ -54,10 +54,10 @@ function FriendProfileInformation({ friendDetails }) {
             {friendDetails?.user?.photo_url ? (
               <img
                 onClick={() => {
-                  setImage(friendDetails?.user?.photo_url?.substring(62));
+                  setImage(friendDetails?.user?.photo_url );
                   setOpened(true);
                 }}
-                src={friendDetails?.user?.photo_url?.substring(62)}
+                src={friendDetails?.user?.photo_url }
                 className="w-full relative h-full object-cover rounded-full"
                 alt="user profile picture"
               />
@@ -102,6 +102,10 @@ function FriendProfileInformation({ friendDetails }) {
             <p
               onClick={() => {
                 const friend = JSON.stringify(friendDetails?.user);
+                if (window.innerWidth <= 800) {
+                  push(`/messages/view?chat=${base64encode(friend)}`)
+                  return
+                }
                 push(`/messages/friends?chat=${base64encode(friend)}`);
               }}
               role="button"

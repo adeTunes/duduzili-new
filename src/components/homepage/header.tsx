@@ -154,7 +154,7 @@ function Header() {
         >
           {user?.user?.photo_url ? (
             <img
-              src={user?.user?.photo_url?.substring(62)}
+              src={user?.user?.photo_url }
               className="w-10 h-10 cursor-pointer rounded-full object-cover"
               alt=""
             />
@@ -253,7 +253,7 @@ function Header() {
           >
             <img
               src={
-                user?.user?.photo_url?.substring(62) ||
+                user?.user?.photo_url  ||
                 "/profile-pic-default.png"
               }
               className="w-10 h-10 cursor-pointer rounded-full object-cover"

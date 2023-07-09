@@ -13,7 +13,7 @@ const useWebsocketConnection: (friend: any) => {
   const [reconnectionCount, setReconnectionCount] = useState(0);
 
   useEffect(() => {
-    if (!friend) return;
+    if (!friend || wsocket) return;
 
     const ws = new WebSocket(
       `${process.env.NEXT_PUBLIC_SOCKET_URL}/ws/chat/${friend?.username}?token=${user?.token}`
@@ -53,7 +53,7 @@ const useWebsocketConnection: (friend: any) => {
       clearInterval(intervalID);
       // if (ws) ws.close();
     };
-  }, [friend, reconnectionCount]);
+  }, [friend, reconnectionCount, wsocket]);
   
 
   return { wsocket, setWs };

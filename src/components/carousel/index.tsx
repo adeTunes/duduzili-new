@@ -73,7 +73,7 @@ export function Slider({
                     <div key={idx} className={clsx(idx !== 0 && "ml-[-20px]", "w-[33px] h-[33px]")}>
                       <img
                         
-                        src={item?.substring(62)}
+                        src={item }
                         className="w-full h-full object-cover border-[0.5px] border-white rounded-full"
                         alt=""
                       />

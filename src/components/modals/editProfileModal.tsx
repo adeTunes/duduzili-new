@@ -54,7 +54,7 @@ function EditProfileModal({ opened, close }) {
   const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    setSource(user?.user?.photo_url?.substring(62));
+    setSource(user?.user?.photo_url );
   }, []);
 
   useEffect(() => {

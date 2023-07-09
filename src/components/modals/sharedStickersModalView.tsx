@@ -19,7 +19,7 @@ function SharedStickersModalView({ setActive, stickerUsers, sticker }) {
                 <div style={{ height: "32px", width: "32px" }}>
                   {value?.profile_pic ? (
                     <img
-                      src={value?.profile_pic?.substring(62)}
+                      src={value?.profile_pic }
                       className="h-full w-full object-cover rounded-full"
                       alt=""
                     />

@@ -8,7 +8,6 @@ import CommunityView from "@/components/communities/communityView";
 import { Slider } from "@/components/carousel";
 import { useRouter } from "next/router";
 import useCommunityDetails from "../../hooks/useCommunityDetails";
-import { Loading } from "@/components/loading";
 import useCommunityList from "../../hooks/useCommunityList";
 import DownloadApp from "@/components/homepage/sidebar/downloadApp";
 import CompanyInfo from "@/components/homepage/sidebar/companyInfo";

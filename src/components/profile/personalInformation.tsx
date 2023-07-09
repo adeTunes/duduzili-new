@@ -48,10 +48,10 @@ function PersonalInformation({ user }) {
             {user?.photo_url ? (
               <img
                 onClick={() => {
-                  setImage(user?.photo_url?.substring(62));
+                  setImage(user?.photo_url );
                   setGalleryOpened(true);
                 }}
-                src={user?.photo_url?.substring(62)}
+                src={user?.photo_url }
                 className="w-full relative h-full object-cover rounded-full"
                 alt="user profile picture"
               />
@@ -95,7 +95,7 @@ function PersonalInformation({ user }) {
             "Hi there! I use Duduzili platform to chat with friends and family, send medias and receive updates!"}
         </p>
         <div className="flex items-center gap-10">
-          {followers ? (
+          {followers || +followers === 0 ? (
             <Link
               href={`/followers/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
             >
@@ -111,7 +111,7 @@ function PersonalInformation({ user }) {
           ) : (
             <Skeleton height={12} className="flex-1" mt={10} />
           )}
-          {followings ? (
+          {followings || +followings === 0 ? (
             <Link
               href={`/following/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
             >

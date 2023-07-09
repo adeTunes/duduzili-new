@@ -60,7 +60,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between gap-2">
           <p className="font-bold text-[18px] flex flex-col gap-1 leading-[24px] text-[#2A2A2A]">
-            <span style={{fontSize: "clamp(14px, 1.55vw, 18px)"}}>
+            <span style={{ fontSize: "clamp(14px, 1.55vw, 18px)" }}>
               {community?.data?.name?.replace(
                 community?.data?.name?.[0],
                 community?.data?.name?.[0]?.toLocaleUpperCase()
@@ -87,7 +87,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
             >
               {loading ? (
                 <Loader size="sm" />
-              ) : !community?.data?.is_private ? (
+              ) : community?.data?.is_private ? (
                 "Ask to join"
               ) : (
                 "Join"
@@ -110,7 +110,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
             {community?.data?.members_photo?.map((item, idx) => (
               <img
                 key={idx}
-                src={item?.substring(62)}
+                src={item }
                 className={clsx(
                   idx !== 0 && "ml-[-20px]",
                   "w-[33px] h-[33px] object-cover rounded-full"
@@ -119,22 +119,24 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
               />
             ))}
           </div>
-          <p
-            onClick={() => {
-              if (!community?.data?.is_joined) {
-                return showNotification({
-                  message: "You are not a member of this community!",
-                });
-              }
-              open();
-            }}
-            className="leading-[24px] cursor-pointer hover:text-[#9e9b9b] text-[#2A2A2A]"
-            style={{ fontSize: "clamp(12px, 0.96vw, 16px)" }}
-          >
-            {+community?.data?.total_members < 2
-              ? `${+community?.data?.total_members} member`
-              : `${+community?.data?.total_members} members`}
-          </p>
+          {community?.data?.total_members ? (
+            <p
+              onClick={() => {
+                if (!community?.data?.is_joined) {
+                  return showNotification({
+                    message: "You are not a member of this community!",
+                  });
+                }
+                open();
+              }}
+              className="leading-[24px] cursor-pointer hover:text-[#9e9b9b] text-[#2A2A2A]"
+              style={{ fontSize: "clamp(12px, 0.96vw, 16px)" }}
+            >
+              {+community?.data?.total_members < 2
+                ? `${+community?.data?.total_members} member`
+                : `${+community?.data?.total_members} members`}
+            </p>
+          ) : null}
         </div>
       </div>
       <p className="leading-6 text-sm">{community?.data?.description}</p>
