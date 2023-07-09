@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PostImage from "../homepage/posts/postImage";
 import { Icon } from "@iconify/react";
-import { MessageText, UserAdd } from "iconsax-react";
+import { MessageText, UserAdd, UserMinus } from "iconsax-react";
 import { followUserAction } from "@/actions/postOptionActions";
 import { Loading } from "../loading";
 import { useQueryClient } from "@tanstack/react-query";
@@ -26,6 +26,7 @@ function FriendProfileInformation({ friendDetails }) {
 
   const { viewerData } = useImageViewer(image);
   const startIndex = 0;
+  const { query } = useRouter();
   return (
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
       <div className="flex flex-col">
@@ -54,10 +55,10 @@ function FriendProfileInformation({ friendDetails }) {
             {friendDetails?.user?.photo_url ? (
               <img
                 onClick={() => {
-                  setImage(friendDetails?.user?.photo_url );
+                  setImage(friendDetails?.user?.photo_url);
                   setOpened(true);
                 }}
-                src={friendDetails?.user?.photo_url }
+                src={friendDetails?.user?.photo_url}
                 className="w-full relative h-full object-cover rounded-full"
                 alt="user profile picture"
               />
@@ -76,26 +77,33 @@ function FriendProfileInformation({ friendDetails }) {
                   setLoadingFollow,
                   friendDetails?.user?.id,
                   () =>
-                    queryClient.invalidateQueries([
-                      "user-activities",
-                      friendDetails?.user?.id,
-                    ])
+                    queryClient.invalidateQueries(["user-activities", query.id])
                 )
               }
               role="button"
               className="px-6 py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium text-white bg-duduzili-violet"
             >
               {loadingFollow ? (
-                <Loader />
+                <Loader size="sm" />
               ) : (
                 <>
-                  <UserAdd
-                    className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
-                    color="#FFF"
-                  />
-                  <span>
-                    {friendDetails?.user?.is_following ? "Unfollow" : "Follow"}
-                  </span>
+                  {friendDetails?.user?.is_following ? (
+                    <>
+                      <UserMinus
+                        className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                        color="#FFF"
+                      />
+                      <span>Unfollow</span>
+                    </>
+                  ) : (
+                    <>
+                      <UserAdd
+                        className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                        color="#FFF"
+                      />
+                      <span>Follow</span>
+                    </>
+                  )}
                 </>
               )}
             </p>
@@ -103,8 +111,8 @@ function FriendProfileInformation({ friendDetails }) {
               onClick={() => {
                 const friend = JSON.stringify(friendDetails?.user);
                 if (window.innerWidth <= 800) {
-                  push(`/messages/view?chat=${base64encode(friend)}`)
-                  return
+                  push(`/messages/view?chat=${base64encode(friend)}`);
+                  return;
                 }
                 push(`/messages/friends?chat=${base64encode(friend)}`);
               }}
@@ -119,7 +127,7 @@ function FriendProfileInformation({ friendDetails }) {
               <span className=" text-duduzili-violet">Message</span>
             </p>
             {loading ? (
-              <Loader />
+              <Loader size="sm" />
             ) : (
               <FriendProfileOptions
                 setLoading={setLoading}
@@ -131,9 +139,12 @@ function FriendProfileInformation({ friendDetails }) {
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <p style={{
-            fontSize: "clamp(18px, 1.8vw, 32px)",
-          }} className=" font-bold leading-8 text-[#2A2A2A]">
+          <p
+            style={{
+              fontSize: "clamp(18px, 1.8vw, 32px)",
+            }}
+            className=" font-bold leading-8 text-[#2A2A2A]"
+          >
             {friendDetails?.user?.first_name} {friendDetails?.user?.last_name}
           </p>
           <p className="text-[#2A2A2A] text-[15px] leading-6">
