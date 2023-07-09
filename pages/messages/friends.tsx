@@ -29,7 +29,6 @@ const Messages: NextPageX = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [chatOptions, setChatOptions] = useAtom(chatFriendOptions);
   const { query, push } = useRouter();
-  const [chatOpened, {open: openChatDrawer, close: closeChatDrawer}] = useDisclosure(false)
 
   useEffect(() => {
     if (chatOptions === "chat initiated") {
@@ -100,12 +99,12 @@ const Messages: NextPageX = () => {
             onClick={() => {
               setSelectedMessage(JSON.stringify(item));
               if (window.innerWidth <= 800) {
-                const chatFriend = JSON.stringify(item)
-                push(`/messages/view?chat=${base64encode(chatFriend)}`)
+                const chatFriend = JSON.stringify(item);
+                push(`/messages/view?chat=${base64encode(chatFriend)}`);
               }
             }}
             id={JSON.stringify(item)}
-            image={item?.photo_url }
+            image={item?.photo_url}
             text={" "}
             date={" "}
             name={`${item?.first_name} ${item?.last_name}`}
@@ -117,7 +116,10 @@ const Messages: NextPageX = () => {
           ? Array(10)
               .fill(0)
               .map((_, idx) => (
-                <div key={idx} className="py-2 px-6 max-[400px]:px-3 gap-4 flex justify-between">
+                <div
+                  key={idx}
+                  className="py-2 px-6 max-[400px]:px-3 gap-4 flex justify-between"
+                >
                   <Skeleton height={40} width={40} circle />
                   <div className="flex flex-1 flex-col gap-3">
                     <Skeleton width="50%" height={12} />
@@ -132,16 +134,17 @@ const Messages: NextPageX = () => {
                   : item?.user_one;
               return (
                 <MessageCard
+                  chatID={item?.id}
                   onClick={() => {
                     setSelectedMessage(JSON.stringify(friend));
                     refetch();
                     if (window.innerWidth <= 800) {
-                      const chatFriend = JSON.stringify(friend)
-                      push(`/messages/view?chat=${base64encode(chatFriend)}`)
+                      const chatFriend = JSON.stringify(friend);
+                      push(`/messages/view?chat=${base64encode(chatFriend)}`);
                     }
                   }}
                   id={JSON.stringify(friend)}
-                  image={friend?.photo_url }
+                  image={friend?.photo_url}
                   text={
                     item?.get_messages?.[item?.get_messages?.length - 1]?.text
                   }

@@ -1,11 +1,12 @@
 import { Icon } from "@iconify/react";
 import { FileInput, Loader, Modal, Skeleton, Textarea } from "@mantine/core";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import MessageReceived from "./messageReceived";
 import MessageSent from "./messageSent";
 import {
   chatFriendOptions,
+  currentChatFriend,
   selectedFriendToChat,
   selectedMessage,
   userDetails,
@@ -28,7 +29,8 @@ import VideoReceived from "./videoReceived";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
-  const [friend, setFriend] = useState(null);
+  const friend: any = useAtomValue(currentChatFriend)
+  const setFriend = useSetAtom(currentChatFriend)
   const user: any = useAtomValue(userDetails);
   const [messages, setMessages] = useState(null);
   const [chatOptions, setChatOptions] = useAtom(chatFriendOptions);
@@ -106,6 +108,33 @@ function MessagesChatBox() {
     }, {});
   };
 
+  const formatDate = (date) => {
+    const currentDate = new Date();
+    const messageDate = new Date(date);
+
+    const today = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    const yesterday = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() - 1
+    );
+
+    let dateKey;
+    if (messageDate >= today) {
+      dateKey = "Today";
+    } else if (messageDate >= yesterday) {
+      dateKey = "Yesterday";
+    } else {
+      dateKey = messageDate.toLocaleDateString();
+    }
+    return dateKey
+  };
+
   useEffect(() => {
     if (ws) {
       let intervalID;
@@ -146,14 +175,12 @@ function MessagesChatBox() {
           Array.isArray(message?.message)
         ) {
           if (message?.message?.length) {
+            const dateKey = formatDate(message.message[0].date_added);
             setMessages((prev) => {
-              const date = new Date(
-                message.message[0].date_added
-              ).toLocaleDateString();
               return {
                 ...prev,
-                [date]: prev[date]
-                  ? [...prev[date], message.message]
+                [dateKey]: prev[dateKey]
+                  ? [...prev[dateKey], message.message]
                   : [message.message],
               };
               //   let findMessage = [];
@@ -167,9 +194,7 @@ function MessagesChatBox() {
             });
           }
         } else if (!Array.isArray(message?.message)) {
-          const date = new Date(
-            message.message.date_added
-          ).toLocaleDateString();
+          const date = formatDate(message.message.date_added);
           setMessages((prev) => {
             return {
               ...prev,

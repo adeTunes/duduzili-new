@@ -116,6 +116,13 @@ export const deletePost = (id: string | number) => {
 export const deleteAccount = (id: string | number) => {
   return API.delete(`/api/v1/rest-auth/user/${id}/`);
 };
+export const deleteConversation = (data) => {
+  return API({
+    method: "DELETE",
+    url: `/api/v1/rest-auth/user_messages/delete-conversations/`,
+    data
+  })
+};
 // GET REQUESTS
 export const getUserDetails = (id) => {
   return API.get(`/api/v1/rest-auth/user/${id}/`);

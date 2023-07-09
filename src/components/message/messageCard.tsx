@@ -1,11 +1,14 @@
 import { selectedMessage } from "@/store";
-import { Text, clsx } from "@mantine/core";
+import { Loader, Text, clsx } from "@mantine/core";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { ArrowDown2 } from "iconsax-react";
+import ChatsMenu from "./chatsMenu";
 
 function MessageCard({
+  chatID,
   image,
   text,
   name,
@@ -15,6 +18,7 @@ function MessageCard({
   id,
   usage,
 }: {
+  chatID?: number;
   image: string;
   text: string;
   name: string;
@@ -25,17 +29,17 @@ function MessageCard({
   usage?: string;
 }) {
   const selected = useAtomValue(selectedMessage);
+  const [loading, setLoading] = useState(false);
   return (
     <div
-      onClick={onClick}
       className={clsx(
         selected === id
           ? "bg-[#F4F4F4] border-r-[4px] border-r-duduzili-violet"
           : "bg-[#FFFFFF] border-r-[4px] border-r-transparent",
-        "py-2 hover:bg-[#F4F4F4] cursor-pointer px-6 max-[400px]:px-3 gap-[3vw] flex justify-between"
+        "py-2 hover:bg-[#F4F4F4] group cursor-pointer px-6 max-[400px]:px-3 gap-[10px] flex justify-between"
       )}
     >
-      <div className="flex items-center gap-[19px]">
+      <div onClick={onClick} className="flex flex-1 items-center gap-[19px]">
         <div
           className={clsx(
             usage
@@ -76,18 +80,27 @@ function MessageCard({
           </Text>
         </div>
       </div>
-      <div className="flex flex-col gap-2 items-center">
-        <p className="text-[#828282] text-[10px] leading-3 whitespace-nowrap">
-          {date}
-        </p>
-        <span
-          className={clsx(
-            !unread ? "bg-transparent" : "bg-duduzili-orange",
-            "h-5 w-5  flex text-[12.5px] items-center text-white justify-center rounded-full"
-          )}
-        >
-          {unread || ""}
-        </span>
+      <div className="flex gap-2 items-center">
+        {chatID ? (
+          loading ? (
+            <Loader size="sm" />
+          ) : (
+            <ChatsMenu setLoading={setLoading} chatID={chatID} />
+          )
+        ) : null}
+        <div onClick={onClick} className="flex flex-col gap-2 items-center">
+          <p className="text-[#828282] text-[10px] leading-3 whitespace-nowrap">
+            {date}
+          </p>
+          <span
+            className={clsx(
+              !unread ? "bg-transparent" : "bg-duduzili-orange",
+              "h-5 w-5  flex text-[12.5px] items-center text-white justify-center rounded-full"
+            )}
+          >
+            {unread || ""}
+          </span>
+        </div>
       </div>
     </div>
   );
