@@ -22,6 +22,8 @@ import AudioOptions from "./audioOption";
 import dynamic from "next/dynamic";
 import { modals } from "@mantine/modals";
 import CreatePostMenu from "./createPostMenu";
+import axios from "axios";
+import { Link21 } from "iconsax-react";
 
 const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
   ssr: false,
@@ -110,7 +112,23 @@ function CreatePostModal({ opened, close }) {
         closeModal();
       },
       onConfirm: () => savePostOrDraft("False"),
-  });
+    });
+
+  const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    var urlPattern = /\b(https?:\/\/\S+)/gi;
+    var urls = form.values.text.match(urlPattern);
+    if (urls?.[0])
+      axios
+        .post("https://getlinkpreview.onrender.com/", { url: urls[0] })
+        .then(({ data }) => {
+          setPreview({ ...data, ogUrl: data?.ogUrl || urls?.[0] });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  }, [form.values.text]);
 
   return (
     <Modal
@@ -140,7 +158,7 @@ function CreatePostModal({ opened, close }) {
     >
       <div className="flex flex-col gap-5 mt-6">
         <UserAvatarWithName
-          image={user?.user?.photo_url }
+          image={user?.user?.photo_url}
           fullName={`${user?.user?.first_name} ${user?.user?.last_name}`}
           username={user?.user?.username}
         />
@@ -160,6 +178,35 @@ function CreatePostModal({ opened, close }) {
             />
             <p className="text-[14px] text-red-600 font-semibold">{err}</p>
           </div>
+          {preview ? (
+            <div className="flex w-full">
+              <a
+                href={preview?.ogUrl}
+                className="grid w-full min-h-[100px] grid-cols-[100px,1fr] h-max rounded-lg items-center gap-3 bg-[#EDF0FB]"
+                target="_blank"
+              >
+                {preview?.image ? (
+                  <img
+                    className="h-full object-cover rounded-l-lg"
+                    src={preview?.image}
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center">
+                    <Link21 size="24" variant="Bold" />
+                  </div>
+                )}
+                <div className="p-2 flex flex-col gap-1">
+                  <div className="font-semibold text-base">
+                    {preview?.title}
+                  </div>
+                  <Text lineClamp={2} className=" font-normal text-sm">
+                    {preview?.description}
+                  </Text>
+                  <div className=" font-normal text-xs">{preview?.domain}</div>
+                </div>
+              </a>
+            </div>
+          ) : null}
           <DisplayMedia setSelected={setSelected} selected={selected} />
           {audio ? <AudioPlayer audio={audio} setAudio={setAudio} /> : null}
           <AudioRecorder
