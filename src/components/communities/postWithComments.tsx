@@ -9,8 +9,6 @@ import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 function PostWithComments() {
   const { query } = useRouter();
   const { data, isLoading, refetch } = useSinglePost(query.id);
-
-  console.log(data?.comments?.reverse())
   return (
     <>
       {/* <div

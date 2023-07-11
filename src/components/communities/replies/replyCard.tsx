@@ -10,15 +10,18 @@ import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 import { Icon } from "@iconify/react";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
+import ReplyOptions from "./replyOptions";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
 
 function ReplyCard({ comment, refetch }: { comment: any; refetch?: any }) {
   const [loading, setLoading] = useState(false);
+  const user: any = useAtomValue(userDetails);
 
   useEffect(() => {
     dayjs.extend(LocalizedFormat);
   });
 
-  
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
@@ -43,17 +46,21 @@ function ReplyCard({ comment, refetch }: { comment: any; refetch?: any }) {
             </span>
             <span className="flex items-center text-[#686868] h-3 text-[10px] gap-[5px]">
               <small className="pr-[5px] border-r leading-normal border-r-[#686868]">
-                {comment?.date_added ? dayjs(comment?.date_added).format("MMM D") : null}
+                {comment?.date_added
+                  ? dayjs(comment?.date_added).format("MMM D")
+                  : null}
               </small>
-              <small className="leading-normal">{comment?.date_added ? dayjs(comment?.date_added).format("h:mm A ") : null}</small>
+              <small className="leading-normal">
+                {comment?.date_added
+                  ? dayjs(comment?.date_added).format("h:mm A ")
+                  : null}
+              </small>
             </span>
           </p>
         </div>
-        <Icon
-          icon="solar:menu-dots-bold"
-          rotate={1}
-          className="cursor-pointer w-6 h-6 max-[350px]:w-[18px] max-[350px]:h-[18px]"
-        />
+        {user?.user?.id === comment?.user?.id ? (
+          <ReplyOptions refetch={refetch} id={comment?.id} />
+        ) : null}
       </div>
       <div
         style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}

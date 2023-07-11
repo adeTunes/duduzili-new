@@ -107,6 +107,9 @@ export const editPost = (id: string | number, data: any) => {
 export const readAllNotifications = () => {
   return API.put(`/api/v1/rest-auth/notifications/`);
 };
+export const editSingleComment = (id: any, data) => {
+  return API.put(`/api/v1/rest-auth/comment/${id}/`, data);
+};
 
 // DELETE REQUESTS
 
@@ -115,6 +118,9 @@ export const deletePost = (id: string | number) => {
 };
 export const deleteAccount = (id: string | number) => {
   return API.delete(`/api/v1/rest-auth/user/${id}/`);
+};
+export const deleteComment = (id: string | number) => {
+  return API.delete(`/api/v1/rest-auth/comment/${id}/`);
 };
 export const deleteConversation = (data) => {
   return API({
@@ -135,6 +141,9 @@ export const getTrendingPosts = () => {
 };
 export const getSinglePost = (id: any) => {
   return API.get(`/api/v1/rest-auth/posts/${id}/`);
+};
+export const getSingleComment = (id: any) => {
+  return API.get(`/api/v1/rest-auth/comment/${id}/`);
 };
 
 export const getUserPosts = (id: number) => {

@@ -1,8 +1,10 @@
 import { showNotification } from "@mantine/notifications";
 import {
   blockUser,
+  deleteComment,
   deletePost,
   editPost,
+  editSingleComment,
   followUser,
   joinOrLeaveCommunity,
   likeUnlikePost,
@@ -242,6 +244,36 @@ export const editParticularPost = async (id, draft, data, loader, onSuccess) => 
     const request = await editPost(id, data);
     showNotification({
       message: draft ? "Draft published successfully" : "Post edited successfully",
+      color: "green",
+    });
+    onSuccess();
+    loader(false);
+  } catch (e) {
+    loader(false);
+    errorMessageHandler(e);
+  }
+};
+export const editParticularComment = async (id, data, loader, onSuccess) => {
+  loader(true);
+  try {
+    const request = await editSingleComment(id, data);
+    showNotification({
+      message: "Comment edited successfully",
+      color: "green",
+    });
+    onSuccess();
+    loader(false);
+  } catch (e) {
+    loader(false);
+    errorMessageHandler(e);
+  }
+};
+export const deleteParticularComment = async (id, loader, onSuccess) => {
+  loader(true);
+  try {
+    const request = await deleteComment(id);
+    showNotification({
+      message: "Comment deleted successfully",
       color: "green",
     });
     onSuccess();
