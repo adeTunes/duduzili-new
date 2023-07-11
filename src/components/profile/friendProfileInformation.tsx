@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PostImage from "../homepage/posts/postImage";
 import { Icon } from "@iconify/react";
-import { MessageText, UserAdd, UserMinus } from "iconsax-react";
+import { Location, MessageText, UserAdd, UserMinus } from "iconsax-react";
 import { followUserAction } from "@/actions/postOptionActions";
 import { Loading } from "../loading";
 import { useQueryClient } from "@tanstack/react-query";
@@ -150,6 +150,10 @@ function FriendProfileInformation({ friendDetails }) {
           <p className="text-[#2A2A2A] text-[15px] leading-6">
             @{friendDetails?.user?.username}
           </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Location size="16" color="#000" />
+          {friendDetails?.user?.town} {friendDetails?.user?.country}
         </div>
         <p className="text-[#8A8D88] text-[15px] leading-6">
           {friendDetails?.user?.bio}

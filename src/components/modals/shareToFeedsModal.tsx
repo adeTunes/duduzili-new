@@ -19,8 +19,8 @@ function ShareToFeedsModal({ opened, close, post }) {
       size="61.483vw"
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
-        content: "py-6 px-8 min-w-[260px] max-[550px]:px-2 max-w-[580px] rounded-[24px] flex flex-col overflow-auto",
-        header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
+        content: "py-6 px-8 min-[400px]:min-w-[360px] max-[400px]:min-w-[90vw] max-[400px]:py-2 min-w-[260px] max-[550px]:px-2 max-w-[580px] rounded-[24px] flex flex-col overflow-auto",
+        header: "!px-0 !pt-0 !pb-6 max-[400px]:!pb-2 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto grid grid-rows-[1fr_auto] !p-0 !pt-6",
       }}
@@ -35,7 +35,7 @@ function ShareToFeedsModal({ opened, close, post }) {
       centered
     >
       <RepostsContainer post={post} />
-      <div className="flex gap-3 mt-[50px] justify-end">
+      <div className="flex gap-3 max-[400px]:mt-5 mt-[50px] justify-end">
         <PrimaryButtonOutline onClick={close} text="Cancel" />
         <PrimaryButton text="Share" onClick={() => {
           const data = new FormData()

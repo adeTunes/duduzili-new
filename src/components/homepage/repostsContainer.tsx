@@ -18,16 +18,15 @@ function RepostsContainer({ post }: { post: Post }) {
   return (
     <RepostParent post={post}>
       {!post?.media?.audio &&
-      !post?.youtube_url &&
       !post?.media?.video &&
       !post?.media?.photo?.length &&
       post?.text ? (
         <PostText text={post?.text} postId={post?.id} />
-      ) : !post?.youtube_url &&
+      ) : 
         !post?.media?.video &&
         post?.media?.photo?.length === 1 &&
         post?.text ? (
-        <RepostBody post={post} />
+        <RepostBody height="h-[200px]" post={post} />
       ) : post?.media?.audio &&
         post?.text &&
         !post?.media?.video &&
@@ -76,14 +75,6 @@ function RepostsContainer({ post }: { post: Post }) {
         <>
           <PostText text={post.text} postId={post.id} />
           <PostManyImages post={post} />
-        </>
-      ) : post?.youtube_url && post?.text ? (
-        <>
-          <PostText text={post.text} postId={post.id} />
-          <PostVideo
-            photoUrl={post?.media?.photo?.[0]}
-            videoUrl={post?.media?.video}
-          />
         </>
       ) : null}
     </RepostParent>

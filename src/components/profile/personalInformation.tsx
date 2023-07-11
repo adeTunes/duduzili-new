@@ -88,7 +88,7 @@ function PersonalInformation({ user }) {
         </div>
         <div className="flex items-center gap-2">
           <Location size="16" color="#000" />
-          {user?.country}
+          {user?.town} {user?.country}
         </div>
         <p className="text-[#8A8D88] text-[15px] leading-6">
           {user?.bio ??

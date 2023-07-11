@@ -4,7 +4,7 @@ import PostImage from "../posts/postImage";
 import useImageViewer from "../../../../hooks/useImageViewer";
 import GalleryViewer from "../posts/galleryViewer";
 
-function RepostBody({ post }) {
+function RepostBody({ post, height }: { height?: string; post: any }) {
   const [opened, setOpened] = useState(false);
   const startIndex = 0;
 
@@ -14,6 +14,7 @@ function RepostBody({ post }) {
     <>
       <PostText text={post.text} postId={post.id} />
       <PostImage
+        height={height}
         handleClick={() => setOpened(true)}
         image={post?.media?.photo?.[0]}
       />

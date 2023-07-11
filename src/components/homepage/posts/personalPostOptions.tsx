@@ -6,8 +6,6 @@ import {
   savePostAction,
 } from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
-import EditPostModal from "@/components/modals/editPostModal";
-import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";

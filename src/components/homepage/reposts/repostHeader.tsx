@@ -11,15 +11,15 @@ function RepostHeader({post}) {
           color="#757575"
         />
         <div className="flex items-center gap-2">
-          <div className="h-[48px] w-[48px]">
+          <div className="h-[48px] max-[400px]:h-5 max-[400px]:w-5 w-[48px]">
             <img
-              src={post?.  user?.photo_url   }
+              src={post?.user?.photo_url}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <p className="flex items-center gap-2 text-[#2A2A2A] font-medium ">
+            <p className="flex max-[400px]:text-[13px] items-center gap-2 text-[#2A2A2A] font-medium ">
               {post?.user?.first_name} {post?.user?.last_name}
             </p>
             <span className="flex items-center gap-1">

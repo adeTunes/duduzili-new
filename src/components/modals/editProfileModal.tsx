@@ -35,6 +35,7 @@ function EditProfileModal({ opened, close }) {
       country: "",
       photo_url: null,
       cover_image: null,
+      town: ""
     },
   });
   useEffect(() => {
@@ -238,6 +239,8 @@ function EditProfileModal({ opened, close }) {
                   root: "flex flex-col gap-1",
                   label: "font-medium text-base leading-6",
                 }}
+                placeholder="Enter town e.g Lagos"
+                {...form.getInputProps("town")}
               />
             </div>
           </div>
@@ -268,7 +271,8 @@ function EditProfileModal({ opened, close }) {
           if (form.values.username)
             data.append("username", form.values.username);
           if (form.values.bio) data.append("bio", form.values.bio);
-          data.append("town", "");
+          if(form.values.town)
+          data.append("town", form.values.town);
           if (form.values.country) data.append("country", form.values.country);
           if (
             form.values.photo_url &&
