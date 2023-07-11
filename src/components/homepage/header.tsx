@@ -8,6 +8,7 @@ import {
   Profile2User,
   SearchNormal1,
   Sms,
+  TicketStar,
   TrendUp,
 } from "iconsax-react";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -66,14 +67,14 @@ function Header() {
       routeId: "/home",
     },
     {
-      href: "/communities/posts",
+      href: "/payments",
       icon: (
-        <Profile2User
+        <TicketStar
           className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
           variant="Outline"
         />
       ),
-      routeId: "communities",
+      routeId: "payments",
     },
     {
       icon: (
@@ -118,11 +119,11 @@ function Header() {
       icon: <Home size="20" variant="Outline" />,
       routeId: "/home",
     },
-    {
-      href: "/communities/posts",
-      icon: <Profile2User size="20" variant="Outline" />,
-      routeId: "communities",
-    },
+    // {
+    //   href: "/communities/posts",
+    //   icon: <Profile2User size="20" variant="Outline" />,
+    //   routeId: "communities",
+    // },
     {
       href: "/trending",
       icon: <TrendUp size="20" variant="Outline" />,
@@ -154,7 +155,7 @@ function Header() {
         >
           {user?.user?.photo_url ? (
             <img
-              src={user?.user?.photo_url }
+              src={user?.user?.photo_url}
               className="w-10 h-10 cursor-pointer rounded-full object-cover"
               alt=""
             />

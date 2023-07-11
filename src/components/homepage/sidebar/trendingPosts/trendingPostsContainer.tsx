@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import ShareOptions from "../../posts/shareOptions";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 import Link from "next/link";
+import { base64encode } from "nodejs-base64";
 
 function TrendingPostsContainer({
   children,
@@ -139,7 +140,8 @@ function TrendingPostsContainer({
         </div>
         <div
           onClick={() => {
-            router.push(`/posts/${post?.id}`);
+            const id = +post?.id * 1000000;
+            router.push(`/posts/${base64encode(id)}`);
           }}
           className="cursor-ponter flex items-center gap-[5px]"
         >

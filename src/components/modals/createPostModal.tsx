@@ -148,7 +148,7 @@ function CreatePostModal({ opened, close }) {
       }}
       opened={opened}
       onClose={() => {
-        if (form.values.text || audio || recordedAudio | selected.length)
+        if (form.values.text || audio || recordedAudio || selected.length)
           openModal();
         else closeModal();
       }}

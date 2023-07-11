@@ -18,7 +18,7 @@ import MainContainer from "@/components/main-container";
 
 const Search = () => {
   const { back } = useRouter();
-  const tags = ["Posts", "People", "Community"];
+  const tags = ["Posts", "People"];
   const [selected, setSelected] = useState(0);
   const queryString = useAtomValue(pageSearch);
   const [queryValue, setQueryValue] = useState(null);
@@ -96,21 +96,22 @@ const Search = () => {
                 </p>
               ))}
             </div>
-            {selected === 0 ? (
-              <div className="flex flex-col gap-8">
-                {data?.search_result?.posts?.map((post, idx) => (
-                  <PostsContainer key={idx} post={post} />
-                ))}
-              </div>
-            ) : selected === 1 ? (
-              <PeopleList data={data?.search_result} query={query} />
-            ) : (
-              <div className="flex flex-col gap-[50px] pb-[50px]">
-                {data?.search_result?.community?.map((item, index) => (
-                  <DiscoverCommunitiesCard key={index} community={item} />
-                ))}
-              </div>
-            )}
+            {
+              selected === 0 ? (
+                <div className="flex flex-col gap-8">
+                  {data?.search_result?.posts?.map((post, idx) => (
+                    <PostsContainer key={idx} post={post} />
+                  ))}
+                </div>
+              ) : (
+                <PeopleList data={data?.search_result} query={query} />
+              )
+              // <div className="flex flex-col gap-[50px] pb-[50px]">
+              //   {data?.search_result?.community?.map((item, index) => (
+              //     <DiscoverCommunitiesCard key={index} community={item} />
+              //   ))}
+              // </div>
+            }
           </section>
           <aside
             id="no-scroll"

@@ -57,11 +57,11 @@ function MobileDrawer({ opened, close }) {
           name: "Discover People",
           href: "/discover-people",
         },
-        {
-          icon: <PeopleIcon />,
-          name: "Community",
-          href: "/communities/joined",
-        },
+        // {
+        //   icon: <PeopleIcon />,
+        //   name: "Community",
+        //   href: "/communities/joined",
+        // },
         {
           icon: <TrendUp size={24} color="#E59055" />,
           name: "Trending",
