@@ -26,7 +26,7 @@ function PostManyImages({ post }: { post: Post }) {
           acc.push(({ gridSpan, handleClick }: Props) => (
             <PostVideo
               gridSpan={gridSpan}
-              height="h-[156px]"
+              height="h-[156px] max-[390px]:h-[100px]"
               videoUrl={post?.media?.video}
             />
           ));
@@ -34,7 +34,7 @@ function PostManyImages({ post }: { post: Post }) {
           acc.push(({ gridSpan }: Props) => (
             <PostAudio
               gridSpan={gridSpan}
-              height="h-[156px]"
+              height="h-[156px] max-[390px]:h-[100px]"
               audioUrl={post?.media?.audio}
               photoUrl="/community-default.png"
             />
@@ -45,7 +45,7 @@ function PostManyImages({ post }: { post: Post }) {
               <div
                 onClick={handleClick}
                 style={{ gridColumn: gridSpan }}
-                className="h-[156px]"
+                className="h-[156px] max-[390px]:h-[100px]"
               >
                 <img
                   src={item}
@@ -65,7 +65,7 @@ function PostManyImages({ post }: { post: Post }) {
 
   return (
     <>
-      <div className="grid max-[390px]:hidden grid-cols-[1fr_1fr] gap-2">
+      <div className="grid grid-cols-[1fr_1fr] gap-2">
         {media?.map((Item, idx) =>
           media.length <= 4 ? (
             <Item
@@ -87,7 +87,7 @@ function PostManyImages({ post }: { post: Post }) {
                     setStartIndex(0);
                     setOpened(true);
                   }}
-                  className="relative h-[156px] cursor-pointer"
+                  className="relative h-[156px] max-[390px]:h-[100px] cursor-pointer"
                 >
                   <div className="absolute rounded-2xl top-0 left-0 bottom-0 right-0 bg-black opacity-40"></div>
                   <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
@@ -106,7 +106,7 @@ function PostManyImages({ post }: { post: Post }) {
           opened={opened}
         />
       </div>
-      <Carousel
+      {/* <Carousel
         maw={320}
         mx="auto"
         withIndicators
@@ -121,7 +121,7 @@ function PostManyImages({ post }: { post: Post }) {
             <Item key={idx} />
           </Carousel.Slide>
         ))}
-      </Carousel>
+      </Carousel> */}
     </>
   );
 }

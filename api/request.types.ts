@@ -22,6 +22,7 @@ export type Post = {
   total_reposts: number;
   i_like_this_post: boolean;
   repost_time: Date;
+  repost_text: string;
   original_post_date: Date;
   user: PostUser;
   parent: null;

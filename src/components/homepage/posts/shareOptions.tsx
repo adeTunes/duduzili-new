@@ -97,7 +97,7 @@ function ShareOptions({
       width={200}
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] !max-w-[200px]",
+        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] max-[390px]:!px-2 max-[390px]:!py-1",
       }}
       styles={{
         dropdown: {

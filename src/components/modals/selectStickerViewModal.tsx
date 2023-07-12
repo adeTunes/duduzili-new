@@ -6,6 +6,7 @@ import { rewardPostWithSticker } from "../../../api/apiRequests";
 import StickersList from "./stickersList";
 import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { amountFormatter } from "@/helpers/amountFormatter";
 
 function SelectStickerViewModal({
   postId,
@@ -79,6 +80,8 @@ function SelectStickerViewModal({
       );
     }
   }, [selected.length]);
+
+
   return (
     <>
       <div id="no-scroll" className="overflow-auto w-[90%] mx-auto">

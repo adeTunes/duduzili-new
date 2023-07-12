@@ -183,7 +183,7 @@ function EditPostModal({ opened, close, id }) {
         <div className="flex gap-3 justify-end">
           <PrimaryButtonOutline onClick={close} text="Cancel" />
           <PrimaryButton
-            text="Share"
+            text="Update"
             onClick={() => {
               if (!form.values.text)
                 return showNotification({

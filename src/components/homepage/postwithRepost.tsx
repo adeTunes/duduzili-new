@@ -32,6 +32,7 @@ function PostwithRepost({ post }: { post: Post }) {
           is_repost: post?.is_repost,
         }}
       />
+      {post?.repost_text ? <PostText text={post?.repost_text} /> : null}
       <hr className="w-full bg-[#EDF0FB]" />
       <div className="flex gap-4 items-center">
         <Icon
@@ -43,7 +44,7 @@ function PostwithRepost({ post }: { post: Post }) {
         <div className="flex items-center gap-2">
           <div className="h-[48px] w-[48px]">
             <img
-              src={post?.user?.photo_url }
+              src={post?.user?.photo_url}
               className="w-full h-full object-cover rounded-full"
               alt="user profile picture"
             />
@@ -54,17 +55,21 @@ function PostwithRepost({ post }: { post: Post }) {
             </p>
             <span className="flex items-center gap-1">
               <small className="text-[#757575] text-[10px]">
-                {post?.original_post_date ? new Date(post?.original_post_date)
-                  ?.toLocaleDateString("us-EN", {
-                    month: "long",
-                    day: "numeric",
-                  })
-                  ?.split(" ")
-                  ?.reverse()
-                  ?.join(" ") : ""}
+                {post?.original_post_date
+                  ? new Date(post?.original_post_date)
+                      ?.toLocaleDateString("us-EN", {
+                        month: "long",
+                        day: "numeric",
+                      })
+                      ?.split(" ")
+                      ?.reverse()
+                      ?.join(" ")
+                  : ""}
               </small>
               <span className="bg-[#2A2A2A] text-white text-[10px] px-2 rounded-2xl py-1">
-                {post?.original_post_date ? dayjs(post?.original_post_date).fromNow() : ""}
+                {post?.original_post_date
+                  ? dayjs(post?.original_post_date).fromNow()
+                  : ""}
               </span>
             </span>
           </div>

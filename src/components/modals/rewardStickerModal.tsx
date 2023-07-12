@@ -22,7 +22,7 @@ function RewardStickersModal({ opened, postId, openSuccess, close }) {
       }}
       opened={opened}
       onClose={close}
-      title="Select a Sticker"
+      title="Gift a Sticker"
       centered
     >
       <SelectStickerViewModal postId={postId} close={close} openSuccess={openSuccess} />
