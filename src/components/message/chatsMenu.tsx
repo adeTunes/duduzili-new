@@ -40,7 +40,7 @@ function ChatsMenu({ chatID, setLoading }) {
             deleteChat();
           }}
         >
-          Delete Chat
+          Clear conversation
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
