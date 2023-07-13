@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react";
 import { clsx } from "@mantine/core";
-import WaveSurfer from "wavesurfer";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { StopCircle } from "iconsax-react";
+import { WaveSurfer, WaveForm } from "wavesurfer-react";
 
 function PostAudio({
   audioUrl,
@@ -25,55 +25,103 @@ function PostAudio({
   const [playerReady, setPlayerReady] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
 
-  useEffect(() => {
-    if (!audioUrl) return;
+  // useEffect(() => {
+  //   if (!audioUrl) return;
 
-    wavesurfer.current = WaveSurfer.create({
-      container: "#wavesurfer-id",
-      waveColor: "white",
-      progressColor: "#aaa9a9",
-      height: 30,
-      cursorWidth: 1,
-      cursorHeight: 25,
-      cursorColor: "white",
-      barWidth: 2,
-      normalize: true,
-      responsive: true,
-      fillParent: true,
-    });
+  //   wavesurfer.current = WaveSurfer.create({
+  //     container: "#wavesurfer-id",
+  //     waveColor: "white",
+  //     progressColor: "#aaa9a9",
+  //     height: 30,
+  //     cursorWidth: 1,
+  //     cursorHeight: 25,
+  //     cursorColor: "white",
+  //     barWidth: 2,
+  //     normalize: true,
+  //     responsive: true,
+  //     fillParent: true,
+  //   });
 
-    wavesurfer.current.on("ready", () => {
-      setPlayerReady(true);
-    });
+  //   wavesurfer.current.on("ready", () => {
+  //     setPlayerReady(true);
+  //   });
 
-    const handleResize = wavesurfer.current.util.debounce(() => {
-      wavesurfer.current.empty();
-      wavesurfer.current.drawBuffer();
-    }, 150);
+  //   const handleResize = wavesurfer.current.util.debounce(() => {
+  //     wavesurfer.current.empty();
+  //     wavesurfer.current.drawBuffer();
+  //   }, 150);
 
-    wavesurfer.current.on("play", () => setIsPlaying(true));
-    wavesurfer.current.on("pause", () => setIsPlaying(false));
-    window.addEventListener("resize", handleResize, false);
-  }, [audioUrl]);
+  //   wavesurfer.current.on("play", () => setIsPlaying(true));
+  //   wavesurfer.current.on("pause", () => setIsPlaying(false));
+  //   window.addEventListener("resize", handleResize, false);
+  // }, [audioUrl]);
 
-  useEffect(() => {
-    if (audioUrl) {
-      wavesurfer.current.load(audioUrl);
+  // useEffect(() => {
+  //   if (audioUrl) {
+  //     wavesurfer.current.load(audioUrl);
+  //   }
+  // }, [audioUrl]);
+
+  // const togglePlayback = () => {
+  //   if (!isPlaying) {
+  //     wavesurferRef.current.play();
+  //     setIsStarted(true);
+  //   } else {
+  //     wavesurferRef.current.pause();
+  //   }
+  // };
+  // const stopPlayback = () => {
+  //   wavesurfer.current.stop();
+  //   setIsStarted(false)
+  // };
+
+  const wavesurferRef = useRef<any>();
+  const handleWSMount = useCallback((waveSurfer) => {
+    wavesurferRef.current = waveSurfer;
+    if (wavesurferRef.current) {
+      wavesurferRef.current.load(audioUrl);
     }
-  }, [audioUrl]);
+  }, []);
+  const play = useCallback(() => {
+    wavesurferRef.current.playPause();
+  }, []);
+  const options = {
+    waveColor: "#fff",
+    progressColor: "#FCCA0F",
+    cursorColor: "transparent",
+    barWidth: 3,
+    barGap: 3,
+    barRadius: 3,
+    responsive: true,
+    height: 27,
+    normalize: true,
+    partialRender: true,
+  };
 
   const togglePlayback = () => {
+    if (!wavesurferRef.current) {
+      return;
+    }
+  
     if (!isPlaying) {
-      wavesurfer.current.play();
-      setIsStarted(true);
+      wavesurferRef.current.play();
+      setIsPlaying(true);
     } else {
-      wavesurfer.current.pause();
+      wavesurferRef.current.pause();
+      setIsPlaying(false);
     }
   };
-  const stopPlayback = () => {
-    wavesurfer.current.stop();
-    setIsStarted(false)
-  };
+  
+  // Use effect to update isPlaying based on current time
+  
+  useEffect(() => {
+    
+    if (wavesurferRef?.current) {
+      wavesurferRef?.current?.on("finish", () => {
+        setIsPlaying(false)
+      })
+    }
+  }, [wavesurferRef?.current]);
 
   // useEffect(() => {
   //   const audio = new Audio(audioUrl);
@@ -136,7 +184,7 @@ function PostAudio({
           paddingInline: "5px",
           paddingBlock: "5px",
         }}
-        className="grid grid-cols-[auto_1fr_28px] gap-2 relative items-center"
+        className="grid grid-cols-[auto_1fr] gap-2 relative items-center"
       >
         <div className="p-1 cursor-pointer rounded-full bg-white">
           {isPlaying ? (
@@ -157,16 +205,9 @@ function PostAudio({
             />
           )}
         </div>
-        <div className="w-full" id="wavesurfer-id" />
-        {isStarted && (
-          <StopCircle
-            onClick={stopPlayback}
-            size="28"
-            color="white"
-            variant="Bulk"
-            className="cursor-pointer"
-          />
-        )}
+          <WaveSurfer onMount={handleWSMount}>
+            <WaveForm id="waveform" {...options}></WaveForm>
+          </WaveSurfer>
       </div>
 
       {/* <div
