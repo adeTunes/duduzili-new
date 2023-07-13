@@ -31,7 +31,7 @@ function FriendListCard({
         </div>
         <div className="gap-1 flex flex-col">
           <p className="text-[#222222] font-semibold leading-6">{name}</p>
-          <Text className="text-[#2A2A2A] text-xs" lineClamp={1} truncate>{text.slice(0, 30)}...</Text>
+          <Text className="text-[#2A2A2A] text-xs" lineClamp={1} truncate>{text ? `${text?.slice(0, 30) }...` : ""}</Text>
         </div>
       </div>
       <div className="flex flex-col gap-2 items-center">

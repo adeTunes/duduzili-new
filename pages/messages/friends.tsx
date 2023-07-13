@@ -3,12 +3,7 @@ import { Skeleton, TextInput } from "@mantine/core";
 import { Icon } from "@iconify/react";
 import MessageCard from "@/components/message/messageCard";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import {
-  chatFriendOptions,
-  openChatDrawer,
-  selectedMessage,
-  userDetails,
-} from "@/store";
+import { chatFriendOptions, selectedMessage, userDetails } from "@/store";
 import MessageLayout from "@/layout/messageLayout";
 import MessagesChatBox from "@/components/message/messagesChatBox";
 import useConversations from "../../hooks/use-conversations";
@@ -18,7 +13,7 @@ import { selectedFriendToChat } from "@/store";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { base64decode, base64encode } from "nodejs-base64";
-import ChatDrawer from "@/components/message/chatDrawer";
+import Head from "next/head";
 
 const Messages: NextPageX = () => {
   const setSelectedMessage = useSetAtom(selectedMessage);
@@ -76,6 +71,9 @@ const Messages: NextPageX = () => {
 
   return (
     <div className="flex flex-1 overflow-auto flex-col gap-6">
+      <Head>
+        <title>Duduzili | Messages</title>
+      </Head>
       <div onClick={open}>
         <TextInput
           classNames={{

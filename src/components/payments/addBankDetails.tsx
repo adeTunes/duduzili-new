@@ -45,7 +45,7 @@ function AddBankDetails({form, loading}: Props) {
       );
   return (
     <>
-    <p className="text-[#757575] font-medium leading-6">
+    <p className="text-[#757575] max-[460px]:text-sm font-medium leading-6">
         Confirm bank account
       </p>
       <Select

@@ -11,6 +11,7 @@ import JoinRequest from "@/components/communities/joinRequest";
 import useCommunityPendingRequests from "../hooks/useCommunityPendingRequests";
 import { useEffect, useState } from "react";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 const PendingRequestPage: NextPageX = () => {
   const { back, query } = useRouter();
@@ -29,6 +30,9 @@ const PendingRequestPage: NextPageX = () => {
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Community Pending Requests</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

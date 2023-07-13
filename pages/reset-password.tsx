@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { Loading } from "@/components/loading";
 import { useAtomValue } from "jotai";
 import { verifyAccountEmail } from "@/store";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,6 +54,9 @@ const ResetPassword: NextPageX = () => {
   }
   return (
     <div className="flex-1 flex items-center justify-center">
+      <Head>
+        <title>Duduzili | Reset Password</title>
+      </Head>
       <form onSubmit={handleResetPassword} className="flex flex-col gap-12 w-fit">
         <div className="flex flex-col gap-4">
           <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">

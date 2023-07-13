@@ -21,6 +21,7 @@ import Back from "@/components/back";
 import useUserActivities from "../../hooks/useUserDrafts";
 import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 function ProfileActivitiesLayout({
   children,
@@ -49,6 +50,9 @@ function ProfileActivitiesLayout({
   const { back } = useRouter();
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | {`${user?.user?.first_name} ${user?.user?.last_name}`}</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

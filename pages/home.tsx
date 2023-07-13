@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import PostSkeleton from "@/components/skeletons/postHeaderSkeleton";
 import { Loader } from "@mantine/core";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 const HomePage: NextPageX = () => {
   const [limit, setLimit] = useAtom(postLimit);
@@ -27,6 +28,9 @@ const HomePage: NextPageX = () => {
   }, [data]);
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Home</title>
+      </Head>
       <div className="bg-white">
         {user?.token ? <Header /> : <HeaderUnauthenticated />}
       </div>

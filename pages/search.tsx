@@ -15,6 +15,7 @@ import PeopleList from "@/components/search/peopleList";
 import DiscoverCommunitiesCard from "@/components/communities/discoverCommunitiesCard";
 import { Loading } from "@/components/loading";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 const Search = () => {
   const { back } = useRouter();
@@ -35,6 +36,9 @@ const Search = () => {
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Search</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

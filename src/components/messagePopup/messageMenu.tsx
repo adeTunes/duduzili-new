@@ -1,16 +1,35 @@
-import { userDetails } from "@/store";
+import { popupFriendList, popupTotalUnread, userDetails } from "@/store";
 import { Icon } from "@iconify/react";
 import { Menu } from "@mantine/core";
-import { useAtomValue } from "jotai";
-import React, { useState } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import React, { useEffect, useState } from "react";
 import FriendList from "./friendList";
 import AddGroupMembers from "./addGroupMembers";
 import GroupChatView from "./groupChatView";
+import useConversations from "../../../hooks/use-conversations";
 
 function MessageMenu() {
   const user: any = useAtomValue(userDetails);
   const [action, setAction] = useState("friend-list");
-  const [tab, setTab] = useState(0)
+  const [tab, setTab] = useState(0);
+  const setFriendList: any = useSetAtom(popupFriendList);
+  const { data, isLoading, refetch } = useConversations();
+  const [totalUnread, setTotalUnread] = useAtom(popupTotalUnread);
+
+  useEffect(() => {
+    if (data) {
+      setFriendList({ isLoading, data });
+      setTotalUnread(
+        data?.reduce((acc, item) => {
+          const eachTotal = item?.get_messages?.filter(
+            (item) => item?.receiver?.id === user?.user?.id && !item?.read
+          )?.length;
+          acc += eachTotal;
+          return acc;
+        }, 0)
+      );
+    }
+  }, [data]);
   return (
     <Menu
       shadow="md"
@@ -29,7 +48,7 @@ function MessageMenu() {
       styles={{
         dropdown: {
           boxShadow: "8px 4px 28px rgba(0, 0, 0, 0.25)",
-          height: "min(80vh, 500px)"
+          height: "min(80vh, 500px)",
         },
         item: {
           "&[data-hovered]": {
@@ -50,7 +69,7 @@ function MessageMenu() {
             color="white"
           />
           <p className="py-1 px-3 max-[500px]:py-[2px] max-[500px]:px-[8px] rounded-full bg-[#E59055] text-[15px] text-white">
-            {user?.number_of_messages}
+            {totalUnread}
           </p>
         </div>
       </Menu.Target>
@@ -58,9 +77,16 @@ function MessageMenu() {
       <Menu.Dropdown>
         <Menu.Item>
           {action === "friend-list" ? (
-            <FriendList tab={tab} setTab={setTab} setAction={setAction} user={user} />
+            <FriendList
+              tab={tab}
+              setTab={setTab}
+              setAction={setAction}
+              user={user}
+            />
           ) : action === "add-group-members" ? (
             <AddGroupMembers setAction={setAction} />
+          ) : action === "begin chat" ? (
+            <GroupChatView setAction={setAction} setTab={setTab} />
           ) : null}
         </Menu.Item>
       </Menu.Dropdown>

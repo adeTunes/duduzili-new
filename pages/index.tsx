@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useLayoutEffect } from "react";
 
@@ -6,7 +7,13 @@ function Home() {
   useLayoutEffect(() => {
     router.push("/home");
   }, []);
-  return <></>;
+  return (
+    <>
+      <Head>
+        <title>Duduzili | Home</title>
+      </Head>
+    </>
+  );
 }
 
 export default Home;

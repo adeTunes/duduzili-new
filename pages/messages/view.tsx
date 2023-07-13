@@ -34,6 +34,7 @@ import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useRouter } from "next/router";
 import { base64decode } from "nodejs-base64";
 import MobileDrawerLogo from "@/components/mobileDrawer/mobileDrawerLogo";
+import Head from "next/head";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
@@ -296,6 +297,9 @@ function MessagesChatBox() {
 
   return (
     <div className="h-screen px-2 grid grid-rows-[auto_1fr] overflow-auto">
+      <Head>
+        <title>Duduzili | {friend?.first_name} {friend?.last_name}</title>
+      </Head>
       <div className="flex py-3 justify-between items-center">
         <MobileDrawerLogo />
         <CloseButton

@@ -14,6 +14,7 @@ import { Loading } from "@/components/loading";
 import { useSetAtom } from "jotai";
 import { userDetails } from "@/store";
 import { LoginUser } from "../api/request.types";
+import Head from "next/head";
 
 const Home: NextPageX = () => {
   const [loading, setLoading] = useState(false);
@@ -40,6 +41,9 @@ const Home: NextPageX = () => {
 
   return (
     <div className="flex-1 flex items-center justify-center">
+      <Head>
+        <title>Duduzili | Sign In</title>
+      </Head>
       <form
         onSubmit={(e) => {
           e.preventDefault();

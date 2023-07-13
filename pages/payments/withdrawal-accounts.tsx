@@ -12,7 +12,10 @@ import { useDisclosure } from "@mantine/hooks";
 import AddBankModal from "@/components/payments/addBankModal";
 import AddBankSuccessModal from "@/components/payments/addBankSuccessModal";
 import WithdrawalBankModal from "@/components/payments/withdrawalBankModal";
-import { Skeleton } from "@mantine/core";
+import { Skeleton, clsx } from "@mantine/core";
+import MainContainer from "@/components/main-container";
+import Back from "@/components/back";
+import Head from "next/head";
 
 function WithdrawalAccounts() {
   const { back } = useRouter();
@@ -32,7 +35,7 @@ function WithdrawalAccounts() {
             "Bank Name": item?.bank_name,
             "Account Name": item?.account_name,
             "Account Number": item?.account_number,
-            id: item?.id
+            id: item?.id,
           },
         });
         return acc;
@@ -42,25 +45,24 @@ function WithdrawalAccounts() {
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Accounts</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>
-      <div className="flex-1 overflow-auto">
-        <main className="bg-[#FBFBFB] h-full overflow-auto relative max-w-[1139px] justify-between pt-[50px] w-[80%] mx-auto gap-[50px] flex">
+      <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
+        <main
+          className={clsx(
+            "bg-[#FBFBFB] gap-5 max-[790px]:w-full h-full overflow-auto relative w-[1131px] justify-between pt-[3vh] pb-[120px] flex"
+          )}
+        >
           <section
             id="no-scroll"
-            className="w-[70%] overflow-auto max-w-[726px] flex flex-col gap-[34px]"
+            className="w-[70%] max-[900px]:flex-1 overflow-auto max-w-[726px] flex flex-col gap-[34px]"
           >
-            <div
-              onClick={back}
-              className="flex cursor-pointer items-center gap-10"
-            >
-              <ArrowLeft size="32" color="#2A2A2A" variant="Outline" />
-              <p className="text-[#2A2A2A] leading-[29px] text-[24px] font-bold">
-                Withdrawal Accounts
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
+            <Back text="Withdrawal Accounts" />
+            <div style={{gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))"}} className="grid gap-6">
               <div
                 style={{ boxShadow: "-2px 3px 12px 1px rgba(0, 0, 0, 0.05)" }}
                 className="min-h-[247px] bg-white rounded-[8px] flex items-center justify-center"
@@ -98,7 +100,7 @@ function WithdrawalAccounts() {
           </section>
           <aside
             id="no-scroll"
-            className="w-[30%] pb-[80px] overflow-auto max-w-[325px] flex flex-col gap-6"
+            className="w-[30%] max-[690px]:hidden overflow-auto pb-[80px] min-w-[300px] max-w-[400px] flex flex-col gap-6"
           >
             <WalletCardAside />
             <DiscoverPeople />

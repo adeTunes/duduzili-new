@@ -1,21 +1,20 @@
-import { Button, PinInput, TextInput } from "@mantine/core";
+import { Button, PinInput } from "@mantine/core";
 import Link from "next/link";
 import { NextPageX } from "../types/next";
 import AuthenticationLayout from "@/layout/authentication";
-import { useRef, useState } from "react";
-import { useForm } from "@mantine/form";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { showNotification } from "@mantine/notifications";
-import { verifyAccountType } from "../api/request.types";
 import { verifyAccount } from "../api/apiRequests";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { verifyAccountEmail } from "@/store";
 import { Loading } from "@/components/loading";
+import Head from "next/head";
 
 const ResetPassword: NextPageX = () => {
-  const [otp, setOTP] = useState("")
-  const email = useAtomValue(verifyAccountEmail)
+  const [otp, setOTP] = useState("");
+  const email = useAtomValue(verifyAccountEmail);
   const { query, push } = useRouter();
   const [loading, setLoading] = useState(false);
   const handleVerifyAccount = async (data) => {
@@ -36,12 +35,15 @@ const ResetPassword: NextPageX = () => {
   };
   return (
     <div className="flex-1 flex items-center justify-center">
+      <Head>
+        <title>Duduzili | Verify Account</title>
+      </Head>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          const data = new FormData()
-          data.append("otp", otp)
-          data.append("email", email)
+          const data = new FormData();
+          data.append("otp", otp);
+          data.append("email", email);
           handleVerifyAccount(data);
         }}
         className="flex flex-col gap-12 w-fit"
@@ -55,21 +57,21 @@ const ResetPassword: NextPageX = () => {
           </small>
         </div>
         <div className="flex justify-center">
-        <PinInput
-        required
-          length={6}
-          classNames={{
-            input: " border border-[#BDBDBD] bg-transparent rounded-[8px]",
-          }}
-          styles={{
-            input: {
-              width: "clamp(30px, 3vw, 53px)",
-              height: "clamp(35px, 4vw, 48px)",
-            }
-          }}
-          value={otp}
-          onChange={setOTP}
-        />
+          <PinInput
+            required
+            length={6}
+            classNames={{
+              input: " border border-[#BDBDBD] bg-transparent rounded-[8px]",
+            }}
+            styles={{
+              input: {
+                width: "clamp(30px, 3vw, 53px)",
+                height: "clamp(35px, 4vw, 48px)",
+              },
+            }}
+            value={otp}
+            onChange={setOTP}
+          />
         </div>
         <Button
           type="submit"

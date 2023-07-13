@@ -6,6 +6,7 @@ import { userDetails } from "@/store";
 import { clsx } from "@mantine/core";
 import { ArrowLeft } from "iconsax-react";
 import { useAtomValue } from "jotai";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -83,6 +84,9 @@ function PrivacyPolicy() {
   const user: any = useAtomValue(userDetails);
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Privacy Policy</title>
+      </Head>
       <div className="bg-white">
         {user?.token ? <Header /> : <HeaderUnauthenticated />}
       </div>

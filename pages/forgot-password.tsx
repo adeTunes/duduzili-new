@@ -13,6 +13,7 @@ import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { Loading } from "@/components/loading";
 import { useSetAtom } from "jotai";
 import { verifyAccountEmail } from "@/store";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,9 @@ const ForgotPassword: NextPageX = () => {
   }, [form.values.email])
   return (
     <div className="flex-1 flex items-center justify-center">
+      <Head>
+        <title>Duduzili | Forgot Password</title>
+      </Head>
       <form
         onSubmit={(e) => {
           e.preventDefault();

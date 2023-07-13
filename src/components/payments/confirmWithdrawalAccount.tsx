@@ -21,9 +21,9 @@ function ConfirmWithdrawalAccount({ bank, nextStep, amount }) {
         className="p-6 flex flex-col gap-[25px] rounded-lg"
       >
         {Object.entries(entries).map(([key, value], index) => (
-          <div key={index} className="flex items-center justify-between">
-            <p className="font-medium leading-6 text-[#bdbdbd]">{key}</p>
-            <p className="text-[#2a2a2a] leading-6 font-semibold">{value}</p>
+          <div key={index} className="flex gap-2 items-center justify-between">
+            <p className="font-medium max-[400px]:text-xs leading-6 text-[#bdbdbd]">{key}</p>
+            <p className="text-[#2a2a2a] max-[400px]:text-sm text-right leading-6 font-semibold">{value}</p>
           </div>
         ))}
       </div>

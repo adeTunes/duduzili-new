@@ -12,6 +12,7 @@ import { verifyAccount } from "../api/apiRequests";
 import { useAtom, useAtomValue } from "jotai";
 import { verifyAccountEmail } from "@/store";
 import { Loading } from "@/components/loading";
+import Head from "next/head";
 
 const ResetPassword: NextPageX = () => {
   const [otp, setOTP] = useState("")
@@ -36,6 +37,9 @@ const ResetPassword: NextPageX = () => {
   };
   return (
     <div className="flex-1 flex items-center justify-center">
+      <Head>
+        <title>Duduzili | Verify Account</title>
+      </Head>
       <form
         onSubmit={(e) => {
           e.preventDefault();

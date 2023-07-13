@@ -99,7 +99,7 @@ const TransactionHistory = () => {
   return (
     <div className="flex flex-1 flex-col">
       {transactions?.length ? (
-        <div className="flex-1">
+        <div id="no-scroll" className="flex-1 transactions overflow-auto">
           <table
           {...getTableProps()}
           className="bg-[white] text-sm font-normal text-[#514747] w-full"
@@ -111,7 +111,7 @@ const TransactionHistory = () => {
                   <th
                     key={index}
                     {...columns.getHeaderProps()}
-                    className="py-4 text-[#C1C2C6] leading-[25px] pl-8 text-left font-normal border-b border-b-[#F0F0F1]"
+                    className="py-4 text-[#C1C2C6] whitespace-nowrap leading-[25px] pl-8 text-left font-normal border-b border-b-[#F0F0F1]"
                   >
                     {columns.render("Header")}
                   </th>
@@ -130,8 +130,8 @@ const TransactionHistory = () => {
                         {...cell.getCellProps()}
                         className="py-3 text-left pl-8"
                       >
-                        <span className="flex items-center gap-3">
-                          <span className="bg-[#4534b821] rounded-full h-10 w-10 flex items-center justify-center">
+                        <span className="flex items-center whitespace-nowrap gap-3">
+                          <span className="bg-[#4534b821] whitespace-nowrap rounded-full h-10 w-10 flex items-center justify-center">
                             {cell.row.original.mode === "Credit" ? (
                               <Icon
                                 color="#4534B8"

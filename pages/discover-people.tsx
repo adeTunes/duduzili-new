@@ -7,11 +7,15 @@ import { useRouter } from "next/router";
 import TrendingPosts from "@/components/homepage/sidebar/trendingPosts";
 import DiscoverSuggested from "@/components/discover/discoverSuggested";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 const DiscoverPeoplePage = () => {
   const { back } = useRouter();
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Discover People</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

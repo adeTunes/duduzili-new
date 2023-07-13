@@ -111,10 +111,10 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] min-w-[280px] gap-3 max-w-[580px] flex flex-col overflow-auto",
+          "py-6 px-8 max-[460px]:min-w-[90vw] max-[400px]:px-2 max-[400px]:py-3 rounded-[24px] max-[320px]:px-3 max-[320px]:py-3 min-w-[420px] gap-3 max-w-[580px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
-        title: "font-bold text-[24px] text-[#2A2A2A] leading-[29px]",
-        body: "overflow-auto grid grid-rows-[auto_auto_1fr_auto] !gap-[40px] !p-0",
+        title: "font-bold max-[400px]:text-base text-[24px] text-[#2A2A2A] leading-[29px]",
+        body: "overflow-auto grid grid-rows-[auto_auto_1fr_auto] max-[400px]:!gap-[10px] !gap-[40px] !p-0",
       }}
       styles={{
         content: {
@@ -130,7 +130,7 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       title="Withdraw Fund"
       centered
     >
-      <p className="text-[#757575] font-medium leading-6">
+      <p className="text-[#757575] max-[400px]:text-xs font-medium leading-6">
         {active === 0 ? (
           "Select withdrawal account"
         ) : active === 1 ? (

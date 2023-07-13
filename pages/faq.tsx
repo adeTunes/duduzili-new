@@ -5,11 +5,15 @@ import Header from "@/components/homepage/header";
 import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
 import { userDetails } from "@/store";
 import { useAtomValue } from "jotai";
+import Head from "next/head";
 
 function Faq() {
   const user: any = useAtomValue(userDetails)
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Frequently Asked Questions</title>
+      </Head>
       <div className="bg-white">
       {user?.token ? <Header /> : <HeaderUnauthenticated />}
       </div>

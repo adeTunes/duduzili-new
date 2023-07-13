@@ -9,6 +9,7 @@ import Link from "next/link";
 import useFollowers from "../../hooks/useFollowers";
 import FollowSkeleton from "@/components/skeletons/followSkeleton";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
+import Head from "next/head";
 
 const Followers: NextPageX = () => {
   const queryClient = useQueryClient();
@@ -18,6 +19,9 @@ const Followers: NextPageX = () => {
   const { data, isLoading } = useFollowers(+query.id);
   return (
     <>
+    <Head>
+    <title>Duduzili | Followers</title>
+    </Head>
       <div className="grid gap-8 grid-cols-2">
         <Link href={`/followers/${query.id}?user=${query.user}`}>
           <p

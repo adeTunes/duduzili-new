@@ -17,6 +17,7 @@ import Back from "@/components/back";
 import MainContainer from "@/components/main-container";
 import FollowSkeleton from "@/components/skeletons/followSkeleton";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
+import Head from "next/head";
 
 function Friends() {
   const { back } = useRouter();
@@ -37,6 +38,9 @@ function Friends() {
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Friends</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

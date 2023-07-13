@@ -48,10 +48,10 @@ function PersonalInformation({ user }) {
             {user?.photo_url ? (
               <img
                 onClick={() => {
-                  setImage(user?.photo_url );
+                  setImage(user?.photo_url);
                   setGalleryOpened(true);
                 }}
-                src={user?.photo_url }
+                src={user?.photo_url}
                 className="w-full relative h-full object-cover rounded-full"
                 alt="user profile picture"
               />
@@ -86,10 +86,12 @@ function PersonalInformation({ user }) {
             @{user?.username}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Location size="16" color="#000" />
-          {user?.town} {user?.country}
-        </div>
+        {user?.country || user?.town ? (
+          <div className="flex items-center gap-2">
+            <Location size="16" color="#000" />
+            {user?.town} {user?.country}
+          </div>
+        ) : null}
         <p className="text-[#8A8D88] text-[15px] leading-6">
           {user?.bio ??
             "Hi there! I use Duduzili platform to chat with friends and family, send medias and receive updates!"}
