@@ -10,6 +10,7 @@ import Link from "next/link";
 import useFollowings from "../../hooks/useFollowings";
 import FollowSkeleton from "@/components/skeletons/followSkeleton";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
+import Head from "next/head";
 
 const Following: NextPageX = () => {
   const queryClient = useQueryClient();
@@ -19,6 +20,9 @@ const Following: NextPageX = () => {
   const { data, isLoading } = useFollowings(+query.id);
   return (
     <>
+    <Head>
+    <title>Duduzili | Following</title>
+    </Head>
       <div className="grid gap-8 grid-cols-2">
         <Link href={`/followers/${query.id}?user=${query.user}`}>
           <p className="py-3 text-center text-[#787878] font-medium leading-6">

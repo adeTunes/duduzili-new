@@ -20,7 +20,7 @@ function DepositSuccessModal({ opened, close }) {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] min-w-[280px] gap-[32px] max-w-[580px] flex flex-col overflow-auto",
+          "py-6 px-8 max-[400px]:py-3 max-[400px]:px-3 rounded-[24px] min-w-[280px] gap-[32px] max-w-[580px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
         title: "font-semibold w-full text-[#181D27] leading-6 text-center",
         body: "overflow-auto grid grid-rows-[auto_1fr] !gap-[32px] !p-0",

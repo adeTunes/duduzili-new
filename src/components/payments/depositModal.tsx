@@ -23,9 +23,9 @@ function DepositModal({ opened, close }) {
       classNames={{
         close: "h-[30px] w-[30px] rounded-[29px] bg-[#EDF0FB]",
         content:
-          "py-6 px-8 rounded-[24px] min-w-[280px] gap-3 max-w-[580px] flex flex-col overflow-auto",
+          "py-6 px-8 rounded-[24px] max-[330px]:px-[10px] max-[330px]:py-3 min-w-[305px] max-[330px]:min-w-[90vw] gap-3 max-w-[580px] flex flex-col overflow-auto",
         header: "!px-0 !pt-0 !pb-0",
-        title: "font-bold text-[24px] text-[#2A2A2A] leading-[29px]",
+        title: "font-bold max-[330px]:text-base text-[24px] text-[#2A2A2A] leading-[29px]",
         body: "overflow-auto grid !gap-[40px] !p-0",
       }}
       styles={{
@@ -39,7 +39,7 @@ function DepositModal({ opened, close }) {
       title="Deposit Fund"
       centered
     >
-      <p className="text-[#757575] font-medium leading-6">
+      <p className="text-[#757575] max-[330px]:text-sm font-medium leading-6">
         Select deposit account
       </p>
       <TextInput
@@ -54,7 +54,7 @@ function DepositModal({ opened, close }) {
         {...form.getInputProps("amount")}
       />
       <PrimaryButton
-        className="mt-[40px]"
+        className="mt-[40px] max-[330px]:text-sm"
         onClick={() => {
           if (!form.values.amount)
             return showNotification({
@@ -85,7 +85,7 @@ function DepositModal({ opened, close }) {
               <Loader size="sm" />
             </p>
           ) : (
-            <p className="flex items-center justify-center gap-1">
+            <p className="flex whitespace-nowrap items-center justify-center gap-1">
               <span>Continue with</span>
               <img
                 src="/payments/paystack.png"

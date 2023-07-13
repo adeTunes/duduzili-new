@@ -5,10 +5,14 @@ import Aside from "@/components/homepage/sidebar";
 import React from "react";
 import Back from "@/components/back";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 function ViewPost() {
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Post</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

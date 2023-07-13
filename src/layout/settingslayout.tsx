@@ -5,6 +5,7 @@ import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
 import { useDisclosure } from "@mantine/hooks";
 import SettingsDrawer from "@/components/settings/settings-drawer";
 import Back from "@/components/back";
+import Head from "next/head";
 
 const SettingsLayout = ({
   children,
@@ -17,6 +18,9 @@ const SettingsLayout = ({
   const [opened, {open, close}] = useDisclosure(false)
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Settings</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

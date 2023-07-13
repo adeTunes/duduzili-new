@@ -170,3 +170,7 @@ div[style="top: 0px; left: 0px; overflow: hidden; position: fixed; display: flex
   justify-content: center;
   font-size: 12px;
 }
+
+.transactions tr, td {
+  white-space: nowrap;
+}

@@ -9,6 +9,7 @@ import SupportCard from "@/components/support/supportCard";
 import { Icon } from "@iconify/react";
 import { Button, TextInput, Textarea } from "@mantine/core";
 import { ArrowLeft, Location, Sms } from "iconsax-react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -41,6 +42,9 @@ function Support() {
   const {back} = useRouter()
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Support</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

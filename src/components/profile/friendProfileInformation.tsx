@@ -151,10 +151,12 @@ function FriendProfileInformation({ friendDetails }) {
             @{friendDetails?.user?.username}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Location size="16" color="#000" />
-          {friendDetails?.user?.town} {friendDetails?.user?.country}
-        </div>
+        {friendDetails?.user?.country || friendDetails?.user?.town ? (
+          <div className="flex items-center gap-2">
+            <Location size="16" color="#000" />
+            {friendDetails?.user?.town} {friendDetails?.user?.country}
+          </div>
+        ) : null}
         <p className="text-[#8A8D88] text-[15px] leading-6">
           {friendDetails?.user?.bio}
         </p>

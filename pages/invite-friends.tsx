@@ -10,12 +10,16 @@ import AddFriend from "@/components/communities/addFriend";
 import PendingRequests from "@/components/homepage/sidebar/pendingRequests";
 import useDiscoverPeople from "../hooks/useDiscoverPeople";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 const InviteFriend: NextPageX = () => {
   const { back } = useRouter();
   const { data } = useDiscoverPeople();
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>Duduzili | Invite Friends</title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>

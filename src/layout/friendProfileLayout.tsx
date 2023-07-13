@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import React, { ReactNode, useEffect } from "react";
 import useUserActivities from "../../hooks/useUserDrafts";
 import MainContainer from "@/components/main-container";
+import Head from "next/head";
 
 function FriendProfileLayout({
   children,
@@ -32,9 +33,15 @@ function FriendProfileLayout({
       setFriendDetails(data);
     }
   }, [data]);
-  
+
   return (
     <div className="flex flex-col overflow-auto h-screen">
+      <Head>
+        <title>
+          Duduzili | `${friendDetails?.user?.first_name} $
+          {friendDetails?.user?.last_name}`
+        </title>
+      </Head>
       <div className="bg-white">
         <Header />
       </div>
@@ -44,7 +51,13 @@ function FriendProfileLayout({
             id="no-scroll"
             className="w-[70%] overflow-auto max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[726px] flex flex-col gap-[2.8vh]"
           >
-            <Back text={friendDetails?.user?.first_name ? `${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}` : null} />
+            <Back
+              text={
+                friendDetails?.user?.first_name
+                  ? `${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`
+                  : null
+              }
+            />
             {friendDetails?.user ? (
               <div className="p-2 flex flex-col gap-8">
                 <FriendProfileInformation friendDetails={friendDetails} />

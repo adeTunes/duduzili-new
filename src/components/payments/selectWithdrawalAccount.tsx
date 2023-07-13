@@ -59,14 +59,14 @@ function SelectWithdrawalAccount({nextStep, form, bank, setBank }: Prop) {
                     <div className="flex items-center gap-4">
                       <img
                         src="/payments/default-bank-logo.png"
-                        className="h-[60px] w-[60px] object-cover"
+                        className="h-[60px] max-[400px]:w-[30px] max-[400px]:h-[30px] w-[60px] object-cover"
                         alt=""
                       />
                       <div className="flex flex-col gap-1">
-                        <p className="text-[#2a2a2a] font-semibold leading-6">
+                        <p className="text-[#2a2a2a] max-[400px]:text-sm font-semibold leading-6">
                           {item?.account_name}
                         </p>
-                        <p className="text-[#757575] text-[15px] leading-6">
+                        <p className="text-[#757575] max-[400px]:text-xs text-[15px] leading-6">
                           {item?.account_number}
                         </p>
                       </div>

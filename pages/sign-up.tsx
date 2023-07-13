@@ -12,6 +12,7 @@ import { RegisterUser } from "../api/request.types";
 import { registerUser } from "../api/apiRequests";
 import { useAtomValue, useSetAtom } from "jotai";
 import { verifyAccountEmail } from "@/store";
+import Head from "next/head";
 
 const SignUp: NextPageX = () => {
   const [loading, setLoading] = useState(false);
@@ -47,6 +48,9 @@ const SignUp: NextPageX = () => {
   };
   return (
     <div className="flex-1 flex items-center justify-center px-5 max-[300px]:px-2">
+      <Head>
+        <title>Duduzili | Register</title>
+      </Head>
       <form
         onSubmit={(e) => {
           e.preventDefault();

@@ -26,7 +26,7 @@ function BankDetailsCard({ details }: Props) {
   return (
     <div
       style={{ boxShadow: "-2px 3px 12px 1px rgba(0, 0, 0, 0.05)" }}
-      className="min-h-[247px] bg-white rounded-[8px] px-5 py-4 flex flex-col justify-between gap-5"
+      className="min-h-[247px] min-w-[270] bg-white rounded-[8px] px-5 py-4 flex flex-col justify-between gap-5"
     >
       <span className="w-10 h-10 rounded-full">
         <img
@@ -48,7 +48,7 @@ function BankDetailsCard({ details }: Props) {
           </Fragment>
         ))}
       </div>
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-2 justify-between">
         <span className="flex cursor-pointer items-center gap-2">
           <CardSend size={20} color="#367EE8" />
           <p
@@ -66,7 +66,7 @@ function BankDetailsCard({ details }: Props) {
             Withdraw
           </p>
         </span>
-        <span className="flex cursor-pointer items-center gap-2">
+        <span className="flex whitespace-nowrap cursor-pointer items-center gap-2">
           <Trash size={20} color="#E1261C" />
           <p className="text-sm leading-[18px] text-[#E1261C]">
             Delete Account
