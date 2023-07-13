@@ -3,7 +3,6 @@ import { Post } from "../../../api/request.types";
 import RepostParent from "./reposts/repostParent";
 import PostText from "./posts/text";
 import PostImage from "./posts/postImage";
-import PostAudio from "./posts/postAudio";
 import PostVideo from "./posts/postVideo";
 import PostVideoAndImage from "./posts/postVideoAndImage";
 import PostVideoAndAudio from "./posts/postVideoAndAudio";
@@ -11,6 +10,9 @@ import PostManyImages from "../communities/postManyImages";
 import GalleryViewer from "./posts/galleryViewer";
 import useImageViewer from "../../../hooks/useImageViewer";
 import RepostBody from "./reposts/repostBody";
+import dynamic from "next/dynamic";
+
+const PostAudio = dynamic(() => import("./posts/postAudio"), {ssr: false})
 
 function RepostsContainer({ post }: { post: Post }) {
   

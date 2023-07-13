@@ -1,11 +1,12 @@
 import Image from "next/image";
 import React, { Fragment, useEffect, useState } from "react";
 import { Post } from "../../../api/request.types";
-import PostAudio from "../homepage/posts/postAudio";
 import PostVideo from "../homepage/posts/postVideo";
 import GalleryViewer from "../homepage/posts/galleryViewer";
 import useImageViewer from "../../../hooks/useImageViewer";
-import { Carousel } from "@mantine/carousel";
+import dynamic from "next/dynamic";
+
+const PostAudio = dynamic(() => import("../homepage/posts/postAudio"), {ssr: false})
 
 type Props = { gridSpan?: string; handleClick?: () => void };
 

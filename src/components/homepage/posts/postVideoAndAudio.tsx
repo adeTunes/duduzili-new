@@ -1,7 +1,9 @@
 import { Icon } from "@iconify/react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React, { useState, useRef } from "react";
-import PostAudio from "./postAudio";
+
+const PostAudio = dynamic(() => import("./postAudio"), {ssr: false})
 
 function PostVideoAndAudio({
   videoUrl,

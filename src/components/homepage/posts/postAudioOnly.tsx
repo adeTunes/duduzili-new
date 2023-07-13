@@ -1,9 +1,11 @@
 import React from "react";
 import PostHeader from "./postHeader";
 import PostFooter from "./postFooter";
-import PostAudio from "./postAudio";
 import PostText from "./text";
 import { Post } from "../../../../api/request.types";
+
+const PostAudio = dynamic(() => import("./postAudio"), {ssr: false})
+import dynamic from "next/dynamic";
 
 function PostWithAudio({ post }: { post: Post }) {
   return (

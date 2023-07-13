@@ -1,4 +1,3 @@
-import PostAudio from "../homepage/posts/postAudio";
 import PostFooter from "../homepage/posts/postFooter";
 import PostImage from "../homepage/posts/postImage";
 import PostVideo from "../homepage/posts/postVideo";
@@ -8,6 +7,9 @@ import PostText from "../homepage/posts/text";
 import CommunityHeader from "./communityHeader";
 import CommunityPostBody from "./communityPostBody";
 import PostManyImages from "./postManyImages";
+import dynamic from "next/dynamic";
+
+const PostAudio = dynamic(() => import("../homepage/posts/postAudio"), {ssr: false})
 
 function CommunityList({ post, community }) {
   return (

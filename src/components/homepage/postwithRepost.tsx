@@ -3,10 +3,6 @@ import PostHeader from "./posts/postHeader";
 import PostText from "./posts/text";
 import PostFooter from "./posts/postFooter";
 import { Icon } from "@iconify/react";
-import Image from "next/image";
-import PostSection from "./postSection";
-import PostImage from "./posts/postImage";
-import PostAudio from "./posts/postAudio";
 import PostVideo from "./posts/postVideo";
 import PostVideoAndImage from "./posts/postVideoAndImage";
 import PostVideoAndAudio from "./posts/postVideoAndAudio";
@@ -15,6 +11,9 @@ import { Post } from "../../../api/request.types";
 import RepostBody from "./reposts/repostBody";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import dynamic from "next/dynamic";
+
+const PostAudio = dynamic(() => import("./posts/postAudio"), {ssr: false})
 
 function PostwithRepost({ post }: { post: Post }) {
   dayjs.extend(relativeTime);
