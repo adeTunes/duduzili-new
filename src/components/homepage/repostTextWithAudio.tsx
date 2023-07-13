@@ -3,9 +3,11 @@ import PostHeader from "./posts/postHeader";
 import PostText from "./posts/text";
 import PostFooter from "./posts/postFooter";
 import { Icon } from "@iconify/react";
-import PostAudio from "./posts/postAudio";
 import Image from "next/image";
 import RepostHeader from "./reposts/repostHeader";
+import dynamic from "next/dynamic";
+
+const PostAudio = dynamic(() => import("./posts/postAudio"), {ssr: false})
 
 function RepostTextWithAudio({ post }) {
   return (
