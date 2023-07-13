@@ -12,7 +12,6 @@ export default function App({ Component, pageProps }: AppPropsX) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charSet="UTF-8" />
-
         <meta
           name="description"
           content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
@@ -47,7 +46,7 @@ export default function App({ Component, pageProps }: AppPropsX) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest"></link>
-        <meta property="og:image" content="/logo.png" />
+        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`} />
         <title>Duduzili</title>
       </Head>
       <div style={{ background: "#FBFBFB" }} className={inter.className}>
