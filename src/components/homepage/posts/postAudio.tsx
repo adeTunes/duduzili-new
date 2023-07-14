@@ -57,18 +57,18 @@ function PostAudio({
         backgroundPosition: "top center",
         gridColumn: gridSpan
       }}
-      className={clsx(height || "h-[200px]", "p-5 flex relative justify-between flex-col rounded-2xl")}
+      className={clsx(height || "h-[240px]", "p-5 grid grid-rows-[auto_1fr_54px] relative rounded-2xl")}
     >
       <div className="absolute bg-black opacity-30 rounded-2xl top-0 left-0 right-0 bottom-0" />
       <p
         style={{ background: "rgba(255, 255, 255, 0.2)" }}
-        className="text-[14px] z-[9] rounded-[32px] self-start py-[3px] text-white px-6"
+        className="text-[14px] justify-self-start z-[9] rounded-[32px] self-start py-[3px] text-white px-6"
       >
         Audio
       </p>
       <img
         src="/homePage/sound-wave.png"
-        className="w-[40%] min-w-[70px] object-cover self-center"
+        className="w-[40%] justify-self-center max-h-[80px] rounded-[12px]  min-w-[70px] object-cover self-center"
         alt="audio post logo"
       />
       {/* <div
@@ -96,7 +96,7 @@ function PostAudio({
         </div>
         <small className="text-white">{formatTime(remainingTime)}</small>
       </div> */}
-      <audio src={audioUrl} controls className="w-full"></audio>
+      <audio src={audioUrl} controls className="w-[80%] mx-auto max-[420px]:w-full"></audio>
     </div>
   );
 }
