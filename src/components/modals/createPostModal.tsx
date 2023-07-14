@@ -126,7 +126,7 @@ function CreatePostModal({ opened, close }) {
           setPreview({ ...data, ogUrl: data?.ogUrl || urls?.[0] });
         })
         .catch((e) => {
-          console.log(e);
+          // console.log(e);
         });
   }, [form.values.text]);
 

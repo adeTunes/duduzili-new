@@ -56,7 +56,7 @@ function PostText({
             })
             .catch((e) => {
               setPreviewLoading(false);
-              console.log(e);
+              // console.log(e);
             });
         }
       }

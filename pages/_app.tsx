@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppPropsX) {
         />
         <meta
           name="keywords"
-          content="social media app, authentic expression, diverse opinions, censorship-free, connecting people, ideas sharing, dialogue, empowering creators, user-generated content"
+          content="social media app, duduzili, chat, authentic expression, diverse opinions, censorship-free, connecting people, ideas sharing, dialogue, empowering creators, user-generated content"
         />
         <meta
           property="og:title"

@@ -19,7 +19,7 @@ function AddCommunityMemberModal({ opened, close }) {
     })
   useEffect(() => {
     if (friends) {
-      console.log(friends);
+      // console.log(friends);
       setMembersList(
         friends?.reduce((acc, item, idx) => {
           acc.push({
