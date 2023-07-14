@@ -46,7 +46,7 @@ export default function App({ Component, pageProps }: AppPropsX) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest"></link>
-        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`} />
+        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`} />
         <title>Duduzili</title>
       </Head>
       <div style={{ background: "#FBFBFB" }} className={inter.className}>
