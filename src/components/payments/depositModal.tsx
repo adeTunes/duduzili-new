@@ -68,7 +68,6 @@ function DepositModal({ opened, close }) {
           data.append("amount", form.values.amount);
           initializeDeposit(data)
             .then(({ data }) => {
-              console.log(data)
               setLoading(false);
               form.reset();
               close();

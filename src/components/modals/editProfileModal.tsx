@@ -261,7 +261,7 @@ function EditProfileModal({ opened, close }) {
                   };
                 });
               })
-              .catch((e) => console.log(e));
+              .catch((e) => {});
           }
           var data = new FormData();
           if (form.values.first_name)
