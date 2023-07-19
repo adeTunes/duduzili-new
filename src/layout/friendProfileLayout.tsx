@@ -37,9 +37,21 @@ function FriendProfileLayout({
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <Head>
+        <meta
+          property="og:image"
+          content={friendDetails?.user?.photo_url}
+        />
+        <meta
+          property="og:title"
+          content={`${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
+        />
+        <meta
+          property="og:description"
+          content={friendDetails?.user?.bio}
+        />
         <title>
-          Duduzili | `${friendDetails?.user?.first_name} $
-          {friendDetails?.user?.last_name}`
+          Duduzili |{" "}
+          {`${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
         </title>
       </Head>
       <div className="bg-white">

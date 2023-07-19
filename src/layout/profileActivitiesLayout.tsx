@@ -51,7 +51,15 @@ function ProfileActivitiesLayout({
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <Head>
-        <title>Duduzili | {`${user?.user?.first_name} ${user?.user?.last_name}`}</title>
+        <meta property="og:image" content={user?.user?.photo_url} />
+        <meta
+          property="og:title"
+          content={`${user?.user?.first_name} ${user?.user?.last_name}`}
+        />
+        <meta property="og:description" content={user?.user?.bio} />
+        <title>
+          Duduzili | {`${user?.user?.first_name} ${user?.user?.last_name}`}
+        </title>
       </Head>
       <div className="bg-white">
         <Header />
