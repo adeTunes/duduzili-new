@@ -3,6 +3,7 @@ import { AppPropsX } from "../types/next";
 import { Inter } from "next/font/google";
 import Providers from "@/providers";
 import Head from "next/head";
+import { CookiesProvider } from "react-cookie";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,13 +47,18 @@ export default function App({ Component, pageProps }: AppPropsX) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest"></link>
-        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`} />
+        <meta
+          property="og:image"
+          content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`}
+        />
         <title>Duduzili</title>
       </Head>
       <div style={{ background: "#FBFBFB" }} className={inter.className}>
-        <Providers Component={Component}>
-          <Component {...pageProps} />
-        </Providers>
+        <CookiesProvider>
+          <Providers Component={Component}>
+            <Component {...pageProps} />
+          </Providers>
+        </CookiesProvider>
       </div>
     </>
   );

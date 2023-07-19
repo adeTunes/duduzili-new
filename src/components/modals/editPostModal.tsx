@@ -38,7 +38,7 @@ function EditPostModal({ opened, close, id }) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails);
-  const { pathname } = useRouter();
+  const { pathname, reload } = useRouter();
   const [audio, setAudio] = useState(null);
 
   const [audioMenuOpened, setAudioMenuOpened] = useState(false);
@@ -219,10 +219,11 @@ function EditPostModal({ opened, close, id }) {
                 if (pathname.includes("home"))
                   queryClient.invalidateQueries(["all-posts"]);
                 else if (pathname.includes("my-profile")) {
-                  queryClient.invalidateQueries([
-                    "user-activities",
-                    user?.user?.id,
-                  ]);
+                  // queryClient.invalidateQueries([
+                  //   "user-activities",
+                  //   user?.user?.id,
+                  // ]);
+                  reload()
                 } else queryClient.invalidateQueries(["single-posts", id]);
                 queryClient.invalidateQueries(["trending-posts"]);
                 setSelected([]);

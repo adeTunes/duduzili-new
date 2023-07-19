@@ -38,7 +38,7 @@ function DropPictureZone({image, setImage}) {
   return (
     <Dropzone
       onDrop={(files) => setImage(files[0])}
-      onReject={(files) => console.log("rejected files", files)}
+      onReject={(files) => {}}
       // maxSize={100}
       accept={IMAGE_MIME_TYPE}
       openRef={openRef}

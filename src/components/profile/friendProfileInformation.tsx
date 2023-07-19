@@ -26,7 +26,7 @@ function FriendProfileInformation({ friendDetails }) {
 
   const { viewerData } = useImageViewer(image);
   const startIndex = 0;
-  const { query } = useRouter();
+  const { query, reload } = useRouter();
   return (
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
       <div className="flex flex-col">

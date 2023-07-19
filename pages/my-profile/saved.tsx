@@ -1,16 +1,22 @@
 import ProfileActivitiesLayout from "@/layout/profileActivitiesLayout";
 import { NextPageX } from "../../types/next";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import PostsContainer from "@/components/homepage/posts/postsContainer";
-import { userDetails, userFollowers, userFollowings } from "@/store";
+import {
+  currentUserDetails,
+  userDetails,
+  userFollowers,
+  userFollowings,
+} from "@/store";
 import ShowMoreButton from "@/components/showMoreButton";
 import useUserActivities from "../../hooks/useUserDrafts";
 import { useEffect } from "react";
 import EmptyComponent from "@/components/emptyComponent";
+import { base64decode } from "nodejs-base64";
 
-const Saved: NextPageX = () => {
-  const user: any = useAtomValue(userDetails);
-  const { data } = useUserActivities(user?.user?.id);
+const Saved: NextPageX = ({ data }: any) => {
+  const [userOnlineActivities, setUserOnlineActivities]: any =
+    useAtom(currentUserDetails);
   const setFollowings = useSetAtom(userFollowings);
   const setFollowers = useSetAtom(userFollowers);
 
@@ -18,6 +24,7 @@ const Saved: NextPageX = () => {
     if (data) {
       setFollowers(data?.followers);
       setFollowings(data?.followings);
+      setUserOnlineActivities(data);
     }
   }, [data]);
   return (
@@ -29,9 +36,9 @@ const Saved: NextPageX = () => {
       </div>
       {!data?.saveds?.length && (
         <EmptyComponent
-        className="max-w-[275px]"
-        text="Your saved posts will appear here"
-      />
+          className="max-w-[275px]"
+          text="Your saved posts will appear here"
+        />
       )}
       {/* <ShowMoreButton /> */}
     </>
@@ -40,3 +47,34 @@ const Saved: NextPageX = () => {
 
 Saved.Layout = ProfileActivitiesLayout;
 export default Saved;
+
+export async function getServerSideProps(context) {
+  const { query, req } = context;
+  const querystring = require("node:querystring");
+
+  const obj = querystring.parse(req.headers.cookie);
+  try {
+    const config = {
+      headers: {
+        authorization: `Token ${obj["duduzili-user"]}`,
+      },
+    };
+    const url = `https://duduzili-staging-server.com.ng/api/v1/rest-auth/user/${
+      +base64decode(query.user) / 1000000
+    }/`;
+    const respose = await fetch(url, config);
+    const data = await respose.json();
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (e) {
+    console.log("Something went wrong");
+    return {
+      props: {
+        error: JSON.stringify(e),
+      },
+    };
+  }
+}

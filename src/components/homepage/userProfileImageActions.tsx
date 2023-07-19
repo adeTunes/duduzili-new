@@ -14,15 +14,17 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { base64encode } from "nodejs-base64";
 
 function UserProfileImageActions({ children, unread, setLoading }) {
   const router = useRouter();
   const [statusLoading, setStatusLoading] = useState(false);
+  const user: any = useAtomValue(userDetails)
   const options = [
     {
       name: "View Profile",
       icon: <Profile size="24" color="#2A2A2A" />,
-      action: () => router.push("/my-profile/post"),
+      action: () => router.push(`/my-profile/post?user=${base64encode(+user?.user?.id * 1000000)}`),
     },
     {
       name: "Notifications",
@@ -52,7 +54,6 @@ function UserProfileImageActions({ children, unread, setLoading }) {
       },
     },
   ];
-  const user: any = useAtomValue(userDetails);
   const setUser = useSetAtom(userDetails);
   return (
     <Menu

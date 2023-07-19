@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageMedia from "@/components/profile/imageMedia";
 import VideoMedia from "@/components/profile/videoMedia";
 import AudioMedia from "@/components/profile/audioMedia";
 import { NextPageX } from "../../../types/next";
 import FriendProfileLayout from "@/layout/friendProfileLayout";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { friendPersonalDetails } from "@/store";
 import EmptyComponent from "@/components/emptyComponent";
 import usePostMedia from "../../../hooks/use-post-media";
 import GalleryViewer from "@/components/homepage/posts/galleryViewer";
 
-const ProfileMedia: NextPageX = () => {
-  const friendDetails: any = useAtomValue(friendPersonalDetails);
+const ProfileMedia: NextPageX = ({data}: any) => {
   const [opened, setOpened] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
+  
+  const friendDetails: any = useAtomValue(friendPersonalDetails);
+  const setFriendDetails = useSetAtom(friendPersonalDetails);
+  
   const { media } = usePostMedia(friendDetails?.medias);
   const viewedMedia = media.filter((item) => item.type !== "audio");
+
+  useEffect(() => {
+    if (data) {
+      setFriendDetails(data);
+    }
+  }, [data]);
 
   return !friendDetails?.user?.is_following &&
     friendDetails?.user?.is_private ? (
@@ -64,3 +73,31 @@ const ProfileMedia: NextPageX = () => {
 };
 ProfileMedia.Layout = FriendProfileLayout;
 export default ProfileMedia;
+
+export async function getServerSideProps(context) {
+  const { query, req } = context;
+  const querystring = require("node:querystring");
+
+  const obj = querystring.parse(req.headers.cookie);
+  try {
+    const config = {
+      headers: {
+        authorization: `Token ${obj["duduzili-user"]}`,
+      },
+    }
+    const url = `https://duduzili-staging-server.com.ng/api/v1/rest-auth/user/${query.id}/`
+    const respose = await fetch(url, config);
+    const data = await respose.json();
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        error: JSON.stringify(e),
+      },
+    };
+  }
+}

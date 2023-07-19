@@ -15,6 +15,7 @@ import React, { ReactNode, useEffect } from "react";
 import useUserActivities from "../../hooks/useUserDrafts";
 import MainContainer from "@/components/main-container";
 import Head from "next/head";
+import { getUserPosts } from "../../api/apiRequests";
 
 function FriendProfileLayout({
   children,
@@ -24,34 +25,19 @@ function FriendProfileLayout({
   [key: string]: any;
 }) {
   const friendDetails: any = useAtomValue(friendPersonalDetails);
-  const { query } = useRouter();
-  const { data } = useUserActivities(query.id);
-  const setFriendDetails = useSetAtom(friendPersonalDetails);
 
-  useEffect(() => {
-    if (data) {
-      setFriendDetails(data);
-    }
-  }, [data]);
 
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <Head>
-        <meta
-          property="og:image"
-          content={friendDetails?.user?.photo_url}
-        />
+        <meta property="og:image" content={friendDetails?.user?.photo_url} />
         <meta
           property="og:title"
           content={`${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
         />
-        <meta
-          property="og:description"
-          content={friendDetails?.user?.bio}
-        />
+        <meta property="og:description" content={friendDetails?.user?.bio} />
         <title>
-          Duduzili |{" "}
-          {`${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
+          Duduzili | {`${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
         </title>
       </Head>
       <div className="bg-white">
@@ -70,7 +56,6 @@ function FriendProfileLayout({
                   : null
               }
             />
-            {friendDetails?.user ? (
               <div className="p-2 flex flex-col gap-8">
                 <FriendProfileInformation friendDetails={friendDetails} />
                 <div className="flex flex-col gap-6">
@@ -80,9 +65,6 @@ function FriendProfileLayout({
                   </div>
                 </div>
               </div>
-            ) : (
-              <ProfileSkeleton />
-            )}
           </section>
           <aside
             id="no-scroll"

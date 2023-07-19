@@ -27,6 +27,7 @@ import CreatePostModal from "../modals/createPostModal";
 import SearchDropdown from "../searchDropdown";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
 import useConversations from "../../../hooks/use-conversations";
+import PeopleIcon from "../mobileDrawer/peopleIcon";
 
 function Header() {
   const user: any = useAtomValue(userDetails);
@@ -34,6 +35,7 @@ function Header() {
   const [unread, setUnread] = useState(null);
   const [unreadMessages, setUnreadMessages] = useState([]);
   const { data: conversations, isLoading, refetch } = useConversations();
+  const { pathname, push } = useRouter();
   // const {data: conversations, isLoading} = useSocketConversations()
   useEffect(() => {
     if (data) {
@@ -67,11 +69,13 @@ function Header() {
       routeId: "/home",
     },
     {
-      href: "",
+      href: "/discover-people",
       icon: (
-        <span></span>
+        <PeopleIcon
+          color={pathname.includes("/discover-people") ? "#4534B8" : "currentColor"}
+        />
       ),
-      routeId: "payments",
+      routeId: "discover-people",
     },
     // {
     //   href: "/payments",
@@ -178,7 +182,6 @@ function Header() {
       ),
     },
   ];
-  const { pathname, push } = useRouter();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [searchValue] = useDebouncedValue(search, 500);

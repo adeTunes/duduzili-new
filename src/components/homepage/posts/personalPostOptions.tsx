@@ -14,12 +14,13 @@ import { Post } from "../../../../api/request.types";
 function PersonalPostOptions({openDraft, setLoading, open, post }: {setLoading: any, openDraft: () => void, open: () => void, post: Post}) {
   const queryClient = useQueryClient();
   const user: any = useAtomValue(userDetails)
-  const { pathname } = useRouter();
+  const { pathname, reload } = useRouter();
   const successAction = () => {
     if (pathname.includes("home"))
       queryClient.invalidateQueries(["all-posts"]);
     else if (pathname.includes("my-profile")) {
-      queryClient.invalidateQueries(["user-activities", user?.user?.id]);
+      // queryClient.invalidateQueries(["user-activities", user?.user?.id]);
+      reload()
     } else queryClient.invalidateQueries(["single-posts", post?.id]);
   }
   const personalPostOptions = post?.is_repost ?

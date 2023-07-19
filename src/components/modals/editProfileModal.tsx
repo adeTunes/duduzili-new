@@ -22,6 +22,7 @@ import { displayImage } from "@/helpers/displayImage";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { useRouter } from "next/router";
 
 function EditProfileModal({ opened, close }) {
   const user: any = useAtomValue(userDetails);
@@ -35,7 +36,7 @@ function EditProfileModal({ opened, close }) {
       country: "",
       photo_url: null,
       cover_image: null,
-      town: ""
+      town: "",
     },
   });
   useEffect(() => {
@@ -54,8 +55,9 @@ function EditProfileModal({ opened, close }) {
   );
   const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const { reload } = useRouter();
   useEffect(() => {
-    setSource(user?.user?.photo_url );
+    setSource(user?.user?.photo_url);
   }, []);
 
   useEffect(() => {
@@ -99,7 +101,7 @@ function EditProfileModal({ opened, close }) {
         header: "!px-0 !pt-0 !pb-6 border-b border-b-[#EDF0FB]",
         title: "font-semibold text-[20px] text-black leading-6",
         body: "overflow-auto grid max-[390px]:px-0 grid-rows-[1fr_auto]",
-        inner: "z-[201]"
+        inner: "z-[201]",
       }}
       styles={{
         content: {
@@ -145,18 +147,18 @@ function EditProfileModal({ opened, close }) {
               }}
             >
               {source ? (
-              <img
-                src={source as string}
-                className="w-full h-full object-cover rounded-full"
-                alt="user profile picture"
-              />
-            ) : (
-              <DefaultProfilePicture
-                text="text-[300%] max-[1120px]:text-[250%] max-[900px]:text-[150%]"
-                firstName={user?.user?.first_name}
-                lastName={user?.user?.last_name}
-              />
-            )}
+                <img
+                  src={source as string}
+                  className="w-full h-full object-cover rounded-full"
+                  alt="user profile picture"
+                />
+              ) : (
+                <DefaultProfilePicture
+                  text="text-[300%] max-[1120px]:text-[250%] max-[900px]:text-[150%]"
+                  firstName={user?.user?.first_name}
+                  lastName={user?.user?.last_name}
+                />
+              )}
               <label
                 htmlFor="profile-input"
                 className="absolute h-[50px] cursor-pointer w-[50px] bg-[#4534B8] rounded-full opacity-50 flex items-center justify-center"
@@ -271,8 +273,7 @@ function EditProfileModal({ opened, close }) {
           if (form.values.username)
             data.append("username", form.values.username);
           if (form.values.bio) data.append("bio", form.values.bio);
-          if(form.values.town)
-          data.append("town", form.values.town);
+          if (form.values.town) data.append("town", form.values.town);
           if (form.values.country) data.append("country", form.values.country);
           if (
             form.values.photo_url &&
@@ -288,10 +289,11 @@ function EditProfileModal({ opened, close }) {
             getUserDetails(user?.user?.id)
               .then(({ data }) => {
                 setUser({ ...user, user: { ...user.user, ...data.user } });
-                queryClient.invalidateQueries([
-                  "user-activities",
-                  user?.user?.id,
-                ]);
+                // queryClient.invalidateQueries([
+                //   "user-activities",
+                //   user?.user?.id,
+                // ]);
+                reload();
               })
               .catch((e) => errorMessageHandler(e));
             close();

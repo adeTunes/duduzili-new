@@ -31,19 +31,6 @@ function ProfileActivitiesLayout({
 }) {
   const user: any = useAtomValue(userDetails);
 
-  const { data, isLoading } = useUserActivities(user?.user?.id);
-  const setFollowings = useSetAtom(userFollowings);
-  const setFollowers = useSetAtom(userFollowers);
-  const setUserDetails = useSetAtom(currentUserDetails);
-
-  useEffect(() => {
-    if (data) {
-      setFollowers(data?.followers);
-      setFollowings(data?.followings);
-      setUserDetails(data);
-    }
-  }, [data]);
-
   // const { data } = useFollowings(user?.user?.id);
   // console.log(data);
   const { back } = useRouter();
@@ -64,15 +51,7 @@ function ProfileActivitiesLayout({
               <div className="flex flex-col gap-6">
                 <ProfileActivities />
                 <div className="flex flex-col gap-10 pb-[50px]">
-                  {isLoading ? (
-                    <>
-                      <SinglePostSkeleton />
-                      <SinglePostSkeleton />
-                      <SinglePostSkeleton />
-                    </>
-                  ) : (
-                    children
-                  )}
+                  {children}
                 </div>
               </div>
             </div>

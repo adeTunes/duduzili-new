@@ -52,11 +52,7 @@ function MobileDrawer({ opened, close }) {
           name: "Feed",
           href: "/home",
         },
-        {
-          icon: <PeopleIcon />,
-          name: "Discover People",
-          href: "/discover-people",
-        },
+        
         // {
         //   icon: <PeopleIcon />,
         //   name: "Community",
