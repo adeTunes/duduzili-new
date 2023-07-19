@@ -21,7 +21,6 @@ import Back from "@/components/back";
 import useUserActivities from "../../hooks/useUserDrafts";
 import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 import MainContainer from "@/components/main-container";
-import Head from "next/head";
 
 function ProfileActivitiesLayout({
   children,
@@ -50,17 +49,6 @@ function ProfileActivitiesLayout({
   const { back } = useRouter();
   return (
     <div className="flex flex-col overflow-auto h-screen">
-      <Head>
-        <meta property="og:image" content={user?.user?.photo_url} />
-        <meta
-          property="og:title"
-          content={`${user?.user?.first_name} ${user?.user?.last_name}`}
-        />
-        <meta property="og:description" content={user?.user?.bio} />
-        <title>
-          Duduzili | {`${user?.user?.first_name} ${user?.user?.last_name}`}
-        </title>
-      </Head>
       <div className="bg-white">
         <Header />
       </div>
@@ -93,12 +81,12 @@ function ProfileActivitiesLayout({
             id="no-scroll"
             className="w-[30%] max-[790px]:hidden pb-[80px] overflow-auto min-w-[300px] max-w-[400px] flex flex-col gap-6"
           >
-            <div className="flex flex-col gap-4">
+            {/* <div className="flex flex-col gap-4">
               <p className="text-[#2A2A2A] text-[18px] leading-[22px] font-bold">
                 My Wallet
               </p>
               <WalletCardAside />
-            </div>
+            </div> */}
             <DiscoverPeople />
             <CompanyInfo />
           </aside>

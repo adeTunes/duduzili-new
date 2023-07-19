@@ -67,15 +67,22 @@ function Header() {
       routeId: "/home",
     },
     {
-      href: "/payments",
+      href: "",
       icon: (
-        <TicketStar
-          className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
-          variant="Outline"
-        />
+        <span></span>
       ),
       routeId: "payments",
     },
+    // {
+    //   href: "/payments",
+    //   icon: (
+    //     <TicketStar
+    //       className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
+    //       variant="Outline"
+    //     />
+    //   ),
+    //   routeId: "payments",
+    // },
     {
       icon: (
         <Add
