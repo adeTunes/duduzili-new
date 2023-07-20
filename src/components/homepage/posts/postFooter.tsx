@@ -109,7 +109,7 @@ function PostFooter({
         </div>
         <ShareOptions post={post} totalReposts={totalReposts} />
       </div>
-      {router.pathname === "/communities/posts" ? null : (
+      {/* {router.pathname === "/communities/posts" ? null : (
         <div
           onClick={handleStickers}
           className={clsx(
@@ -126,7 +126,7 @@ function PostFooter({
           />
           <p className="text-white">{sticker.length}</p>
         </div>
-      )}
+      )} */}
       <Loading loading={loading} />
       <SharedStickersModal
         stickerUsers={post?.sticker_user}

@@ -15,9 +15,11 @@ import { useSetAtom } from "jotai";
 import { userDetails } from "@/store";
 import { LoginUser } from "../api/request.types";
 import Head from "next/head";
+import { useCookies } from 'react-cookie';
 
 const Home: NextPageX = () => {
   const [loading, setLoading] = useState(false);
+  const [, setCookie] = useCookies(['duduzili-user']);
   const setUser = useSetAtom(userDetails);
   const form = useForm({
     initialValues: {
@@ -32,6 +34,7 @@ const Home: NextPageX = () => {
       const response = await loginUser(data);
       setUser(response.data);
       setLoading(false);
+      setCookie("duduzili-user", response.data.token, {path: "/"})
       push("/home");
     } catch (e) {
       setLoading(false);

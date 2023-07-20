@@ -67,15 +67,25 @@ function Header() {
       routeId: "/home",
     },
     {
-      href: "/payments",
+      href: "/discover-people",
       icon: (
-        <TicketStar
+        <Profile2User
           className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
           variant="Outline"
         />
       ),
-      routeId: "payments",
+      routeId: "discover-people",
     },
+    // {
+    //   href: "/payments",
+    //   icon: (
+    //     <TicketStar
+    //       className="w-7 h-7 max-[382px]:w-5 max-[382px]:h-5"
+    //       variant="Outline"
+    //     />
+    //   ),
+    //   routeId: "payments",
+    // },
     {
       icon: (
         <Add

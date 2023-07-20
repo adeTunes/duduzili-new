@@ -14,7 +14,7 @@ import {
 } from "@/store";
 import { ArrowLeft } from "iconsax-react";
 import { useAtomValue, useSetAtom } from "jotai";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import WalletCardAside from "@/components/payments/walletCardAside";
 import Back from "@/components/back";
@@ -22,6 +22,25 @@ import useUserActivities from "../../hooks/useUserDrafts";
 import SinglePostSkeleton from "@/components/skeletons/singlePostSkeleton";
 import MainContainer from "@/components/main-container";
 import Head from "next/head";
+import { base64decode } from "nodejs-base64";
+
+interface IUserInfo {
+  id: number;
+  username: string;
+  password: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  photo_url: string;
+  get_cover_image: string;
+  is_online: boolean;
+  bio: string;
+  town: string;
+  country: string;
+  is_private: boolean;
+  is_following: boolean;
+  location: string;
+}
 
 function ProfileActivitiesLayout({
   children,
@@ -47,12 +66,9 @@ function ProfileActivitiesLayout({
 
   // const { data } = useFollowings(user?.user?.id);
   // console.log(data);
-  const { back } = useRouter();
+
   return (
     <div className="flex flex-col overflow-auto h-screen">
-      <Head>
-        <title>Duduzili | {`${user?.user?.first_name} ${user?.user?.last_name}`}</title>
-      </Head>
       <div className="bg-white">
         <Header />
       </div>
@@ -85,12 +101,12 @@ function ProfileActivitiesLayout({
             id="no-scroll"
             className="w-[30%] max-[790px]:hidden pb-[80px] overflow-auto min-w-[300px] max-w-[400px] flex flex-col gap-6"
           >
-            <div className="flex flex-col gap-4">
+            {/* <div className="flex flex-col gap-4">
               <p className="text-[#2A2A2A] text-[18px] leading-[22px] font-bold">
                 My Wallet
               </p>
               <WalletCardAside />
-            </div>
+            </div> */}
             <DiscoverPeople />
             <CompanyInfo />
           </aside>
@@ -102,3 +118,4 @@ function ProfileActivitiesLayout({
 }
 
 export default ProfileActivitiesLayout;
+

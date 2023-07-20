@@ -12,6 +12,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { showNotification } from "@mantine/notifications";
 import copy from "copy-to-clipboard";
 import { base64encode } from "nodejs-base64";
+import { ShareIcon } from "./shareIcon";
 
 function ShareOptions({
   post,
@@ -26,7 +27,7 @@ function ShareOptions({
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleCopy = () => {
-    const id = +post?.id * 1000000
+    const id = +post?.id * 1000000;
     const copied = copy(`${location.host}/posts/${base64encode(id)}`);
     if (copied) {
       showNotification({
@@ -97,7 +98,8 @@ function ShareOptions({
       width={200}
       classNames={{
         item: "!p-0",
-        dropdown: "!py-6 !px-8 !rounded-[24px] !w-[auto] max-[390px]:!px-2 max-[390px]:!py-1",
+        dropdown:
+          "!py-6 !px-8 !rounded-[24px] !w-[auto] max-[390px]:!px-2 max-[390px]:!py-1",
       }}
       styles={{
         dropdown: {
@@ -113,13 +115,20 @@ function ShareOptions({
     >
       <Menu.Target>
         <div className="flex cursor-pointer items-center gap-2">
-          <Icon
+          {/* <Icon
             className={clsx(
               size ? "h-4 w-4" : "h-6 w-6",
               "max:[360px]:w-4 max:[360px]:h-4"
             )}
             icon="material-symbols:google-plus-reshare"
             color="#2a2a2a"
+          /> */}
+          <ShareIcon
+            className={clsx(
+              size ? "h-4 w-4" : "h-6 w-6",
+              "max-[360px]:w-4 max-[360px]:h-4"
+            )}
+            style={{transform: "rotateY(180deg)"}}
           />
           <p className=" text-[14px] text-[#2A2A2A] leading-[17px]">
             {totalReposts}

@@ -67,11 +67,11 @@ function MobileDrawer({ opened, close }) {
           name: "Trending",
           href: "/trending",
         },
-        {
-          icon: <TicketStar color="#9E00FF" size={24} />,
-          name: "Stickers & Payment",
-          href: "/payments",
-        },
+        // {
+        //   icon: <TicketStar color="#9E00FF" size={24} />,
+        //   name: "Stickers & Payment",
+        //   href: "/payments",
+        // },
       ],
     },
     {

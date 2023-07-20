@@ -38,8 +38,8 @@ function FriendProfileLayout({
     <div className="flex flex-col overflow-auto h-screen">
       <Head>
         <title>
-          Duduzili | `${friendDetails?.user?.first_name} $
-          {friendDetails?.user?.last_name}`
+          Duduzili | {`${friendDetails?.user?.first_name} 
+          ${friendDetails?.user?.last_name}`}
         </title>
       </Head>
       <div className="bg-white">
