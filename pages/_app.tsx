@@ -13,22 +13,9 @@ export default function App({ Component, pageProps }: AppPropsX) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charSet="UTF-8" />
         <meta
-          name="description"
-          content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
-        />
-        <meta
           name="keywords"
           content="social media app, duduzili, chat, authentic expression, diverse opinions, censorship-free, connecting people, ideas sharing, dialogue, empowering creators, user-generated content"
         />
-        {/* <meta
-          property="og:title"
-          content="Duduzili - Uniting People and Empowering Authentic Expression"
-        />
-        <meta
-          property="og:description"
-          content="Duduzili is a social media app built for individuals who value authentic expression and want to control the value of their creations. Join us in connecting with others, sharing ideas, and engaging in diverse conversations without the fear of censorship."
-        />
-        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`} /> */}
         <link
           rel="apple-touch-icon"
           sizes="180x180"

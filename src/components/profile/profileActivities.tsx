@@ -7,48 +7,24 @@ import { base64encode } from "nodejs-base64";
 import React from "react";
 
 function ProfileActivities() {
-  const user: any = useAtomValue(userDetails);
-
+  const user: any = useAtomValue(userDetails)
+  
   const tabs = [
     {
       text: "Post",
-      href: `/my-profile/post?user=${base64encode(
-        JSON.stringify({
-          name: `${user?.user?.first_name} ${user?.user?.last_name}`,
-          bio: user?.user?.bio,
-          photo: user?.user?.photo_url,
-        })
-      )}`,
+      href: `/my-profile/post?user=${base64encode(+user?.user?.id * 1000000)}`,
     },
     {
       text: "Media",
-      href: `/my-profile/media?user=${base64encode(
-        JSON.stringify({
-          name: `${user?.user?.first_name} ${user?.user?.last_name}`,
-          bio: user?.user?.bio,
-          photo: user?.user?.photo_url,
-        })
-      )}`,
+      href: `/my-profile/media?user=${base64encode(+user?.user?.id * 1000000)}`,
     },
     {
       text: "Saved",
-      href: `/my-profile/saved?user=${base64encode(
-        JSON.stringify({
-          name: `${user?.user?.first_name} ${user?.user?.last_name}`,
-          bio: user?.user?.bio,
-          photo: user?.user?.photo_url,
-        })
-      )}`,
+      href:  `/my-profile/saved?user=${base64encode(+user?.user?.id * 1000000)}`,
     },
     {
       text: "Draft",
-      href: `/my-profile/draft?user=${base64encode(
-        JSON.stringify({
-          name: `${user?.user?.first_name} ${user?.user?.last_name}`,
-          bio: user?.user?.bio,
-          photo: user?.user?.photo_url,
-        })
-      )}`,
+      href: `/my-profile/draft?user=${base64encode(+user?.user?.id * 1000000)}`,
     },
   ];
   const { pathname } = useRouter();

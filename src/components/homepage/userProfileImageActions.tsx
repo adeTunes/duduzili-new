@@ -25,16 +25,7 @@ function UserProfileImageActions({ children, unread, setLoading }) {
     {
       name: "View Profile",
       icon: <Profile size="24" color="#2A2A2A" />,
-      action: () =>
-        router.push(
-          `/my-profile/post?user=${base64encode(
-            JSON.stringify({
-              name: `${user?.user?.first_name} ${user?.user?.last_name}`,
-              bio: user?.user?.bio,
-              photo: user?.user?.photo_url
-            })
-          )}`
-        ),
+      action: () => router.push(`/my-profile/post?user=${base64encode(+user?.user?.id * 1000000)}`),
     },
     {
       name: "Notifications",
@@ -94,7 +85,11 @@ function UserProfileImageActions({ children, unread, setLoading }) {
             <div className="flex items-center border-b border-b-[#DFE5FA] pb-5 justify-between">
               <div className="flex items-center gap-[15px]">
                 {user?.user?.photo_url ? (
-                  <Avatar size={45} radius="xl" src={user?.user?.photo_url} />
+                  <Avatar
+                    size={45}
+                    radius="xl"
+                    src={user?.user?.photo_url }
+                  />
                 ) : (
                   <DefaultProfilePicture
                     text="text-[120%]"
@@ -139,13 +134,13 @@ function UserProfileImageActions({ children, unread, setLoading }) {
                       ? goOffline(setStatusLoading, () =>
                           setUser({
                             ...user,
-                            user: { ...user?.user, is_online: false },
+                            user: { ...user.user, is_online: false },
                           })
                         )
                       : goOnline(setStatusLoading, () =>
                           setUser({
                             ...user,
-                            user: { ...user?.user, is_online: true },
+                            user: { ...user.user, is_online: true },
                           })
                         );
                   }}
