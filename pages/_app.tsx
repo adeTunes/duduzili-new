@@ -3,10 +3,18 @@ import { AppPropsX } from "../types/next";
 import { Inter } from "next/font/google";
 import Providers from "@/providers";
 import Head from "next/head";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
+import { CookiesProvider } from "react-cookie";
+import { AppProps } from "next/app";
 
 const inter = Inter({ subsets: ["latin"] });
+const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps }: AppPropsX) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
@@ -37,9 +45,17 @@ export default function App({ Component, pageProps }: AppPropsX) {
         <title>Duduzili</title>
       </Head>
       <div style={{ background: "#FBFBFB" }} className={inter.className}>
-        <Providers Component={Component}>
-          <Component {...pageProps} />
-        </Providers>
+        <QueryClientProvider client={queryClient}>
+          <MantineProvider>
+            <ModalsProvider>
+              <Notifications position="top-right" />
+              <CookiesProvider>
+                <Component {...pageProps} />
+              </CookiesProvider>
+            </ModalsProvider>
+          </MantineProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </div>
     </>
   );

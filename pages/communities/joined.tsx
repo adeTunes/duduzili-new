@@ -1,4 +1,3 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
@@ -46,5 +45,4 @@ const {back} = useRouter()
     </div>
   );
 };
-Communities.Layout = fixedSidebarLayout;
 export default Communities;

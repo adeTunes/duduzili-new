@@ -1,5 +1,4 @@
 import { NextPageX } from "../types/next";
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import CreatePost from "@/components/homepage/createPost";
 import PostSection from "@/components/homepage/postSection";
@@ -76,5 +75,4 @@ const HomePage: NextPageX = () => {
     </div>
   );
 };
-HomePage.Layout = fixedSidebarLayout;
 export default HomePage;

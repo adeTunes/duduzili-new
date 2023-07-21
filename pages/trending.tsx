@@ -1,4 +1,3 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
@@ -83,5 +82,4 @@ const Trending: NextPageX = () => {
     </div>
   );
 };
-Trending.Layout = fixedSidebarLayout;
 export default Trending;

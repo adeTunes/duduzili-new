@@ -5,12 +5,11 @@ import { currentUserDetails } from "@/store";
 import PostsContainer from "../../src/components/homepage/posts/postsContainer";
 import EmptyComponent from "@/components/emptyComponent";
 import Head from "next/head";
-import axios from "axios";
 import { base64decode } from "nodejs-base64";
 
 const MyProfilePost: NextPageX = ({ data }: any) => {
   const userOnlineActivities: any = useAtomValue(currentUserDetails);
-  const details = data?.user
+  const details = data?.user;
 
   return (
     <>
@@ -32,29 +31,29 @@ const MyProfilePost: NextPageX = ({ data }: any) => {
           }
         />
       </Head>
-      <div className="flex flex-col gap-10 pb-[50px]">
-        {userOnlineActivities?.posts?.map((item, idx) => (
-          <PostsContainer key={idx} post={item} />
-        ))}
-      </div>
-      {!userOnlineActivities?.posts?.length && (
-        <EmptyComponent
-          className="max-w-[275px]"
-          text="Your posts will appear here"
-        />
-      )}
-      {/* <ShowMoreButton /> */}
+      <ProfileActivitiesLayout>
+        <div className="flex flex-col gap-10 pb-[50px]">
+          {userOnlineActivities?.posts?.map((item, idx) => (
+            <PostsContainer key={idx} post={item} />
+          ))}
+        </div>
+        {!userOnlineActivities?.posts?.length && (
+          <EmptyComponent
+            className="max-w-[275px]"
+            text="Your posts will appear here"
+          />
+        )}
+      </ProfileActivitiesLayout>
     </>
   );
 };
 
-MyProfilePost.Layout = ProfileActivitiesLayout;
 export default MyProfilePost;
 
 export async function getServerSideProps({ query, req }) {
-  const axios = require("axios")
-  const {parse} = require("cookie")
-  const user = +base64decode(query.user) / 1000000;
+  const axios = require("axios");
+  const { parse } = require("cookie");
+  const user = base64decode(query.user);
   const obj = parse(req.headers.cookie);
 
   try {

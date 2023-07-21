@@ -34,75 +34,79 @@ const ResetPassword: NextPageX = () => {
     }
   };
   return (
-    <div className="flex-1 flex items-center justify-center">
-      <Head>
-      <meta
-          name="description"
-          content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
-        />
-        <meta
-          property="og:title"
-          content="Duduzili - Uniting People and Empowering Authentic Expression"
-        />
-        <meta
-          property="og:description"
-          content="Duduzili is a social media app built for individuals who value authentic expression and want to control the value of their creations. Join us in connecting with others, sharing ideas, and engaging in diverse conversations without the fear of censorship."
-        />
-        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`} />
-        <title>Duduzili | Verify Account</title>
-      </Head>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const data = new FormData();
-          data.append("otp", otp);
-          data.append("email", email);
-          handleVerifyAccount(data);
-        }}
-        className="flex flex-col gap-12 w-fit"
-      >
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">
-            Verify account
-          </p>
-          <small className="font-medium max-w-[228px] leading-6 text-duduzili-gray(X11) text-center">
-            Enter the 6-digits OTP (One-Time password) sent to your email
-          </small>
-        </div>
-        <div className="flex justify-center">
-          <PinInput
-            required
-            length={6}
-            classNames={{
-              input: " border border-[#BDBDBD] bg-transparent rounded-[8px]",
-            }}
-            styles={{
-              input: {
-                width: "clamp(30px, 3vw, 53px)",
-                height: "clamp(35px, 4vw, 48px)",
-              },
-            }}
-            value={otp}
-            onChange={setOTP}
+    <AuthenticationLayout>
+      <div className="flex-1 flex items-center justify-center">
+        <Head>
+          <meta
+            name="description"
+            content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
           />
-        </div>
-        <Button
-          type="submit"
-          className="bg-duduzili-violet text-lg font-semibold h-[54px] rounded-lg"
+          <meta
+            property="og:title"
+            content="Duduzili - Uniting People and Empowering Authentic Expression"
+          />
+          <meta
+            property="og:description"
+            content="Duduzili is a social media app built for individuals who value authentic expression and want to control the value of their creations. Join us in connecting with others, sharing ideas, and engaging in diverse conversations without the fear of censorship."
+          />
+          <meta
+            property="og:image"
+            content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`}
+          />
+          <title>Duduzili | Verify Account</title>
+        </Head>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const data = new FormData();
+            data.append("otp", otp);
+            data.append("email", email);
+            handleVerifyAccount(data);
+          }}
+          className="flex flex-col gap-12 w-fit"
         >
-          Confirm OTP
-        </Button>
-        <p className="self-center leading-6 font-medium text-duduzili-charleston-green">
-          Go back to{" "}
-          <Link href="/login">
-            <span className=" text-duduzili-violet">Log in</span>
-          </Link>
-        </p>
-      </form>
-      <Loading loading={loading} />
-    </div>
+          <div className="flex flex-col items-center gap-4">
+            <p className="text-duduzili-black-olive text-center text-[24px] font-bold leading-[29px]">
+              Verify account
+            </p>
+            <small className="font-medium max-w-[228px] leading-6 text-duduzili-gray(X11) text-center">
+              Enter the 6-digits OTP (One-Time password) sent to your email
+            </small>
+          </div>
+          <div className="flex justify-center">
+            <PinInput
+              required
+              length={6}
+              classNames={{
+                input: " border border-[#BDBDBD] bg-transparent rounded-[8px]",
+              }}
+              styles={{
+                input: {
+                  width: "clamp(30px, 3vw, 53px)",
+                  height: "clamp(35px, 4vw, 48px)",
+                },
+              }}
+              value={otp}
+              onChange={setOTP}
+            />
+          </div>
+          <Button
+            type="submit"
+            className="bg-duduzili-violet text-lg font-semibold h-[54px] rounded-lg"
+          >
+            Confirm OTP
+          </Button>
+          <p className="self-center leading-6 font-medium text-duduzili-charleston-green">
+            Go back to{" "}
+            <Link href="/login">
+              <span className=" text-duduzili-violet">Log in</span>
+            </Link>
+          </p>
+        </form>
+        <Loading loading={loading} />
+      </div>
+    </AuthenticationLayout>
   );
 };
 
-ResetPassword.Layout = AuthenticationLayout;
 export default ResetPassword;

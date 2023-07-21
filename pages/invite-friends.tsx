@@ -1,4 +1,3 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
@@ -83,5 +82,5 @@ const InviteFriend: NextPageX = () => {
     </div>
   );
 };
-InviteFriend.Layout = fixedSidebarLayout;
+
 export default InviteFriend;

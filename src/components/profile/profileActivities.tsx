@@ -12,30 +12,30 @@ function ProfileActivities() {
   const tabs = [
     {
       text: "Post",
-      href: `/my-profile/post?user=${base64encode(+user?.user?.id * 1000000)}`,
+      href: `/profile/post?user=${base64encode(String(user?.user?.id))}`,
     },
     {
       text: "Media",
-      href: `/my-profile/media?user=${base64encode(+user?.user?.id * 1000000)}`,
+      href: `/profile/media?user=${base64encode(String(user?.user?.id))}`,
     },
     {
       text: "Saved",
-      href:  `/my-profile/saved?user=${base64encode(+user?.user?.id * 1000000)}`,
+      href:  `/profile/saved?user=${base64encode(String(user?.user?.id))}`,
     },
     {
       text: "Draft",
-      href: `/my-profile/draft?user=${base64encode(+user?.user?.id * 1000000)}`,
+      href: `/profile/draft?user=${base64encode(String(user?.user?.id))}`,
     },
   ];
   const { pathname } = useRouter();
   return (
     <div className="flex flex-wrap justify-between">
       {tabs.map((item, idx) => (
-        <Link href={item?.href} key={idx}>
+        <a href={item?.href} key={idx}>
           <p
             role="button"
             className={clsx(
-              pathname === item.href
+              item.href.includes(pathname)
                 ? "text-white bg-duduzili-violet"
                 : "bg-[#FBFBFB] text-[#757575]",
               "text-[20px] max-[450px]:px-3 max-[290px]:px-2 max-[290px]:text-sm max-[450px]:py-[6px] max-[450px]:text-base leading-[28px] py-3 px-6 rounded-[32px]"
@@ -43,7 +43,7 @@ function ProfileActivities() {
           >
             {item?.text}
           </p>
-        </Link>
+        </a>
       ))}
     </div>
   );

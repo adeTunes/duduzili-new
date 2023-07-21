@@ -1,4 +1,3 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { Add } from "iconsax-react";
 import CommunityList from "@/components/communities/communityList";
@@ -136,5 +135,4 @@ const Communities: NextPageX = () => {
     </div>
   );
 };
-Communities.Layout = fixedSidebarLayout;
 export default Communities;

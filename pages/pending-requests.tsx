@@ -1,4 +1,3 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
@@ -112,5 +111,4 @@ const PendingRequestPage: NextPageX = () => {
     </div>
   );
 };
-PendingRequestPage.Layout = fixedSidebarLayout;
 export default PendingRequestPage;

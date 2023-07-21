@@ -12,7 +12,7 @@ import {
 } from "iconsax-react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
 import { base64encode } from "nodejs-base64";
 
@@ -21,41 +21,49 @@ function UserProfileImageActions({ children, unread, setLoading }) {
   const [statusLoading, setStatusLoading] = useState(false);
   const user: any = useAtomValue(userDetails);
 
-  const options = [
-    {
-      name: "View Profile",
-      icon: <Profile size="24" color="#2A2A2A" />,
-      action: () => router.push(`/my-profile/post?user=${base64encode(+user?.user?.id * 1000000)}`),
-    },
-    {
-      name: "Notifications",
-      icon: (
-        <Indicator
-          classNames={{ common: "!top-[3px] !right-[5px]" }}
-          color="#E59055"
-          disabled={!unread}
-        >
-          <Notification size="24" color="#2A2A2A" />
-        </Indicator>
-      ),
-      action: () => router.push("/notifications"),
-    },
-    {
-      name: "Settings",
-      icon: <Setting color="#2a2a2a" />,
-      action: () => router.push("/settings/account"),
-    },
-    {
-      name: "Logout",
-      color: "#D40000",
-      icon: <LogoutCurve className="rotate-180" color="#D40000" />,
-      action: () => {
-        localStorage.removeItem("duduzili-user");
-        router.push("/login");
-      },
-    },
-  ];
+  const [options, setOptions] = useState([]);
   const setUser = useSetAtom(userDetails);
+
+  useEffect(() => {
+    setOptions([
+      {
+        name: "View Profile",
+        icon: <Profile size="24" color="#2A2A2A" />,
+        action: () =>
+          location.assign(
+            `/profile/post?user=${base64encode(String(user?.user?.id))}`
+          ),
+      },
+      {
+        name: "Notifications",
+        icon: (
+          <Indicator
+            classNames={{ common: "!top-[3px] !right-[5px]" }}
+            color="#E59055"
+            disabled={!unread}
+          >
+            <Notification size="24" color="#2A2A2A" />
+          </Indicator>
+        ),
+        action: () => router.push("/notifications"),
+      },
+      {
+        name: "Settings",
+        icon: <Setting color="#2a2a2a" />,
+        action: () => router.push("/settings/account"),
+      },
+      {
+        name: "Logout",
+        color: "#D40000",
+        icon: <LogoutCurve className="rotate-180" color="#D40000" />,
+        action: () => {
+          localStorage.removeItem("duduzili-user");
+          router.push("/login");
+        },
+      },
+    ]);
+  }, []);
+
   return (
     <Menu
       closeOnItemClick={false}
@@ -85,11 +93,7 @@ function UserProfileImageActions({ children, unread, setLoading }) {
             <div className="flex items-center border-b border-b-[#DFE5FA] pb-5 justify-between">
               <div className="flex items-center gap-[15px]">
                 {user?.user?.photo_url ? (
-                  <Avatar
-                    size={45}
-                    radius="xl"
-                    src={user?.user?.photo_url }
-                  />
+                  <Avatar size={45} radius="xl" src={user?.user?.photo_url} />
                 ) : (
                   <DefaultProfilePicture
                     text="text-[120%]"

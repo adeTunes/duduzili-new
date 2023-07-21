@@ -13,19 +13,15 @@ function Providers({ children, Component }) {
   );
   const Layout = GivenLayout || DefaultLayout;
   const layoutProps = Component.LayoutProps || {};
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <MantineProvider>
-        <ModalsProvider>
-          <Notifications position="top-right" />
-          <CookiesProvider>
-            <Layout {...layoutProps}>{children}</Layout>
-          </CookiesProvider>
-        </ModalsProvider>
-      </MantineProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <MantineProvider>
+      <ModalsProvider>
+        <Notifications position="top-right" />
+        <CookiesProvider>
+          <Layout {...layoutProps}>{children}</Layout>
+        </CookiesProvider>
+      </ModalsProvider>
+    </MantineProvider>
   );
 }
 

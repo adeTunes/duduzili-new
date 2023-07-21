@@ -218,7 +218,7 @@ function EditPostModal({ opened, close, id }) {
               editParticularPost(id, false, formData, setLoading, () => {
                 if (pathname.includes("home"))
                   queryClient.invalidateQueries(["all-posts"]);
-                else if (pathname.includes("my-profile")) {
+                else if (pathname.includes("profile")) {
                   queryClient.invalidateQueries([
                     "user-activities",
                     user?.user?.id,

@@ -18,7 +18,7 @@ function PersonalPostOptions({openDraft, setLoading, open, post }: {setLoading: 
   const successAction = () => {
     if (pathname.includes("home"))
       queryClient.invalidateQueries(["all-posts"]);
-    else if (pathname.includes("my-profile")) {
+    else if (pathname.includes("profile")) {
       queryClient.invalidateQueries(["user-activities", user?.user?.id]);
     } else queryClient.invalidateQueries(["single-posts", post?.id]);
   }

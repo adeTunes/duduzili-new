@@ -1,4 +1,3 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { ArrowLeft } from "iconsax-react";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
@@ -101,5 +100,4 @@ const Community: NextPageX = () => {
     </div>
   );
 };
-Community.Layout = fixedSidebarLayout;
 export default Community;

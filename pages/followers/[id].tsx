@@ -18,9 +18,9 @@ const Followers: NextPageX = () => {
   const { push, query } = useRouter();
   const { data, isLoading } = useFollowers(+query.id);
   return (
-    <>
-    <Head>
-    <meta
+    <FollowLayout>
+      <Head>
+        <meta
           name="description"
           content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
         />
@@ -32,9 +32,12 @@ const Followers: NextPageX = () => {
           property="og:description"
           content="Duduzili is a social media app built for individuals who value authentic expression and want to control the value of their creations. Join us in connecting with others, sharing ideas, and engaging in diverse conversations without the fear of censorship."
         />
-        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`} />
-    <title>Duduzili | Followers</title>
-    </Head>
+        <meta
+          property="og:image"
+          content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`}
+        />
+        <title>Duduzili | Followers</title>
+      </Head>
       <div className="grid gap-8 grid-cols-2">
         <Link href={`/followers/${query.id}?user=${query.user}`}>
           <p
@@ -80,13 +83,13 @@ const Followers: NextPageX = () => {
                       >
                         {item?.photo_url ? (
                           <img
-                            src={item?.photo_url }
+                            src={item?.photo_url}
                             className="w-full h-full rounded-full object-cover"
                             alt="profile picture of suggested friend"
                           />
                         ) : (
                           <DefaultProfilePicture
-                          text="text-[80%]"
+                            text="text-[80%]"
                             firstName={item?.first_name}
                             lastName={item?.last_name}
                           />
@@ -131,9 +134,7 @@ const Followers: NextPageX = () => {
           </div>
         </div>
       </div>
-    </>
+    </FollowLayout>
   );
 };
-
-Followers.Layout = FollowLayout;
 export default Followers;

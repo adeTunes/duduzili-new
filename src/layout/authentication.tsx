@@ -4,16 +4,13 @@ import { ReactNode } from "react";
 
 export default function AuthenticationLayout({
   children,
-  ...props
 }: {
   children: ReactNode;
-  [key: string]: any;
 }) {
   const tags = ["Images", "Video", "Audio"];
   const tags2 = ["Text", "Chat"];
   return (
     <main className="flex h-screen">
-      
       <section
         className="h-full max-[600px]:hidden flex-1 py-[10vh] relative"
         style={{
@@ -23,10 +20,19 @@ export default function AuthenticationLayout({
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div style={{background: "radial-gradient(44.43% 84.94% at 52.99% 50%, #7556F4 0%, #4534B8 100%)"}} className="h-full w-full top-0 absolute opacity-80"></div>
+        <div
+          style={{
+            background:
+              "radial-gradient(44.43% 84.94% at 52.99% 50%, #7556F4 0%, #4534B8 100%)",
+          }}
+          className="h-full w-full top-0 absolute opacity-80"
+        ></div>
         <div className="h-full relative flex items-center justify-center">
           <div className="w-fit z-[9] mx-auto flex flex-col gap-6">
-            <h1 style={{fontSize: "clamp(18px, 3.6vw, 48px)"}} className="leading-[53px] max-w-[250px] text-white font-bold">
+            <h1
+              style={{ fontSize: "clamp(18px, 3.6vw, 48px)" }}
+              className="leading-[53px] max-w-[250px] text-white font-bold"
+            >
               Enjoy a community-driven space for sharing
             </h1>
             <div className="flex flex-col gap-2">

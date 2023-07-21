@@ -1,4 +1,3 @@
-import fixedSidebarLayout from "@/layout/fixedSidebar";
 import Header from "@/components/homepage/header";
 import { clsx } from "@mantine/core";
 import FixedMessagesButton from "@/components/homepage/fixedMessagesButton";
@@ -87,5 +86,4 @@ const Communities: NextPageX = () => {
     </div>
   );
 };
-Communities.Layout = fixedSidebarLayout;
 export default Communities;

@@ -11,10 +11,8 @@ import MainContainer from "@/components/main-container";
 
 const FollowLayout = ({
   children,
-  ...props
 }: {
   children: ReactNode;
-  [key: string]: any;
 }) => {
   const { back } = useRouter();
   const { query } = useRouter();

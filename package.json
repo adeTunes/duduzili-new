@@ -56,6 +56,7 @@
     "react-image-video-viewer": "^3.0.15",
     "react-images-viewer": "^1.7.1",
     "react-mic": "^12.4.6",
+    "react-no-ssr": "^1.1.0",
     "react-select": "^5.7.3",
     "react-table": "^7.8.0",
     "react-youtube": "^10.1.0",

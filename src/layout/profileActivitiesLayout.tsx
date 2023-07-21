@@ -42,13 +42,7 @@ interface IUserInfo {
   location: string;
 }
 
-function ProfileActivitiesLayout({
-  children,
-  ...props
-}: {
-  children: ReactNode;
-  [key: string]: any;
-}) {
+function ProfileActivitiesLayout({ children }: { children: ReactNode }) {
   const user: any = useAtomValue(userDetails);
 
   const { data, isLoading } = useUserActivities(user?.user?.id);
@@ -84,15 +78,7 @@ function ProfileActivitiesLayout({
               <div className="flex flex-col gap-6">
                 <ProfileActivities />
                 <div className="flex flex-col gap-10 pb-[50px]">
-                  {isLoading ? (
-                    <>
-                      <SinglePostSkeleton />
-                      <SinglePostSkeleton />
-                      <SinglePostSkeleton />
-                    </>
-                  ) : (
-                    children
-                  )}
+                  {children}
                 </div>
               </div>
             </div>
@@ -118,4 +104,3 @@ function ProfileActivitiesLayout({
 }
 
 export default ProfileActivitiesLayout;
-
