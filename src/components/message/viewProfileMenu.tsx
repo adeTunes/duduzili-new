@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
 import { Menu } from "@mantine/core";
 import { useRouter } from "next/router";
+import { base64encode } from "nodejs-base64";
 import React from "react";
 
 function ViewProfileMenu({id}) {
-    const {push} = useRouter()
   return (
     <Menu>
       <Menu.Target>
@@ -16,7 +16,7 @@ function ViewProfileMenu({id}) {
         />
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item onClick={() => push(`/friend/${id}/post`)}>View Profile</Menu.Item>
+        <Menu.Item onClick={() => location.assign(`/friend/${base64encode(String(id))}/post`)}>View Profile</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

@@ -3,6 +3,7 @@ import React from "react";
 import useCommunityMembers from "../../../hooks/use-community-members";
 import { useRouter } from "next/router";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { base64encode } from "nodejs-base64";
 
 function MembersDrawer({ opened, close, code }) {
   const { data, isLoading } = useCommunityMembers(code);
@@ -43,7 +44,7 @@ function MembersDrawer({ opened, close, code }) {
               ))
           : data?.map(({ member }, idx) => (
               <div
-                onClick={() => push(`/friend/${member?.id}/post`)}
+                onClick={() => location.assign(`/friend/${base64encode(String(member?.id))}/post`)}
                 key={idx}
                 className="px-2 py-4 hover:bg-[#f5f5f5] cursor-pointer flex items-center justify-between border-b border-b-[#EDF0FB]"
               >

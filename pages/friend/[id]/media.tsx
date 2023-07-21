@@ -95,7 +95,7 @@ export default ProfileMedia;
 export async function getServerSideProps({ query, req }) {
   const axios = require("axios");
   const { parse } = require("cookie");
-  const user = base64decode(query.user);
+  const user = base64decode(query.id);
   const obj = parse(req.headers.cookie);
 
   try {

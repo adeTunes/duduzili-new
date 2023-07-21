@@ -15,6 +15,7 @@ import React, { ReactNode, useEffect } from "react";
 import useUserActivities from "../../hooks/useUserDrafts";
 import MainContainer from "@/components/main-container";
 import Head from "next/head";
+import { base64decode } from "nodejs-base64";
 
 function FriendProfileLayout({
   children,
@@ -25,7 +26,7 @@ function FriendProfileLayout({
 }) {
   const friendDetails: any = useAtomValue(friendPersonalDetails);
   const { query } = useRouter();
-  const { data } = useUserActivities(query.id);
+  const { data } = useUserActivities(base64decode(String(query.id)));
   const setFriendDetails = useSetAtom(friendPersonalDetails);
 
   useEffect(() => {

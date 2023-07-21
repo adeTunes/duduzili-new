@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { clsx } from "@mantine/core";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
+import { base64encode } from "nodejs-base64";
 
 function PostHeader({ post }) {
   // user={post.user} day={post.date} date={post.date_added}
@@ -24,7 +25,7 @@ function PostHeader({ post }) {
           onClick={() => {
             if (!loggedInUser?.token) return setOpenAuth(true);
             post?.user?.id !== loggedInUser?.user?.id &&
-              push(`/friend/${post?.user?.id}/post`);
+            location.assign(`/friend/${base64encode(String(post?.user?.id))}/post`)
           }}
           className={clsx(
             post?.user?.id !== loggedInUser?.user?.id && "cursor-pointer",

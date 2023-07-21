@@ -1,6 +1,7 @@
 import { clsx } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { base64encode } from "nodejs-base64";
 import React from "react";
 
 function FriendProfileActivities() {
@@ -8,12 +9,12 @@ function FriendProfileActivities() {
   const tabs = [
     {
       text: "Post",
-      href: `/friend/${query.id}/post`,
+      href: `/friend/${base64encode(String(query.id))}/post`,
       id: "post",
     },
     {
       text: "Media",
-      href: `/friend/${query.id}/media`,
+      href: `/friend/${base64encode(String(query.id))}/media`,
       id: "media",
     },
   ];
@@ -22,7 +23,7 @@ function FriendProfileActivities() {
     <div className="flex justify-center">
       <div className="flex gap-[150px] max-[420px]:gap-[50px]">
         {tabs.map((item, idx) => (
-          <Link href={item.href} key={idx}>
+          <a href={item.href} key={idx}>
             <p
               role="button"
               className={clsx(
@@ -34,7 +35,7 @@ function FriendProfileActivities() {
             >
               {item.text}
             </p>
-          </Link>
+          </a>
         ))}
       </div>
     </div>
