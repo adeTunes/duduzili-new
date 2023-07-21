@@ -10,80 +10,111 @@ import EmptyComponent from "@/components/emptyComponent";
 import usePostMedia from "../../../hooks/use-post-media";
 import GalleryViewer from "@/components/homepage/posts/galleryViewer";
 import Head from "next/head";
+import { base64decode } from "nodejs-base64";
 
-const ProfileMedia: NextPageX = () => {
+const ProfileMedia = ({ data }) => {
   const friendDetails: any = useAtomValue(friendPersonalDetails);
   const [opened, setOpened] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
   const { media } = usePostMedia(friendDetails?.medias);
   const viewedMedia = media.filter((item) => item.type !== "audio");
-
+  const details = data?.user;
   return (
     <>
       <Head>
-        <meta
-          name="description"
-          content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
-        />
+        <title>
+          {`Duduzili | ${details?.first_name} ${details?.last_name}`}
+        </title>
         <meta
           property="og:title"
-          content="Duduzili - Uniting People and Empowering Authentic Expression"
+          content={`${details?.first_name} ${details?.last_name}`}
         />
-        <meta
-          property="og:description"
-          content="Duduzili is a social media app built for individuals who value authentic expression and want to control the value of their creations. Join us in connecting with others, sharing ideas, and engaging in diverse conversations without the fear of censorship."
-        />
+        <meta property="og:description" content={details?.bio} />
+        <meta name="description" content={details?.bio} />
         <meta
           property="og:image"
-          content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`}
+          content={
+            details?.photo_url ||
+            `${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`
+          }
         />
       </Head>
-      {!friendDetails?.user?.is_following && friendDetails?.user?.is_private ? (
-        <EmptyComponent
-          className="max-w-[275px]"
-          text="This is a private account. You will see their content when they accept your follow request"
-        />
-      ) : (
-        <div
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(134.8px, 1fr))",
-          }}
-          className="grid gap-[9px]"
-        >
-          {media.map(({ type, url }, idx) =>
-            type === "audio" ? (
-              <AudioMedia key={idx} audioUrl={url} />
-            ) : type === "video" ? (
-              <VideoMedia
-                handleClick={() => {
-                  setOpened(true);
-                  setStartIndex(idx);
-                }}
-                key={idx}
-                videoUrl={url}
-              />
-            ) : (
-              <ImageMedia
-                handleClick={() => {
-                  setOpened(true);
-                  setStartIndex(idx);
-                }}
-                key={idx}
-                image={url}
-              />
-            )
-          )}
-          <GalleryViewer
-            setOpened={setOpened}
-            startIndex={startIndex}
-            gallery={viewedMedia as { url: string; type: "video" | "photo" }[]}
-            opened={opened}
+      <FriendProfileLayout>
+        {!friendDetails?.user?.is_following &&
+        friendDetails?.user?.is_private ? (
+          <EmptyComponent
+            className="max-w-[275px]"
+            text="This is a private account. You will see their content when they accept your follow request"
           />
-        </div>
-      )}
-      ;
+        ) : (
+          <div
+            style={{
+              gridTemplateColumns: "repeat(auto-fill, minmax(134.8px, 1fr))",
+            }}
+            className="grid gap-[9px]"
+          >
+            {media.map(({ type, url }, idx) =>
+              type === "audio" ? (
+                <AudioMedia key={idx} audioUrl={url} />
+              ) : type === "video" ? (
+                <VideoMedia
+                  handleClick={() => {
+                    setOpened(true);
+                    setStartIndex(idx);
+                  }}
+                  key={idx}
+                  videoUrl={url}
+                />
+              ) : (
+                <ImageMedia
+                  handleClick={() => {
+                    setOpened(true);
+                    setStartIndex(idx);
+                  }}
+                  key={idx}
+                  image={url}
+                />
+              )
+            )}
+            <GalleryViewer
+              setOpened={setOpened}
+              startIndex={startIndex}
+              gallery={
+                viewedMedia as { url: string; type: "video" | "photo" }[]
+              }
+              opened={opened}
+            />
+          </div>
+        )}
+      </FriendProfileLayout>
     </>
   );
 };
-ProfileMedia.Layout = FriendProfileLayout;
 export default ProfileMedia;
+
+export async function getServerSideProps({ query, req }) {
+  const axios = require("axios");
+  const { parse } = require("cookie");
+  const user = base64decode(query.user);
+  const obj = parse(req.headers.cookie);
+
+  try {
+    const { data } = await axios({
+      baseURL: "https://duduzili-staging-server.com.ng",
+      url: `/api/v1/rest-auth/user/${user}/`,
+      headers: {
+        Authorization: `Token ${obj["duduzili-user"]}`,
+      },
+    });
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (error) {
+    console.log("something went wrong");
+    return {
+      notFound: true,
+    };
+  }
+}

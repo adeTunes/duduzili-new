@@ -7,7 +7,7 @@ import EmptyComponent from "@/components/emptyComponent";
 import Head from "next/head";
 import { base64decode } from "nodejs-base64";
 
-const MyProfilePost: NextPageX = ({ data }: any) => {
+const MyProfilePost = ({ data }: any) => {
   const userOnlineActivities: any = useAtomValue(currentUserDetails);
   const details = data?.user;
 

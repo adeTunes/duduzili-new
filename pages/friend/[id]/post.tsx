@@ -5,52 +5,84 @@ import { useAtomValue } from "jotai";
 import { friendPersonalDetails } from "@/store";
 import EmptyComponent from "@/components/emptyComponent";
 import Head from "next/head";
+import { base64decode } from "nodejs-base64";
 
-const FriendProfilePost: NextPageX = () => {
+const FriendProfilePost = ({ data }) => {
   const friendDetails: any = useAtomValue(friendPersonalDetails);
+  const details = data?.user;
 
   return (
     <>
       <Head>
-        <meta
-          name="description"
-          content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
-        />
+        <title>
+          {`Duduzili | ${details?.first_name} ${details?.last_name}`}
+        </title>
         <meta
           property="og:title"
-          content="Duduzili - Uniting People and Empowering Authentic Expression"
+          content={`${details?.first_name} ${details?.last_name}`}
         />
-        <meta
-          property="og:description"
-          content="Duduzili is a social media app built for individuals who value authentic expression and want to control the value of their creations. Join us in connecting with others, sharing ideas, and engaging in diverse conversations without the fear of censorship."
-        />
+        <meta property="og:description" content={details?.bio} />
+        <meta name="description" content={details?.bio} />
         <meta
           property="og:image"
-          content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`}
+          content={
+            details?.photo_url ||
+            `${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`
+          }
         />
       </Head>
-      {!friendDetails?.user?.is_following && friendDetails?.user?.is_private ? (
-        <EmptyComponent
-          className="max-w-[275px]"
-          text="This is a private account. You will see their content when they accept your follow request"
-        />
-      ) : (
-        <div className="flex flex-col gap-10 pb-[50px]">
-          {friendDetails?.posts?.map((item, idx) => (
-            <PostsContainer key={idx} post={item} />
-          ))}
-        </div>
-      )}
-      {!friendDetails?.user && !friendDetails?.posts?.length && (
-        <EmptyComponent
-          className="max-w-[275px]"
-          text="Your posts will appear here"
-        />
-      )}
+      <FriendProfileLayout>
+        {!friendDetails?.user?.is_following &&
+        friendDetails?.user?.is_private ? (
+          <EmptyComponent
+            className="max-w-[275px]"
+            text="This is a private account. You will see their content when they accept your follow request"
+          />
+        ) : (
+          <div className="flex flex-col gap-10 pb-[50px]">
+            {friendDetails?.posts?.map((item, idx) => (
+              <PostsContainer key={idx} post={item} />
+            ))}
+          </div>
+        )}
+        {!friendDetails?.user && !friendDetails?.posts?.length && (
+          <EmptyComponent
+            className="max-w-[275px]"
+            text="Your posts will appear here"
+          />
+        )}
+      </FriendProfileLayout>
+
       {/* {!data?.user?.is_following && data?.user?.is_private  ? null : <ShowMoreButton />} */}
     </>
   );
 };
 
-FriendProfilePost.Layout = FriendProfileLayout;
 export default FriendProfilePost;
+
+export async function getServerSideProps({ query, req }) {
+  const axios = require("axios");
+  const { parse } = require("cookie");
+  const user = base64decode(query.user);
+  const obj = parse(req.headers.cookie);
+
+  try {
+    const { data } = await axios({
+      baseURL: "https://duduzili-staging-server.com.ng",
+      url: `/api/v1/rest-auth/user/${user}/`,
+      headers: {
+        Authorization: `Token ${obj["duduzili-user"]}`,
+      },
+    });
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (error) {
+    console.log("something went wrong");
+    return {
+      notFound: true,
+    };
+  }
+}
