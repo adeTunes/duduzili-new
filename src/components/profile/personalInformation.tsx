@@ -4,16 +4,23 @@ import { Icon } from "@iconify/react";
 import { useDisclosure } from "@mantine/hooks";
 import EditProfileModal from "../modals/editProfileModal";
 import { useAtomValue } from "jotai";
-import { userFollowers, userFollowings } from "@/store";
+import { userDetails, userFollowers, userFollowings } from "@/store";
 import Image from "next/image";
 import Link from "next/link";
 import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "../homepage/posts/galleryViewer";
-import { Skeleton } from "@mantine/core";
+import { Skeleton, clsx } from "@mantine/core";
 import DefaultProfilePicture from "./defaultProfilePicture";
 import { Location } from "iconsax-react";
+import { useRouter } from "next/router";
 
-function PersonalInformation({ user }) {
+function PersonalInformation({
+  user,
+  setOpenAuth,
+}: {
+  user: any;
+  setOpenAuth?: any;
+}) {
   const [opened, { open, close }] = useDisclosure(false);
   const followings = useAtomValue(userFollowings);
   const followers = useAtomValue(userFollowers);
@@ -23,6 +30,10 @@ function PersonalInformation({ user }) {
 
   const { viewerData } = useImageViewer(image);
   const startIndex = 0;
+  const { push } = useRouter();
+
+  const loggedInUser: any = useAtomValue(userDetails)
+
 
   return (
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
@@ -63,27 +74,29 @@ function PersonalInformation({ user }) {
               />
             )}
           </div>
-          <p
-            onClick={open}
-            role="button"
-            className="px-6 max-[500px]:px-3 max-[500px]:py-2 py-4 flex items-center gap-2 rounded-[32px] font-medium text-white bg-duduzili-violet"
-          >
-            <Icon
-              className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
-              color="white"
-              icon="uil:pen"
-            />
-            <span className="max-[400px]:text-xs">Edit Profile</span>
-          </p>
+          {!loggedInUser?.token ? null : (
+            <p
+              onClick={open}
+              role="button"
+              className="px-6 max-[500px]:px-3 max-[500px]:py-2 py-4 flex items-center gap-2 rounded-[32px] font-medium text-white bg-duduzili-violet"
+            >
+              <Icon
+                className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                color="white"
+                icon="uil:pen"
+              />
+              <span className="max-[400px]:text-xs">Edit Profile</span>
+            </p>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <p className=" font-bold max-[500px]:text-[25px] text-[32px] leading-6 text-[#2A2A2A]">
-            {`${user?.first_name} ${user?.last_name}`}
+            {`${user?.first_name || ""} ${user?.last_name || ""}`}
           </p>
           <p className="text-[#2A2A2A] text-[15px] leading-6">
-            @{user?.username}
+            @{user?.username || ""}
           </p>
         </div>
         {user?.country || user?.town ? (
@@ -98,8 +111,15 @@ function PersonalInformation({ user }) {
         </p>
         <div className="flex items-center gap-10">
           {followers || +followers === 0 ? (
-            <Link
-              href={`/followers/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
+            <div
+            className={clsx(+followers === 0 ? "" : " cursor-pointer")}
+              onClick={() => {
+                if (+followers === 0) return;
+                if (!loggedInUser?.token) return setOpenAuth(true);
+                push(
+                  `/followers/${user?.id}?user=${user?.first_name} ${user?.last_name}`
+                );
+              }}
             >
               <p className="flex items-center gap-2">
                 <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
@@ -109,13 +129,20 @@ function PersonalInformation({ user }) {
                   Followers
                 </span>
               </p>
-            </Link>
+            </div>
           ) : (
             <Skeleton height={12} className="flex-1" mt={10} />
           )}
           {followings || +followings === 0 ? (
-            <Link
-              href={`/following/${user?.id}?user=${user?.first_name} ${user?.last_name}`}
+            <div
+            className={clsx(+followings === 0 ? "" : " cursor-pointer")}
+              onClick={() => {
+                if (+followings === 0) return;
+                if (!loggedInUser?.token) return setOpenAuth(true);
+                push(
+                  `/following/${user?.id}?user=${user?.first_name} ${user?.last_name}`
+                );
+              }}
             >
               <p className="flex items-center gap-2">
                 <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
@@ -125,7 +152,7 @@ function PersonalInformation({ user }) {
                   Following
                 </span>
               </p>
-            </Link>
+            </div>
           ) : (
             <Skeleton height={12} className="flex-1" mt={10} />
           )}

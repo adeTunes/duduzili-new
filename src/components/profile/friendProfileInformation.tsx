@@ -5,7 +5,7 @@ import { Location, MessageText, UserAdd, UserMinus } from "iconsax-react";
 import { followUserAction } from "@/actions/postOptionActions";
 import { Loading } from "../loading";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader, Skeleton } from "@mantine/core";
+import { Loader, Skeleton, clsx } from "@mantine/core";
 import FriendProfileOptions from "./friendProfileOptions";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,8 +13,10 @@ import { base64encode } from "nodejs-base64";
 import { useRouter } from "next/router";
 import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "../homepage/posts/galleryViewer";
-import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 import DefaultProfilePicture from "./defaultProfilePicture";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
+import { UnAuthenticaticatedUserModal } from "../modals/unAuthenticatedUserModal";
 
 function FriendProfileInformation({ friendDetails }) {
   const [loading, setLoading] = useState(false);
@@ -27,6 +29,9 @@ function FriendProfileInformation({ friendDetails }) {
   const { viewerData } = useImageViewer(image);
   const startIndex = 0;
   const { query } = useRouter();
+  const user: any = useAtomValue(userDetails);
+  const [openAuthModal, setOpenAuth] = useState(false);
+
   return (
     <div className="flex flex-col gap-[25px] pb-[43px] border-b-[5px] border-b-[#F4F4F4]">
       <div className="flex flex-col">
@@ -70,71 +75,76 @@ function FriendProfileInformation({ friendDetails }) {
               />
             )}
           </div>
-          <div className="flex items-center gap-4 max-[956px]:-ml-8">
-            <p
-              onClick={() =>
-                followUserAction(
-                  setLoadingFollow,
-                  friendDetails?.user?.id,
-                  () =>
-                    queryClient.invalidateQueries(["user-activities", query.id])
-                )
-              }
-              role="button"
-              className="px-6 py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium text-white bg-duduzili-violet"
-            >
-              {loadingFollow ? (
+          {!user?.token ? null : (
+            <div className="flex items-center gap-4 max-[956px]:-ml-8">
+              <p
+                onClick={() =>
+                  followUserAction(
+                    setLoadingFollow,
+                    friendDetails?.user?.id,
+                    () =>
+                      queryClient.invalidateQueries([
+                        "user-activities",
+                        query.id,
+                      ])
+                  )
+                }
+                role="button"
+                className="px-6 py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium text-white bg-duduzili-violet"
+              >
+                {loadingFollow ? (
+                  <Loader size="sm" />
+                ) : (
+                  <>
+                    {friendDetails?.user?.is_following ? (
+                      <>
+                        <UserMinus
+                          className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                          color="#FFF"
+                        />
+                        <span>Unfollow</span>
+                      </>
+                    ) : (
+                      <>
+                        <UserAdd
+                          className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                          color="#FFF"
+                        />
+                        <span>Follow</span>
+                      </>
+                    )}
+                  </>
+                )}
+              </p>
+              <p
+                onClick={() => {
+                  const friend = JSON.stringify(friendDetails?.user);
+                  if (window.innerWidth <= 800) {
+                    push(`/messages/view?chat=${base64encode(friend)}`);
+                    return;
+                  }
+                  push(`/messages/friends?chat=${base64encode(friend)}`);
+                }}
+                role="button"
+                className="px-6 max-[385px]:hidden py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
+              >
+                <MessageText
+                  className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
+                  color="#4534B8"
+                  variant="Outline"
+                />
+                <span className=" text-duduzili-violet">Message</span>
+              </p>
+              {loading ? (
                 <Loader size="sm" />
               ) : (
-                <>
-                  {friendDetails?.user?.is_following ? (
-                    <>
-                      <UserMinus
-                        className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
-                        color="#FFF"
-                      />
-                      <span>Unfollow</span>
-                    </>
-                  ) : (
-                    <>
-                      <UserAdd
-                        className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
-                        color="#FFF"
-                      />
-                      <span>Follow</span>
-                    </>
-                  )}
-                </>
+                <FriendProfileOptions
+                  setLoading={setLoading}
+                  post={friendDetails}
+                />
               )}
-            </p>
-            <p
-              onClick={() => {
-                const friend = JSON.stringify(friendDetails?.user);
-                if (window.innerWidth <= 800) {
-                  push(`/messages/view?chat=${base64encode(friend)}`);
-                  return;
-                }
-                push(`/messages/friends?chat=${base64encode(friend)}`);
-              }}
-              role="button"
-              className="px-6 max-[385px]:hidden py-4 max-[500px]:px-3 max-[500px]:py-2  flex items-center gap-2 rounded-[32px] font-medium bg-[#EDF0FB]"
-            >
-              <MessageText
-                className="max-[400px]:h-4 h-6 w-6 max-[400px]:w-4"
-                color="#4534B8"
-                variant="Outline"
-              />
-              <span className=" text-duduzili-violet">Message</span>
-            </p>
-            {loading ? (
-              <Loader size="sm" />
-            ) : (
-              <FriendProfileOptions
-                setLoading={setLoading}
-                post={friendDetails}
-              />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-4">
@@ -161,8 +171,17 @@ function FriendProfileInformation({ friendDetails }) {
           {friendDetails?.user?.bio}
         </p>
         <div className="flex items-center gap-10">
-          <Link
-            href={`/followers/${friendDetails?.user?.id}?user=${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
+          <div
+            className={clsx(
+              +friendDetails?.followers === 0 ? "" : " cursor-pointer"
+            )}
+            onClick={() => {
+              if (+friendDetails?.followers === 0) return;
+              if (!user?.token) return setOpenAuth(true);
+              push(
+                `/followers/${friendDetails?.user?.id}?user=${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`
+              );
+            }}
           >
             <p className="flex items-center gap-2">
               <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
@@ -172,9 +191,18 @@ function FriendProfileInformation({ friendDetails }) {
                 Followers
               </span>
             </p>
-          </Link>
-          <Link
-            href={`/followers/${friendDetails?.user?.id}?user=${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`}
+          </div>
+          <div
+            className={clsx(
+              +friendDetails?.followings === 0 ? "" : " cursor-pointer"
+            )}
+            onClick={() => {
+              if (+friendDetails?.followings === 0) return;
+              if (!user?.token) return setOpenAuth(true);
+              push(
+                `/following/${friendDetails?.user?.id}?user=${friendDetails?.user?.first_name} ${friendDetails?.user?.last_name}`
+              );
+            }}
           >
             <p className="flex items-center gap-2">
               <span className="text-[#2A2A2A] font-bold text-[20px] leading-7">
@@ -184,7 +212,7 @@ function FriendProfileInformation({ friendDetails }) {
                 Following
               </span>
             </p>
-          </Link>
+          </div>
         </div>
       </div>
       <GalleryViewer
@@ -192,6 +220,10 @@ function FriendProfileInformation({ friendDetails }) {
         startIndex={startIndex}
         gallery={viewerData}
         opened={opened}
+      />
+      <UnAuthenticaticatedUserModal
+        opened={openAuthModal}
+        setOpened={setOpenAuth}
       />
     </div>
   );

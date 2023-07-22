@@ -83,19 +83,14 @@ const ProfileMedia: NextPageX = ({data}: any) => {
 };
 export default ProfileMedia;
 
-export async function getServerSideProps({ query, req }) {
+export async function getServerSideProps({ query }) {
   const axios = require("axios");
-  const { parse } = require("cookie");
   const user = base64decode(query.user);
-  const obj = parse(req.headers.cookie);
 
   try {
     const { data } = await axios({
       baseURL: "https://duduzili-staging-server.com.ng",
       url: `/api/v1/rest-auth/user/${user}/`,
-      headers: {
-        Authorization: `Token ${obj["duduzili-user"]}`,
-      },
     });
     return {
       props: {
@@ -103,7 +98,6 @@ export async function getServerSideProps({ query, req }) {
       },
     };
   } catch (error) {
-    console.log("something went wrong");
     return {
       notFound: true,
     };

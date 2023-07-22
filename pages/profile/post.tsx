@@ -6,10 +6,14 @@ import PostsContainer from "../../src/components/homepage/posts/postsContainer";
 import EmptyComponent from "@/components/emptyComponent";
 import Head from "next/head";
 import { base64decode } from "nodejs-base64";
+import useUserActivities from "../../hooks/useUserDrafts";
+import useOfflineUser from "../../hooks/use-offline-user";
+import { useRouter } from "next/router";
 
 const MyProfilePost = ({ data }: any) => {
   const userOnlineActivities: any = useAtomValue(currentUserDetails);
   const details = data?.user;
+  
 
   return (
     <>
@@ -50,19 +54,14 @@ const MyProfilePost = ({ data }: any) => {
 
 export default MyProfilePost;
 
-export async function getServerSideProps({ query, req }) {
+export async function getServerSideProps({ query }) {
   const axios = require("axios");
-  const { parse } = require("cookie");
   const user = base64decode(query.user);
-  const obj = parse(req.headers.cookie);
 
   try {
     const { data } = await axios({
       baseURL: "https://duduzili-staging-server.com.ng",
-      url: `/api/v1/rest-auth/user/${user}/`,
-      headers: {
-        Authorization: `Token ${obj["duduzili-user"]}`,
-      },
+      url: `/api/v1/rest-auth/offline_user/${user}/`,
     });
     return {
       props: {
@@ -70,7 +69,6 @@ export async function getServerSideProps({ query, req }) {
       },
     };
   } catch (error) {
-    console.log("something went wrong");
     return {
       notFound: true,
     };

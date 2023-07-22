@@ -1,3 +1,4 @@
+import axios from "axios";
 import API, { PAYMENTAPI } from "./axiosConfig";
 import { LoginUser, RegisterUser, verifyAccountType } from "./request.types";
 
@@ -148,6 +149,9 @@ export const getSingleComment = (id: any) => {
 
 export const getUserPosts = (id: number) => {
   return API.get(`/api/v1/rest-auth/user/${id}/`);
+};
+export const getOfflineUser = (id: number) => {
+  return axios.get(`https://duduzili-staging-server.com.ng/api/v1/rest-auth/offline_user/${id}/`);
 };
 export const getUserFollowers = (id: number) => {
   return API.get(`/api/v1/rest-auth/user_followers/${id}/`);
