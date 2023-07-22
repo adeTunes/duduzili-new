@@ -24,6 +24,8 @@ import { base64decode } from "nodejs-base64";
 import useOfflineUser from "../../hooks/use-offline-user";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
+import FriendProfileInformation from "@/components/profile/friendProfileInformation";
+import FriendProfileActivities from "@/components/profile/friendProfileActivities";
 
 interface IUserInfo {
   id: number;
@@ -78,18 +80,27 @@ function ProfileActivitiesLayout({ children }: { children: ReactNode }) {
           >
             {!user?.token ? null : (
               <Back
-                text={`${user?.user?.first_name || ""} ${
-                  user?.user?.last_name || ""
+                text={`${data?.user?.first_name || ""} ${
+                  data?.user?.last_name || ""
                 }`}
               />
             )}
             <div className="flex flex-col gap-8">
-              <PersonalInformation
-                setOpenAuth={setOpenAuth}
-                user={data?.user}
-              />
+              {user?.user?.id === data?.user?.id ? (
+                <PersonalInformation
+                  setOpenAuth={setOpenAuth}
+                  user={data?.user}
+                />
+              ) : (
+                <FriendProfileInformation friendDetails={data} />
+              )}
+
               <div className="flex flex-col gap-6">
+                {user?.token && user?.user?.id === data?.user?.id ? (
                   <ProfileActivities />
+                ) : (
+                  <FriendProfileActivities />
+                )}
                 <div className="flex flex-col gap-10 pb-[50px]">
                   {isLoading ? (
                     <>

@@ -23,9 +23,9 @@ function PostHeader({ post }) {
       <div className="flex items-center max-[440px]:items-start gap-4">
         <div
           onClick={() => {
-            if (!loggedInUser?.token) return setOpenAuth(true);
+            // if (!loggedInUser?.token) return setOpenAuth(true);
             post?.user?.id !== loggedInUser?.user?.id &&
-            location.assign(`/friend/${base64encode(String(post?.user?.id))}/post`)
+            location.assign(`/profile/post?user=${base64encode(String(post?.user?.id))}`)
           }}
           className={clsx(
             post?.user?.id !== loggedInUser?.user?.id && "cursor-pointer",

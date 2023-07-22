@@ -10,7 +10,7 @@ import EmptyComponent from "@/components/emptyComponent";
 import { base64decode } from "nodejs-base64";
 import Head from "next/head";
 
-const Saved: NextPageX = ({data: fetchedData}: any) => {
+const Saved: NextPageX = ({ data: fetchedData }: any) => {
   const details = fetchedData?.user;
   const user: any = useAtomValue(userDetails);
   const { data } = useUserActivities(user?.user?.id);
@@ -24,7 +24,7 @@ const Saved: NextPageX = ({data: fetchedData}: any) => {
     }
   }, [data]);
   return (
-    <ProfileActivitiesLayout>
+    <>
       <Head>
         <title>
           {`Duduzili | ${details?.first_name} ${details?.last_name}`}
@@ -43,18 +43,20 @@ const Saved: NextPageX = ({data: fetchedData}: any) => {
           }
         />
       </Head>
-      <div className="flex flex-col gap-10 pb-[50px]">
-        {data?.saveds?.map((item, idx) => (
-          <PostsContainer key={idx} post={item} />
-        ))}
-      </div>
-      {!data?.saveds?.length && (
-        <EmptyComponent
-          className="max-w-[275px]"
-          text="Your saved posts will appear here"
-        />
-      )}
-    </ProfileActivitiesLayout>
+      <ProfileActivitiesLayout>
+        <div className="flex flex-col gap-10 pb-[50px]">
+          {data?.saveds?.map((item, idx) => (
+            <PostsContainer key={idx} post={item} />
+          ))}
+        </div>
+        {!data?.saveds?.length && (
+          <EmptyComponent
+            className="max-w-[275px]"
+            text="Your saved posts will appear here"
+          />
+        )}
+      </ProfileActivitiesLayout>
+    </>
   );
 };
 export default Saved;
@@ -65,7 +67,7 @@ export async function getServerSideProps({ query }) {
   try {
     const { data } = await axios({
       baseURL: "https://duduzili-staging-server.com.ng",
-      url: `/api/v1/rest-auth/user/${user}/`,
+      url: `/api/v1/rest-auth/offline_user/${user}/`,
     });
     return {
       props: {

@@ -38,7 +38,7 @@ function TrendingPostsContainer({
     <div className="flex flex-col items-start pb-4 gap-4 border-b border-b-[#DFDFDF]">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-4 max-[400px]:items-start">
-          <a href={`/friend/${base64encode(String(post?.user?.id))}/post`}>
+          <a href={`/profile/post?user=${base64encode(String(post?.user?.id))}`}>
             <div className="h-[40px] w-[40px] hover:opacity-80 cursor-pointer">
               {user?.photo_url ? (
                 <img
@@ -56,7 +56,7 @@ function TrendingPostsContainer({
             </div>
           </a>
           <div className="flex flex-col gap-2">
-            <a href={`/friend/${base64encode(String(post?.user?.id))}/post`}>
+            <a href={`/profile/post?user=${base64encode(String(post?.user?.id))}`}>
               <p className="flex hover:opacity-80 cursor-pointer max-[400px]:flex-col max-[400px]:items-start items-center gap-2">
                 <span className="text-[#2A2A2A] font-semibold text-[12px]">
                   {user?.first_name} {user?.last_name}

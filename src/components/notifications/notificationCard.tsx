@@ -87,7 +87,7 @@ function NotificationCard({
           const id = postID * 1000000;
           push(`/posts/${base64encode(id)}`);
         } else {
-          location.assign(`/friend/${base64encode(String(senderId))}/post`)
+          location.assign(`/profile/post?user=${base64encode(String(senderId))}`)
         }
       }}
     >

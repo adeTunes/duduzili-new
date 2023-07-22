@@ -49,13 +49,7 @@ function CreatePostModal({ opened, close }) {
   }, [selected]);
   const [audio, setAudio] = useState(null);
 
-  const closeModal = () => {
-    setSelected([]);
-    setAudio(null);
-    setRecordedAudio(null);
-    form.reset();
-    close();
-  };
+  
 
   const [audioMenuOpened, setAudioMenuOpened] = useState(false);
   const [start, setStart] = useState(false);
@@ -129,6 +123,15 @@ function CreatePostModal({ opened, close }) {
           // console.log(e);
         });
   }, [form.values.text]);
+
+  const closeModal = () => {
+    setSelected([]);
+    setAudio(null);
+    setRecordedAudio(null);
+    form.reset();
+    setPreview(null)
+    close();
+  };
 
   return (
     <Modal

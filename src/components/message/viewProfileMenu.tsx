@@ -16,7 +16,7 @@ function ViewProfileMenu({id}) {
         />
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item onClick={() => location.assign(`/friend/${base64encode(String(id))}/post`)}>View Profile</Menu.Item>
+        <Menu.Item onClick={() => location.assign(`/profile/post?user=${base64encode(String(id))}`)}>View Profile</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

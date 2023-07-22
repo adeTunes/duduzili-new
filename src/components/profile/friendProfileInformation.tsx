@@ -168,7 +168,7 @@ function FriendProfileInformation({ friendDetails }) {
           </div>
         ) : null}
         <p className="text-[#8A8D88] text-[15px] leading-6">
-          {friendDetails?.user?.bio}
+          {friendDetails?.user?.bio || "Hi there! I use Duduzili platform to chat with friends and family, send medias and receive updates!"}
         </p>
         <div className="flex items-center gap-10">
           <div

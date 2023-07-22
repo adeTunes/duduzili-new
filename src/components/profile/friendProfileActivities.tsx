@@ -9,12 +9,12 @@ function FriendProfileActivities() {
   const tabs = [
     {
       text: "Post",
-      href: `/friend/${query.id}/post`,
+      href: `/profile/post?user=${query?.user}`,
       id: "post",
     },
     {
       text: "Media",
-      href: `/friend/${query.id}/media`,
+      href: `/profile/media?user=${query?.user}`,
       id: "media",
     },
   ];

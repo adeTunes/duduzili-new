@@ -44,7 +44,7 @@ function MembersDrawer({ opened, close, code }) {
               ))
           : data?.map(({ member }, idx) => (
               <div
-                onClick={() => location.assign(`/friend/${base64encode(String(member?.id))}/post`)}
+                onClick={() => location.assign(`/profile/post?user=${base64encode(String(member?.id))}`)}
                 key={idx}
                 className="px-2 py-4 hover:bg-[#f5f5f5] cursor-pointer flex items-center justify-between border-b border-b-[#EDF0FB]"
               >

@@ -6,9 +6,6 @@ import PostsContainer from "../../src/components/homepage/posts/postsContainer";
 import EmptyComponent from "@/components/emptyComponent";
 import Head from "next/head";
 import { base64decode } from "nodejs-base64";
-import useUserActivities from "../../hooks/useUserDrafts";
-import useOfflineUser from "../../hooks/use-offline-user";
-import { useRouter } from "next/router";
 
 const MyProfilePost = ({ data }: any) => {
   const userOnlineActivities: any = useAtomValue(currentUserDetails);
@@ -25,8 +22,8 @@ const MyProfilePost = ({ data }: any) => {
           property="og:title"
           content={`${details?.first_name} ${details?.last_name}`}
         />
-        <meta property="og:description" content={details?.bio} />
-        <meta name="description" content={details?.bio} />
+        <meta property="og:description" content={details?.bio || "Hi there! I use Duduzili platform to chat with friends and family, send media and receive updates!"} />
+        <meta name="description" content={details?.bio || "Hi there! I use Duduzili platform to chat with friends and family, send media and receive updates!"} />
         <meta
           property="og:image"
           content={
