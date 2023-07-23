@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import useSinglePost from "../../../hooks/useSinglePost";
 import PostsContainer from "../homepage/posts/postsContainer";
 import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
 
 function PostWithComments() {
   const { query } = useRouter();
   const { data, isLoading, refetch } = useSinglePost(query.id);
+  const user: any = useAtomValue(userDetails);
   return (
     <>
       {/* <div
@@ -26,12 +29,18 @@ function PostWithComments() {
           iLikeThisPost={data?.post?.i_like_this_post}
         />
       </div> */}
-      {isLoading ? <SinglePostSkeleton /> : <PostsContainer post={data?.post} />}
+      {isLoading ? (
+        <SinglePostSkeleton />
+      ) : (
+        <PostsContainer post={data?.post} />
+      )}
       {/* Reply section */}
       <div className="flex mb-[80px] gap-[36px] pl-[5vw] flex-col">
-        <ReplyInput refetch={refetch} />
+        {!user?.token ? null : <ReplyInput refetch={refetch} />}
         {data?.comments?.length ? (
-          data?.comments?.map((comment, idx) => <ReplyCard refetch={refetch} key={idx} comment={comment} />)
+          data?.comments?.map((comment, idx) => (
+            <ReplyCard refetch={refetch} key={idx} comment={comment} />
+          ))
         ) : (
           <p className="text-center">No comments here yet</p>
         )}

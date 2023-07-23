@@ -92,9 +92,9 @@ function PostFooter({
         </div>
         <div
           onClick={() => {
-            if (!user?.token) return setOpenAuth(true);
-            const id = +post?.id * 1000000;
-            router.push(`/posts/${base64encode(id)}`);
+            // if (!user?.token) return setOpenAuth(true);
+            const id = String(post?.id)
+            location.assign(`/posts/${base64encode(id)}`);
           }}
           className="cursor-pointer flex items-center gap-2"
         >

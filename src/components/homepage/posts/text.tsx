@@ -45,6 +45,7 @@ function PostText({
       });
       if (extractedVideoId) {
         setVideoId(extractedVideoId);
+        setPreview(null)
       } else {
         if (urls?.[0]) {
           setPreviewLoading(true);
@@ -52,6 +53,7 @@ function PostText({
             .post("https://getlinkpreview.onrender.com/", { url: urls?.[0] })
             .then(({ data }) => {
               setPreview({ ...data, ogUrl: data?.ogUrl || urls?.[0] });
+              setVideoId("")
               setPreviewLoading(false);
             })
             .catch((e) => {
@@ -93,9 +95,9 @@ function PostText({
       {text?.length < 250 ? (
         <p style={{ wordWrap: "break-word" }} className="text-[14px] leading-6">
           {usage === "post" ? (
-            <Link href={`/posts/${postId}`} className="cursor-ponter">
+            <a href={`/posts/${postId}`} className="cursor-ponter">
               <Text lineClamp={6}>{text}</Text>
-            </Link>
+            </a>
           ) : (
             <span
               dangerouslySetInnerHTML={{ __html: wrapUrlsWithAnchorTags(text) }}

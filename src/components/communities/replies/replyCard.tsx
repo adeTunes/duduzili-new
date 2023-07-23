@@ -13,10 +13,12 @@ import dayjs from "dayjs";
 import ReplyOptions from "./replyOptions";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
+import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 
 function ReplyCard({ comment, refetch }: { comment: any; refetch?: any }) {
   const [loading, setLoading] = useState(false);
   const user: any = useAtomValue(userDetails);
+  const [openAuthModal, setOpenAuth] = useState(false);
 
   useEffect(() => {
     dayjs.extend(LocalizedFormat);
@@ -103,11 +105,12 @@ function ReplyCard({ comment, refetch }: { comment: any; refetch?: any }) {
          ) : null} */}
         <div className="flex items-center py-2 px-4 w-fit gap-10 bg-[#F4F4F4] rounded-[40px]">
           <div
-            onClick={() =>
+            onClick={() => {
+              if (!user?.token) return setOpenAuth(true);
               likeOrUnlikeComment(comment?.id, setLoading, () => {
                 refetch();
-              })
-            }
+              });
+            }}
             className="flex items-center cursor-pointer gap-3"
           >
             {loading ? (
@@ -142,6 +145,10 @@ function ReplyCard({ comment, refetch }: { comment: any; refetch?: any }) {
           </div> */}
         </div>
       </div>
+      <UnAuthenticaticatedUserModal
+        opened={openAuthModal}
+        setOpened={setOpenAuth}
+      />
     </div>
   );
 }

@@ -84,8 +84,8 @@ function NotificationCard({
           markSingleAsRead();
         }
         if (action === "like" || action === "comment") {
-          const id = postID * 1000000;
-          push(`/posts/${base64encode(id)}`);
+          const id = String(postID)
+          location.assign(`/posts/${base64encode(id)}`);
         } else {
           location.assign(`/profile/post?user=${base64encode(String(senderId))}`)
         }

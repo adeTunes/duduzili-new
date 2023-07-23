@@ -140,8 +140,8 @@ function TrendingPostsContainer({
         </div>
         <div
           onClick={() => {
-            const id = +post?.id * 1000000;
-            router.push(`/posts/${base64encode(id)}`);
+            const id = String(post?.id)
+            location.assign(`/posts/${base64encode(id)}`);
           }}
           className="cursor-ponter flex items-center gap-[5px]"
         >

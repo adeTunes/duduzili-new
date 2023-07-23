@@ -6,28 +6,39 @@ import React from "react";
 import Back from "@/components/back";
 import MainContainer from "@/components/main-container";
 import Head from "next/head";
+import { base64decode } from "nodejs-base64";
+import { useAtomValue } from "jotai";
+import { userDetails } from "@/store";
+import HeaderUnauthenticated from "@/components/homepage/headerUnauthenticated";
 
-function ViewPost() {
+function ViewPost({ post }) {
+  const user: any = useAtomValue(userDetails);
+  const details = post?.is_repost ? post?.reposter : post?.user;
   return (
     <div className="flex flex-col overflow-auto h-screen">
       <Head>
-      <meta
-          name="description"
-          content="Join Duduzili, the social media app that brings people together. Share your ideas and beliefs without fear of censorship. Empower yourself and control the value of your creations. Start connecting and engaging in diverse conversations today!"
-        />
+        <title>
+          {`Duduzili | ${details?.first_name} ${details?.last_name}`}
+        </title>
         <meta
           property="og:title"
-          content="Duduzili - Uniting People and Empowering Authentic Expression"
+          content={`${details?.first_name} ${details?.last_name}`}
         />
         <meta
           property="og:description"
-          content="Duduzili is a social media app built for individuals who value authentic expression and want to control the value of their creations. Join us in connecting with others, sharing ideas, and engaging in diverse conversations without the fear of censorship."
+          content={post?.repost_text || post?.text}
         />
-        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`} />
-        <title>Duduzili | Post</title>
+        <meta name="description" content={post?.text} />
+        <meta
+          property="og:image"
+          content={
+            details?.photo_url ||
+            `${process.env.NEXT_PUBLIC_SITE_URL}/sitelogo.png`
+          }
+        />
       </Head>
       <div className="bg-white">
-        <Header />
+        {!user?.token ? <HeaderUnauthenticated /> : <Header />}
       </div>
       <div className="flex-1 mx-5 max-[315px]:mx-2 overflow-auto flex justify-center">
         <MainContainer>
@@ -35,13 +46,13 @@ function ViewPost() {
             id="no-scroll"
             className="w-[70%] max-[790px]:flex-1 max-[450px]:min-w-[250px] min-w-[400px] max-w-[690px] overflow-auto flex flex-col gap-[3vh]"
           >
-            <Back text="View Post" />
+            {!user?.token ? null : <Back text="View Post" />}
             <div className="flex flex-col gap-[36px]">
               <PostWithComments />
             </div>
           </section>
           <Aside />
-          <FixedMessagesButton />
+          {!user?.token ? null : <FixedMessagesButton />}
         </MainContainer>
       </div>
     </div>
@@ -49,3 +60,23 @@ function ViewPost() {
 }
 
 export default ViewPost;
+
+export async function getServerSideProps({ query }) {
+  const axios = require("axios");
+  const id = base64decode(query.id);
+  try {
+    const { data } = await axios({
+      baseURL: "https://duduzili-staging-server.com.ng",
+      url: `/api/v1/rest-auth/posts/${id}/`,
+    });
+    return {
+      props: {
+        post: data?.post,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}

@@ -16,7 +16,7 @@ const useSinglePost: (id: any, isHashed?: boolean) => { isLoading: boolean; data
   useEffect(() => {
     if (id && refetchState) {
       setIsLoading(true);
-      const postId = isHashed === false ? id : +(base64decode(id)) / 1000000;
+      const postId = isHashed === false ? id : base64decode(String(id));
       getSinglePost(postId)
         .then(({ data }) => {
           setData(data);

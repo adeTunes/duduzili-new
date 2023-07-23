@@ -140,14 +140,14 @@ export const getAllPosts = (limit) => {
 export const getTrendingPosts = () => {
   return API.get("/api/v1/rest-auth/trending/");
 };
-export const getSinglePost = (id: any) => {
-  return API.get(`/api/v1/rest-auth/posts/${id}/`);
-};
-/* 
+// export const getSinglePost = (id: any) => {
+//   return API.get(`/api/v1/rest-auth/posts/${id}/`);
+// };
+
 export const getSinglePost = (id: any) => {
   return axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api/v1/rest-auth/posts/${id}/`);
 };
-*/
+
 export const getSingleComment = (id: any) => {
   return API.get(`/api/v1/rest-auth/comment/${id}/`);
 };
