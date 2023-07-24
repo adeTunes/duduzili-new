@@ -68,6 +68,7 @@ function PostText({
   function wrapUrlsWithAnchorTags(text) {
     // Regular expression pattern to match potential URLs
     var urlPattern = /\b(https?:\/\/\S+)/gi;
+    // var urlPattern = /\b(?:https?:\/\/|www\.)[^\s<>\[\]{}|^`\\]+?(?:\/[^\s<>\[\]{}|^`\\]*)*\b/gi;
 
     // Find all potential URLs in the text
     var urls = text.match(urlPattern);
@@ -84,6 +85,24 @@ function PostText({
           "</a>";
         text = text.replace(url, anchorTag);
       }
+      /* for (var i = 0; i < urls.length; i++) {
+        let url = urls[i];
+        let formattedUrl = url.replace(url[0], url[0].toLocaleLowerCase());
+        if (!/^https?:\/\//i.test(formattedUrl)) {
+        if (!/^www\./i.test(formattedUrl)) {
+          formattedUrl = "https://www." + formattedUrl;
+        } else {
+          formattedUrl = "https://" + formattedUrl;
+        }
+      }
+        var anchorTag =
+          '<a class="text-duduzili-violet hover:underline" target="_blank" href="' +
+          formattedUrl +
+          '">' +
+          formattedUrl +
+          "</a>";
+        text = text.replace(url, anchorTag);
+      } */
     }
 
     return text;
@@ -161,23 +180,23 @@ function PostText({
         <div className="flex w-full">
           <a
             href={preview?.ogUrl}
-            className="grid w-full min-h-[100px] grid-cols-[100px,1fr] h-max rounded-lg items-center gap-3 bg-[#EDF0FB]"
+            className="w-full h-[100px] flex rounded-lg items-center gap-3 bg-[#EDF0FB]"
             target="_blank"
           >
             {preview?.image ? (
               <img
-                className="h-full object-cover rounded-l-lg"
+                className="h-[100px] w-[100px] object-cover rounded-l-lg"
                 src={preview?.image}
               />
             ) : (
-              <div className="flex h-full items-center justify-center">
+              <div className="flex h-[100px] w-[100px] items-center justify-center">
                 <Link21 size="24" variant="Bold" />
               </div>
             )}
-            <div className="p-2 flex flex-col gap-1">
-              <div className="font-semibold max-[550px]:text-sm text-base">
+            <div className="p-2 flex-1 flex flex-col gap-1">
+              <Text lineClamp={2} className="font-semibold max-[550px]:text-sm text-base">
                 {preview?.title}
-              </div>
+              </Text>
               <Text
                 lineClamp={2}
                 className=" font-normal max-[550px]:text-[10px] text-sm"
