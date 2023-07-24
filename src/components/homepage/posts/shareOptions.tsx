@@ -27,7 +27,7 @@ function ShareOptions({
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleCopy = () => {
-    const id = +post?.id * 1000000;
+    const id = String(post?.id)
     const copied = copy(`${location.host}/posts/${base64encode(id)}`);
     if (copied) {
       showNotification({
