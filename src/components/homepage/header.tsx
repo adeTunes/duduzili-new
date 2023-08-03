@@ -3,12 +3,10 @@ import { Icon } from "@iconify/react";
 import { Indicator, TextInput, clsx } from "@mantine/core";
 import {
   Add,
-  HambergerMenu,
   Home,
   Profile2User,
   SearchNormal1,
   Sms,
-  TicketStar,
   TrendUp,
 } from "iconsax-react";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -17,7 +15,6 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import UserProfileImageActions from "./userProfileImageActions";
 import { Loading } from "../loading";
-import Image from "next/image";
 import UseNotifications from "../../../hooks/useNotifications";
 import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { useQueryClient } from "@tanstack/react-query";
