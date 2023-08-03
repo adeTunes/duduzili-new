@@ -1,9 +1,9 @@
 import { Menu } from "@mantine/core";
 import React from "react";
 import PrimaryButton from "../button/primaryButton";
-import { showNotification } from "@mantine/notifications";
 import { createPost } from "@/actions/createPost";
 import { useQueryClient } from "@tanstack/react-query";
+import { notify } from "../../../utils/notification-handler";
 
 function CreatePostMenu({
   opened,
@@ -19,7 +19,7 @@ function CreatePostMenu({
 
   const savePostOrDraft = (publish: "True" | "False") => {
     if (selected.filter((item) => item.type === "image").length > 5)
-      return showNotification({
+      return notify({
         title: "Error",
         message: "You cannot create post with more than 5 photos",
         color: "red",
@@ -87,7 +87,7 @@ function CreatePostMenu({
           <p
             onClick={() => {
               if (!form.values.text)
-                return showNotification({
+                return notify({
                   title: "Error",
                   message: "Please enter post text",
                   color: "red",
@@ -103,7 +103,7 @@ function CreatePostMenu({
           <p
             onClick={() => {
               if (!form.values.text)
-                return showNotification({
+                return notify({
                   title: "Error",
                   message: "Please enter post text",
                   color: "red",

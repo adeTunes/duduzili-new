@@ -2,13 +2,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader, clsx } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { Loader } from "@mantine/core";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useQueryClient } from "@tanstack/react-query";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 import useCommunityPendingRequests from "../../../hooks/useCommunityPendingRequests";
 import { treatCommunityJoinRequest } from "../../../api/apiRequests";
+import { notify } from "../../../utils/notification-handler";
 
 function CommunityRequests() {
   const { query } = useRouter();
@@ -34,7 +34,7 @@ function CommunityRequests() {
     treatCommunityJoinRequest(formData)
       .then(({ data }) => {
         setLoading(false);
-        showNotification({
+        notify({
           message: data?.message,
           color: "green",
         });

@@ -2,9 +2,9 @@ import { Modal, LoadingOverlay } from "@mantine/core";
 import PrimaryButton from "../button/primaryButton";
 import { useState } from "react";
 import { signOutOnAllBrowsers } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useRouter } from "next/router";
+import { notify } from "../../../utils/notification-handler";
 
 export const SignOutModal = ({ opened, close }) => {
   const [loading, setLoading] = useState(false);
@@ -72,7 +72,7 @@ export const SignOutModal = ({ opened, close }) => {
             setLoading(true);
             signOutOnAllBrowsers()
               .then(({ data }) => {
-                showNotification({
+                notify({
                   message: data?.message ?? data?.error,
                   color: "green",
                 });

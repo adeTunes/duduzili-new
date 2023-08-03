@@ -1,5 +1,5 @@
-import { showNotification } from "@mantine/notifications";
 import axios from "axios";
+import { notify } from "../../utils/notification-handler";
 
 export const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -23,7 +23,7 @@ PAYMENTAPI.interceptors.request.use(
     return config;
   },
   (error) => {
-    showNotification({
+    notify({
       title: "Error",
       message: "Something went wrong",
       color: "red",
@@ -42,7 +42,7 @@ API.interceptors.request.use(
     return config;
   },
   (error) => {
-    showNotification({
+    notify({
       title: "Error",
       message: "Something went wrong",
       color: "red",

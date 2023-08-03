@@ -6,13 +6,13 @@ import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { showNotification } from "@mantine/notifications";
 import { Loading } from "@/components/loading";
 import { RegisterUser } from "../api/request.types";
 import { registerUser } from "../api/apiRequests";
 import { useAtomValue, useSetAtom } from "jotai";
 import { verifyAccountEmail } from "@/store";
 import Head from "next/head";
+import { notify } from "../utils/notification-handler";
 
 const SignUp: NextPageX = () => {
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const SignUp: NextPageX = () => {
     setLoading(true);
     try {
       const response = await registerUser(data);
-      showNotification({
+      notify({
         title: "Success",
         message: response.data.message,
         color: "green",
@@ -72,7 +72,7 @@ const SignUp: NextPageX = () => {
           onSubmit={(e) => {
             e.preventDefault();
             if (form.values.password !== form.values.confirm_password)
-              return showNotification({
+              return notify({
                 title: "Error",
                 message: "Passwords don't match",
                 color: "red",

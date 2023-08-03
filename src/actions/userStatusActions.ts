@@ -1,11 +1,11 @@
-import { showNotification } from "@mantine/notifications";
 import { switchStatusOffline, switchStatusOnline } from "../../api/apiRequests";
+import { notify } from "../../utils/notification-handler";
 
 export const goOnline = (loader, successAction) => {
   loader(true);
   switchStatusOnline()
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -13,7 +13,7 @@ export const goOnline = (loader, successAction) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -24,7 +24,7 @@ export const goOffline = (loader, successAction) => {
   loader(true);
   switchStatusOffline()
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -32,7 +32,7 @@ export const goOffline = (loader, successAction) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });

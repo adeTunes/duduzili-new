@@ -8,11 +8,10 @@ import ShareToFeedsModal from "@/components/modals/shareToFeedsModal";
 import { useDisclosure } from "@mantine/hooks";
 import { UnAuthenticaticatedUserModal } from "@/components/modals/unAuthenticatedUserModal";
 import { Post } from "../../../../api/request.types";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { showNotification } from "@mantine/notifications";
 import copy from "copy-to-clipboard";
 import { base64encode } from "nodejs-base64";
 import { ShareIcon } from "./shareIcon";
+import { notify } from "../../../../utils/notification-handler";
 
 function ShareOptions({
   post,
@@ -30,7 +29,7 @@ function ShareOptions({
     const id = String(post?.id)
     const copied = copy(`${location.host}/posts/${base64encode(id)}`);
     if (copied) {
-      showNotification({
+      notify({
         message: "copied successfully",
       });
     }

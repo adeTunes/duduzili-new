@@ -13,7 +13,6 @@ import PrimaryButtonOutline from "../button/primaryButtonOutline";
 import { createPost } from "@/actions/createPost";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
-import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
@@ -24,6 +23,7 @@ import { modals } from "@mantine/modals";
 import CreatePostMenu from "./createPostMenu";
 import axios from "axios";
 import { Link21 } from "iconsax-react";
+import { notify } from "../../../utils/notification-handler";
 
 const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
   ssr: false,
@@ -59,7 +59,7 @@ function CreatePostModal({ opened, close }) {
 
   const savePostOrDraft = (publish: "True" | "False") => {
     if (selected.filter((item) => item.type === "image").length > 5)
-      return showNotification({
+      return notify({
         title: "Error",
         message: "You cannot create post with more than 5 photos",
         color: "red",

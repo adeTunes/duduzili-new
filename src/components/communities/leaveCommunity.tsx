@@ -7,7 +7,6 @@ import {
   editCommunity,
   joinCommunity,
 } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
@@ -16,6 +15,7 @@ import { Edit2, ProfileAdd, Trash } from "iconsax-react";
 import AddCommunityMemberModal from "../modals/addCommunityMemberModal";
 import { useDisclosure } from "@mantine/hooks";
 import EditCommunityModal from "../modals/editCommunityModal";
+import { notify } from "../../../utils/notification-handler";
 
 function LeaveCommunity({ code, name, isOwner }) {
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ function LeaveCommunity({ code, name, isOwner }) {
     data.append("action", "Reject");
     joinCommunity(data)
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.message || data?.error,
         });
         push("/communities/joined");
@@ -48,7 +48,7 @@ function LeaveCommunity({ code, name, isOwner }) {
     data.append("community_code", code);
     deleteCommunity(data)
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.data || data?.message || data?.error,
         });
         push("/communities/joined");
@@ -66,7 +66,7 @@ function LeaveCommunity({ code, name, isOwner }) {
     data.append("name", name);
     editCommunity(data)
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.data || data?.message || data?.error,
         });
         setLoading(false);

@@ -1,11 +1,11 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { treatCommunityJoinRequest } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { notify } from "../../../utils/notification-handler";
 
 function JoinRequest({ data }) {
   const queryCLient = useQueryClient();
@@ -19,7 +19,7 @@ function JoinRequest({ data }) {
     treatCommunityJoinRequest(formData)
       .then(({ data }) => {
         setLoading(false);
-        showNotification({
+        notify({
           message: data?.message,
           color: "green",
         });

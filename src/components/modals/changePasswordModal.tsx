@@ -3,8 +3,8 @@ import PrimaryButton from "../button/primaryButton";
 import { useState, useEffect } from "react";
 import { PinInput, Group } from "@mantine/core";
 import { sendOTP, verifyOTP } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { notify } from "../../../utils/notification-handler";
 
 export const ChangePasswordModal = ({
   email,
@@ -19,7 +19,7 @@ export const ChangePasswordModal = ({
     data.append("email", email);
     sendOTP(data)
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.error ?? data?.message,
           color: "green",
         });
@@ -108,7 +108,7 @@ export const ChangePasswordModal = ({
           data.append("otp", otp);
           verifyOTP(data)
             .then(({ data }) => {
-              showNotification({
+              notify({
                 message: data?.message,
                 color: "green",
               });

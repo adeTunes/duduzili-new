@@ -3,7 +3,7 @@ import { Modal, LoadingOverlay, clsx } from "@mantine/core";
 import { reportUserAction } from "@/actions/postOptionActions";
 import { useQueryClient } from "@tanstack/react-query";
 import PrimaryButton from "../button/primaryButton";
-import { showNotification } from "@mantine/notifications";
+import { notify } from "../../../utils/notification-handler";
 
 function ReportUserModal({ id, opened, close }) {
   const [loading, setLoading] = useState(false);
@@ -83,7 +83,7 @@ function ReportUserModal({ id, opened, close }) {
         className="w-full"
         onClick={() => {
           if (!selected)
-            return showNotification({
+            return notify({
               message: "Please choose a reason",
               color: "red",
             });

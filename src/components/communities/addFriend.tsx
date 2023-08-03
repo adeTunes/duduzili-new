@@ -2,10 +2,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { addMemberToCommunity } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { Loader } from "@mantine/core";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { notify } from "../../../utils/notification-handler";
 
 function AddFriend({ user }) {
   const { query, pathname } = useRouter();
@@ -51,12 +51,12 @@ function AddFriend({ user }) {
             .then(({ data }) => {
               setLoading(false);
               if (data?.message !== "successful")
-                showNotification({
+                notify({
                   message: String(data?.data?.non_field_errors),
                   color: "red",
                 });
               else
-                showNotification({
+                notify({
                   message: data?.data,
                   color: "green",
                 });

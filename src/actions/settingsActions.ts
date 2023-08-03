@@ -1,18 +1,18 @@
-import { showNotification } from "@mantine/notifications";
 import { allowDiscoveryByEmail, connectAccount, togglePrivacy, toggleRecommendation, toggleSearch } from "../../api/apiRequests";
+import { notify } from "../../utils/notification-handler";
 
 export const addAccount = (loader, data, onSuccess) => {
     loader(true);
   connectAccount(data)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message || data?.error,
       });
       onSuccess();
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -23,14 +23,14 @@ export const togglePrivacyAction = (loader, onSuccess) => {
     loader(true);
   togglePrivacy()
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message || data?.error,
       });
       onSuccess();
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -41,14 +41,14 @@ export const toggleSearchAction = (loader, onSuccess) => {
     loader(true);
   toggleSearch()
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message || data?.error,
       });
       onSuccess();
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -59,14 +59,14 @@ export const toggleRecommendationAction = (loader, onSuccess) => {
     loader(true);
   toggleRecommendation()
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message || data?.error,
       });
       onSuccess();
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -77,14 +77,14 @@ export const allowDiscoveryByEmailAction = (loader, onSuccess) => {
     loader(true);
   allowDiscoveryByEmail()
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message || data?.error,
       });
       onSuccess();
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });

@@ -1,16 +1,12 @@
 import {
-  Group,
   LoadingOverlay,
   Modal,
-  PinInput,
-  Radio,
   TextInput,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import ModalStepper from "./modalStepper";
 import PrimaryButton from "../button/primaryButton";
 import SelectWithdrawalAccount from "./selectWithdrawalAccount";
-import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import ConfirmWithdrawalAccount from "./confirmWithdrawalAccount";
 import {
@@ -19,6 +15,7 @@ import {
   verifyTokenForWithdrawal,
 } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { notify } from "../../../utils/notification-handler";
 
 export default function WithdrawModal({ opened, close, openSuccess }) {
   const [active, setActive] = useState(0);
@@ -44,11 +41,11 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       .then(({ data }) => {
         setLoading(false);
         if (!data?.message?.includes("successful")) {
-          return showNotification({
+          return notify({
             message: data?.data?.non_field_errors || data?.data,
           });
         }
-        showNotification({
+        notify({
           message: data?.data,
         });
         close();
@@ -62,7 +59,7 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
 
   const handleVerifyCode = () => {
     if (!otp)
-      return showNotification({
+      return notify({
         message: "Please enter code",
         color: "red",
       });
@@ -72,11 +69,11 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
     verifyTokenForWithdrawal(data)
       .then(({ data }) => {
         if (!data?.message?.includes("successful")) {
-          return showNotification({
+          return notify({
             message: data?.data,
           });
         }
-        showNotification({
+        notify({
           message: data?.data,
         });
         handleWithdrawal();
@@ -94,7 +91,7 @@ export default function WithdrawModal({ opened, close, openSuccess }) {
       generateTokenForWithdrawal()
         .then(({ data }) => {
           setLoading(false);
-          showNotification({
+          notify({
             message: data?.data || data?.error || data?.message,
           });
         })

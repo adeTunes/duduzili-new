@@ -1,4 +1,4 @@
-import { showNotification } from "@mantine/notifications";
+
 import {
   blockUser,
   deleteComment,
@@ -18,12 +18,13 @@ import {
 } from "../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { data } from "autoprefixer";
+import { notify } from "../../utils/notification-handler";
 
 export const savePostAction = (loader, id, refetch) => {
   loader(true);
   savePost(id)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -33,12 +34,12 @@ export const savePostAction = (loader, id, refetch) => {
     .catch((e) => {
       if (e?.response?.status === 304) {
         loader(false)
-        return showNotification({
+        return notify({
           message: "Post already saved",
           color: "red"
         })
       } 
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -49,7 +50,7 @@ export const followUserAction = (loader, id, refetch) => {
   loader(true);
   followUser(id)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -57,7 +58,7 @@ export const followUserAction = (loader, id, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -68,7 +69,7 @@ export const muteUserAction = (loader, id, refetch) => {
   loader(true);
   muteUser(id)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -76,7 +77,7 @@ export const muteUserAction = (loader, id, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -87,7 +88,7 @@ export const unmuteUserAction = (loader, id, refetch) => {
   loader(true);
   unmuteUser(id)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -95,7 +96,7 @@ export const unmuteUserAction = (loader, id, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -109,7 +110,7 @@ export const blockUserAction = (loader, id, refetch) => {
   formData.append("reason", "Abusive word");
   blockUser(formData)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -117,7 +118,7 @@ export const blockUserAction = (loader, id, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -131,7 +132,7 @@ export const LeaveCommunityAction = (code, loader, refetch) => {
   formData.append("action", "Reject");
   joinOrLeaveCommunity(formData)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -139,7 +140,7 @@ export const LeaveCommunityAction = (code, loader, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -150,7 +151,7 @@ export const unblockUserAction = (loader, id, refetch) => {
   loader(true);
   unblockUser(id)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -158,7 +159,7 @@ export const unblockUserAction = (loader, id, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -169,7 +170,7 @@ export const reportPostAction = (data, loader, refetch) => {
   loader(true);
   reportPost(data)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -177,7 +178,7 @@ export const reportPostAction = (data, loader, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -188,7 +189,7 @@ export const repostPostAction = (data, loader, refetch) => {
   loader(true);
   repostPost(data)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -196,7 +197,7 @@ export const repostPostAction = (data, loader, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -207,7 +208,7 @@ export const reportUserAction = (data, loader, refetch) => {
   loader(true);
   reportUser(data)
     .then(({ data }) => {
-      showNotification({
+      notify({
         message: data?.message,
         color: "green",
       });
@@ -215,7 +216,7 @@ export const reportUserAction = (data, loader, refetch) => {
       loader(false);
     })
     .catch((e) => {
-      showNotification({
+      notify({
         message: "Something went wrong",
         color: "red",
       });
@@ -227,7 +228,7 @@ export const likeOrUnlikePost = async (id, loader, onSuccess) => {
   loader(true);
   try {
     const request = await likeUnlikePost(id);
-    showNotification({
+    notify({
       message: request.data.message,
       color: "green",
     });
@@ -242,7 +243,7 @@ export const editParticularPost = async (id, draft, data, loader, onSuccess) => 
   loader(true);
   try {
     const request = await editPost(id, data);
-    showNotification({
+    notify({
       message: draft ? "Draft published successfully" : "Post edited successfully",
       color: "green",
     });
@@ -257,7 +258,7 @@ export const editParticularComment = async (id, data, loader, onSuccess) => {
   loader(true);
   try {
     const request = await editSingleComment(id, data);
-    showNotification({
+    notify({
       message: "Comment edited successfully",
       color: "green",
     });
@@ -272,7 +273,7 @@ export const deleteParticularComment = async (id, loader, onSuccess) => {
   loader(true);
   try {
     const request = await deleteComment(id);
-    showNotification({
+    notify({
       message: "Comment deleted successfully",
       color: "green",
     });
@@ -287,7 +288,7 @@ export const deleteParticularPost = async (id, loader, onSuccess) => {
   loader(true);
   try {
     const {data} = await deletePost(id);
-    showNotification({
+    notify({
       message: data?.message || "Post deleted successfully",
       color: "green",
     });

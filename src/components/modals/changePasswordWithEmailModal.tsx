@@ -1,11 +1,10 @@
-import { Modal, Button, TextInput, LoadingOverlay } from "@mantine/core";
+import { Modal, TextInput, LoadingOverlay } from "@mantine/core";
 import PrimaryButton from "../button/primaryButton";
-import { addAccount } from "@/actions/settingsActions";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { changeEmail } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { notify } from "../../../utils/notification-handler";
 
 export const ChangePasswordWithEmailModal = ({
   email,
@@ -73,7 +72,7 @@ export const ChangePasswordWithEmailModal = ({
         onClick={() => {
           changeEmail({ old_email: email, new_email: form.values.new_email })
             .then(({ data }) => {
-              showNotification({
+              notify({
                 message: data?.message,
                 color: "green",
               });

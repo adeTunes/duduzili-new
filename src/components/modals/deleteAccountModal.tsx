@@ -1,13 +1,11 @@
 import { Modal, Button, TextInput, LoadingOverlay } from "@mantine/core";
 import PrimaryButton from "../button/primaryButton";
-import { addAccount } from "@/actions/settingsActions";
-import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { deleteAccount } from "../../../api/apiRequests";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { showNotification } from "@mantine/notifications";
+import { notify } from "../../../utils/notification-handler";
 
 export const DeleteAccountModal = ({ opened, close }) => {
   const [loading, setLoading] = useState(false);
@@ -74,7 +72,7 @@ export const DeleteAccountModal = ({ opened, close }) => {
           onClick={() => {
             setLoading(true)
             deleteAccount(user?.user?.id).then(({data}) => {
-              showNotification({
+              notify({
                 message: data?.message || "Account deleted",
                 color: "green"
               })

@@ -1,12 +1,12 @@
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { communityPost, createPostRequest } from "../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
+import { notify } from "../../utils/notification-handler";
 
 export const createPost = async (data, publish, loader, onSuccess) => {
   loader(true);
   try {
     const request = await createPostRequest(data);
-    showNotification({
+    notify({
       message: publish === "True" ? "Post Created successfully" : publish === "publish" ? "Draft published successfully" : "Post saved to drafts",
       color: "green",
     });
@@ -22,7 +22,7 @@ export const createCommunityPost = async (data, loader, onSuccess) => {
   loader(true);
   try {
     const request = await communityPost(data);
-    showNotification({
+    notify({
       message: "Post created successfully",
       color: "green",
     });

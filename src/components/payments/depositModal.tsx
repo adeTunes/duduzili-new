@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import PrimaryButton from "../button/primaryButton";
 import { useSetAtom } from "jotai";
 import { depositAmount } from "@/store";
-import { showNotification } from "@mantine/notifications";
 import { initializeDeposit } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { notify } from "../../../utils/notification-handler";
 
 function DepositModal({ opened, close }) {
   const form = useForm({
@@ -57,7 +57,7 @@ function DepositModal({ opened, close }) {
         className="mt-[40px] max-[330px]:text-sm"
         onClick={() => {
           if (!form.values.amount)
-            return showNotification({
+            return notify({
               message: "Please enter amount",
               color: "red",
             });

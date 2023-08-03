@@ -17,7 +17,6 @@ import {
 } from "@/store";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
-import { showNotification } from "@mantine/notifications";
 import { useDisclosure } from "@mantine/hooks";
 import useWebsocketConnection from "../../hooks/use-websocket-connection";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
@@ -35,6 +34,7 @@ import { useRouter } from "next/router";
 import { base64decode } from "nodejs-base64";
 import MobileDrawerLogo from "@/components/mobileDrawer/mobileDrawerLogo";
 import Head from "next/head";
+import { notify } from "../../utils/notification-handler";
 
 function MessagesChatBox() {
   const [messageFriend, setSelectedMessage] = useAtom(selectedMessage);
@@ -134,7 +134,7 @@ function MessagesChatBox() {
         try {
           ws.send(JSON.stringify(joinRoom));
         } catch (error) {
-          showNotification({ message: "Something went wrong" });
+          notify({ message: "Something went wrong" });
         }
         const receive = {
           command: "receive",
@@ -242,7 +242,7 @@ function MessagesChatBox() {
       scrollToBottom();
       queryClient.invalidateQueries(["conversations"]);
     } catch (error) {
-      showNotification({ message: "Something went wrong" });
+      notify({ message: "Something went wrong" });
     }
   };
 
@@ -557,7 +557,7 @@ function MessagesChatBox() {
                 uploadToCloudinary(data)
                   .then(({ data }) => {
                     if (!data?.data) {
-                      return showNotification({
+                      return notify({
                         message: "Something went wrong!",
                         color: "red",
                       });

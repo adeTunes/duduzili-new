@@ -7,7 +7,7 @@ import SearchList from "./searchList";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { chatFriendOptions, selectedFriendToChat, userDetails } from "@/store";
 import useOthersSearch from "../../../hooks/use-others-search";
-import { showNotification } from "@mantine/notifications";
+import { notify } from "../../../utils/notification-handler";
 
 function SearchDrawer({ opened, close, data: chatListData }) {
   const user: any = useAtomValue(userDetails);
@@ -75,7 +75,7 @@ function SearchDrawer({ opened, close, data: chatListData }) {
                     });
                     if (newFriend) {
                       setSearch("");
-                      return showNotification({
+                      return notify({
                         message:
                           "You are already in a conversation with this user",
                           color: "red"
@@ -104,7 +104,7 @@ function SearchDrawer({ opened, close, data: chatListData }) {
                     });
                     if (newFriend) {
                       setSearch("");
-                      return showNotification({
+                      return notify({
                         message:
                           "You are already in a conversation with this user",
                           color: "red"

@@ -4,7 +4,6 @@ import { Button, PasswordInput, TextInput } from "@mantine/core";
 import Link from "next/link";
 import { NextPageX } from "../types/next";
 import AuthenticationLayout from "@/layout/authentication";
-import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import { resetPassword } from "../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
@@ -14,6 +13,7 @@ import { Loading } from "@/components/loading";
 import { useAtomValue } from "jotai";
 import { verifyAccountEmail } from "@/store";
 import Head from "next/head";
+import { notify } from "../utils/notification-handler";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +30,7 @@ const ResetPassword: NextPageX = () => {
   const handleResetPassword = (e) => {
     e.preventDefault();
     if (form.values.new_password !== form.values.confirm_password)
-      return showNotification({
+      return notify({
         message: "Passwords don't match",
         color: "red",
       });
@@ -40,7 +40,7 @@ const ResetPassword: NextPageX = () => {
       password: form.values.new_password,
     })
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.message || data?.error,
           color: "green",
         });

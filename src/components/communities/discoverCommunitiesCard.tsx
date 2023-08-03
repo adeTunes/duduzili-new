@@ -3,10 +3,10 @@ import CommunityPicture from "./communityPicture";
 import { Loader, clsx } from "@mantine/core";
 import { Community } from "../../../api/request.types";
 import { joinCommunity } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useRouter } from "next/router";
 import { useQueryClient } from "@tanstack/react-query";
+import { notify } from "../../../utils/notification-handler";
 
 function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCategory?: any; community: Community }) {
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ function DiscoverCommunitiesCard({selectedCategory, community }: {selectedCatego
     data.append("action", "Join");
     joinCommunity(data)
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.message || data?.errors || data?.error,
         });
         queryClient.invalidateQueries(["all-communities", selectedCategory])

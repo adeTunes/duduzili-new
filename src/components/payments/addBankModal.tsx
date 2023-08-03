@@ -16,10 +16,10 @@ import {
   verifyTokenForAddWithdrawalAcc,
 } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { showNotification } from "@mantine/notifications";
 import AddBankDetails from "./addBankDetails";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
+import { notify } from "../../../utils/notification-handler";
 
 function AddBankModal({ opened, close, openSuccess }) {
   const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ function AddBankModal({ opened, close, openSuccess }) {
       .then(({ data }) => {
         setAddLoading(false);
         if (data?.error) {
-          showNotification({
+          notify({
             message: data?.error,
             color: "red",
           });
@@ -84,7 +84,7 @@ function AddBankModal({ opened, close, openSuccess }) {
 
   const handleVerifyCode = () => {
     if (!otp)
-      return showNotification({
+      return notify({
         message: "Please enter code",
         color: "red",
       });
@@ -94,11 +94,11 @@ function AddBankModal({ opened, close, openSuccess }) {
     verifyTokenForAddWithdrawalAcc(data)
       .then(({ data }) => {
         if (!data?.message?.includes("successful")) {
-          return showNotification({
+          return notify({
             message: data?.data,
           });
         }
-        showNotification({
+        notify({
           message: data?.data,
         });
         setAddLoading(false);
@@ -116,7 +116,7 @@ function AddBankModal({ opened, close, openSuccess }) {
       generateTokenForAddWithdrawalAcc()
         .then(({ data }) => {
           setCodeLoading(false);
-          showNotification({
+          notify({
             message: data?.data || data?.error || data?.message,
           });
         })
@@ -174,7 +174,7 @@ function AddBankModal({ opened, close, openSuccess }) {
                   generateTokenForAddWithdrawalAcc()
                     .then(({ data }) => {
                       setCodeLoading(false);
-                      showNotification({
+                      notify({
                         message: data?.data || data?.error || data?.message,
                       });
                     })

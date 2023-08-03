@@ -11,10 +11,10 @@ import { useDisclosure } from "@mantine/hooks";
 import { Icon } from "@iconify/react";
 import { AudioSquare } from "iconsax-react";
 import CreateCommunityPostModal from "../modals/createCommunityPostModal";
-import { showNotification } from "@mantine/notifications";
 import SinglePostSkeleton from "../skeletons/singlePostSkeleton";
 import { Skeleton } from "@mantine/core";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { notify } from "../../../utils/notification-handler";
 
 function CommunityView({ community, loading }) {
   const [limit, setLimit] = useState(20);
@@ -68,7 +68,7 @@ function CommunityView({ community, loading }) {
             style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             onClick={() => {
               if (!community?.data?.is_joined) {
-                return showNotification({
+                return notify({
                   message: "You are not a member of this community",
                   color: "red",
                 });

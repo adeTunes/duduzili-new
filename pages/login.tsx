@@ -4,7 +4,6 @@ import { Button, PasswordInput, TextInput } from "@mantine/core";
 import Link from "next/link";
 import { NextPageX } from "../types/next";
 import AuthenticationLayout from "@/layout/authentication";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { loginUser } from "../api/apiRequests";
 import { useEffect, useRef, useState } from "react";

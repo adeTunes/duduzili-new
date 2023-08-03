@@ -9,10 +9,10 @@ import {
   rejectFollowRequest,
 } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { showNotification } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { base64encode } from "nodejs-base64";
+import { notify } from "../../../utils/notification-handler";
 
 function NotificationCard({
   title,
@@ -119,7 +119,7 @@ function NotificationCard({
               setLoading(true);
               acceptFollowRequest(senderId)
                 .then(({ data }) => {
-                  showNotification({ message: data.message });
+                  notify({ message: data.message });
                   setLoading(false);
                   queryClient.invalidateQueries(["notifications"]);
                 })
@@ -137,7 +137,7 @@ function NotificationCard({
               setRejectLoading(true);
               rejectFollowRequest(senderId)
                 .then(({ data }) => {
-                  showNotification({ message: data.message });
+                  notify({ message: data.message });
                   setRejectLoading(false);
                   queryClient.invalidateQueries(["notifications"]);
                 })

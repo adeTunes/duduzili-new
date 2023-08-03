@@ -1,8 +1,8 @@
-import { socketConnection, userDetails, wsReconnection } from "@/store";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { userDetails } from "@/store";
+import { useAtomValue } from "jotai";
 import React, { useEffect, useState } from "react";
 import WebSocket from "isomorphic-ws";
-import { showNotification } from "@mantine/notifications";
+import { notify } from "../utils/notification-handler";
 
 const useWebsocketConnection: (friend: any) => {
   wsocket: WebSocket;
@@ -29,7 +29,7 @@ const useWebsocketConnection: (friend: any) => {
       try {
         ws.send(JSON.stringify(joinRoom));
       } catch (error) {
-        showNotification({ message: "Something went wrong" });
+        notify({ message: "Something went wrong" });
       }
       const receive = {
         command: "receive",

@@ -10,12 +10,12 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import UseNotifications from "../hooks/useNotifications";
 import { readAllNotifications } from "../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import MainContainer from "@/components/main-container";
 import Head from "next/head";
+import { notify } from "../utils/notification-handler";
 
 function Friends() {
   const { back } = useRouter();
@@ -28,7 +28,7 @@ function Friends() {
     setLoading(true);
     readAllNotifications()
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.message,
         });
         queryClient.invalidateQueries(["notifications"]);

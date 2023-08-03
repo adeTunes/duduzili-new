@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import PrimaryButtonLarge from "../button/primaryButtonLarge";
 import { rewardPostWithSticker } from "../../../api/apiRequests";
 import StickersList from "./stickersList";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { amountFormatter } from "@/helpers/amountFormatter";
+import { notify } from "../../../utils/notification-handler";
 
 function SelectStickerViewModal({
   postId,
@@ -110,7 +110,7 @@ function SelectStickerViewModal({
         )}
         onClick={() => {
           if (!amount)
-            return showNotification({
+            return notify({
               message: "Please select a sticker to proceed",
             });
           setLoading(true);
@@ -122,12 +122,12 @@ function SelectStickerViewModal({
               setLoading(false);
               if (data?.message !== "successful") {
                 if (data?.data?.non_field_errors) {
-                  showNotification({
+                  notify({
                     message: String(data?.data?.non_field_errors),
                     color: "red",
                   });
                 } else
-                  showNotification({
+                  notify({
                     message: String(data?.data),
                     color: "red",
                   });

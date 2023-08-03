@@ -5,12 +5,12 @@ import AuthenticationLayout from "@/layout/authentication";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { showNotification } from "@mantine/notifications";
 import { verifyAccount } from "../api/apiRequests";
 import { useAtomValue } from "jotai";
 import { verifyAccountEmail } from "@/store";
 import { Loading } from "@/components/loading";
 import Head from "next/head";
+import { notify } from "../utils/notification-handler";
 
 const ResetPassword: NextPageX = () => {
   const [otp, setOTP] = useState("");
@@ -21,7 +21,7 @@ const ResetPassword: NextPageX = () => {
     setLoading(true);
     try {
       const response = await verifyAccount(data);
-      showNotification({
+      notify({
         title: "Success",
         message: response.data.message,
         color: "green",

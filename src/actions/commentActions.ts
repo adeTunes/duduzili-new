@@ -1,12 +1,12 @@
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { showNotification } from "@mantine/notifications";
 import { likeUnlikeComment, postAComment } from "../../api/apiRequests";
+import { notify } from "../../utils/notification-handler";
 
 export const postComment = async (data, loader, onSuccess) => {
   loader(true);
   try {
     const request = await postAComment(data);
-    showNotification({
+    notify({
       message: "Comment sent",
       color: "green",
     });
@@ -21,7 +21,7 @@ export const likeOrUnlikeComment = async (id, loader, onSuccess) => {
   loader(true);
   try {
     const request = await likeUnlikeComment(id);
-    showNotification({
+    notify({
       message: request.data.message,
       color: "green",
     });

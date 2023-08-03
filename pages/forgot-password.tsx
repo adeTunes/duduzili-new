@@ -8,12 +8,12 @@ import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import { useState, useEffect } from "react";
 import { sendOTP } from "../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { Loading } from "@/components/loading";
 import { useSetAtom } from "jotai";
 import { verifyAccountEmail } from "@/store";
 import Head from "next/head";
+import { notify } from "../utils/notification-handler";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,7 +59,7 @@ const ForgotPassword: NextPageX = () => {
             data.append("email", form.values.email);
             sendOTP(data)
               .then(({ data }) => {
-                showNotification({
+                notify({
                   message: data?.message,
                   color: "green",
                 });

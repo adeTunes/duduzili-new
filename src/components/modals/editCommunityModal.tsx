@@ -14,14 +14,11 @@ import { Lock1 } from "iconsax-react";
 import PrimaryButton from "../button/primaryButton";
 import useCommunityCategoryList from "../../../hooks/useCommunityCategoryList";
 import { useForm } from "@mantine/form";
-import { createCommunity, editCommunity, uploadCommunityCoverImage } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
-import { useDebouncedValue } from "@mantine/hooks";
-import UseUserBySearch from "../../../hooks/useUserBySearch";
+import { editCommunity, uploadCommunityCoverImage } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
-import { useRouter } from "next/router";
 import useCommunityDetails from "../../../hooks/useCommunityDetails";
 import { useQueryClient } from "@tanstack/react-query";
+import { notify } from "../../../utils/notification-handler";
 
 function EditCommunityModal({ opened, close, code }) {
   const [loading, setLoading] = useState(false);
@@ -201,7 +198,7 @@ function EditCommunityModal({ opened, close, code }) {
         text="Save Changes"
         onClick={() => {
           if (!selected.length)
-            return showNotification({
+            return notify({
               message: "Please select at least one category",
               color: "red",
             });
@@ -226,12 +223,12 @@ function EditCommunityModal({ opened, close, code }) {
                 formData.append("community_code", data?.data?.code);
                 formData.append("logo", image, image.name);
                 uploadCommunityCoverImage(formData).then(({ data }) => {
-                  showNotification({
+                  notify({
                     message: data?.data,
                   });
                 });
               }
-              showNotification({
+              notify({
                 message: data?.message || data?.error || "Success",
                 color: "green",
               });

@@ -7,7 +7,6 @@ import PrimaryButton from "../button/primaryButton";
 import { createCommunityPost, createPost } from "@/actions/createPost";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
-import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
@@ -16,6 +15,7 @@ import { useRouter } from "next/router";
 import AudioPlayer from "./audioPlayer";
 import dynamic from "next/dynamic";
 import AudioOptions from "./audioOption";
+import { notify } from "../../../utils/notification-handler";
 
 const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
   ssr: false,
@@ -160,13 +160,13 @@ function CreateCommunityPostModal({ limit, opened, close }) {
             text="Share"
             onClick={() => {
               if (!form.values.text)
-                return showNotification({
+                return notify({
                   title: "Error",
                   message: "Please enter post text",
                   color: "red",
                 });
               if (selected.filter((item) => item.type === "image").length > 5)
-                return showNotification({
+                return notify({
                   title: "Error",
                   message: "You cannot create post with more than 5 photos",
                   color: "red",

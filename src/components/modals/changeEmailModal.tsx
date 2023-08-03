@@ -1,12 +1,10 @@
 import { Modal, Button, TextInput, LoadingOverlay } from "@mantine/core";
 import PrimaryButton from "../button/primaryButton";
-import { addAccount } from "@/actions/settingsActions";
-import { useForm } from "@mantine/form";
 import { useState, useEffect } from "react";
 import { PinInput, Group } from "@mantine/core";
 import { sendOTP, verifyOTP } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { notify } from "../../../utils/notification-handler";
 
 export const ChangeEmailModal = ({ opened, email, close, openNewEmail }) => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +14,7 @@ export const ChangeEmailModal = ({ opened, email, close, openNewEmail }) => {
     data.append("email", email);
     sendOTP(data)
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.message,
           color: "green",
         });
@@ -106,7 +104,7 @@ export const ChangeEmailModal = ({ opened, email, close, openNewEmail }) => {
           data.append("otp", otp);
           verifyOTP(data)
             .then(({ data }) => {
-              showNotification({
+              notify({
                 message: data?.message,
                 color: "green",
               });

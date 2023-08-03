@@ -20,7 +20,6 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
 import PhotoReceived from "../message/photoReceived";
@@ -28,6 +27,7 @@ import MessageReceived from "../message/messageReceived";
 import VideoReceived from "../message/videoReceived";
 import PhotoSent from "../message/photoSent";
 import VideoSent from "../message/videoSent";
+import { notify } from "../../../utils/notification-handler";
 
 function GroupChatView({ setAction, setTab }) {
   const [messageFriend, setSelectedMessage] = useAtom(popupFriend);
@@ -121,7 +121,7 @@ function GroupChatView({ setAction, setTab }) {
         try {
           ws.send(JSON.stringify(joinRoom));
         } catch (error) {
-          showNotification({ message: "Something went wrong" });
+          notify({ message: "Something went wrong" });
         }
         const receive = {
           command: "receive",
@@ -223,7 +223,7 @@ function GroupChatView({ setAction, setTab }) {
       scrollToBottom();
       queryClient.invalidateQueries(["conversations"]);
     } catch (error) {
-      showNotification({ message: "Something went wrong" });
+      notify({ message: "Something went wrong" });
     }
   };
 

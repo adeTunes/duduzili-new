@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import CommunityPicture from "./communityPicture";
-import { Icon } from "@iconify/react";
-import Image from "next/image";
 import { CommunityDetails } from "../../../api/request.types";
 import dayjs from "dayjs";
 import { Loader, Skeleton, clsx } from "@mantine/core";
 import LeaveCommunity from "./leaveCommunity";
 import { useQueryClient } from "@tanstack/react-query";
 import { joinCommunity } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
-import { useRouter } from "next/router";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import useImageViewer from "../../../hooks/useImageViewer";
 import GalleryViewer from "../homepage/posts/galleryViewer";
 import { useDisclosure } from "@mantine/hooks";
 import MembersDrawer from "./membersDrawer";
+import { notify } from "../../../utils/notification-handler";
 
 function CommunityViewCard({ community }: { community: CommunityDetails }) {
   const [loading, setLoading] = useState(false);
@@ -33,7 +30,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
     data.append("action", "Join");
     joinCommunity(data)
       .then(({ data }) => {
-        showNotification({
+        notify({
           message: data?.errors || data?.message || data?.error,
         });
         queryClient.invalidateQueries([
@@ -99,7 +96,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
           <div
             onClick={() => {
               if (!community?.data?.is_joined) {
-                return showNotification({
+                return notify({
                   message: "You are not a member of this community!",
                 });
               }
@@ -123,7 +120,7 @@ function CommunityViewCard({ community }: { community: CommunityDetails }) {
             <p
               onClick={() => {
                 if (!community?.data?.is_joined) {
-                  return showNotification({
+                  return notify({
                     message: "You are not a member of this community!",
                   });
                 }

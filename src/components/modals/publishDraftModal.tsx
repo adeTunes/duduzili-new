@@ -4,21 +4,18 @@ import UserAvatarWithName from "../profile/userAvatarWithName";
 import { Icon } from "@iconify/react";
 import PrimaryButtonOutline from "../button/primaryButtonOutline";
 import PrimaryButton from "../button/primaryButton";
-import { createPost } from "@/actions/createPost";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
-import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import DisplayMedia from "./displayMedia";
-import { AudioSquare } from "iconsax-react";
 import { useRouter } from "next/router";
-import { postComment } from "@/actions/commentActions";
 import useSinglePost from "../../../hooks/useSinglePost";
 import { editParticularPost } from "@/actions/postOptionActions";
 import AudioPlayer from "./audioPlayer";
 import AudioOptions from "./audioOption";
 import dynamic from "next/dynamic";
+import { notify } from "../../../utils/notification-handler";
 
 const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
   ssr: false,
@@ -186,7 +183,7 @@ function PublishDraftModal({ opened, close, id }) {
             text="Share"
             onClick={() => {
               if (!form.values.text)
-                return showNotification({
+                return notify({
                   title: "Error",
                   message: "Please enter post text",
                   color: "red",

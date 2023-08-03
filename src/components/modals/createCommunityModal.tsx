@@ -18,11 +18,11 @@ import {
   createCommunity,
   uploadCommunityCoverImage,
 } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { useDebouncedValue } from "@mantine/hooks";
 import UseUserBySearch from "../../../hooks/useUserBySearch";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useRouter } from "next/router";
+import { notify } from "../../../utils/notification-handler";
 
 function CreateCommunityModal({ opened, close }) {
   const [loading, setLoading] = useState(false);
@@ -292,7 +292,7 @@ function CreateCommunityModal({ opened, close }) {
         text="Create"
         onClick={() => {
           if (!selected.length)
-            return showNotification({
+            return notify({
               message: "Please select at least one category",
               color: "red",
             });
@@ -319,7 +319,7 @@ function CreateCommunityModal({ opened, close }) {
               setLoading(false);
               if (data?.errors && typeof data?.errors === "object") {
                 Object.entries(data?.errors)?.forEach(([key, value]) => {
-                  showNotification({
+                  notify({
                     title: key,
                     message: String(value),
                     color: "red",
@@ -333,12 +333,12 @@ function CreateCommunityModal({ opened, close }) {
                   formData.append("community_code", data?.data?.code);
                   formData.append("logo", image, image.name);
                   uploadCommunityCoverImage(formData).then(({ data }) => {
-                    showNotification({
+                    notify({
                       message: data?.data,
                     });
                   });
                 }
-                showNotification({
+                notify({
                   message,
                 });
                 close();

@@ -5,10 +5,10 @@ import useCommunityPendingRequests from "../../../../hooks/useCommunityPendingRe
 import Link from "next/link";
 import { Loader, clsx } from "@mantine/core";
 import { treatCommunityJoinRequest } from "../../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useQueryClient } from "@tanstack/react-query";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
+import { notify } from "../../../../utils/notification-handler";
 
 function PendingRequests() {
   const { query } = useRouter();
@@ -34,7 +34,7 @@ function PendingRequests() {
     treatCommunityJoinRequest(formData)
       .then(({ data }) => {
         setLoading(false);
-        showNotification({
+        notify({
           message: data?.message,
           color: "green",
         });

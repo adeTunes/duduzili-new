@@ -6,7 +6,6 @@ import PrimaryButtonOutline from "../button/primaryButtonOutline";
 import PrimaryButton from "../button/primaryButton";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
-import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import { useRouter } from "next/router";
@@ -16,6 +15,7 @@ import AudioPlayer from "./audioPlayer";
 import { base64decode } from "nodejs-base64";
 import AudioOptions from "./audioOption";
 import dynamic from "next/dynamic";
+import { notify } from "../../../utils/notification-handler";
 
 const AudioRecorder = dynamic(() => import("../audio/audioRecorder"), {
   ssr: false,
@@ -162,7 +162,7 @@ function CommentPostModal({ opened, close, refetch }) {
             text="Share"
             onClick={() => {
               if (!form.values.text)
-                return showNotification({
+                return notify({
                   title: "Error",
                   message: "Please enter some text",
                   color: "red",

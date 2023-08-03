@@ -2,8 +2,8 @@ import { Modal, Button, TextInput, LoadingOverlay } from "@mantine/core";
 import PrimaryButton from "../button/primaryButton";
 import { useState } from "react";
 import { deactivateAccount } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { notify } from "../../../utils/notification-handler";
 
 export const DeactivateAccountModal = ({ opened, close }) => {
   const [loading, setLoading] = useState(false);
@@ -71,7 +71,7 @@ export const DeactivateAccountModal = ({ opened, close }) => {
             setLoading(true);
             deactivateAccount()
               .then(({ data }) => {
-                showNotification({
+                notify({
                   message:
                     data?.message || data?.error || "Account deactivated",
                   color: "green",

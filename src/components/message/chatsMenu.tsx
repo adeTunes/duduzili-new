@@ -2,11 +2,11 @@ import { Menu } from "@mantine/core";
 import { ArrowDown2 } from "iconsax-react";
 import React from "react";
 import { deleteConversation } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { currentChatFriend, selectedMessage } from "@/store";
 import { useSetAtom } from "jotai";
+import { notify } from "../../../utils/notification-handler";
 
 function ChatsMenu({ chatID, setLoading }) {
   const setSelectedMessage = useSetAtom(selectedMessage);
@@ -18,7 +18,7 @@ function ChatsMenu({ chatID, setLoading }) {
     data.append("conversation_id", chatID);
     deleteConversation(data)
       .then(({ data }) => {
-        showNotification({ message: "Chat deleted" });
+        notify({ message: "Chat deleted" });
         queryClient.invalidateQueries(["conversations"]);
         setSelectedMessage("");
         setFriend("")

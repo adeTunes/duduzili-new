@@ -1,29 +1,22 @@
 import {
-  Group,
   LoadingOverlay,
   Modal,
-  PinInput,
-  Radio,
   Stepper,
   TextInput,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
-import ModalStepper from "./modalStepper";
 import PrimaryButton from "../button/primaryButton";
-import SelectWithdrawalAccount from "./selectWithdrawalAccount";
-import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import ConfirmWithdrawalAccount from "./confirmWithdrawalAccount";
 import {
   generateTokenForWithdrawal,
   makeWithdrawal,
-  sendOTP,
   verifyTokenForWithdrawal,
 } from "../../../api/apiRequests";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { useAtomValue } from "jotai";
 import { withdrawalDetails } from "@/store";
 import { amountFormatter } from "@/helpers/amountFormatter";
+import { notify } from "../../../utils/notification-handler";
 
 export default function WithdrawalBankModal({ opened, close, openSuccess }) {
   const [active, setActive] = useState(0);
@@ -43,7 +36,7 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
   //   // data.append("email", email);
   //   sendOTP(data)
   //     .then(({ data }) => {
-  //       showNotification({
+  //       notify({
   //         message: data?.error ?? data?.message,
   //         color: "green",
   //       });
@@ -73,7 +66,7 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
       generateTokenForWithdrawal()
         .then(({ data }) => {
           setLoading(false);
-          showNotification({
+          notify({
             message: data?.data || data?.error || data?.message,
           });
         })
@@ -92,11 +85,11 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
       .then(({ data }) => {
         setLoading(false);
         if (!data?.message?.includes("successful")) {
-          return showNotification({
+          return notify({
             message: data?.data?.non_field_errors || data?.data,
           });
         }
-        showNotification({
+        notify({
           message: data?.data,
         });
         close();
@@ -110,7 +103,7 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
 
   const handleVerifyCode = () => {
     if (!otp)
-      return showNotification({
+      return notify({
         message: "Please enter code",
         color: "red",
       });
@@ -120,11 +113,11 @@ export default function WithdrawalBankModal({ opened, close, openSuccess }) {
     verifyTokenForWithdrawal(data)
       .then(({ data }) => {
         if (!data?.message?.includes("successful")) {
-          return showNotification({
+          return notify({
             message: data?.data,
           });
         }
-        showNotification({
+        notify({
           message: data?.data,
         });
         handleWithdrawal();

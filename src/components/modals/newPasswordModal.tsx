@@ -1,17 +1,14 @@
 import {
   Modal,
-  Button,
-  TextInput,
   LoadingOverlay,
   PasswordInput,
 } from "@mantine/core";
 import PrimaryButton from "../button/primaryButton";
-import { addAccount } from "@/actions/settingsActions";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { changePassword } from "../../../api/apiRequests";
-import { showNotification } from "@mantine/notifications";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
+import { notify } from "../../../utils/notification-handler";
 
 export const NewPasswordModal = ({ opened, close }) => {
   const form = useForm({
@@ -94,7 +91,7 @@ export const NewPasswordModal = ({ opened, close }) => {
         text="Change Password"
         onClick={() => {
           if (form.values.new_password !== form.values.confirm_password)
-            return showNotification({
+            return notify({
               message: "Passwords don't match",
               color: "red",
             });
@@ -104,7 +101,7 @@ export const NewPasswordModal = ({ opened, close }) => {
             new_password: form.values.new_password,
           })
             .then(({ data }) => {
-              showNotification({
+              notify({
                 message: data?.message,
                 color: "green",
               });

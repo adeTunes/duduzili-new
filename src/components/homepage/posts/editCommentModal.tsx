@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { useForm } from "@mantine/form";
 import { useQueryClient } from "@tanstack/react-query";
-import { showNotification } from "@mantine/notifications";
 import { useAtomValue } from "jotai";
 import { userDetails } from "@/store";
 import { useRouter } from "next/router";
@@ -18,6 +17,7 @@ import PrimaryButton from "@/components/button/primaryButton";
 import useSinglePost from "../../../../hooks/useSinglePost";
 import useSingleComment from "../../../../hooks/useSingleComment";
 import { base64decode } from "nodejs-base64";
+import { notify } from "../../../../utils/notification-handler";
 
 const AudioRecorder = dynamic(() => import("@/components/audio/audioRecorder"), {
   ssr: false,
@@ -185,7 +185,7 @@ function EditCommentModal({ opened, close, refetch, id }) {
             text="Share"
             onClick={() => {
               if (!form.values.text)
-                return showNotification({
+                return notify({
                   title: "Error",
                   message: "Please enter post text",
                   color: "red",

@@ -3,7 +3,7 @@ import { UseFormReturnType } from "@mantine/form";
 import React, { useState } from "react";
 import UseWithdrawalAccounts from "../../../hooks/useWithdrawalAccounts";
 import PrimaryButton from "../button/primaryButton";
-import { showNotification } from "@mantine/notifications";
+import { notify } from "../../../utils/notification-handler";
 interface Prop {
   form: UseFormReturnType<
     {
@@ -84,12 +84,12 @@ function SelectWithdrawalAccount({nextStep, form, bank, setBank }: Prop) {
         text="Proceed"
         onClick={() => {
           if (!bank)
-            return showNotification({
+            return notify({
               message: "Please select a withdrawal account to proceed",
               color: "red",
             });
           if (!form.values.amount)
-            return showNotification({
+            return notify({
               message: "Please enter withdrawal amount",
               color: "red",
             });
