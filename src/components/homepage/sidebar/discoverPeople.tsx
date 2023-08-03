@@ -46,7 +46,7 @@ function DiscoverPeople() {
                         <div className="w-[36px] h-[36px]">
                           {item?.photo_url ? (
                             <img
-                              src={item?.photo_url }
+                              src={item?.photo_url}
                               className="w-full h-full rounded-full object-cover"
                               alt="profile picture of suggested friend"
                             />
@@ -70,9 +70,13 @@ function DiscoverPeople() {
                       <p
                         onClick={() => {
                           setSelected(item?.id);
-                          followUserAction(setLoading, item?.id, () =>
-                            queryClient.invalidateQueries(["discover-people"])
-                          );
+                          followUserAction(setLoading, item?.id, () => {
+                            queryClient.invalidateQueries(["discover-people"]);
+                            queryClient.invalidateQueries([
+                              "user-followings",
+                              user?.user?.id,
+                            ]);
+                          });
                         }}
                         className="cursor-pointer text-white leading-[15px] text-[12px] px-4 py-2 bg-[#4534B8] rounded-[32px]"
                       >
@@ -112,7 +116,7 @@ function DiscoverPeople() {
                         <div className="w-[36px] h-[36px]">
                           {item?.photo_url ? (
                             <img
-                              src={item?.photo_url }
+                              src={item?.photo_url}
                               className="w-full h-full rounded-full object-cover"
                               alt="profile picture of suggested friend"
                             />

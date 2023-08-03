@@ -6,7 +6,7 @@ import { NextPageX } from "../types/next";
 import AuthenticationLayout from "@/layout/authentication";
 import { errorMessageHandler } from "@/helpers/errorMessageHandler";
 import { loginUser } from "../api/apiRequests";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import { Loading } from "@/components/loading";
@@ -14,11 +14,9 @@ import { useSetAtom } from "jotai";
 import { userDetails } from "@/store";
 import { LoginUser } from "../api/request.types";
 import Head from "next/head";
-import { useCookies } from "react-cookie";
 
 const Home: NextPageX = () => {
   const [loading, setLoading] = useState(false);
-  const [, setCookie] = useCookies(["duduzili-user"]);
   const setUser = useSetAtom(userDetails);
   const form = useForm({
     initialValues: {
@@ -33,15 +31,21 @@ const Home: NextPageX = () => {
       const response = await loginUser(data);
       setUser(response.data);
       setLoading(false);
-      setCookie("duduzili-user", response.data.token, { path: "/" });
       push("/home");
     } catch (e) {
       setLoading(false);
       errorMessageHandler(e);
     }
   };
+  const [pageLoading, setpageLoading] = useState(false);
 
-  return (
+  useLayoutEffect(() => {
+    if (localStorage.getItem("duduzili-user")) {
+      push("/home");
+    } else setpageLoading(true)
+  }, []);
+
+  return pageLoading ? (
     <AuthenticationLayout>
       <div className="flex-1 flex items-center justify-center">
         <Head>
@@ -118,6 +122,8 @@ const Home: NextPageX = () => {
         <Loading loading={loading} />
       </div>
     </AuthenticationLayout>
+  ) : (
+    <></>
   );
 };
 
