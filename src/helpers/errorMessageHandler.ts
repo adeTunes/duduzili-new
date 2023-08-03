@@ -7,9 +7,9 @@ type ErrorType = {
 export const errorMessageHandler = (obj: ErrorType) => {
   try {
     if (obj.response) {
-      if (obj.response.status === 401) {
-        return (location.href = "/login");
-      }
+      // if (obj.response.status === 401) {
+      //   return (location.href = "/login");
+      // }
       if (obj.response.status === 500) {
         return notify({
           title: "Server Error",
