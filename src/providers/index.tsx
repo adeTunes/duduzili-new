@@ -13,7 +13,13 @@ function Providers({ children, Component }) {
   );
   const Layout = GivenLayout || DefaultLayout;
   const layoutProps = Component.LayoutProps || {};
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
