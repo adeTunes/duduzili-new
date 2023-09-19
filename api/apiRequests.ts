@@ -156,7 +156,7 @@ export const getUserPosts = (id: number) => {
   return API.get(`/api/v1/rest-auth/user/${id}/`);
 };
 export const getOfflineUser = (id: number) => {
-  return axios.get(`https://duduzili-staging-server.com.ng/api/v1/rest-auth/offline_user/${id}/`);
+  return axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api/v1/rest-auth/offline_user/${id}/`);
 };
 export const getUserFollowers = (id: number) => {
   return API.get(`/api/v1/rest-auth/user_followers/${id}/`);
