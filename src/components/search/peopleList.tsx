@@ -20,8 +20,7 @@ function PeopleList({ data, query }) {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col">
             {data?.users?.map(
-              (item, idx) =>
-                !item?.is_following && (
+              (item, idx) => (
                   <div
                     key={idx}
                     className="px-2 py-4 flex items-center justify-between border-b border-b-[#EDF0FB]"

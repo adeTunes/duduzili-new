@@ -57,7 +57,7 @@ export async function getServerSideProps({ query }) {
 
   try {
     const { data } = await axios({
-      baseURL: "https://duduzili-staging-server.com.ng",
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
       url: `/api/v1/rest-auth/offline_user/${user}/`,
     });
     return {

@@ -287,9 +287,9 @@ function EditProfileModal({ opened, close }) {
           editProfileRequest(user?.user?.id, data, setLoading, () => {
             getUserDetails(user?.user?.id)
               .then(({ data }) => {
-                setUser({ ...user, user: { ...user.user, ...data.user } });
+                setUser({ ...user, user: { ...user.user, ...data.user } })
                 queryClient.invalidateQueries([
-                  "user-activities",
+                  "offline-user",
                   user?.user?.id,
                 ]);
               })

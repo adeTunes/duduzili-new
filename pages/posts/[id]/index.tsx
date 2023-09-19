@@ -64,9 +64,10 @@ export default ViewPost;
 export async function getServerSideProps({ query }) {
   const axios = require("axios");
   const id = base64decode(query.id);
+  console.log(id)
   try {
     const { data } = await axios({
-      baseURL: "https://duduzili-staging-server.com.ng",
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
       url: `/api/v1/rest-auth/posts/${id}/`,
     });
     return {

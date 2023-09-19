@@ -27,7 +27,7 @@ function ShareOptions({
 
   const handleCopy = () => {
     const id = String(post?.id)
-    const copied = copy(`${location.host}/posts/${base64encode(id)}`);
+    const copied = copy(`${location.origin}/posts/${base64encode(id)}`);
     if (copied) {
       notify({
         message: "copied successfully",

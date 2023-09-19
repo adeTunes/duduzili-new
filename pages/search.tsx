@@ -12,8 +12,6 @@ import useSearchResult from "../hooks/use-search-result";
 import { useAtomValue } from "jotai";
 import { pageSearch } from "@/store";
 import PeopleList from "@/components/search/peopleList";
-import DiscoverCommunitiesCard from "@/components/communities/discoverCommunitiesCard";
-import { Loading } from "@/components/loading";
 import MainContainer from "@/components/main-container";
 import Head from "next/head";
 

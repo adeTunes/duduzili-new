@@ -67,6 +67,7 @@ function UserProfileImageActions({ children, unread, setLoading }) {
   return (
     <Menu
       closeOnItemClick={false}
+      withinPortal
       shadow="md"
       width="25vw"
       classNames={{
