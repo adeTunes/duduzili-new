@@ -10,6 +10,7 @@ import useFollowers from "../../hooks/useFollowers";
 import FollowSkeleton from "@/components/skeletons/followSkeleton";
 import DefaultProfilePicture from "@/components/profile/defaultProfilePicture";
 import Head from "next/head";
+import { base64encode } from "nodejs-base64";
 
 const Followers: NextPageX = () => {
   const queryClient = useQueryClient();
@@ -78,7 +79,7 @@ const Followers: NextPageX = () => {
                   >
                     <div className="flex gap-3 items-center">
                       <div
-                        onClick={() => push(`friend/${item?.id}/post`)}
+                        onClick={() => push(`/profile/post?user=${base64encode(String(item?.id))}`)}
                         className="w-[36px] cursor-pointer h-[36px]"
                       >
                         {item?.photo_url ? (

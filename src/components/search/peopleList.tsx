@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { followUserAction } from "@/actions/postOptionActions";
 import { useRouter } from "next/router";
 import DefaultProfilePicture from "../profile/defaultProfilePicture";
+import { base64encode } from "nodejs-base64";
 
 function PeopleList({ data, query }) {
   const queryClient = useQueryClient();
@@ -27,7 +28,7 @@ function PeopleList({ data, query }) {
                   >
                     <div className="flex gap-3 items-center">
                       <div
-                        onClick={() => push(`friend/${item?.id}/post`)}
+                        onClick={() => push(`/profile/post?user=${base64encode(String(item?.id))}`)}
                         className="w-[36px] cursor-pointer h-[36px]"
                       >
                         {item?.photo_url ? (
