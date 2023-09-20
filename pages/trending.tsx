@@ -61,7 +61,7 @@ const Trending: NextPageX = () => {
               style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
             >
               <div className="flex flex-col gap-2">
-                <PostsList footerColor="bg-[#F4F4F4]" textLength="full" />
+                <PostsList footerColor="bg-[#F4F4F4]" />
               </div>
               {/* <p className=" font-semibold leading-[19px] text-[#367EE8] cursor-pointer">
                 Show more

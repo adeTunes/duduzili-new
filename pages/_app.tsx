@@ -5,6 +5,7 @@ import Providers from "@/providers";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import RouteProgress from "@/components/route-progress";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,7 @@ export default function App({ Component, pageProps }: AppPropsX) {
       <div style={{ background: "#FBFBFB" }} className={inter.className}>
         <Providers Component={Component}>
           <ToastContainer />
+          <RouteProgress />
           <Component {...pageProps} />
         </Providers>
       </div>

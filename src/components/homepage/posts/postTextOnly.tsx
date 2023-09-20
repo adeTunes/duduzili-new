@@ -11,7 +11,7 @@ function PostTextOnly({ post }: { post: Post }) {
       style={{ boxShadow: "0px 4px 44px rgba(0, 0, 0, 0.06)" }}
     >
       <PostHeader post={post} />
-      <PostText text={post?.text} postId={post?.id} />
+      <PostText text={post?.text?.replace(/\n/g, "<br />")} postId={post?.id} />
       <PostFooter
         post={post}
         totalComments={post?.total_comments}
